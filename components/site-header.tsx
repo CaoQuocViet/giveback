@@ -25,7 +25,7 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <Link href="/login"> {/* Link đến trang đăng nhập */}
+            <Link href="/auth/login"> {/* Link đến trang đăng nhập */}
               <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
                 <UserIcon className="h-5 w-5" /> {/* Icon avatar */}
                 <span className="sr-only">Login</span>

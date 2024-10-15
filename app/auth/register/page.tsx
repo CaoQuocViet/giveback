@@ -114,7 +114,7 @@ export default function Register() {
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Bạn đã có tài khoản? {" "}
               <Link
-                href="/login"
+                href="/auth/login"
                 className="font-medium text-gray-600 hover:underline dark:text-gray-500"
               >
                 Đăng nhập ở đây

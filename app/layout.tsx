@@ -10,10 +10,9 @@ import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
-import AnimatedListDemo from "./animatedlist-demo/page"
-import GlobePage from "./globe-section/page"
-import NostalgiaPage from "./nostalgia-section/page"
-import GameCard from "./game-card/page"
+import AnimatedListDemo from "@/app/homepage-sections/AnimatedListDemo";
+import GlobePage from "@/app/homepage-sections/GlobeSection";
+import GameCard from "@/app/homepage-sections/FunctionCard";
 import { SiteFooter } from "@/components/site-footer"
 
 export const metadata: Metadata = {

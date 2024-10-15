@@ -1,1 +1,51 @@
 suprabase:ghjPAXFe3ODd63CW
+
+
+==== Sử dụng cây thư mục ====
+app/: Chứa các trang chính của ứng dụng.
+    auth/: Chứa các trang liên quan đến xác thực người dùng như đăng nhập và đăng ký.
+    campaign/: Chứa các trang liên quan đến quản lý chiến dịch cứu trợ.
+    donation/: Chứa các trang liên quan đến đóng góp từ thiện.
+    feedback/: Chứa các trang liên quan đến phản hồi và đánh giá.
+    news/: Chứa các trang liên quan đến bảng tin cập nhật tình hình lũ lụt.
+    report/: Chứa các trang liên quan đến theo dõi và báo cáo.
+    heatmap/: Chứa các trang liên quan đến bản đồ nhiệt.
+    game-card/, nostalgia-section/, globe-section/: Các trang khác liên quan đến dự án.
+
+components/: Chứa các component dùng chung trong ứng dụng.
+    auth/: Chứa các component liên quan đến xác thực người dùng.
+    campaign/: Chứa các component liên quan đến quản lý chiến dịch cứu trợ.
+    donation/: Chứa các component liên quan đến đóng góp từ thiện.
+    feedback/: Chứa các component liên quan đến phản hồi và đánh giá.
+    news/: Chứa các component liên quan đến bảng tin cập nhật tình hình lũ lụt.
+    report/: Chứa các component liên quan đến theo dõi và báo cáo.
+    heatmap/: Chứa các component liên quan đến bản đồ nhiệt.
+    magicui/: Chứa các component liên quan đến giao diện người dùng đặc biệt như globe, magic-card, text-reveal.
+    icons.tsx: Chứa các icon dùng chung.
+    site-header.tsx: Chứa header của trang web.
+    site-footer.tsx: Chứa footer của trang web.
+
+==== Giải thích cấu trúc thư mục ====
+Thư mục app
+    Mục đích: Chứa các trang chính của ứng dụng. Mỗi tệp tin hoặc thư mục trong app đại diện cho một route trong ứng dụng Next.js.
+    Chức năng: Các tệp tin trong thư mục app thường là các trang Next.js, được truy cập thông qua các URL cụ thể. Đây là nơi bạn định nghĩa các route và các trang tương ứng.
+
+Thư mục components
+    Mục đích: Chứa các thành phần giao diện người dùng (UI components) tái sử dụng trong toàn bộ ứng dụng.
+    Chức năng: Các tệp tin trong thư mục components thường là các thành phần React, được sử dụng trong các trang hoặc các thành phần khác để xây dựng giao diện người dùng.
+
+Ví dụ cụ thể
+    Thư mục app
+        app/auth: Chứa các trang liên quan đến xác thực người dùng như đăng nhập và đăng ký.
+            Ví dụ: page.tsx là trang đăng nhập.
+        app/campaign: Chứa các trang liên quan đến quản lý chiến dịch cứu trợ.
+            Ví dụ: app/campaign/index.tsx là trang quản lý chiến dịch cứu trợ.
+        app/donation: Chứa các trang liên quan đến đóng góp từ thiện.
+            Ví dụ: app/donation/index.tsx là trang đóng góp từ thiện.
+    Thư mục components
+        components/auth: Chứa các thành phần liên quan đến xác thực người dùng.
+            Ví dụ: components/auth/LoginForm.tsx là thành phần biểu mẫu đăng nhập.
+        components/campaign: Chứa các thành phần liên quan đến quản lý chiến dịch cứu trợ.
+            Ví dụ: components/campaign/CampaignCard.tsx là thành phần thẻ chiến dịch.
+        components/donation: Chứa các thành phần liên quan đến đóng góp từ thiện.
+            Ví dụ: components/donation/DonationForm.tsx là thành phần biểu mẫu đóng góp.
