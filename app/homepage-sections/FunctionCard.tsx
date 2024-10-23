@@ -3,7 +3,7 @@ import {
     MagicContainer,
   } from "@/components/magicui/magic-card";
 
-  export default function GameCard() {
+  export default function FunctionCard() {
     return (
         <div className="mx-auto flex max-w-full flex-col items-center space-y-4 text-center">
         <h2 className="font-heading text-4xl leading-[1.1] sm:text-6xl md:text-3xl lg:text-5xl font-bold">

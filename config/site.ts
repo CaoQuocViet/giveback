@@ -3,7 +3,7 @@ export type SiteConfig = typeof siteConfig
 export const siteConfig = {
   name: "",
   description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+    "Giveback là dự án giúp kết nối người đóng góp với các tổ chức từ thiện uy tín",
   mainNav: [
     {
       title: "",
@@ -12,7 +12,7 @@ export const siteConfig = {
   ],
   links: {
     twitter: "https://x.com/vietcq_08",
-    github: "https://github.com/CaoQuocViet",
-    docs: "https://easyui.pro",
+    facebook: "https://web.facebook.com/cao.quocviet.23.01/",
+    docs: "",
   },
 }

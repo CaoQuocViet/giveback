@@ -12,8 +12,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 import AnimatedListDemo from "@/app/homepage-sections/AnimatedListDemo";
 import GlobePage from "@/app/homepage-sections/GlobeSection";
-import GameCard from "@/app/homepage-sections/FunctionCard";
+import FunctionCard from "@/app/homepage-sections/FunctionCard";
 import { SiteFooter } from "@/components/site-footer"
+
+import CharityBrand from "@/components/charity-brand";
 
 export const metadata: Metadata = {
   title: {
@@ -58,6 +60,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 </div>
               </div>
             </div>
+            <div className="flex justify-center items-center">
+              <CharityBrand />
+            </div>
             {/* <div className="pt-20"> */}
               <div className="flex items-center justify-center rounded-lg bg-white dark:bg-black overflow-hidden h-auto">
                 {/* <NostalgiaPage /> */}
@@ -75,7 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </div>
 
             {/* </div> */}
-            <GameCard />
+            <FunctionCard />
             <SiteFooter className=" fixed border-t bottom-0 inset-x-0 sm:static" />
 
             {/* <div className="fixed bottom-0 inset-x-0 sm:static bg-neutral-900/3"> */}
