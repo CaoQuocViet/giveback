@@ -25,7 +25,7 @@ const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
         transition={{ duration: 1, delay: id }}
         viewport={{ once: true }}
         href={href}
-        className="animate_top mx-w-full relative block h-[200px] w-[140px] mx-8" // Thêm mx-4 để tạo khoảng cách giữa các logo
+        className="animate_top mx-w-full relative block h-[100px] w-[140px] mx-8" // Thêm mx-4 để tạo khoảng cách giữa các logo
       >
         <Image
           className="opacity-65 transition-all duration-300 hover:opacity-100 dark:hidden"

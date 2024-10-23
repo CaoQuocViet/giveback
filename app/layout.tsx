@@ -12,7 +12,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 import AnimatedListDemo from "@/app/homepage-sections/AnimatedListDemo";
 import GlobePage from "@/app/homepage-sections/GlobeSection";
-import FunctionCard from "@/app/homepage-sections/FunctionCard";
+import Feature from "@/app/homepage-sections/Features";
 import { SiteFooter } from "@/components/site-footer"
 
 import CharityBrand from "@/components/charity-brand";
@@ -80,7 +80,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               </div>
 
             {/* </div> */}
-            <FunctionCard />
+            <Feature />
             <SiteFooter className=" fixed border-t bottom-0 inset-x-0 sm:static" />
 
             {/* <div className="fixed bottom-0 inset-x-0 sm:static bg-neutral-900/3"> */}
