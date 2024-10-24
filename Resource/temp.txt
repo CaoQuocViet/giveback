@@ -51,3 +51,5 @@ Ví dụ cụ thể
             Ví dụ: components/campaign/CampaignCard.tsx là thành phần thẻ chiến dịch.
         components/donation: Chứa các thành phần liên quan đến đóng góp từ thiện.
             Ví dụ: components/donation/DonationForm.tsx là thành phần biểu mẫu đóng góp.
+
+@workspace Lỗi layout: Tất cả các page (Đóng góp Báo cáo Bản đồ Tin tức ) đề xếp chồng lên trang chủ. Tức là khi cuộn hết các page trên thì thay vị gặp footer thì lại quay về layout của trang chủ. Hãy sắp xếp lại cho đúng

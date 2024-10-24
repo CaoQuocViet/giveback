@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { buttonVariants } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
@@ -6,37 +9,38 @@ import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export function SiteHeader() {
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: "/", label: "Trang chủ" },
+    { href: "/donation", label: "Đóng góp" },
+    { href: "/report", label: "Báo cáo" },
+    { href: "/heatmap", label: "Bản đồ" },
+    { href: "/news", label: "Tin tức" },
+  ];
+
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+        <Link href="/" className="flex items-center space-x-2">
+          <Icons.logo/>
+        </Link>
         <MainNav items={siteConfig.mainNav} />
-          <nav className="flex items-center space-x-0">
-            <Link href="/">
-              <button className={buttonVariants({ size: "lg", variant: "ghost" }) + " font-semibold text-blue-500 text-base hover:text-blue-700"}>
-                Trang chủ
+        <nav className="flex items-center space-x-0">
+          {navItems.map((item) => (
+            <Link key={item.href} href={item.href}>
+              <button
+                className={
+                  buttonVariants({ size: "lg", variant: "ghost" }) +
+                  " font-semibold text-base " +
+                  (pathname === item.href ? "text-blue-700" : "hover:text-blue-700")
+                }
+              >
+                {item.label}
               </button>
             </Link>
-            <Link href="/donation">
-              <button className={buttonVariants({ size: "lg", variant: "ghost" }) + " font-semibold text-base hover:text-blue-700"}>
-                Đóng góp
-              </button>
-            </Link>
-            <Link href="/report">
-              <button className={buttonVariants({ size: "lg", variant: "ghost" }) + " font-semibold text-base hover:text-blue-700"}>
-                Báo cáo
-              </button>
-            </Link>
-            <Link href="/heatmap">
-              <button className={buttonVariants({ size: "lg", variant: "ghost" }) + " font-semibold text-base hover:text-blue-700"}>
-                Bản đồ
-              </button>
-            </Link>
-            <Link href="/news">
-              <button className={buttonVariants({ size: "lg", variant: "ghost" }) + " font-semibold text-base hover:text-blue-700"}>
-                Tin tức
-              </button>
-            </Link>
-          </nav>
+          ))}
+        </nav>
         <div className="flex flex-1 items-center justify-end space-x-8">
           <nav className="flex items-center space-x-4">
             <Link href={siteConfig.links.facebook} target="_blank" rel="noreferrer">
@@ -52,7 +56,8 @@ export function SiteHeader() {
               </div>
             </Link>
             <Link href="/auth/login">
-            <button className="text-black hover:text-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-colors duration-300">                Đăng nhập
+              <button className="text-black hover:text-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition-colors duration-300">
+                Đăng nhập
               </button>
             </Link>
             <Link href="/auth/register">
