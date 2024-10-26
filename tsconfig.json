@@ -24,6 +24,20 @@
     ],
     "strictNullChecks": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src", "types", "app/globe-section/page.js", "components/magicui/globe.js", "app/globe-section/page.js", "components/magicui/globe.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src",
+    "types",
+    "app/globe-section/page.js",
+    "components/magicui/globe.js",
+    "app/globe-section/page.js",
+    "components/magicui/globe.js",
+    "app/news/*.tsx",
+    "app/news/**/*.tsx",
+    "components/news/**/*.tsx"
+  ],
   "exclude": ["node_modules"]
 }

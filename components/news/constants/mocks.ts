@@ -1,9 +1,9 @@
-import { MAYUR, RUPALI } from "../BLOG_CONSTANTS/_BLOG_SETUP";
+import { MAYUR, RUPALI } from "../../../BLOG_CONSTANTS/_BLOG_SETUP";
 import { iArticle } from "../shared/interfaces";
 
 export const MOCK_ARTICLES_LIST: iArticle[] = [
     {
-        path: '/pages/tutorial/how-to-setup-blog.tsx',
+        path: '/news/tutorial/how-to-setup-blog',
         featureArticle: true,
         preview: {
             author: MAYUR,
@@ -24,7 +24,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/tutorial/how-to-write-your-first-article.tsx',
+        path: '/news/tutorial/how-to-write-your-first-article',
         featureArticle: true,
         preview: {
             author: RUPALI,
@@ -40,7 +40,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/tutorial/how-to-deploy-blog.tsx',
+        path: '/news/tutorial/how-to-deploy-blog',
         featureArticle: true,
         preview: {
             author: RUPALI,
@@ -53,7 +53,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/tutorial/home-layout.tsx',
+        path: '/news/tutorial/home-layout.tsx',
         preview: {
             author: RUPALI,
             date: "August 14 2022",
@@ -73,7 +73,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/tutorial/blog-with-sidebar-layout.tsx',
+        path: '/news/tutorial/blog-with-sidebar-layout',
         preview: {
             author: MAYUR,
             date: "August 14 2022",
@@ -89,7 +89,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/tutorial/blog-with-centered-layout.tsx',
+        path: '/news/tutorial/blog-with-centered-layout',
         preview: {
             author: RUPALI,
             date: "August 14 2022",
@@ -104,7 +104,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/all-components.tsx',
+        path: '/pages/all-components',
         preview: {
             author: RUPALI,
             date: "August 08 2022",
@@ -134,7 +134,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/pages/icons.tsx',
+        path: '/pages/icons',
         preview: {
             author: MAYUR,
             date: "August 13 2022",

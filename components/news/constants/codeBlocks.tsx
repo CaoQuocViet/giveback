@@ -1,8 +1,8 @@
-import { ListType, ImageSize, TextAlign } from "../../src/shared/enums";
+import { ListType, ImageSize, TextAlign } from "../shared/enums";
 
 export const HowToUsePageLayout = `
     // import PageLayout from components
-    import { ..., PageLayout, ... } from "../../../src/components";
+    import { ..., PageLayout, ... } from "../@/components/news";
     const Article = () => {
         return (
             <PageLayout home >{/* Home page layout */}</PageLayout>
@@ -18,9 +18,9 @@ export const HowToUsePageLayout = `
 
 export const HowToUseTextCode = `
     // import TextAlign from enums
-    import { ..., TextAlign } from "../../src/shared/enums"
+    import { ..., TextAlign } from "../@/components/news/shared/enums"
     // import Text from components
-    import { ..., Text, ... } from "../../../src/components";
+    import { ..., Text, ... } from "../@/components/news";
     const Article = () => {
         return (
             <Text>By Default its paragraph tag</Text>
@@ -58,9 +58,9 @@ export const HowToUseTextCode = `
 
 export const HowToUseImageCode = `
     // import ImageSize from enums
-    import { ..., ImageSize } from "../../src/shared/enums"
+    import { ..., ImageSize } from "../@/components/news/shared/enums"
     // import Image from components
-    import { ..., Image, ... } from "../../../src/components";
+    import { ..., Image, ... } from "../@/components/news";
     const Article = () => {
         return (
             <Image src="/public/images/tutorials/demo-image.jpg" alt="alt text" caption="img caption" className="my-5" />
@@ -76,9 +76,9 @@ export const HowToUseImageCode = `
 
 export const HowToUseList = `
     // import ListType from enums
-    import { ..., ListType } from "../../src/shared/enums"
+    import { ..., ListType } from "../@/components/news/shared/enums"
     // import List from components
-    import { ..., List, ... } from "../../../src/components";
+    import { ..., List, ... } from "../@/components/news";
     const Article = () => {
         return (
             <List type={ListType.disc}>
@@ -102,7 +102,7 @@ export const HowToUseList = `
 
 export const HowToUseAccordian = `
     // import Accordian from components
-    import { ..., Accordian, ... } from "../../../src/components";
+    import { ..., Accordian, ... } from "../@/components/news";
     const Article = () => {
         return (
             <Accordian title="Accordian Title" />
@@ -120,7 +120,7 @@ export const HowToUseAccordian = `
 
 export const HowToUseSeperator = `
     // import Seperator from components
-    import { ..., Seperator, ... } from "../../../src/components";
+    import { ..., Seperator, ... } from "../@/components/news";
     const Article = () => {
         return (
             <Seperator dots />
@@ -134,7 +134,7 @@ export const HowToUseSeperator = `
 
 export const HowToUseLinkTo = `
     // import LinkTo from components
-    import { ..., LinkTo, ... } from "../../../src/components";
+    import { ..., LinkTo, ... } from "../@/components/news";
     const Article = () => {
         return (
             {/* link between internal pages */}
@@ -151,7 +151,7 @@ export const HowToUseLinkTo = `
 
 export const HowToUseSlider = `
     // import Slider from components
-    import { ..., Slider, ... } from "../../../src/components";
+    import { ..., Slider, ... } from "../@/components/news";
     const Article = () => {
         return (
             <Slider
@@ -170,7 +170,7 @@ export const HowToUseSlider = `
 
 export const HowToUseVideo = `
     // import VideoPlayer from components
-    import { ..., VideoPlayer, ... } from "../../../src/components";
+    import { ..., VideoPlayer, ... } from "../@/components/news";
     const Article = () => {
         return (
             <VideoPlayer url="/public/videos/mov_bbb.mp4" />
@@ -268,7 +268,7 @@ export const NavbarSetup_Socials = `
 `;
 export const rightSideAdCode = `
     // import PageLayout from components
-    import { ..., PageLayout, ... } from "../../../src/components";
+    import { ..., PageLayout, ... } from "../@/components/news";
     const Article = () => {
         // create ads array and paste your add scripts as a string in quotes
         const ads = [
@@ -295,7 +295,7 @@ export const Article_Entry_inList = `
     export const ARTICLES: iArticle[] = [
         ...,
         {
-            path: '/pages/blog/your-first-article.tsx',
+            path: '/pages/blog/your-first-article',
             featureArticle: true,
             preview: {
                 // the author object you created in _BLOG_SETUP file

@@ -23,7 +23,7 @@ components/: Chứa các component dùng chung trong ứng dụng.
     report/: Chứa các component liên quan đến theo dõi và báo cáo.
     heatmap/: Chứa các component liên quan đến bản đồ nhiệt.
     magicui/: Chứa các component liên quan đến giao diện người dùng đặc biệt như globe, magic-card, text-reveal.
-    icons.tsx: Chứa các icon dùng chung.
+    icons: Chứa các icon dùng chung.
     site-header.tsx: Chứa header của trang web.
     site-footer.tsx: Chứa footer của trang web.
 

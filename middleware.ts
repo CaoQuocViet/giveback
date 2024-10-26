@@ -17,6 +17,8 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/",
+    "/news/:path*",
+    "/tutorial/:path*",
     "/((?!_next|api|.*\\.).*)",
     "/api/login",
     "/api/logout",
