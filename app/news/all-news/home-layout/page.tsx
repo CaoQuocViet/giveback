@@ -16,9 +16,9 @@ const HomeLayoutExample = () => {
                     This example/demo page is written in Default Home Page Layout. <br />
                     This is the layout we have used to create
                     <LinkTo href="/" passHref> Home</LinkTo>,
-                    <LinkTo href="/news/all-news/icons" passHref> Icons</LinkTo>,
-                    <LinkTo href="/news/privacy-policy.tsx" passHref> Privacy Policy</LinkTo>,
-                    <LinkTo href="/news/terms-and-condition.tsx" passHref> Terms & Conditions </LinkTo> pages.
+                    <LinkTo href="/pages/tutorial/icons.tsx" passHref> Icons</LinkTo>,
+                    <LinkTo href="/pages/privacy-policy.tsx" passHref> Privacy Policy</LinkTo>,
+                    <LinkTo href="/pages/terms-and-condition.tsx" passHref> Terms & Conditions </LinkTo> pages.
                 </Text>
 
                 <Text subtitle className="mt-10 md:text">
@@ -27,7 +27,7 @@ const HomeLayoutExample = () => {
                 <CodeBlock code={
                     `
     // import PageLayout from components
-    import { ..., PageLayout, ... } from "../@/components/news";
+    import { ..., PageLayout, ... } from "../../../src/components";
     const Article = () => {
         return (
             // pass home as shown
@@ -63,7 +63,7 @@ const HomeLayoutExample = () => {
             <div className="container px-3">
                 <div className="px-4 py-3 dark:bg-slate-800 bg-blue-200 rounded mt-5 !text-lg leading-relaxed ">
                     For any any queries related to this project / template feel free to connect with us at <u>webexpe13@gmail.com</u>.
-                    You can also post any comments on our <a href="https://github.com/CaoQuocViet/giveback/discussions" target="_blank" rel="noopener noreferrer"><u><i>github discussions</i></u></a>.
+                    You can also post any comments on our <a href="https://github.com/webexpe13/blog-template-using-nextjs-typescript-tailwindcss/discussions" target="_blank" rel="noopener noreferrer"><u><i>github discussions</i></u></a>.
                 </div>
             </div>
         </PageLayout>

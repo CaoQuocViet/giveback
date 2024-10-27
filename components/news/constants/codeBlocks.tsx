@@ -181,7 +181,7 @@ export const HowToUseVideo = `
 `;
 
 export const AuthorSetup = `
-    // file --> /BLOG_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
     export const AUTHOR_NAME: IAuthor = {
         name: "Full Name",
         designation: "Work Designation",
@@ -201,7 +201,7 @@ export const AuthorSetup = `
 `;
 
 export const NavbarSetup = `
-    // file --> /BLOG_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
     export const PRIMARY_NAV = {
         type: NavbarType.DEFAULT,
         logo: {},
@@ -212,7 +212,7 @@ export const NavbarSetup = `
 `;
 
 export const NavbarSetupType = `
-    // file --> /BLOG_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
     export const PRIMARY_NAV = {
         type: NavbarType.DEFAULT,
     }
@@ -291,7 +291,7 @@ export const Article_Entry_inList = `
     // Import author profiles, just type the name you have set in _BLOG_SETUP inside the curly brackets
     import { MAYUR, RUPALI } from './_BLOG_SETUP';
 
-    // file --> /BLOG_CONSTANTS/_ARTICLE_LIST.tsx
+    // file --> /NEWS_CONSTANTS/_ARTICLE_LIST.tsx
     export const ARTICLES: iArticle[] = [
         ...,
         {

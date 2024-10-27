@@ -1,0 +1,35 @@
+.pagination {
+  display: flex;
+  justify-content: center; // Căn giữa các nút
+  list-style: none; // Xóa dấu chấm hoặc số mặc định
+  padding: 0; // Xóa padding
+  margin: 20px 0; // Khoảng cách phía trên và dưới
+}
+
+.pagination-item {
+  margin: 0 5px; // Khoảng cách giữa các nút
+
+  a {
+    width: 40px; // Chiều rộng cho nút
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none; // Xóa gạch chân
+    padding: 10px 15px; // Padding cho nút
+    background-color: #0099ff; // Màu nền cho nút
+    color: white; // Màu chữ
+    border-radius: 5px; // Bo tròn góc
+    transition: background-color 0.3s; // Hiệu ứng chuyển màu
+
+    &:hover {
+      background-color: #0056b3; // Màu nền khi hover
+    }
+  }
+}
+
+.active {
+  a {
+    background-color: #0056b3; // Màu nền cho nút đang hoạt động
+    cursor: default; // Thay đổi con trỏ
+  }
+}

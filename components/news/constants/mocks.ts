@@ -1,9 +1,9 @@
-import { MAYUR, RUPALI } from "../../../BLOG_CONSTANTS/_BLOG_SETUP";
+import { MAYUR, RUPALI } from "../../../NEWS_CONSTANTS/_BLOG_SETUP";
 import { iArticle } from "../shared/interfaces";
 
 export const MOCK_ARTICLES_LIST: iArticle[] = [
     {
-        path: '/news/tutorial/how-to-setup-blog',
+        path: '/news/all-news/how-to-setup-blog',
         featureArticle: true,
         preview: {
             author: MAYUR,
@@ -24,7 +24,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/news/tutorial/how-to-write-your-first-article',
+        path: '/news/all-news/how-to-write-your-first-article',
         featureArticle: true,
         preview: {
             author: RUPALI,
@@ -40,7 +40,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/news/tutorial/how-to-deploy-blog',
+        path: '/news/all-news/how-to-deploy-blog',
         featureArticle: true,
         preview: {
             author: RUPALI,
@@ -53,7 +53,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/news/tutorial/home-layout.tsx',
+        path: '/news/all-news/home-layout.tsx',
         preview: {
             author: RUPALI,
             date: "August 14 2022",
@@ -73,7 +73,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/news/tutorial/blog-with-sidebar-layout',
+        path: '/news/all-news/blog-with-sidebar-layout',
         preview: {
             author: MAYUR,
             date: "August 14 2022",
@@ -89,7 +89,7 @@ export const MOCK_ARTICLES_LIST: iArticle[] = [
         }
     },
     {
-        path: '/news/tutorial/blog-with-centered-layout',
+        path: '/news/all-news/blog-with-centered-layout',
         preview: {
             author: RUPALI,
             date: "August 14 2022",

@@ -1,11 +1,11 @@
 import classes from './PageLayout.module.scss';
 import { combineClasses, getArticleDetails, transformImagePaths, transformPath } from '../../utils/utils';
-import { SORTED_ARTICLES_BY_DATE } from '../../../../BLOG_CONSTANTS/_ARTICLES_LIST';
+import { SORTED_ARTICLES_BY_DATE } from '../../../../NEWS_CONSTANTS/_ARTICLES_LIST';
 import Link from 'next/link';
-import Seperator from '../../components/Seperator';
-import ArticleHeader from '../../components/ArticleHeader';
-import Avatar from '../../components/Misc/Avatar';
-import ArticleMoreFromAuthor from '../../components/Misc/ArticleMoreFromAuthor';
+import Seperator from '../../news-components/Seperator';
+import ArticleHeader from '../../news-components/ArticleHeader';
+import Avatar from '../../news-components/Misc/Avatar';
+import ArticleMoreFromAuthor from '../../news-components/Misc/ArticleMoreFromAuthor';
 
 const Centered = ({ children }: any) => {
     const ARTICLE_DETAILS = getArticleDetails();

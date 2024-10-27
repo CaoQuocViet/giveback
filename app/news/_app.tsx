@@ -14,7 +14,6 @@ import { ThemeProvider } from 'next-themes'
 import "@uiw/react-textarea-code-editor/dist.css";
 import 'react-medium-image-zoom/dist/styles.css';
 
-
 function MyApp({ Component, pageProps }: AppProps) {
   const [mounted, setMounted] = useState(false);
   const env = process.env.NODE_ENV;
@@ -70,7 +69,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </ThemeProvider>
     </>
   )
-
 }
 
 export default MyApp

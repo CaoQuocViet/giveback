@@ -1,6 +1,6 @@
 import { NextSeo } from 'next-seo';
-import { DEFAULT_SEO } from '../../../../BLOG_CONSTANTS/_BLOG_SETUP';
-import Navbar from '../../components/Navbar';
+import { DEFAULT_SEO } from '../../../../NEWS_CONSTANTS/_BLOG_SETUP';
+import Navbar from '../../news-components/Navbar';
 import { iSEO } from '../../shared/interfaces';
 import { CREATE_SEO_CONFIG, getArticleDetails } from '../../utils/utils';
 import Centered from './BlogCentered';
