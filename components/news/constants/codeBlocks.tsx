@@ -300,7 +300,7 @@ export const Article_Entry_inList = `
             preview: {
                 // the author object you created in _BLOG_SETUP file
                 author: MAYUR,
-                date: "August 6 2022",
+                date: "August 6 2024",
                 articleTitle: "Your first article",
                 shortIntro: "This is a demo file for your first article, you can copy structure of this file to create multile article.",
                 tags: "demo, your first article",

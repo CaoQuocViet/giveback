@@ -13,7 +13,7 @@ import { MAYUR, RUPALI } from "./_BLOG_SETUP";
     preview: {
         // the author object you created in _BLOG_SETUP file
         author: MAYUR,
-        date: "March 03 2022",
+        date: "March 03 2024",
         articleTitle: "How to setup this plog template",
         tags: "demo, blog setup",
         thumbnail: "/images/tutorials/demo-image.jpg",
@@ -37,7 +37,7 @@ const ARTICLES_LIST: iArticle[] = [
     featureArticle: true,
     preview: {
       author: MAYUR,
-      date: "August 08 2022",
+      date: "August 08 2024",
       articleTitle: "How to setup this blog template",
       tags: "demo, blog setup",
       thumbnail: "/public/news_imp_assets/tutorials/how-to-setup-blog.svg",
@@ -58,7 +58,7 @@ const ARTICLES_LIST: iArticle[] = [
     featureArticle: true,
     preview: {
       author: RUPALI,
-      date: "August 08 2022",
+      date: "August 08 2024",
       articleTitle: "How to write your first article",
       tags: "demo, first article",
       thumbnail: "/public/news_imp_assets/tutorials/how-to-write-first-article.svg",
@@ -77,7 +77,7 @@ const ARTICLES_LIST: iArticle[] = [
     featureArticle: true,
     preview: {
       author: RUPALI,
-      date: "August 08 2022",
+      date: "August 08 2024",
       articleTitle: "How to Export and deploy on firebase",
       tags: "demo, deploy blog",
       thumbnail: "/public/news_imp_assets/tutorials/how-to-deploy.svg",
@@ -93,7 +93,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/home-layout.tsx",
     preview: {
       author: RUPALI,
-      date: "August 14 2022",
+      date: "August 14 2024",
       articleTitle: "Home Layout Example",
       tags: "demo, layout, home layout",
       thumbnail: "/public/news_imp_assets/tutorials/home-layouts.svg",
@@ -113,7 +113,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/blog-with-sidebar-layout",
     preview: {
       author: MAYUR,
-      date: "August 14 2022",
+      date: "August 14 2024",
       articleTitle: "Page Layout for a article with sidebar",
       tags: "demo, with sidebar, default layout",
       thumbnail: "/public/news_imp_assets/tutorials/blog-with-sidebar-layout.svg",
@@ -131,7 +131,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/blog-with-centered-layout",
     preview: {
       author: RUPALI,
-      date: "August 14 2022",
+      date: "August 14 2024",
       articleTitle: "Page Layout for a article with centered layout",
       tags: "demo, centered, centered layout",
       thumbnail: "/public/news_imp_assets/tutorials/blog-with-centered-layout.svg",
@@ -149,7 +149,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/all-components",
     preview: {
       author: RUPALI,
-      date: "August 08 2022",
+      date: "August 08 2024",
       articleTitle: "All Components",
       tags: "demo, all components",
       thumbnail: "/public/news_imp_assets/tutorials/all-components.svg",
@@ -165,7 +165,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/style-guide.tsx",
     preview: {
       author: MAYUR,
-      date: "August 10 2022",
+      date: "August 10 2024",
       articleTitle: "Style Guide",
       tags: "demo, all components, style guide, styling tutorial",
       thumbnail: "/public/news_imp_assets/tutorials/style-guide.svg",
@@ -182,7 +182,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/icons",
     preview: {
       author: MAYUR,
-      date: "August 13 2022",
+      date: "August 13 2024",
       articleTitle: "How to use icons",
       tags: "demo, all components, style guide, styling tutorial, icons, how to use icons in website",
       thumbnail: "/public/news_imp_assets/tutorials/how-to-use-icons.svg",
@@ -199,7 +199,7 @@ const ARTICLES_LIST: iArticle[] = [
     path: "/news/all-news/your-first-article",
     preview: {
       author: MAYUR,
-      date: "August 6 2022",
+      date: "August 6 2024",
       articleTitle: "Your first article",
       shortIntro:
         "This is a demo file for your first article, you can copy structure of this file to create multile article.",

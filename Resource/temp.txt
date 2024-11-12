@@ -1,7 +1,9 @@
 suprabase:ghjPAXFe3ODd63CW
-gitauth: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
+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
 node 20
 npm latest
+
+
 
 ==== Sử dụng cây thư mục ====
 app/: Chứa các trang chính của ứng dụng.
