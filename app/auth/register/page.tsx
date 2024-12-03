@@ -10,12 +10,32 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
+  async function handleSendOTP() {
+    try {
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber })
+      });
+      
+      if (res.ok) {
+        setOtpSent(true);
+      } else {
+        setError('Failed to send OTP');
+      }
+    } catch (e) {
+      setError('Failed to send OTP');
+    }
+  }
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
-
     setError("");
 
     if (password !== confirmation) {
@@ -23,7 +43,25 @@ export default function Register() {
       return;
     }
 
+    if (!otpSent || !otp) {
+      setError("Please verify your phone number");
+      return;
+    }
+
     try {
+      // Verify OTP first
+      const otpRes = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phoneNumber, otp })
+      });
+
+      if (!otpRes.ok) {
+        setError('Invalid OTP');
+        return;
+      }
+
+      // If OTP is valid, create user
       await createUserWithEmailAndPassword(getAuth(app), email, password);
       router.push("/login");
     } catch (e) {
@@ -97,6 +135,48 @@ export default function Register() {
                 required
               />
             </div>
+            <div>
+              <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Số điện thoại
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="tel"
+                  name="phone"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="0123456789"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={handleSendOTP}
+                  disabled={otpSent}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                >
+                  {otpSent ? 'Đã gửi OTP' : 'Gửi OTP'}
+                </button>
+              </div>
+            </div>
+
+            {otpSent && (
+              <div>
+                <label htmlFor="otp" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  Nhập mã OTP
+                </label>
+                <input
+                  type="text"
+                  name="otp"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="123456"
+                  required
+                />
+              </div>
+            )}
+            
             {error && (
               <div
                 className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"

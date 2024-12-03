@@ -23,36 +23,36 @@ import { AiFillGithub, AiOutlineTwitter, AiFillLinkedin, AiFillInstagram, AiFill
 }
  */
 
-export const MAYUR: IAuthor = {
+export const KHANHND: IAuthor = {
     name: "Nguyễn Đình Khánh",
-    designation: "Software Engineer",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    designation: "Phóng viên",
+    bio: "Phóng viên thường trú tại miền Bắc",
     profilePic: "",
     social: [
         {
             icon: <AiFillGithub />,
-            link: 'https://github.com/nmayur'
+            link: 'https://github.com/Khanh-Nguyen-Dinh'
         },
         {
             icon: <AiFillLinkedin />,
-            link: 'https://www.linkedin.com/in/mayur-nalwala/'
+            link: 'https://www.linkedin.com/in/Khanh-Nguyen-Dinh/'
         },
     ]
 }
 
-export const RUPALI: IAuthor = {
+export const VIETCQ: IAuthor = {
     name: "Cao Quốc Việt",
-    designation: "IT Analyst",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    designation: "Phóng viên",
+    bio: "Phóng viên thường trú tại miền Bắc",
     profilePic: "",
     social: [
         {
             icon: <AiFillGithub />,
-            link: 'https://github.com/rupali-yadav'
+            link: 'https://github.com/CaoQuocViet'
         },
         {
             icon: <AiFillLinkedin />,
-            link: 'https://www.linkedin.com/in/rupali-yadav-087bb4112/'
+            link: 'https://www.linkedin.com/in/CaoQuocViet/'
         },
     ]
 }
@@ -97,7 +97,7 @@ export const DEFAULT_SEO: iSEO = {
     description: "A simple blog template using NextJS and Typescript.",
     keywords: "Blog, next js, template, next js blog, blog setup, typescript, nextjs typescript, react js blog template, responsive blog template",
     url: WEBSITE_URL,
-    author: `${MAYUR.name}, ${RUPALI.name}`,
+    author: `${KHANHND.name}, ${VIETCQ.name}`,
     twitterHandle: '@WebExpe',
     ogImage: '/public/images/og-image.jpg'
 }

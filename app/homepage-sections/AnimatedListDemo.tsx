@@ -20,7 +20,7 @@ let notifications = [
     color: "#FF6B6B",
   },
   {
-    name: "Cơn bão Yagi",
+    name: "Trong mắt bão Yagi",
     description: "Yagi quét qua Việt Nam, xé toạc mái nhà và gây lũ lụt nghiêm trọng.",
     time: "15 giờ trước",
     icon: "🌪️",
@@ -40,8 +40,28 @@ let notifications = [
     icon: "💖",
     color: "#00C9A7",
   },
+  {
+    name: "Bão hình thành và 'chết' như thế nào?",
+    description: "Bão hình thành khi có áp suất khí quyển thấp ở vùng nước ấm, dần mạnh lên rồi lại suy yếu hoặc tan hẳn khi quét qua mặt đất.",
+    time: "43 phút trước",
+    icon: "🌊",
+    color: "#4B7BE5",
+  },
+  {
+    name: "Chủ quán kêu gọi ủng hộ",
+    description: "Chủ quán cà phê ở Tam Kỳ đề nghị khách thanh toán tiền đồ uống bằng cách chuyển khoản cho Mặt trận Tổ quốc.",
+    time: "79 phút trước",
+    icon: "☕",
+    color: "#FFA07A",
+  },
+  {
+    name: "Hậu quả sau bão Yagi",
+    description: "12 ngày sau bão Yagi, lũ quét và sạt lở đã làm 299 người chết, 34 mất tích, trong đó Lào Cai là tỉnh chịu thương vong nhiều nhất.",
+    time: "90 phút trước",
+    icon: "⚠️",
+    color: "#DC143C",
+  }
 ];
-
 
 notifications = Array.from({ length: 10 }, () => notifications).flat();
 

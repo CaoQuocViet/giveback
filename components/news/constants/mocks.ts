@@ -1,151 +1,125 @@
-import { MAYUR, RUPALI } from "../../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { KHANHND, VIETCQ } from "../../../NEWS_CONSTANTS/_BLOG_SETUP";
 import { iArticle } from "../shared/interfaces";
 
 export const MOCK_ARTICLES_LIST: iArticle[] = [
-    {
-        path: '/news/all-news/how-to-setup-blog',
-        featureArticle: true,
-        preview: {
-            author: MAYUR,
-            date: "August 08 2024",
-            articleTitle: "How to setup this blog template",
-            tags: "demo, blog setup",
-            thumbnail: "/public/news_imp_assets/tutorials/how-to-setup-blog.svg",
-            shortIntro: "These are the steps to setup your blog",
-            category: 'tutorial'
-        },
-        seo: {
-            title: "How to setup this blog template",
-            description: "These are the steps to setup your blog",
-            keywords: "demo, blog setup",
-            ogImage: "/public/news_imp_assets/tutorials/how-to-setup-blog.svg",
-            twitterHandle: "@mayur_nalwala",
-            author: MAYUR.name
-        }
+  {
+    path: "/news/all-news/cac-tinh-con-du-2000ty-quy-phong-chong-thien-tai",
+    featureArticle: true,
+    preview: {
+      author: KHANHND,
+      date: "September 18 2024",
+      articleTitle: "Các tỉnh thành còn dư hơn 2.200 tỷ đồng Quỹ Phòng chống thiên tai",
+      tags: "thiên tai, quỹ phòng chống, cứu trợ",
+      thumbnail: "/news_imp_assets/news/01.png",
+      shortIntro: "Các tỉnh thành còn dư hơn 2.200 tỷ đồng, nhưng thiệt hại sau bão Yagi hơn 3.200 tỷ.",
+      category: "tin tức"
     },
-    {
-        path: '/news/all-news/how-to-write-your-first-article',
-        featureArticle: true,
-        preview: {
-            author: RUPALI,
-            date: "August 08 2024",
-            articleTitle: "How to write your first article",
-            tags: "demo, first article",
-            thumbnail: "/public/news_imp_assets/tutorials/how-to-write-first-article.svg",
-            shortIntro: "This a step by step guide on how to write your first article.",
-            category: 'tutorial'
-        },
-        seo: {
-            keywords: "demo, centered, centered layout, blog page layout, blog page design with centered layout, writing first article, webexpe, webexpe.com",
-        }
+    seo: {
+      title: "Quỹ Phòng chống thiên tai các tỉnh còn dư hơn 2.200 tỷ đồng",
+      description: "Cập nhật tình hình Quỹ Phòng chống thiên tai tại các tỉnh thành",
+      keywords: "quỹ phòng chống thiên tai, cứu trợ bão lụt, thiệt hại do bão",
+      ogImage: "/news_imp_assets/news/01.png",
+      author: KHANHND.name
+    }
+  },
+  {
+    path: "/news/all-news/trong-mat-bao-yagi-15-gio-yagi-tan-pha-mien-bac",
+    featureArticle: true,
+    preview: {
+      author: VIETCQ,
+      date: "September 17 2024",
+      articleTitle: "Trong mắt bão Yagi: 15 giờ Yagi tàn phá miền Bắc",
+      tags: "bão Yagi, thiên tai, miền Bắc",
+      thumbnail: "/news_imp_assets/news/02.png",
+      shortIntro: "Yagi quét qua Việt Nam, xé toạc mái nhà và gây lũ lụt nghiêm trọng.",
+      category: "tin tức"
     },
-    {
-        path: '/news/all-news/how-to-deploy-blog',
-        featureArticle: true,
-        preview: {
-            author: RUPALI,
-            date: "August 08 2024",
-            articleTitle: "How to Export and deploy on firebase",
-            tags: "demo, deploy blog",
-            thumbnail: "/public/news_imp_assets/tutorials/how-to-deploy.svg",
-            shortIntro: "In this article you will see how to export blog files and what folder to deploy on your hosting.",
-            category: 'tutorial'
-        }
+    seo: {
+      title: "15 giờ bão Yagi tàn phá miền Bắc Việt Nam",
+      description: "Diễn biến chi tiết cơn bão Yagi tại miền Bắc",
+      keywords: "bão Yagi, thiệt hại do bão, thiên tai miền Bắc",
+      ogImage: "/news_imp_assets/news/02.png",
+      author: VIETCQ.name
+    }
+  },
+  {
+    path: "/news/all-news/vietbank-ung-ho-yagi",
+    preview: {
+      author: KHANHND,
+      date: "September 17 2024",
+      articleTitle: "Vietbank quyên góp 700 triệu đồng ủng hộ người dân bị ảnh hưởng thiên tai",
+      tags: "Vietbank, quyên góp, cứu trợ",
+      thumbnail: "/news_imp_assets/news/03.png",
+      shortIntro: "Vietbank quyên góp 700 triệu đồng ủng hộ người dân bị ảnh hưởng thiên tai.",
+      category: "cứu trợ"
     },
-    {
-        path: '/news/all-news/home-layout.tsx',
-        preview: {
-            author: RUPALI,
-            date: "August 14 2024",
-            articleTitle: "Home Layout Example",
-            tags: "demo, layout, home layout",
-            thumbnail: "/public/news_imp_assets/tutorials/home-layouts.svg",
-            shortIntro: "In this article we will see Default Home Layout example.",
-            category: 'layouts'
-        },
-        seo: {
-            title: "Home Layout Example",
-            description:
-                "In this article we will see Default Home Layout example.",
-            keywords: "next js, tailwind css, typescript, blog template, default layout, default home layout",
-            ogImage: "/public/news_imp_assets/tutorials/home-layouts.svg",
-            author: RUPALI.name
-        }
+    seo: {
+      keywords: "Vietbank, quyên góp từ thiện, cứu trợ bão lụt",
+      ogImage: "/news_imp_assets/news/03.png"
+    }
+  },
+  {
+    path: "/news/all-news/carlsberg-va-nhan-vien-ho-tro-vung-bao-yagi",
+    preview: {
+      author: VIETCQ,
+      date: "September 17 2024",
+      articleTitle: "Carlsberg Việt Nam và nhân viên hỗ trợ 1,1 tỷ đồng cho vùng bão lũ",
+      tags: "Carlsberg, quyên góp, cứu trợ",
+      thumbnail: "/news_imp_assets/news/04.png",
+      shortIntro: "Carlsberg Việt Nam và nhân viên hỗ trợ 1,1 tỷ đồng cho vùng bão lũ.",
+      category: "cứu trợ"
     },
-    {
-        path: '/news/all-news/blog-with-sidebar-layout',
-        preview: {
-            author: MAYUR,
-            date: "August 14 2024",
-            articleTitle: "Page Layout for a article with sidebar",
-            tags: "demo, with sidebar, default layout",
-            thumbnail: "/public/news_imp_assets/tutorials/blog-with-sidebar-layout.svg",
-            shortIntro: "In this article we will see Page Layout for a blog with sidebar example.",
-            category: 'layouts'
-        },
-        seo: {
-            keywords: "demo, with sidebar, blog page layout, blog page design with sidebar, webexpe, webexpe.com",
-            ogImage: "/public/news_imp_assets/tutorials/blog-with-sidebar-layout.svg",
-        }
+    seo: {
+      keywords: "Carlsberg Việt Nam, quyên góp từ thiện, cứu trợ bão lụt",
+      ogImage: "/news_imp_assets/news/04.png"
+    }
+  },
+  {
+    path: "/news/all-news/bao-hinh-thanh-va-chet-nhu-the-nao",
+    preview: {
+      author: KHANHND,
+      date: "September 16 2024",
+      articleTitle: "Bão hình thành và 'chết' như thế nào?",
+      tags: "bão, khí tượng, thiên tai",
+      thumbnail: "/news_imp_assets/news/15.png",
+      shortIntro: "Bão hình thành khi có áp suất khí quyển thấp ở vùng nước ấm, dần mạnh lên rồi lại suy yếu hoặc tan hẳn khi quét qua mặt đất.",
+      category: "tin tức"
     },
-    {
-        path: '/news/all-news/blog-with-centered-layout',
-        preview: {
-            author: RUPALI,
-            date: "August 14 2024",
-            articleTitle: "Page Layout for a article with centered layout",
-            tags: "demo, centered, centered layout",
-            thumbnail: "/public/news_imp_assets/tutorials/blog-with-centered-layout.svg",
-            shortIntro: "This a demo article with centered layout and with demo of all the components.",
-            category: 'layouts'
-        },
-        seo: {
-            keywords: "demo, centered, centered layout, blog page layout, blog page design with centered layout, webexpe, webexpe.com",
-        }
+    seo: {
+      keywords: "hình thành bão, suy yếu bão, khí tượng học",
+      ogImage: "/news_imp_assets/news/15.png"
+    }
+  },
+  {
+    path: "/news/all-news/chu-quan-de-nghi-khach-thanh-toan-vao-tai-khoan-mat-tran-to-quoc",
+    preview: {
+      author: VIETCQ,
+      date: "September 16 2024",
+      articleTitle: "Chủ quán đề nghị khách thanh toán vào tài khoản Mặt trận Tổ quốc",
+      tags: "quyên góp, cứu trợ, cộng đồng",
+      thumbnail: "/news_imp_assets/news/16.png",
+      shortIntro: "Chủ quán cà phê ở Tam Kỳ đề nghị khách thanh toán tiền đồ uống bằng cách chuyển khoản cho Mặt trận Tổ quốc.",
+      category: "cứu trợ"
     },
-    {
-        path: '/pages/all-components',
-        preview: {
-            author: RUPALI,
-            date: "August 08 2024",
-            articleTitle: "All Components",
-            tags: "demo, all components",
-            thumbnail: "/public/news_imp_assets/tutorials/all-components.svg",
-            shortIntro: "List of all usable components, its types and how to use it.",
-            category: 'tutorial'
-        },
-        seo: {
-            keywords: "demo, all components, webexpe, webexpe.com",
-        }
+    seo: {
+      keywords: "quyên góp từ thiện, cứu trợ bão lụt, cộng đồng hỗ trợ",
+      ogImage: "/news_imp_assets/news/16.png"
+    }
+  },
+  {
+    path: "/news/all-news/hau-qua-bao-yagi",
+    preview: {
+      author: KHANHND,
+      date: "September 16 2024",
+      articleTitle: "Cập nhật hậu quả sau bão Yagi",
+      tags: "bão Yagi, thiệt hại, thống kê",
+      thumbnail: "/news_imp_assets/news/17.png",
+      shortIntro: "12 ngày sau bão Yagi, lũ quét và sạt lở đã làm 299 người chết, 34 mất tích, trong đó Lào Cai là tỉnh chịu thương vong nhiều nhất.",
+      category: "tin tức"
     },
-    {
-        path: '/pages/style-guide.tsx',
-        preview: {
-            author: MAYUR,
-            date: "August 10 2024",
-            articleTitle: "Style Guide",
-            tags: "demo, all components, style guide, styling tutorial",
-            thumbnail: "/public/news_imp_assets/tutorials/style-guide.svg",
-            shortIntro: "Styling and theming tutorial.",
-            category: 'tutorial'
-        },
-        seo: {
-            keywords: "demo, all components, style guide, styling, css, tailwind css, tailwind, webexpe, webexpe.com",
-        }
-    },
-    {
-        path: '/pages/icons',
-        preview: {
-            author: MAYUR,
-            date: "August 13 2024",
-            articleTitle: "How to use icons",
-            tags: "demo, all components, style guide, styling tutorial, icons, how to use icons in website",
-            thumbnail: "/public/news_imp_assets/tutorials/how-to-use-icons.svg",
-            shortIntro: "How to use icons in your blog website.",
-            category: 'tutorial'
-        },
-        seo: {
-            keywords: "demo, all components, style guide, styling, css, tailwind css, tailwind, webexpe, webexpe.com, styling tutorial, icons, how to use icons in website",
-        }
-    },
-]
+    seo: {
+      keywords: "hậu quả bão Yagi, thiệt hại do bão, thống kê thiệt hại",
+      ogImage: "/news_imp_assets/news/17.png"
+    }
+  }
+];
