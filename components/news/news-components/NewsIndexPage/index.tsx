@@ -1,5 +1,5 @@
 import ArticleCard from "../ArticleCards/ArticleCard";
-import { SORTED_ARTICLES_BY_DATE } from "../../../../NEWS_CONSTANTS/_ARTICLES_LIST";
+import { SORTED_ARTICLES_BY_DATE } from "../../NEWS_CONSTANTS/_ARTICLES_LIST";
 import { useEffect, useState } from "react";
 import { PageLayout } from "..";
 import { combineClasses } from "../../utils/utils";

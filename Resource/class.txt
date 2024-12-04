@@ -1,0 +1,57 @@
+1. Class: NguoiDung
+
+Thuộc tính (Attribute):
+- maNguoiDung: String - Mã định danh duy nhất của người dùng.
+- tenNguoiDung: String - Họ và tên của người dùng.
+- email: String - Email của người dùng.
+- soDienThoai: String - Số điện thoại liên lạc.
+- loaiNguoiDung: Enum - Loại người dùng (Đóng góp hoặc Tổ chức).
+- daXacThuc: Boolean - Trạng thái xác thực tài khoản.
+- taiKhoan: TaiKhoan - Thông tin tài khoản liên kết.
+
+Phương thức (Method):
+- dangKyTaiKhoan(): Đăng ký tài khoản mới.
+- dangNhap(): Đăng nhập vào hệ thống.
+- xacThucTaiKhoan(): Xác thực tài khoản bằng OTP hoặc giấy phép.
+- capNhatThongTin(): Cập nhật thông tin người dùng.
+- doiMatKhau(): Đổi mật khẩu tài khoản.
+
+2. Class: TaiKhoan
+
+Thuộc tính (Attribute):
+- maTaiKhoan: String - Mã định danh của tài khoản.
+- tenDangNhap: String - Tên đăng nhập của tài khoản.
+- matKhau: String - Mật khẩu đã được mã hóa.
+- tokenXacThuc: String - Token xác thực cho phiên đăng nhập.
+
+Phương thức (Method):
+- kiemTraTrungLap(): Kiểm tra thông tin tài khoản có bị trùng lặp.
+- resetMatKhau(): Đặt lại mật khẩu khi quên mật khẩu.
+- maHoaMatKhau(): Mã hóa mật khẩu trước khi lưu trữ.
+
+3. Class: ChienDichCuuTro
+
+Thuộc tính (Attribute):
+- maChienDich: String - Mã định danh của chiến dịch.
+- tenChienDich: String - Tên của chiến dịch.
+- nganSach: String - Ngân sách của chiến dịch.
+- tienDo: Integer - Tiến độ (%) của chiến dịch.
+- trangThai: Enum - Trạng thái của chiến dịch.
+
+Phương thức (Method):
+- taoChienDich(): Tạo mới chiến dịch cứu trợ.
+- capNhatTrangThai(): Cập nhật trạng thái chiến dịch.
+- xemLichSuCapNhat(): Theo dõi các thay đổi của chiến dịch.
+
+4. Class: DongGop
+
+Thuộc tính (Attribute):
+- maDongGop: String - Mã đóng góp.
+- maChienDich: String - Mã chiến dịch liên quan.
+- maNguoiDung: String - Mã người dùng thực hiện đóng góp.
+- soTien: Decimal - Số tiền đóng góp.
+- phuongThucThanhToan: Enum - Phương thức thanh toán.
+
+Phương thức (Method):
+- thucHienDongGop(): Thực hiện đóng góp cho chiến dịch.
+- guiThongBaoDongGop(): Gửi thông báo xác nhận giao dịch.

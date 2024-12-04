@@ -43,8 +43,8 @@
 
 - **Next.js**: Framework React để xây dựng ứng dụng web.
 - **Tailwind CSS**: Framework CSS để tạo giao diện người dùng.
-- **Firebase**: Nền tảng phát triển ứng dụng để xác thực và lưu trữ dữ liệu.
-- **Supabase**: Nền tảng cơ sở dữ liệu thời gian thực.
+- **PostgreSQL**: Hệ quản trị cơ sở dữ liệu.
+- **Vonage**: Dịch vụ xác thực OTP qua SMS.
 - **Google Maps**: Dịch vụ bản đồ để hiển thị bản đồ nhiệt.
 
 ## Cài đặt và chạy dự án
@@ -53,6 +53,7 @@
 
 - **Node.js**: Phiên bản 14.x hoặc mới hơn.
 - **npm**: Phiên bản 6.x hoặc mới hơn.
+- **PostgreSQL**: Phiên bản 12.x hoặc mới hơn.
 
 ### Cài đặt
 
@@ -69,24 +70,28 @@
     npm install
     ```
 
-3. Tạo file `.env.local` và cấu hình các biến môi trường cần thiết. Ví dụ:
+3. Thiết lập database:
 
-    ```env
-    NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
-    NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-    NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_firebase_project_id
-    NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-    NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-    NEXT_PUBLIC_FIREBASE_APP_ID=your_firebase_app_id
+    ```sh
+    chmod +x setup-db.sh
+    ./setup-db.sh
     ```
 
-4. Chạy dự án:
+4. Tạo file `.env.local` và thêm:
+
+    ```env
+    POSTGRES_URL="postgres://vietcq:123456789000@localhost:5432/giveback_db"
+    VONAGE_API_KEY="your_api_key"      # Thêm API key từ dashboard Vonage
+    VONAGE_API_SECRET="your_api_secret" # Thêm API secret từ dashboard Vonage
+    ```
+
+5. Chạy dự án:
 
     ```sh
     npm run dev
     ```
 
-5. Mở trình duyệt và truy cập `http://localhost:3000`.
+6. Mở trình duyệt và truy cập `http://localhost:3000`.
 
 ## Đóng góp
 

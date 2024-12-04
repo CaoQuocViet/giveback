@@ -1,9 +1,9 @@
 import { BsLinkedin, BsLink45Deg, BsXLg } from "react-icons/bs";
 import { AiFillTwitterCircle, AiFillFacebook } from "react-icons/ai";
-import { WEBSITE_URL } from "../../../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { WEBSITE_URL } from "../../NEWS_CONSTANTS/_NEW_SETUP";
 import { combineClasses } from "../../utils/utils";
 import { useEffect, useState } from "react";
-import { GAEvent } from "../../../../google";
+import { GAEvent } from "../../google";
 
 const SocialShare = () => {
   const url =

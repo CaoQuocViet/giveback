@@ -181,7 +181,7 @@ export const HowToUseVideo = `
 `;
 
 export const AuthorSetup = `
-    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
     export const AUTHOR_NAME: IAuthor = {
         name: "Full Name",
         designation: "Work Designation",
@@ -201,7 +201,7 @@ export const AuthorSetup = `
 `;
 
 export const NavbarSetup = `
-    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
     export const PRIMARY_NAV = {
         type: NavbarType.DEFAULT,
         logo: {},
@@ -212,7 +212,7 @@ export const NavbarSetup = `
 `;
 
 export const NavbarSetupType = `
-    // file --> /NEWS_CONSTANTS/_BLOG_SETUP.tsx
+    // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
     export const PRIMARY_NAV = {
         type: NavbarType.DEFAULT,
     }
@@ -288,8 +288,8 @@ export const rightSideAdCode = `
 `;
 
 export const Article_Entry_inList = `
-    // Import author profiles, just type the name you have set in _BLOG_SETUP inside the curly brackets
-    import { MAYUR, RUPALI } from './_BLOG_SETUP';
+    // Import author profiles, just type the name you have set in _NEW_SETUP inside the curly brackets
+    import { MAYUR, RUPALI } from './_NEW_SETUP';
 
     // file --> /NEWS_CONSTANTS/_ARTICLE_LIST.tsx
     export const ARTICLES: iArticle[] = [
@@ -298,7 +298,7 @@ export const Article_Entry_inList = `
             path: '/pages/blog/your-first-article',
             featureArticle: true,
             preview: {
-                // the author object you created in _BLOG_SETUP file
+                // the author object you created in _NEW_SETUP file
                 author: MAYUR,
                 date: "August 6 2024",
                 articleTitle: "Your first article",

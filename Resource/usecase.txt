@@ -1,0 +1,142 @@
+Use Case 1: Đăng ký tài khoản
+
+Người dùng đăng ký tài khoản trên hệ thống. Với người đóng góp, cần xác minh bằng OTP. Với tổ chức từ thiện, cần cung cấp thêm giấy phép hoạt động để được kiểm duyệt trước khi tham gia hệ thống.
+
+Main Flow:
+1. Người dùng truy cập trang đăng ký tài khoản.
+2. Nhập thông tin tài khoản (họ tên, email, số điện thoại, mật khẩu).
+3. Hệ thống kiểm tra trùng lặp thông tin (email, số điện thoại).
+4. Người dùng gửi yêu cầu đăng ký.
+5. Nếu là tổ chức từ thiện, đính kèm giấy phép hoạt động.
+6. Nếu là người đóng góp, mã OTP được gửi đến số điện thoại.
+7. Hệ thống xác minh OTP (hoặc giấy phép hoạt động).
+8. Đăng ký thành công, chuyển đến trang đăng nhập.
+
+Alternative Flow:
+3.a. Nếu email hoặc số điện thoại đã tồn tại, hiển thị thông báo lỗi.
+4.a. Nếu OTP không chính xác hoặc giấy phép không hợp lệ, hiển thị thông báo lỗi và yêu cầu nhập lại.
+
+Pre-conditions: Người dùng phải có số điện thoại hợp lệ hoặc giấy phép hoạt động hợp lệ.
+
+Use Case 2: Đóng góp
+
+Người dùng lựa chọn phương thức đóng góp và thực hiện giao dịch (ngân hàng, ví điện tử, hoặc thẻ tín dụng).
+
+Main Flow:
+1. Người dùng đăng nhập vào hệ thống.
+2. Truy cập menu đóng góp.
+3. Chọn chiến dịch muốn đóng góp (danh sách chiến dịch hiển thị trong hệ thống).
+4. Kiểm tra trạng thái chiến dịch (đã kết thúc hoặc đạt mục tiêu đóng góp).
+5. Lựa chọn hình thức đóng góp:
+   - Chuyển khoản ngân hàng.
+   - Ví điện tử (MoMo, VNPAY).
+   - Thẻ tín dụng.
+6. Nhập thông tin giao dịch (số tiền, thông tin thẻ/ví).
+7. Xác nhận giao dịch và hoàn tất đóng góp.
+8. Hệ thống gửi thông báo xác nhận giao dịch qua email/SMS.
+
+Alternative Flow:
+4.a. Nếu chiến dịch đã kết thúc hoặc đạt mục tiêu, hiển thị thông báo không cho phép đóng góp thêm.
+7.a. Nếu giao dịch thất bại (lỗi kết nối, tài khoản không đủ tiền), hiển thị thông báo và yêu cầu thử lại.
+
+Pre-conditions: Người dùng đã đăng ký và đăng nhập vào hệ thống.
+Chiến dịch đã được phê duyệt và còn hoạt động.
+
+Use Case 3: Tạo chiến dịch cứu trợ
+
+Tổ chức từ thiện tạo mới một chiến dịch cứu trợ, cung cấp các thông tin chi tiết, và gửi yêu cầu phê duyệt đến quản trị viên.
+
+Main Flow:
+1. Tổ chức từ thiện đăng nhập.
+2. Truy cập trang "Tạo chiến dịch cứu trợ."
+3. Nhập thông tin chiến dịch:
+   - Tên chiến dịch.
+   - Thiên tai mục tiêu.
+   - Thời gian.
+   - Ngân sách dự kiến.
+   - Mô tả mục tiêu cứu trợ.
+4. Gửi yêu cầu tạo chiến dịch.
+5. Admin kiểm tra và phê duyệt chiến dịch.
+6. Chiến dịch được hiển thị trên hệ thống.
+
+Alternative Flow:
+5.a. Nếu thông tin chiến dịch không đầy đủ hoặc không hợp lệ, Admin yêu cầu tổ chức chỉnh sửa.
+5.b. Nếu Admin không phản hồi trong thời hạn quy định, thông báo lỗi cho tổ chức.
+
+Pre-conditions: Tổ chức từ thiện đã được kiểm duyệt.
+
+Use Case 4: Cập nhật trạng thái chiến dịch
+
+Cập nhật thông tin về tiến độ, ngân sách, và trạng thái của chiến dịch cứu trợ trong hệ thống.
+
+Main Flow:
+1. Tổ chức từ thiện hoặc Admin đăng nhập vào hệ thống.
+2. Truy cập danh sách các chiến dịch cứu trợ mà tổ chức hoặc Admin quản lý.
+3. Chọn chiến dịch cần cập nhật trạng thái.
+4. Nhập thông tin mới:
+   - Trạng thái chiến dịch (đang thực hiện, tạm dừng, đã hoàn thành).
+   - Ngân sách đã chi tiêu (nếu có cập nhật).
+   - Tiến độ thực hiện (ví dụ: hoàn thành X%).
+   - Mô tả chi tiết về các hoạt động đã diễn ra hoặc cần thực hiện tiếp theo.
+5. Gửi thông tin cập nhật.
+6. Hệ thống lưu thông tin và hiển thị trạng thái mới trên trang chiến dịch.
+7. Lưu lịch sử thay đổi trạng thái để theo dõi.
+8. Gửi thông báo đến các bên liên quan (người đóng góp, người nhận hỗ trợ) nếu có cập nhật quan trọng.
+
+Alternative Flow:
+6.a. Nếu thông tin không hợp lệ (ngân sách vượt mức hoặc dữ liệu không đầy đủ), hệ thống yêu cầu kiểm tra lại.
+
+Pre-conditions: Chiến dịch đã được phê duyệt và đang hoạt động trong hệ thống.
+
+Use Case 5: Cập nhật tin tức thiên tai
+
+Cập nhật thông tin về tình hình thiên tai hoặc tình trạng cứu trợ theo thời gian thực.
+
+Main Flow:
+1. Admin hoặc tổ chức từ thiện đăng nhập vào hệ thống.
+2. Thu thập thông tin từ các nguồn tin chính thức hoặc tổ chức cứu trợ.
+3. Nhập thông tin (tiêu đề, nội dung, hình ảnh nếu có) lên hệ thống.
+4. Hệ thống kiểm duyệt tự động hoặc chờ Admin duyệt (nếu cần thiết).
+5. Đăng bài viết lên bảng tin.
+6. Hệ thống hiển thị thông tin trên newsfeed cho tất cả người dùng.
+
+Alternative Flow:
+4.a. Nếu thông tin không hợp lệ (nội dung sai lệch, nguồn tin không đáng tin cậy), hệ thống từ chối và yêu cầu chỉnh sửa.
+5.a. Nếu xảy ra lỗi kết nối API khi nhập thông tin từ nguồn tự động, hiển thị thông báo lỗi và yêu cầu thử lại.
+
+Pre-conditions: Tổ chức từ thiện hoặc Admin đã được xác minh trong hệ thống.
+
+Use Case 6: Phản hồi và đánh giá
+
+Người dùng gửi phản hồi hoặc đánh giá về tình hình quyên góp hoặc hỗ trợ.
+
+Main Flow:
+1. Người dùng truy cập trang chiến dịch hoặc bảng phản hồi.
+2. Điền thông tin phản hồi, gồm: nội dung, đánh giá (sao), đính kèm hình ảnh nếu cần.
+3. Gửi phản hồi lên hệ thống.
+4. Hệ thống gửi thông báo cho Admin hoặc tổ chức từ thiện liên quan.
+5. Admin xác minh hoặc phản hồi lại nếu cần thiết.
+6. Phản hồi được gắn trạng thái (đã xử lý, đang xem xét, từ chối) để theo dõi.
+7. Hệ thống gửi thông báo tự động đến người dùng khi phản hồi được chấp thuận hoặc cần chỉnh sửa.
+
+Alternative Flow:
+4.a. Nếu phản hồi có nội dung không phù hợp, hệ thống yêu cầu chỉnh sửa trước khi gửi.
+
+Pre-conditions: Người dùng đã tham gia vào chiến dịch quyên góp.
+
+Use Case 7: Hiển thị bản đồ lũ và heatmap
+
+Hiển thị bản đồ nhiệt với thông tin vùng bị ảnh hưởng bởi thiên tai và tình trạng cứu trợ theo thời gian thực.
+
+Main Flow:
+1. Người dùng truy cập trang thông tin chiến dịch hoặc heatmap.
+2. Hệ thống gửi yêu cầu tới API dịch vụ bản đồ (Google Maps, OpenStreetMap).
+3. Dữ liệu từ các nguồn chính thức được tải lên bản đồ.
+4. Hiển thị mức độ thiệt hại (vùng bị ảnh hưởng nặng được tô màu đỏ, vàng, xanh).
+5. Thông tin cập nhật theo thời gian thực nếu có thay đổi.
+
+Alternative Flow:
+3.a. Nếu không thể kết nối API, hiển thị thông báo lỗi cho Admin.
+4.a. Người dùng có thể phóng to/thu nhỏ bản đồ hoặc lọc thông tin theo khu vực.
+
+Pre-conditions: Người dùng đã tham gia vào hệ thống.

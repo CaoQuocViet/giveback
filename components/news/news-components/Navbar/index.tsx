@@ -11,7 +11,7 @@ import {
 } from "../../utils/utils";
 import NavSidebar from "./NavSideBar";
 import Search from "../Search";
-import { PRIMARY_NAV } from "../../../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { PRIMARY_NAV } from "../../NEWS_CONSTANTS/_NEW_SETUP";
 import { useTheme } from "next-themes";
 import classes from "./Navbar.module.scss";
 import SocialShareModal from "../SocialShare/SocialShareModal";

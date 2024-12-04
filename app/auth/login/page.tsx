@@ -3,8 +3,6 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { app } from "@/firebase";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,18 +15,19 @@ export default function Login() {
     setError("");
 
     try {
-      const credential = await signInWithEmailAndPassword(
-        getAuth(app),
-        email,
-        password
-      );
-      const idToken = await credential.user.getIdToken();
-
-      await fetch("/api/login", {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
         headers: {
-          Authorization: `Bearer ${idToken}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ email, password }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Đăng nhập thất bại');
+      }
 
       router.push("/");
     } catch (e) {

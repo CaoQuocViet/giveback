@@ -1,5 +1,5 @@
 import { iArticle } from "@/components/news/shared/interfaces";
-import { KHANHND, VIETCQ } from "./_BLOG_SETUP";
+import { KHANHND, VIETCQ } from "./_NEW_SETUP";
 
 const ARTICLES_LIST: iArticle[] = [
   {

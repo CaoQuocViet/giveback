@@ -1,6 +1,6 @@
 import classes from './PageLayout.module.scss';
 import { combineClasses, getArticleDetails, transformImagePaths, transformPath } from '../../utils/utils';
-import { SORTED_ARTICLES_BY_DATE } from '../../../../NEWS_CONSTANTS/_ARTICLES_LIST';
+import { SORTED_ARTICLES_BY_DATE } from '../../NEWS_CONSTANTS/_ARTICLES_LIST';
 import ArticleHeader from '../../news-components/ArticleHeader';
 import ArticleMoreFromAuthor from '../../news-components/Misc/ArticleMoreFromAuthor';
 

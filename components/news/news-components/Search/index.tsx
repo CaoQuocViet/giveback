@@ -2,7 +2,7 @@ import { useState } from "react";
 import { combineClasses } from "../../utils/utils";
 import classes from './Search.module.scss';
 import SearchArticleCard from "../ArticleCards/SearchArticleCard";
-import { SORTED_ARTICLES_BY_DATE } from '../../../../NEWS_CONSTANTS/_ARTICLES_LIST';
+import { SORTED_ARTICLES_BY_DATE } from '../../NEWS_CONSTANTS/_ARTICLES_LIST';
 import { MdOutlineClose } from "react-icons/md";
 
 interface ISearch {

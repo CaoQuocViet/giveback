@@ -1,4 +1,4 @@
-import { KHANHND, VIETCQ } from "../../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { KHANHND, VIETCQ } from "../NEWS_CONSTANTS/_NEW_SETUP";
 import { iArticle } from "../shared/interfaces";
 
 export const MOCK_ARTICLES_LIST: iArticle[] = [

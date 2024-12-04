@@ -1,10 +1,10 @@
 import { THEMES } from "../shared/enums";
 import { useRouter } from "next/router";
-import { SORTED_ARTICLES_BY_DATE } from "../../../NEWS_CONSTANTS/_ARTICLES_LIST";
+import { SORTED_ARTICLES_BY_DATE } from "../NEWS_CONSTANTS/_ARTICLES_LIST";
 import { iArticle, iSEO } from "../shared/interfaces";
-import { WEBSITE_NAME, WEBSITE_URL } from "../../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { WEBSITE_NAME, WEBSITE_URL } from "../NEWS_CONSTANTS/_NEW_SETUP";
 import { MOCK_ARTICLES_LIST } from "../constants/mocks";
-import { GAEvent } from "../../../google";
+import { GAEvent } from "../google";
 import { usePathname } from "next/navigation";
 
 // env

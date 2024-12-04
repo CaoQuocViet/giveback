@@ -2,8 +2,8 @@
 'use client';
 import { PageLayout, Text, LinkTo } from "@/components/news/news-components";
 import ArticleCard from '@/components/news/news-components/ArticleCards/ArticleCard';
-import { SORTED_ARTICLES_BY_DATE } from '../../NEWS_CONSTANTS/_ARTICLES_LIST';
-import { DEFAULT_SEO } from "../../NEWS_CONSTANTS/_BLOG_SETUP";
+import { SORTED_ARTICLES_BY_DATE } from '../../components/news/NEWS_CONSTANTS/_ARTICLES_LIST';
+import { DEFAULT_SEO } from "../../components/news/NEWS_CONSTANTS/_NEW_SETUP";
 import FeaturedArticleSection from "@/components/news/news-components/Misc/FeaturedArticleSection";
 import HomeNonFeatureArticles from "@/components/news/news-components/Misc/HomeNonFeatureAricles";
 

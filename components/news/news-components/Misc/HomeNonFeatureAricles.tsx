@@ -1,4 +1,4 @@
-import { SORTED_ARTICLES_BY_DATE } from "../../../../NEWS_CONSTANTS/_ARTICLES_LIST"
+import { SORTED_ARTICLES_BY_DATE } from "../../NEWS_CONSTANTS/_ARTICLES_LIST"
 import { iArticle } from "../../shared/interfaces"
 import ArticleCard from '../ArticleCards/ArticleCard';
 import LinkTo from "../LinkTo";

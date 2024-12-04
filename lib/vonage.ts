@@ -1,9 +1,9 @@
 import { Vonage } from '@vonage/server-sdk';
+import { Auth } from '@vonage/auth';
 
-const vonage = new Vonage({
-  apiKey: process.env.VONAGE_API_KEY || '',
-  apiSecret: process.env.VONAGE_API_SECRET || '',
-  applicationId: process.env.VONAGE_APPLICATION_ID
-});
-
-export default vonage;
+export const vonage = new Vonage(
+  new Auth({
+    apiKey: "34e9569b",
+    apiSecret: "SVEXKfcTj8kDGEun"
+  })
+); 

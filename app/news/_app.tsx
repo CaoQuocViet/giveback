@@ -6,7 +6,7 @@ import Head from 'next/head'
 
 import { NextSeo } from "next-seo";
 import Script from 'next/script';
-import * as gtag from '../../google';
+import * as gtag from '../../components/news/google';
 import { useEffect, useState } from 'react';
 import { CREATE_SEO_CONFIG } from '@/components/news/utils/utils';
 import { ThemeProvider } from 'next-themes'
