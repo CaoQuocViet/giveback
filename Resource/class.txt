@@ -1,57 +1,164 @@
-1. Class: NguoiDung
+1. NguoiDung (Abstract class)
+- Thuoc tinh:
+  + id: string
+  + hoTen: string 
+  + email: string
+  + soDienThoai: string
+  + matKhau: string
+  + vaiTro: VaiTro
+  + anhDaiDien: string
+  + tinh: string
+  + quanHuyen: string
+  + xaPhuong: string
+  + diaChiChiTiet: string
+  + thoiGianTao: Date
+  + thoiGianCapNhat: Date
 
-Thuộc tính (Attribute):
-- maNguoiDung: String - Mã định danh duy nhất của người dùng.
-- tenNguoiDung: String - Họ và tên của người dùng.
-- email: String - Email của người dùng.
-- soDienThoai: String - Số điện thoại liên lạc.
-- loaiNguoiDung: Enum - Loại người dùng (Đóng góp hoặc Tổ chức).
-- daXacThuc: Boolean - Trạng thái xác thực tài khoản.
-- taiKhoan: TaiKhoan - Thông tin tài khoản liên kết.
+2. QuanTriVien extends NguoiDung
+- Thuoc tinh:
+  + laQuanTriHeThong: boolean
+- Phuong thuc:
+  + xacThucToChuc(idToChuc: string): Promise<boolean>
+  + xemDanhSachToChuc(): Promise<ToChucTuThien[]>
+  + giamSatChienDich(): Promise<ChienDich[]>
 
-Phương thức (Method):
-- dangKyTaiKhoan(): Đăng ký tài khoản mới.
-- dangNhap(): Đăng nhập vào hệ thống.
-- xacThucTaiKhoan(): Xác thực tài khoản bằng OTP hoặc giấy phép.
-- capNhatThongTin(): Cập nhật thông tin người dùng.
-- doiMatKhau(): Đổi mật khẩu tài khoản.
+3. NguoiDongGop extends NguoiDung
+- Phuong thuc:
+  + dongGop(idChienDich: string, soTien: decimal): Promise<boolean>
+  + xemLichSuDongGop(): Promise<DongGop[]>
+  + danhGiaChienDich(idChienDich: string, diem: number): Promise<boolean>
 
-2. Class: TaiKhoan
+4. NguoiNhanHoTro extends NguoiDung
+- Thuoc tinh:
+  + trangThaiXacThuc: boolean
+- Phuong thuc:
+  + xemDanhSachNhanHoTro(): Promise<HoTro[]>
+  + guiPhanHoi(idChienDich: string, noiDung: string): Promise<boolean>
 
-Thuộc tính (Attribute):
-- maTaiKhoan: String - Mã định danh của tài khoản.
-- tenDangNhap: String - Tên đăng nhập của tài khoản.
-- matKhau: String - Mật khẩu đã được mã hóa.
-- tokenXacThuc: String - Token xác thực cho phiên đăng nhập.
+5. ToChucTuThien extends NguoiDung
+- Thuoc tinh:
+  + giayPhepUrl: string
+  + anhXacMinh: string[]
+  + trangThaiXacThuc: TrangThaiXacThuc
+  + diemDanhGia: decimal
+  + soChienDich: number
+  + soChienDichHoanThanh: number
+  + tongSoTienHuyDong: decimal
+  + tongSoTienDaPhanPhoi: decimal
+  + soNguoiNhanHoTro: number
+  + thoiGianCapNhatThongKe: Date
+- Phuong thuc:
+  + taoChienDich(duLieu: DuLieuChienDich): Promise<ChienDich>
+  + quanLyChienDich(idChienDich: string): Promise<boolean>
+  + phanPhoiHoTro(duLieuHoTro: DuLieuHoTro): Promise<boolean>
+  + taoBaoCao(idChienDich: string): Promise<BaoCao>
+  + xoaChienDich(idChienDich: string): Promise<boolean>
+  + suaChienDich(idChienDich: string, duLieu: DuLieuChienDich): Promise<boolean>
+  + taoDongGopTrungGian(duLieuDongGop: DuLieuDongGop): Promise<boolean>
 
-Phương thức (Method):
-- kiemTraTrungLap(): Kiểm tra thông tin tài khoản có bị trùng lặp.
-- resetMatKhau(): Đặt lại mật khẩu khi quên mật khẩu.
-- maHoaMatKhau(): Mã hóa mật khẩu trước khi lưu trữ.
+6. ChienDich
+- Thuoc tinh:
+  + id: string
+  + idToChuc: string
+  + tieuDe: string
+  + moTa: string
+  + trangThai: TrangThaiChienDich
+  + soTienMucTieu: decimal
+  + soTienHienTai: decimal
+  + ngayBatDau: Date
+  + ngayKetThuc: Date
+  + tinh: string
+  + quanHuyen: string
+  + xaPhuong: string
+  + diaChiChiTiet: string
+  + danhSachAnh: string[]
+- Phuong thuc:
+  + capNhatTrangThai(trangThaiMoi: TrangThaiChienDich): Promise<boolean>
+  + themDongGop(dongGop: DongGop): Promise<boolean>
+  + phanPhoiHoTro(hoTro: HoTro): Promise<boolean>
+  + taoBaoCao(): Promise<BaoCao>
 
-3. Class: ChienDichCuuTro
+7. DongGop
+- Thuoc tinh:
+  + id: string
+  + idChienDich: string
+  + idNguoiDongGop: string
+  + soTien: decimal
+  + trangThai: TrangThaiThanhToan
+  + thoiGianTao: Date
+- Phuong thuc:
+  + xuLyThanhToan(): Promise<boolean>
 
-Thuộc tính (Attribute):
-- maChienDich: String - Mã định danh của chiến dịch.
-- tenChienDich: String - Tên của chiến dịch.
-- nganSach: String - Ngân sách của chiến dịch.
-- tienDo: Integer - Tiến độ (%) của chiến dịch.
-- trangThai: Enum - Trạng thái của chiến dịch.
+8. HoTro
+- Thuoc tinh:
+  + id: string
+  + idChienDich: string
+  + idNguoiNhan: string
+  + soTien: decimal
+  + loaiHoTro: LoaiHoTro
+  + trangThai: TrangThaiHoTro
+  + thoiGianPhanPhoi: Date
+  + tinh: string
+  + quanHuyen: string
+  + xaPhuong: string
+  + diaChiChiTiet: string
+  + anhMinhChung: string[]
 
-Phương thức (Method):
-- taoChienDich(): Tạo mới chiến dịch cứu trợ.
-- capNhatTrangThai(): Cập nhật trạng thái chiến dịch.
-- xemLichSuCapNhat(): Theo dõi các thay đổi của chiến dịch.
+9. BinhLuan
+- Thuoc tinh:
+  + id: string
+  + idChienDich: string
+  + idNguoiDung: string
+  + noiDung: string
+  + laNguoiDongGop: boolean
+  + laNguoiNhan: boolean
+  + vaiTro: VaiTro
+  + thoiGianTao: Date
 
-4. Class: DongGop
+10. DanhGia
+- Thuoc tinh:
+  + id: string
+  + idChienDich: string
+  + idNguoiDongGop: string
+  + diem: decimal
+  + thoiGianTao: Date
 
-Thuộc tính (Attribute):
-- maDongGop: String - Mã đóng góp.
-- maChienDich: String - Mã chiến dịch liên quan.
-- maNguoiDung: String - Mã người dùng thực hiện đóng góp.
-- soTien: Decimal - Số tiền đóng góp.
-- phuongThucThanhToan: Enum - Phương thức thanh toán.
+11. BaoCao
+- Thuoc tinh:
+  + id: string
+  + idChienDich: string
+  + loai: LoaiBaoCao
+  + tomTat: object
+  + chiTiet: object
+  + thongKe: object
+  + thoiGianTao: Date
 
-Phương thức (Method):
-- thucHienDongGop(): Thực hiện đóng góp cho chiến dịch.
-- guiThongBaoDongGop(): Gửi thông báo xác nhận giao dịch.
+Interfaces:
+- DuLieuChienDich {
+  tieuDe: string
+  moTa: string
+  soTienMucTieu: decimal
+  ngayBatDau: Date
+  ngayKetThuc: Date
+  tinh: string
+  quanHuyen: string
+  xaPhuong: string
+  diaChiChiTiet: string
+  danhSachAnh: string[]
+}
+
+- DuLieuHoTro {
+  idNguoiNhan: string
+  soTien: decimal
+  loaiHoTro: LoaiHoTro
+  tinh: string
+  quanHuyen: string
+  xaPhuong: string
+  diaChiChiTiet: string
+  anhMinhChung: string[]
+}
+
+- DuLieuDongGop {
+  soTien: decimal
+  ghiChu: string
+}

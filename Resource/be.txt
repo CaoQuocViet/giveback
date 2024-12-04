@@ -4,12 +4,13 @@ giveback/
 │   │   ├── auth.routes.ts
 │   │   ├── campaign.routes.ts 
 │   │   ├── donation.routes.ts
-│   │   ├── feedback.routes.ts      # Thêm route xử lý phản hồi
-│   │   ├── news.routes.ts          # Thêm route xử lý tin tức
-│   │   ├── report.routes.ts        # Thêm route xử lý báo cáo
-│   │   ├── notification.routes.ts   # Thêm route xử lý thông báo
-│   │   └── heatmap.routes.ts       # Thêm route xử lý bản đồ nhiệt
-│   │
+│   │   ├── feedback.routes.ts
+│   │   ├── news.routes.ts
+│   │   ├── report.routes.ts
+│   │   ├── notification.routes.ts
+│   │   ├── heatmap.routes.ts
+│   │   └── charity.routes.ts        
+
 │   ├── controllers/
 │   │   ├── auth.controller.ts
 │   │   ├── campaign.controller.ts
@@ -18,8 +19,9 @@ giveback/
 │   │   ├── news.controller.ts 
 │   │   ├── report.controller.ts
 │   │   ├── notification.controller.ts
-│   │   └── heatmap.controller.ts
-│   │
+│   │   ├── heatmap.controller.ts
+│   │   └── charity.controller.ts
+
 │   ├── models/
 │   │   ├── user.model.ts
 │   │   ├── campaign.model.ts
@@ -28,29 +30,47 @@ giveback/
 │   │   ├── news.model.ts
 │   │   ├── report.model.ts
 │   │   ├── notification.model.ts
-│   │   └── location.model.ts       # Thêm model cho dữ liệu địa điểm
-│   │
+│   │   ├── location.model.ts
+│   │   ├── charity.model.ts
+│   │   └── beneficiary.model.ts   
+
 │   ├── middleware/
 │   │   ├── auth.middleware.ts
 │   │   ├── validation.middleware.ts
-│   │   ├── role.middleware.ts      # Thêm middleware phân quyền
-│   │   └── logging.middleware.ts    # Thêm middleware ghi log
-│   │
-│   ├── services/                   # Thêm thư mục services
-│   │   ├── vonage.service.ts       # Xử lý SMS/OTP
-│   │   ├── payment.service.ts      # Xử lý thanh toán
-│   │   ├── maps.service.ts         # Xử lý bản đồ
-│   │   └── notification.service.ts  # Xử lý thông báo
-│   │
-│   ├── config/                     # Thêm thư mục config
+│   │   ├── role.middleware.ts
+│   │   ├── logging.middleware.ts
+│   │   ├── error.middleware.ts     
+│   │   └── upload.middleware.ts     
+
+│   ├── services/
+│   │   ├── vonage.service.ts
+│   │   ├── payment.service.ts
+│   │   ├── maps.service.ts
+│   │   ├── notification.service.ts
+│   │   ├── file.service.ts         
+│   │   ├── email.service.ts         
+│   │   └── websocket.service.ts     
+
+│   ├── config/
 │   │   ├── database.config.ts
 │   │   ├── vonage.config.ts
-│   │   └── payment.config.ts
-│   │
-│   └── utils/                      # Thêm thư mục utils
-│       ├── validators.ts
-│       ├── formatters.ts
-│       └── helpers.ts
-│
+│   │   ├── payment.config.ts
+│   │   ├── mail.config.ts           
+│   │   ├── storage.config.ts       
+│   │   └── websocket.config.ts     
+
+│   ├── utils/
+│   │   ├── validators.ts
+│   │   ├── formatters.ts
+│   │   ├── helpers.ts
+│   │   ├── constants.ts            
+│   │   └── types.ts              
+
+│   └── interfaces/                
+│       ├── request.interface.ts
+│       ├── response.interface.ts
+│       └── models.interface.ts
+
 ├── server.ts
-└── tsconfig.json
+├── tsconfig.json
+└── package.json
