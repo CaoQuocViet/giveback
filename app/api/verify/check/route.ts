@@ -1,5 +1,13 @@
-import { vonage } from '@/lib/vonage';
+import { Vonage } from '@vonage/server-sdk';
+import { Auth } from '@vonage/auth';
 import { NextResponse } from 'next/server';
+
+const vonage = new Vonage(
+  new Auth({
+    apiKey: process.env.VONAGE_API_KEY || "",
+    apiSecret: process.env.VONAGE_API_SECRET || ""
+  })
+);
 
 export async function POST(request: Request) {
   try {

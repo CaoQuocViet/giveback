@@ -140,3 +140,68 @@ Alternative Flow:
 4.a. Người dùng có thể phóng to/thu nhỏ bản đồ hoặc lọc thông tin theo khu vực.
 
 Pre-conditions: Người dùng đã tham gia vào hệ thống.
+
+
+Rule:
+   + Admin: Tự thêm vào hệ thống
+   + Người đóng góp: chọn rule lúc đăng kí
+   + Tổ chức từ thiện: chọn rule lúc đăng kí
+   + Người nhận hỗ trợ: chọn rule lúc đăng kí
+@vonage/auth
+Đăng kí: xác thực OTP
+
+Đăng nhập: dùng mail + mật khẩu
+
+==========================================================
+==========================================================
+
+Chức năng đóng góp: chỉ dành cho người đóng góp
+
+Chức năng theo dõi và báo cáo: Tổ chức từ thiện, Người đóng góp, người nhận, Admin.
+
+Chức năng phản hồi và đánh giá: Phản hồi và đánh giá trên trang chiến dịch (dành cho người dóng góp và người nhận cứu trợ); chức năng bình luận trên trang chiến dịch (ai cũng bình luận được, bình luận sẽ đi kèm với tên và cờ rule).
+
+Chiến dịch được quản lý bởi Tổ chức từ thiện:
+* Khởi động:
+   + Mô tả: Đây là giai đoạn bắt đầu chiến dịch, thông báo chính thức về mục tiêu, tầm quan trọng của chiến dịch hỗ trợ người dân vùng thiên tai. Lúc này, kêu gọi mọi người tham gia đóng góp và thể hiện sự quan tâm.
+   + Quy định:
+      - Không nhận: Không chấp nhận bất kỳ sự đóng góp nào trong giai đoạn này.
+      - Không trao: Không thực hiện việc phân phát các khoản cứu trợ trong giai đoạn này.
+      - Cho xóa: Có thể xóa hoặc chỉnh sửa thông tin trong giai đoạn này để cập nhật thông tin chiến dịch.
+      - Cho sửa: Các thông tin có thể được chỉnh sửa, bổ sung để thu hút sự tham gia và cập nhật thông tin chính thức.
+* Đang kêu gọi:
+   + Mô tả: Giai đoạn kêu gọi sự đóng góp từ cộng đồng, cả về tiền bạc, hiện vật hoặc thời gian. Đây là giai đoạn hành động, thu hút sự chú ý và giúp chiến dịch lan rộng.
+   + Quy định:
+      - Nhận: Bắt đầu nhận đóng góp từ các nhà hảo tâm.
+      - Trao: Các khoản cứu trợ có thể được trao cho những người cần ngay lập tức, hoặc chuẩn bị để trao sau.
+      - Không xóa: Các thông tin về chiến dịch không được xóa đi trong giai đoạn này.
+      - Cho sửa: Có thể chỉnh sửa thông tin, ví dụ cập nhật số tiền nhận được, thay đổi thông tin liên lạc hoặc kêu gọi khác.
+* Đã đóng:
+   + Mô tả: Giai đoạn này chiến dịch đã đóng lại việc nhận đóng góp, chỉ còn việc trao đi những gì đã nhận. Mọi sự đóng góp đã được kết thúc và chuyển sang việc phân phối.
+   + Quy định:
+      - Không nhận: Không nhận thêm đóng góp từ cộng đồng.
+      - Còn trao: Vẫn tiếp tục việc phân phát cứu trợ hoặc hỗ trợ những người cần.
+      - Không xóa: Thông tin chiến dịch vẫn không thể bị xóa.
+      - Cho sửa: Có thể sửa thông tin để báo cáo kết quả hoặc cập nhật những thay đổi nhỏ trong chiến dịch.
+* Đã kết thúc:
+   + Mô tả: Chiến dịch kết thúc, không còn nhận hoặc trao bất kỳ hỗ trợ nào. Đây là giai đoạn tổng kết và công nhận sự đóng góp của cộng đồng.
+   + Quy định:
+      - Không nhận: Không nhận thêm bất kỳ đóng góp nào.
+      - Không trao: Không tiếp tục trao bất kỳ cứu trợ nào.
+      - Không xóa, không sửa: Tất cả thông tin của chiến dịch được khóa lại, không thể xóa hoặc sửa chữa. Chỉ có thể xem lại thông tin chiến dịch.
+
+Admin:
+   + Xác thực giấy phép hoạt động của tổ chức từ thiện
+   + Xem danh sách tổ chức từu thiện đã được duyệt.
+   + Check theo dõi và báo cáo của các chiến dịch:
+      - Thông tin cơ bản của chiến dịch
+      - Thống kê thu, chi, số còn lại
+   
+Tổ chức từ thiện:
+   + Xem danh sách tổ chức từu thiện đã được duyệt.
+   + Chưa được duyệt: Ở trạng thái chưa duyệt, không tạo và quản lý chiến dịch được.
+   + Đã được duyệt:
+      - Xem và chỉnh sửa các thông tin của tổ chức.
+      - Quản lý chiến dịch:
+         * Xem danh sách tổ chức đã tạo.
+         * Tạo mới một chiến dịch

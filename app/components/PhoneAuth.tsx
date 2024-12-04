@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from 'react';
-import { vonage } from '@/lib/vonage';
 
 export default function PhoneAuth({ onVerificationSuccess }: { onVerificationSuccess: () => void }) {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -48,11 +47,6 @@ export default function PhoneAuth({ onVerificationSuccess }: { onVerificationSuc
 
   const handleVerifyOTP = async () => {
     try {
-      const signature = await vonage.verify.generateSignature({
-        request_id: requestId,
-        code: verificationCode
-      });
-
       const response = await fetch('/api/verify/check', {
         method: 'POST',
         headers: {
@@ -60,8 +54,7 @@ export default function PhoneAuth({ onVerificationSuccess }: { onVerificationSuc
         },
         body: JSON.stringify({
           requestId,
-          code: verificationCode,
-          signature
+          code: verificationCode
         }),
       });
       
