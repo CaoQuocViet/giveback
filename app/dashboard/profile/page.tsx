@@ -1,6 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
+import { AdminProfile } from "@/components/profile/admin-profile"
 import { CharityProfile } from "@/components/profile/charity-profile"
 import { DonorProfile } from "@/components/profile/donor-profile"
 import { BeneficiaryProfile } from "@/components/profile/beneficiary-profile"
@@ -11,6 +12,8 @@ export default function ProfilePage() {
 
   const renderProfile = () => {
     switch (role) {
+      case 'ADMIN':
+        return <AdminProfile />
       case 'CHARITY':
         return <CharityProfile />
       case 'DONOR':
@@ -24,7 +27,6 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-8">Thông tin cá nhân</h1>
       {renderProfile()}
     </div>
   )

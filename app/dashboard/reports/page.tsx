@@ -34,12 +34,12 @@ const mockCampaigns = {
     },
     {   
       id: '2',
-      name: 'Cứu trợ bão Yagi',
+      name: 'Cứu trợ bão Yagi khu vực miền Trung',
       image: '/images/campaign-2.jpg',
       description: 'Chiến dịch cứu trợ người dân miền Trung khắc phục hậu quả thiên tai.',
       charity: {
         id: '2',
-        name: 'Quỹ Hy vọng'
+        name: 'Quỹ Hy vọng xanh Việt Nam'
       },
       target: 1000000000,
       raised: 750000000,

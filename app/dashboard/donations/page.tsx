@@ -25,9 +25,9 @@ const mockDonations = {
       amount: 500000,
       campaign: {
         id: '2',
-        name: 'Cứu trợ bão Yagi',
+        name: 'Cứu trợ bão Yagi khu vực miền Trung',
         charity: {
-          name: 'Quỹ Hy vọng'
+          name: 'Quỹ Hy vọng xanh Việt Nam'
         }
       },
       status: 'pending',

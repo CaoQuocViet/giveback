@@ -1,67 +1,52 @@
 "use client"
 
-import { ProfileForm } from "./profile-form"
-import { ProfileAvatar } from "./profile-avatar"
-import { ProfileAddress } from "./profile-address"
-import { ProfileStats } from "./profile-stats"
+import { Card, CardContent } from "@/components/ui/card"
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { DonationStats } from "@/components/profile/donation-stats"
 
-interface DonorProfileProps {
-  data?: {
-    name: string
-    email: string
-    phone: string
-    avatar: string
-    address: {
-      province: string
-      district: string
-      ward: string
-      address: string
-    }
-    stats: {
-      totalDonations: number
-      campaignsSupported: number
-      totalAmount: number
-    }
-  }
-}
-
-export function DonorProfile({ data }: DonorProfileProps) {
+export function DonorProfile() {
   return (
-    <div className="space-y-8">
-      <div className="flex items-start gap-8">
-        <ProfileAvatar 
-          imageUrl={data?.avatar}
-          onUpload={(file) => console.log('Upload:', file)}
-        />
+    <div className="space-y-6">
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Thông tin cá nhân</h2>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <Avatar className="w-20 h-20">
+                <AvatarImage src="/avatars/donor.jpg" />
+                <AvatarFallback>DN</AvatarFallback>
+              </Avatar>
+              <Button>Thay đổi ảnh</Button>
+            </div>
+            
+            <div className="grid gap-4">
+              <div>
+                <label className="text-sm font-medium">Họ và tên</label>
+                <Input defaultValue="Donor Name" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Email</label>
+                <Input defaultValue="donor@example.com" />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Số điện thoại</label>
+                <Input defaultValue="0123456789" disabled />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Mật khẩu mới</label>
+                <Input type="password" />
+              </div>
+            </div>
 
-        <div className="flex-1">
-          <ProfileForm
-            initialData={{
-              fullName: data?.name || '',
-              email: data?.email || '',
-              phone: data?.phone || ''
-            }}
-            onSubmit={(data) => console.log('Submit:', data)}
-          />
-        </div>
-      </div>
+            <Button className="w-full">Lưu thay đổi</Button>
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Địa chỉ</h3>
-        <ProfileAddress
-          initialData={data?.address}
-          onChange={(data) => console.log('Address:', data)}
-        />
-      </div>
-
-      <div className="space-y-4">
-        <h3 className="text-lg font-semibold">Thống kê đóng góp</h3>
-        <ProfileStats stats={[
-          { label: 'Số lần đóng góp', value: data?.stats.totalDonations || 0 },
-          { label: 'Chiến dịch đã hỗ trợ', value: data?.stats.campaignsSupported || 0 },
-          { label: 'Tổng số tiền', value: data?.stats.totalAmount || 0 }
-        ]} />
-      </div>
+      {/* Thống kê đóng góp */}
+      <DonationStats />
     </div>
   )
 }

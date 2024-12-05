@@ -62,7 +62,7 @@ export function CharityCard({ charity }: CharityCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`/charities/${charity.id}`}>
+          <Link href={`/dashboard/charities/${charity.id}`}>
             Xem chi tiết
           </Link>
         </Button>

@@ -19,7 +19,7 @@ const mockCharities = {
     },
     {
       id: '2',
-      name: 'Quỹ Hy vọng',
+      name: 'Quỹ Hy vọng xanh Việt Nam',
       logo: '/images/hope.jpg', 
       description: 'Quỹ từ thiện tập trung vào giáo dục và phát triển cộng đồng.',
       verified: true,
@@ -41,7 +41,7 @@ const mockCharities = {
       },
       {
         id: '4',
-        name: 'Quỹ Hy vọng',
+        name: 'Quỹ Hy vọng xanh Việt Nam',
         logo: '/images/hope.jpg',
         description: 'Quỹ từ thiện tập trung vào giáo dục và phát triển cộng đồng.',
         verified: true,

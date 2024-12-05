@@ -8,6 +8,7 @@ interface DonationListProps {
   donations: Array<{
     id: string
     amount: number
+    transaction_code: string
     campaign: {
       id: string
       name: string
@@ -17,7 +18,9 @@ interface DonationListProps {
     }
     status: 'pending' | 'completed' | 'failed'
     createdAt: string
-    paymentMethod: string
+    paymentMethod: {
+      name: string
+    }
   }>
   filter: {
     status: string
@@ -59,8 +62,9 @@ export function DonationList({ donations, filter }: DonationListProps) {
           
           <div className="text-sm text-muted-foreground mb-4">
             <p>Tổ chức: {donation.campaign.charity.name}</p>
+            <p>Mã giao dịch: {donation.transaction_code}</p>
             <p>Thời gian: {formatDate(donation.createdAt)}</p>
-            <p>Phương thức: {donation.paymentMethod}</p>
+            <p>Phương thức: {donation.paymentMethod.name}</p>
           </div>
 
           <div className="text-xl font-bold">
