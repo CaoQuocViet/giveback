@@ -1,0 +1,122 @@
+// Syntax standards for dbdiagram:
+//     + Table names: PascalCase
+//     + Column names: snake_case
+//     + Data types: lowercase
+//     + Constraints: UPPERCASE
+
+// Enum definitions
+Enum Role {
+  ADMIN
+  DONOR
+  CHARITY
+  BENEFICIARY
+}
+
+Enum CampaignStatus {
+  STARTING
+  ONGOING
+  CLOSED
+  COMPLETED
+}
+
+Enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+Enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+// Base tables
+Table Users {
+  id varchar [PK]
+  full_name varchar
+  email varchar [UNIQUE]
+  phone varchar [UNIQUE]
+  password varchar
+  role Role
+  avatar varchar
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table Admins {
+  id varchar [PK, ref: > Users.id]
+  is_system_admin boolean
+}
+
+Table Charities {
+  id varchar [PK, ref: > Users.id]
+  license_url varchar // URLs of verification images
+  verification_status VerificationStatus
+  rating decimal
+  campaign_count int [default: 0] // Total campaigns created
+  total_raised decimal [default: 0] // Total amount raised
+  created_at timestamp
+  updated_at timestamp // Last statistics update time
+}
+
+Table Campaigns {
+  id varchar [PK]
+  charity_id varchar [ref: > Charities.id]
+  title varchar
+  description text
+  status CampaignStatus
+  target_amount decimal
+  current_amount decimal
+  start_date timestamp
+  end_date timestamp
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  campaign_images varchar[] // URLs of campaign images
+}
+
+Table PaymentMethods {
+  id varchar [PK]
+  name varchar
+  code varchar
+}
+
+Table Donations {
+  id varchar [PK]
+  campaign_id varchar [ref: > Campaigns.id]
+  donor_id varchar [ref: > Users.id]
+  payment_method_id varchar [ref: > PaymentMethods.id]
+  amount decimal
+  note text
+  status PaymentStatus
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table Distributions {
+  id varchar [PK]
+  campaign_id varchar [ref: > Campaigns.id]
+  amount decimal
+  distribution_date timestamp
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  proof_images varchar[] // URLs of proof images
+}
+
+Table Comments {
+  id varchar [PK]
+  campaign_id varchar [ref: > Campaigns.id]
+  user_id varchar [ref: > Users.id]
+  content text
+  role Role // Role flag
+  created_at timestamp
+  updated_at timestamp
+}

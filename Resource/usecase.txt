@@ -46,8 +46,8 @@ Chức năng theo dõi và báo cáo: Tổ chức từ thiện, Người đóng 
 Chức năng phản hồi và đánh giá: 
    - Bình luận trên trang chiến dịch:
       + Bắt buộc có cờ vai_tro chỉ định role (VaiTro)
-      + Tùy chọn cờ la_nguoi_dong_gop với người đóng góp
-      + Tùy chọn cờ la_nguoi_nhan với người nhận
+      + Tùy chọn cờ da_dong_gop với người đóng góp (đã có đóng góp)
+      + Tùy chọn cờ da_nhan với người nhận (đã nhận rồi)
    - Đánh giá chiến dịch: chỉ dành cho người đóng góp đã đóng góp thành công
 
 Chiến dịch được quản lý bởi Tổ chức từ thiện:
@@ -109,7 +109,6 @@ Người nhận hỗ trợ:
    + Theo dõi chiến dịch:
       - Xem thông tin chi tiết
       - Bình luận với cờ la_nguoi_nhan
-   + Xem danh sách hỗ trợ đã nhận
 
 ==========================================================
 ==========================================================
@@ -119,9 +118,55 @@ Luồng chính:
 Chưa đăng nhập:
    - Trang chủ hiển thị đầy đủ tính năng, header
    - Chỉ có thể truy cập heatmap và newsfeed
-   - Các chức năng khác yêu cầu đăng nhập
+   - Các chức năng khác yêu cầu đăng nhập => nhảy đến trang đăng nhập
 
 Đã đăng nhập:
    - Trang chủ có thêm nút vào dashboard (khi bấm vào avatar)
    - Mỗi vai trò có dashboard riêng phân biệt với trang chủ hiện tại
    - Chặn truy cập các chức năng không được phép
+
+Tuy là có 1 admin và user thì có 3 cờ (quyên góp, nhận cứu trợ, tổ chức từ thiện) nhưng chỉ cần 1 khung dashboard duy nhất, vẫn dùng chung header và footer hiện tại.
+
+Thay nút "Trang chủ" trên haeder thành Dashboard. Sau khi đăng nhập sẽ tự điều hướng đến Dashboard, chưa đăng nhập thì bấm vào sẽ điều hướng đến trang đăng nhập.
+
+Dashboard ứng với đối tượng nào thì hiển thị tính năng mà đối tượng đó có thể dùng, danh sách tính năng nằm bên trái:
+   + Admin: danh sách tổ chức từ thiện (có xác nhận cho phép/không cho phép), Theo dõi báo cáo.
+   + Tổ chức từ thiện: danh sách tổ chức từ thiện, quản lý chiến dịch, theo dõi báo cáo.
+   + Người đóng góp: danh sách tổ chức từ thiện, Theo dõi báo cáo, Lịch sử đóng góp.
+   + Người nhận hỗ trợ: danh sách tổ chức từ thiện, Theo dõi báo cáo
+
+Chức năng theo dõi báo cáo:
+   - Liệt kê danh sách các chiến dịch
+   - Mỗi chiến dịch:
+      + Thông tin cơ bản
+      + Nút đóng góp
+      + Nút sao kê
+      + Nút chia sẻ (URL lên mxh)
+      + Phần mô tả
+      + Phần bình luận
+   - Phân trang
+
+Danh sách tổ chức từ thiện:
+   - liệt kê danh sách
+   - Mỗi tổ chứ từ thiện:
+      + Trạng thái xác minh
+      + thông tin cơ bản
+      + bình luận và đánh giá tổ chức từ thiện  (đánh giá bằng sao)
+      + Danh sách chiến dịch của tổ chức này
+   - Phân trang
+
+Quản lý chiến dịch:
+   - Danh sách các chiến dịch của tổ chức này
+      + Trạng thái
+      + Ngày bắt đầu
+      + Ngày kết thúc
+      + Ngày chỉnh sửa
+      + Nút sửa
+      + Nút xóa
+   - Nút thêm chiến dịch
+   - Phân trang
+
+Lịch sử đóng góp:
+   - Liệt kê lịch sử đóng góp theo số lần đóng góp
+
+Mỗi đối tượng có một trang cá nhân riêng để cập nhật thông tin.

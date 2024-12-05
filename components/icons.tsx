@@ -5,7 +5,13 @@ import {
   Twitter,
   Facebook,
   type Icon as LucideIcon,
-  User, // Thêm icon User
+  User,
+  Users,
+  FileText,
+  History,
+  Flag,
+  ClipboardList,
+  FileBarChart
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -23,5 +29,12 @@ export const Icons = {
       />
     </svg>
   ),
-  avatar: User, // Thêm icon Avatar
+  avatar: User,
+  user: User,
+  users: Users,
+  file: FileText,
+  history: History,
+  flag: Flag,
+  campaign: ClipboardList,
+  report: FileBarChart
 }

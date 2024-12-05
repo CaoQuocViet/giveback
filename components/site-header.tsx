@@ -12,7 +12,7 @@ export function SiteHeader() {
   const pathname = usePathname();
 
   const navItems = [
-    { href: "/", label: "Trang chủ" },
+    { href: "/dashboard", label: "Dashboard" },
     { href: "/donation", label: "Đóng góp" },
     { href: "/report", label: "Báo cáo" },
     { href: "/heatmap", label: "Bản đồ" },

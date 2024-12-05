@@ -31,24 +31,6 @@ Enum TrangThaiThanhToan {
   THATBAI
 }
 
-Enum LoaiHoTro {
-  TIEN
-  HANGHOA
-}
-
-Enum TrangThaiHoTro {
-  DANGCHO
-  DAPHANPHOI
-  DAXACNHAN
-}
-
-Enum LoaiBaoCao {
-  CHIENDICH
-  TOCHUC
-  DONGGOP
-  HOTRO
-}
-
 // Base tables
 Table NguoiDung {
   id varchar [PK]
@@ -71,27 +53,15 @@ Table QuanTriVien {
   la_quan_tri_he_thong boolean
 }
 
-Table NguoiDongGop {
-  id varchar [PK, ref: > NguoiDung.id]
-}
-
-Table NguoiNhanHoTro {
-  id varchar [PK, ref: > NguoiDung.id]
-  trang_thai_xac_thuc boolean
-}
-
 Table ToChucTuThien {
   id varchar [PK, ref: > NguoiDung.id]
-  giay_phep_url varchar
-  anh_xac_minh varchar[] // URLs của ảnh xác minh
+  giay_phep_url varchar // URLs của ảnh xác minh
   trang_thai_xac_thuc TrangThaiXacThuc
   diem_danh_gia decimal
   so_chien_dich int [default: 0] // Tổng số chiến dịch đã tạo
-  so_chien_dich_hoan_thanh int [default: 0] // Số chiến dịch đã kết thúc
   tong_so_tien_huy_dong decimal [default: 0] // Tổng số tiền đã huy động được
-  tong_so_tien_da_phan_phoi decimal [default: 0] // Tổng số tiền đã phân phối
-  so_nguoi_nhan_ho_tro int [default: 0] // Tổng số người đã nhận hỗ trợ
-  thoi_gian_cap_nhat_thong_ke timestamp // Thời điểm cập nhật thống kê gần nhất
+  thoi_gian_tao timestamp
+  thoi_gian_cap_nhat timestamp // Thời điểm cập nhật thống kê gần nhất
 }
 
 Table ChienDich {
@@ -100,7 +70,7 @@ Table ChienDich {
   tieu_de varchar
   mo_ta text
   trang_thai TrangThaiChienDich
-  so_tien_muc_tieu decimal
+  ngan_sach_du_kien decimal
   so_tien_hien_tai decimal
   ngay_bat_dau timestamp
   ngay_ket_thuc timestamp
@@ -108,26 +78,31 @@ Table ChienDich {
   quan_huyen varchar
   xa_phuong varchar
   dia_chi_chi_tiet varchar
-  danh_sach_anh varchar[] // URLs của ảnh chiến dịch
+  anh_chien_dich varchar[] // URLs của ảnh chiến dịch
+}
+
+Table LoaiThanhToan {
+  id varchar [PK]
+  ten varchar
+  ma_thanh_toan varchar
 }
 
 Table DongGop {
   id varchar [PK]
   id_chien_dich varchar [ref: > ChienDich.id]
-  id_nguoi_dong_gop varchar [ref: > NguoiDongGop.id]
+  id_nguoi_dong_gop varchar [ref: > NguoiDung.id]
+  id_loai_thanh_toan varchar [ref: > LoaiThanhToan.id]
   so_tien decimal
   ghi_chu text
   trang_thai TrangThaiThanhToan
   thoi_gian_tao timestamp
+  thoi_gian_cap_nhat timestamp
 }
 
 Table HoTro {
   id varchar [PK]
   id_chien_dich varchar [ref: > ChienDich.id]
-  id_nguoi_nhan varchar [ref: > NguoiNhanHoTro.id]
   so_tien decimal
-  loai_ho_tro LoaiHoTro
-  trang_thai TrangThaiHoTro
   thoi_gian_phan_phoi timestamp
   tinh varchar
   quan_huyen varchar
@@ -141,26 +116,7 @@ Table BinhLuan {
   id_chien_dich varchar [ref: > ChienDich.id]
   id_nguoi_dung varchar [ref: > NguoiDung.id]
   noi_dung text
-  la_nguoi_dong_gop boolean // Cờ đánh dấu người đóng góp
-  la_nguoi_nhan boolean // Cờ đánh dấu người nhận
   vai_tro VaiTro // Cờ role
   thoi_gian_tao timestamp
-}
-
-Table DanhGia {
-  id varchar [PK]
-  id_chien_dich varchar [ref: > ChienDich.id]
-  id_nguoi_dong_gop varchar [ref: > NguoiDongGop.id]
-  diem decimal
-  thoi_gian_tao timestamp
-}
-
-Table BaoCao {
-  id varchar [PK]
-  id_chien_dich varchar [ref: > ChienDich.id]
-  loai LoaiBaoCao
-  tom_tat jsonb
-  chi_tiet jsonb
-  thong_ke jsonb
-  thoi_gian_tao timestamp
+  thoi_gian_cap_nhat timestamp
 }

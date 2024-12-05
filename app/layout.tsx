@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { Providers } from "./providers"
 
 export const metadata: Metadata = {
   title: {
@@ -32,7 +33,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="vi" suppressHydrationWarning>
       <head />
       <body
         className={cn(
@@ -41,14 +42,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
         )}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="">
-            <SiteHeader />
-            <main className="">
-              {children}
-            </main>
-            <SiteFooter />
-          </div>
-          <TailwindIndicator />
+          <Providers>
+            <div className="">
+              <SiteHeader />
+              <main className="">
+                {children}
+              </main>
+              <SiteFooter />
+            </div>
+            <TailwindIndicator />
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
