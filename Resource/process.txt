@@ -1,0 +1,15 @@
+suprabase:ghjPAXFe3ODd63CW
+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
+node 20
+npm latest
+
+
+Chức năng chưa hoàn thành:
+
+Quản lý Chiến dịch (Ưu tiên #1)
+
+Đóng góp (Ưu tiên #2)
+
+Theo dõi và Báo cáo (Ưu tiên #3)
+
+Phản hồi và Đánh giá (Ưu tiên #4)
