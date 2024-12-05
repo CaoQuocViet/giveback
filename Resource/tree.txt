@@ -1,0 +1,5 @@
+app/ - Frontend Application: Chứa các pages và components của Next.js application
+
+components/ - Shared Components: Chứa các UI components có thể tái sử dụng
+
+server/ - Backend Services: code backend viết ở đây

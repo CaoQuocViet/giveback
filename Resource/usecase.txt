@@ -89,10 +89,10 @@ Tổ chức từ thiện:
    + Khi trang_thai_xac_thuc là DAXACTHUC:
       - Quản lý thông tin tổ chức
       - Quản lý chiến dịch:
-         * Xem danh sách chiến dịch
-         * Tạo chiến dịch mới
-         * Tạo đóng góp trung gian
-         * Tạo hỗ trợ mới
+         * Xem danh sách chiến dịch (của chính TCTT đã tạo trước đó)
+         * Tạo chiến dịch mới (chiến dịch kêu gọi đóng góp)
+         * Tạo đóng góp trung gian (đóng góp dùm, TCTN chỉ việc thêm record vào danh sách đóng góp)
+         * Tạo hỗ trợ mới (tạo một kế hoạch hỗ trợ: tốn bao nhiêu, cho vùng nào...)
       - Tạo báo cáo
 
 Người đóng góp:
@@ -123,5 +123,5 @@ Chưa đăng nhập:
 
 Đã đăng nhập:
    - Trang chủ có thêm nút vào dashboard (khi bấm vào avatar)
-   - Mỗi vai trò có dashboard riêng
+   - Mỗi vai trò có dashboard riêng phân biệt với trang chủ hiện tại
    - Chặn truy cập các chức năng không được phép

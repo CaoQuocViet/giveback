@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import PhoneAuth from "../../components/PhoneAuth";
+import PhoneAuth from "../../../components/auth/PhoneAuth";
 
 export default function Register() {
   const [email, setEmail] = useState("");

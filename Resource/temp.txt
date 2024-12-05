@@ -2,3 +2,25 @@ suprabase:ghjPAXFe3ODd63CW
 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
 node 20
 npm latest
+
+
+Chức năng chưa hoàn thành:
+
+Quản lý quyên góp:
+- Tạo và quản lý các chiến dịch quyên góp
+- Theo dõi số tiền
+- Xác nhận và phân phối cứu trợ
+
+Theo dõi và báo cáo:
+- Thống kê tổng số tiền/vật phẩm đã quyên góp
+- Báo cáo chi tiết theo người/ngày/tháng/tổ chức
+- Hiển thị số dư còn lại
+
+Quản lý chiến dịch cứu trợ:
+- Tạo chiến dịch mới
+- Cập nhật trạng thái
+- Thông báo tự động (SMS)
+
+Phản hồi và đánh giá:
+- Hệ thống gửi phản hồi
+- Đánh giá tình hình quyên góp

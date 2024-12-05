@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "server": "nodemon server.ts",
+    "server": "nodemon --exec ts-node --files server/index.ts",
     "dev:server": "concurrently \"npm run dev\" \"npm run server\"",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
