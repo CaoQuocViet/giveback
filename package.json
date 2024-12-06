@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "server": "nodemon --exec ts-node --files server/index.ts",
     "dev:server": "concurrently \"npm run dev\" \"npm run server\"",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -17,6 +16,7 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "^1.0.2",

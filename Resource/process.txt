@@ -5,11 +5,13 @@ npm latest
 
 
 Chức năng chưa hoàn thành:
+    - Quản lý Chiến dịch (Ưu tiên #1)
+    - Đóng góp (Ưu tiên #2)
+    - Theo dõi và Báo cáo (Ưu tiên #3)
+    - Phản hồi và Đánh giá (Ưu tiên #4)
 
-Quản lý Chiến dịch (Ưu tiên #1)
-
-Đóng góp (Ưu tiên #2)
-
-Theo dõi và Báo cáo (Ưu tiên #3)
-
-Phản hồi và Đánh giá (Ưu tiên #4)
+Công việc ngày 06/12:
+    - Làm sao để fit tất cả các feature trong trang chủ với các tính năng.
+    - Sửa lại cấu trúc hoặc tính năng của dashboard nếu cần.
+    - Map toàn bộ tính năng với CSDL
+    - Mang CSDL đã hoàn thiện đi hỏi anh Vương

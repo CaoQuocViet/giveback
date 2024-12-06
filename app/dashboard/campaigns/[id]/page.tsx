@@ -11,6 +11,7 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { marked } from "marked"
+import { DonateButton } from "@/components/campaigns/donate-button"
 
 // Cập nhật interface theo database schema
 interface Campaign {
@@ -254,6 +255,23 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
 
         {/* Sidebar */}
         <div className="space-y-6">
+          {/* Thông tin quyên góp */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div>
+                <div className="text-sm font-medium text-muted-foreground mb-1">
+                  Đã quyên góp được
+                </div>
+                <div className="text-2xl font-bold">
+                  {formatAmount(mockCampaign.currentAmount)} VNĐ
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  trên {formatAmount(mockCampaign.targetAmount)} VNĐ
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Thống kê */}
           <Card>
             <CardContent className="p-6 space-y-4">
@@ -279,14 +297,13 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
 
               {/* Actions */}
               <div className="space-y-2 pt-2">
-                <Button 
-                  className="w-full"
-                  disabled={mockCampaign.status !== 'ONGOING'}
-                  variant={mockCampaign.status === 'ONGOING' ? "default" : "secondary"}
-                >
-                  <DollarSign className="w-4 h-4 mr-2" />
-                  Đóng góp
-                </Button>
+                {mockCampaign.status === 'ONGOING' && (
+                  <DonateButton
+                    campaignId={mockCampaign.id}
+                    campaignTitle={mockCampaign.title}
+                    minAmount={10000}
+                  />
+                )}
 
                 <Button variant="outline" className="w-full">
                   <FileText className="w-4 h-4 mr-2" />

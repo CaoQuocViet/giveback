@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 // Mock user data
 const mockUser = {
   name: "Người dùng",
-  role: "DONOR", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
+  role: "BENEFICIARY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
   avatar: "/default-avatar.png"
 };
 
@@ -75,7 +75,7 @@ function getMenuByRole(role: string): MenuItem[] {
   switch (role) {
     case "ADMIN":
       return [
-        { label: "Thông tin cá nhân", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Thông tin quản trị", href: "/dashboard/profile", icon: Icons.user },
         { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
         { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
       ];

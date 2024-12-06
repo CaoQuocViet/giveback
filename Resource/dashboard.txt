@@ -1,0 +1,38 @@
+  switch (role) {
+    case "ADMIN":
+      return [
+        Bổ sung bổ sung trang: Xét duyệt tổ chức
+        { label: "Thông tin quản trị", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "CHARITY":
+      return [
+        Trang "Quản lý chiến dịch" gồm:
+            - Danh sách chiến dịch: [thông tin cơ bản - table]
+            - Xóa chiến dịch [Cần xét trạng thái]
+            - Sửa chiến dịch [Cần xét trạng thái]:
+                + [Thông tin chiến dịch]
+            - Nút Thêm chiến dịch
+                + [Thông tin chiến dịch]
+        { label: "Thông tin tổ chức", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Quản lý chiến dịch", href: "/dashboard/campaigns", icon: Icons.campaign },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "DONOR":
+      return [
+        { label: "Thông tin cá nhân", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Lịch sử đóng góp", href: "/dashboard/donations", icon: Icons.history },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "BENEFICIARY":
+      return [
+        { label: "Thông tin cá nhân", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    default:
+      return [];
+  }
