@@ -12,7 +12,7 @@ interface DashboardLayoutProps {
 // Mock user data
 const mockUser = {
   name: "Người dùng",
-  role: "BENEFICIARY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
+  role: "CHARITY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
   avatar: "/default-avatar.png"
 };
 

@@ -1,7 +1,10 @@
   switch (role) {
     case "ADMIN":
       return [
-        Bổ sung bổ sung trang: Xét duyệt tổ chức
+        Bổ sung bổ sung tính năng Xét duyệt tổ chức cho trang "Danh sách tổ chức":
+            - Xem danh Sách tổ chức từ thiện đang ở trạng thái Chưa Xác minh
+            - Vào trang chi tiết của tổ chức và bấm nút xác minh nếu chấp nhận thông tin license
+            - Bấm từ chối nếu không chấp nhận license
         { label: "Thông tin quản trị", href: "/dashboard/profile", icon: Icons.user },
         { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
         { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
@@ -12,9 +15,21 @@
             - Danh sách chiến dịch: [thông tin cơ bản - table]
             - Xóa chiến dịch [Cần xét trạng thái]
             - Sửa chiến dịch [Cần xét trạng thái]:
-                + [Thông tin chiến dịch]
+                + Ngày kết thúc
+                + Ngân sách dự kiến
+                + Thay đổi trạng thái (chỉ tăng không lùi)
+                + THay đổi mô tả chi tiết
+                + Thay đổi ảnh chiến dịch
             - Nút Thêm chiến dịch
-                + [Thông tin chiến dịch]
+                + Tên chiến dịch
+                + Địa điểm
+                + Ngày bắt đầu
+                + Ngày kết thúc
+                + Mục tiêu
+                + Ngân sách dự kiến
+                + Mô tả chi tiết
+                + Chọn trạng thái chiến dịch
+                + Chọn ảnh của chiến dịch
         { label: "Thông tin tổ chức", href: "/dashboard/profile", icon: Icons.user },
         { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
         { label: "Quản lý chiến dịch", href: "/dashboard/campaigns", icon: Icons.campaign },

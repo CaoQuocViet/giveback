@@ -63,12 +63,13 @@ CREATE TABLE Charities (
   updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- Thêm rating vào Campaigns
+-- Thêm rating, goal vào Campaigns
 CREATE TABLE Campaigns (
   id varchar PRIMARY KEY,
   charity_id varchar REFERENCES Charities(id),
   title varchar NOT NULL,
   description text,
+  goal text,
   status CampaignStatus NOT NULL DEFAULT 'STARTING',
   rating decimal DEFAULT 0,
   target_amount decimal NOT NULL,
