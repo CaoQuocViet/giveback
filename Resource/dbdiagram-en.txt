@@ -4,7 +4,7 @@
 //     + Data types: lowercase
 //     + Constraints: UPPERCASE
 
-// Enum definitions
+// Enums
 Enum Role {
   ADMIN
   DONOR
@@ -31,92 +31,101 @@ Enum PaymentStatus {
   FAILED
 }
 
-// Base tables
+// Tables
 Table Users {
-  id varchar [PK]
-  full_name varchar
-  email varchar [UNIQUE]
-  phone varchar [UNIQUE]
-  password varchar
-  role Role
+  id varchar [pk]
+  full_name varchar [not null]
+  email varchar [unique, not null]
+  phone varchar [unique, not null]
+  password varchar [not null]
+  role Role [not null]
   avatar varchar
   province varchar
   district varchar
   ward varchar
   address varchar
-  created_at timestamp
-  updated_at timestamp
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table Admins {
-  id varchar [PK, ref: > Users.id]
-  is_system_admin boolean
+  id varchar [pk, ref: > Users.id]
+  is_system_admin boolean [not null, default: false]
 }
 
 Table Charities {
-  id varchar [PK, ref: > Users.id]
-  license_url varchar // URLs of verification images
-  verification_status VerificationStatus
-  rating decimal
-  campaign_count int [default: 0] // Total campaigns created
-  total_raised decimal [default: 0] // Total amount raised
-  created_at timestamp
-  updated_at timestamp // Last statistics update time
+  id varchar [pk, ref: > Users.id]
+  title varchar [not null]
+  description text
+  license_description text
+  license_image_url varchar [not null]
+  verification_status VerificationStatus [not null, default: 'PENDING']
+  rating decimal [default: 0]
+  campaign_count int [default: 0]
+  total_raised decimal [default: 0]
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table Campaigns {
-  id varchar [PK]
+  id varchar [pk]
   charity_id varchar [ref: > Charities.id]
-  title varchar
+  title varchar [not null]
   description text
-  status CampaignStatus
-  target_amount decimal
-  current_amount decimal
-  start_date timestamp
-  end_date timestamp
+  detail_goal text
+  status CampaignStatus [not null, default: 'STARTING']
+  rating decimal [default: 0]
+  target_amount decimal [not null]
+  current_amount decimal [default: 0]
+  start_date timestamp [not null]
+  end_date timestamp [not null]
   province varchar
   district varchar
   ward varchar
   address varchar
-  campaign_images varchar[] // URLs of campaign images
+  images varchar[] [default: '{}']
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table PaymentMethods {
-  id varchar [PK]
-  name varchar
-  code varchar
+  id varchar [pk]
+  name varchar [not null]
+  transaction_code varchar [not null, unique]
 }
 
 Table Donations {
-  id varchar [PK]
+  id varchar [pk]
   campaign_id varchar [ref: > Campaigns.id]
   donor_id varchar [ref: > Users.id]
   payment_method_id varchar [ref: > PaymentMethods.id]
-  amount decimal
+  amount decimal [not null]
   note text
-  status PaymentStatus
-  created_at timestamp
-  updated_at timestamp
+  status PaymentStatus [not null, default: 'PENDING']
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table Distributions {
-  id varchar [PK]
+  id varchar [pk]
   campaign_id varchar [ref: > Campaigns.id]
-  amount decimal
-  distribution_date timestamp
+  amount decimal [not null]
+  distribution_date timestamp [not null]
   province varchar
   district varchar
   ward varchar
   address varchar
-  proof_images varchar[] // URLs of proof images
+  proof_images varchar[] [default: '{}']
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }
 
 Table Comments {
-  id varchar [PK]
+  id varchar [pk]
   campaign_id varchar [ref: > Campaigns.id]
   user_id varchar [ref: > Users.id]
-  content text
-  role Role // Role flag
-  created_at timestamp
-  updated_at timestamp
+  content text [not null]
+  role Role [not null]
+  created_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
+  updated_at timestamp [not null, default: `CURRENT_TIMESTAMP`]
 }

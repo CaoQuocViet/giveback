@@ -11,7 +11,15 @@ Chức năng chưa hoàn thành:
     - Phản hồi và Đánh giá (Ưu tiên #4)
 
 Công việc ngày 06/12:
-    - Làm sao để fit tất cả các feature trong trang chủ với các tính năng.
-    - Sửa lại cấu trúc hoặc tính năng của dashboard nếu cần.
-    - Map toàn bộ tính năng với CSDL
-    - Mang CSDL đã hoàn thiện đi hỏi anh Vương
+    - Làm sao để fit tất cả các feature trong trang chủ với các tính năng.  (-)
+    - Sửa lại cấu trúc hoặc tính năng của dashboard nếu cần.                (✓)
+    - Map toàn bộ tính năng với CSDL                                        (-)
+    - Mang CSDL đã hoàn thiện đi hỏi anh Vương                              (✓)
+Công việc ngày 07/12:
+    - Bảng Distributions có cần thêm trang riêng, làm chi tiết hơn không?
+    - Viết toàn bộ các Luồng
+    - Chọn luồng để viết backend trước
+    - Cái schema phải fit giữa index và DB, đừng có kiểu sửa table 1 kiểu, đánh index 1 kiểu khác
+    - Dùng orm tìm hiểu thêm sync hoặc migration cho đỡ phải export db vào source
+    - Cần giải quyết trường Distributions-proof_images
+    - Comment tính năng cho từng trường trong schema
