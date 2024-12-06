@@ -1,8 +1,8 @@
 "use client"
 
-import { useSession } from "next-auth/react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
@@ -14,9 +14,9 @@ import {
 import { formatDate, formatAmount } from "@/lib/utils"
 import Link from "next/link"
 import Image from "next/image"
-import { Phone, Mail, MapPin, FileText, Star } from "lucide-react"
+import { Phone, Mail, MapPin, FileText, Star, Check, XCircle } from "lucide-react"
 
-// Mock data
+// Cập nhật mock data
 const mockCharity = {
   // Thông tin từ bảng Users
   id: '1',
@@ -35,12 +35,12 @@ const mockCharity = {
   representativeName: 'Nguyễn Văn A',
   licenseDescription: 'Giấy phép hoạt động số 123/GP-BTXH',
   licenseUrl: '/documents/license.pdf',
-  verificationStatus: 'VERIFIED',
+  verificationStatus: 'PENDING',
   rating: 4.8,
   campaignCount: 150,
   totalRaised: 25000000000,
   licenseImageUrl: '/images/license.jpg',
-
+  
   // Danh sách chiến dịch
   campaigns: [
     {
@@ -64,10 +64,17 @@ const mockCharity = {
   ]
 }
 
+// Mock user data - có thể lấy từ useSession() sau này
+const mockUser = {
+  role: "CHARITY"
+};
+
 export default function CharityDetailPage({ params }: { params: { id: string } }) {
+  const isAdmin = mockUser.role === "ADMIN";
+
   return (
     <div className="h-full p-6 overflow-auto">
-      {/* Header với thông tin cơ bản */}
+      {/* Header */}
       <div className="mb-6 flex items-start gap-6">
         <div className="w-32 h-32 relative rounded-lg overflow-hidden">
           <Image
@@ -78,10 +85,37 @@ export default function CharityDetailPage({ params }: { params: { id: string } }
           />
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <h1 className="text-2xl font-bold">{mockCharity.title}</h1>
-            {mockCharity.verificationStatus === 'VERIFIED' && (
-              <Badge>Đã xác minh</Badge>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl font-bold">{mockCharity.title}</h1>
+              <Badge className={getVerificationStatusStyle(mockCharity.verificationStatus)}>
+                {getVerificationStatusLabel(mockCharity.verificationStatus)}
+              </Badge>
+            </div>
+            
+            {/* Thêm 2 nút cho ADMIN khi tổ chức đang ở trạng thái PENDING */}
+            {isAdmin && mockCharity.verificationStatus === 'PENDING' && (
+              <div className="flex gap-3">
+                <Button 
+                  variant="default"
+                  className="bg-green-500 hover:bg-green-600"
+                  onClick={() => {
+                    console.log('Verify charity:', params.id)
+                  }}
+                >
+                  <Check className="w-4 h-4 mr-2" />
+                  Xác thực
+                </Button>
+                <Button 
+                  variant="destructive"
+                  onClick={() => {
+                    console.log('Reject charity:', params.id)
+                  }}
+                >
+                  <XCircle className="w-4 h-4 mr-2" />
+                  Buộc dừng
+                </Button>
+              </div>
             )}
           </div>
           <p className="text-muted-foreground mb-4 max-w-2xl">
@@ -216,5 +250,27 @@ function getStatusLabel(status: string) {
     case 'CLOSED': return 'Đã đóng'
     case 'COMPLETED': return 'Đã kết thúc'
     default: return status
+  }
+}
+
+function getVerificationStatusStyle(status: string) {
+  switch (status) {
+    case 'VERIFIED':
+      return 'bg-green-100 text-green-800 border-green-200'
+    case 'REJECTED':
+      return 'bg-red-100 text-red-800 border-red-200'
+    default:
+      return 'bg-yellow-100 text-yellow-800 border-yellow-200'
+  }
+}
+
+function getVerificationStatusLabel(status: string) {
+  switch (status) {
+    case 'VERIFIED':
+      return 'Đã xác thực'
+    case 'REJECTED':
+      return 'Đã từ chối'
+    default:
+      return 'Chờ xác thực'
   }
 } 
