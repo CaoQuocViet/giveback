@@ -141,10 +141,10 @@ const mockCampaign: Campaign = {
     },
     {
       id: '2',
-      content: 'Cảm ơn mọi người đã quan tâm và ủng hộ chiến dịch. Chúng tôi sẽ cập nhật tiến độ thường xuyên.',
+      content: 'Cảm ơn mọi người đã quan tâm và ủng hộ chiến dịch. Chúng tôi xin cảm ơn rất nhiều vì sự giúp đỡ.',
       user: {
-        name: 'Hội Chữ thập đỏ Việt Nam',
-        role: 'CHARITY'
+        name: 'Jack',
+        role: 'BENEFICIARY'
       },
       createdAt: '2024-03-15T11:30:00Z'
     },
@@ -162,7 +162,7 @@ const mockCampaign: Campaign = {
       content: 'Đã chia sẻ thông tin chiến dịch trên các kênh truyền thông.',
       user: {
         name: 'Lê Văn C',
-        role: 'DONOR'
+        role: 'ADMIN'
       },
       createdAt: '2024-03-16T14:20:00Z'
     },
@@ -206,41 +206,66 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
           <Card>
             <CardContent className="p-6">
               <div className="grid md:grid-cols-2 gap-6">
-                {/* Ảnh chiến dịch */}
+                {/* Ảnh minh họa */}
                 <div className="aspect-video relative rounded-lg overflow-hidden">
                   <Image
-                    src={mockCampaign.images[0]}
+                    src="/campaign-image.jpg"
                     alt={mockCampaign.title}
                     fill
                     className="object-cover"
                   />
                 </div>
 
-                {/* Thông tin cơ bản */}
-                <div className="space-y-4 text-sm">
-                  <div>
-                    <div className="font-medium mb-1">Thời gian</div>
-                    <div>Bắt đầu: {formatDate(mockCampaign.startDate)}</div>
-                    <div>Kết thúc: {formatDate(mockCampaign.endDate)}</div>
+                {/* Thông tin bên phải */}
+                <div className="space-y-6">
+                  {/* Thời gian */}
+                  <div className="rounded-lg border bg-card p-4">
+                    <h3 className="font-medium mb-2">Thời gian</h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <span className="text-muted-foreground">Bắt đầu:</span>
+                        <div className="font-medium">{formatDate(mockCampaign.startDate)}</div>
+                      </div>
+                      <div>
+                        <span className="text-muted-foreground">Kết thúc:</span>
+                        <div className="font-medium">{formatDate(mockCampaign.endDate)}</div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <div className="font-medium mb-1">Địa điểm</div>
-                    <div>{mockCampaign.address}</div>
-                    <div>{mockCampaign.ward}, {mockCampaign.district}</div>
-                    <div>{mockCampaign.province}</div>
+                  {/* Địa điểm */}
+                  <div className="rounded-lg border bg-card p-4">
+                    <h3 className="font-medium mb-2">Địa điểm</h3>
+                    <div className="text-sm space-y-1">
+                      <div>{mockCampaign.address}</div>
+                      <div>{mockCampaign.ward}, {mockCampaign.district}</div>
+                      <div>{mockCampaign.province}</div>
+                    </div>
                   </div>
 
-                  <div>
-                    <div className="font-medium mb-1">Ngân sách</div>
-                    <div>Mục tiêu: {formatAmount(mockCampaign.targetAmount)} VNĐ</div>
-                    <div>Đã nhận: {formatAmount(mockCampaign.currentAmount)} VNĐ</div>
-                    <div>Tiến độ: {Math.round(progress)}%</div>
-                  </div>
-
-                  <div>
-                    <div className="font-medium mb-1">Đánh giá</div>
-                    <div>{mockCampaign.rating}/5 ⭐</div>
+                  {/* Ngân sách */}
+                  <div className="rounded-lg border bg-card p-4">
+                    <h3 className="font-medium mb-2">Ngân sách</h3>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Mục tiêu:</span>
+                        <span className="font-medium">{formatAmount(mockCampaign.targetAmount)} VNĐ</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Đã nhận:</span>
+                        <span className="font-medium">{formatAmount(mockCampaign.currentAmount)} VNĐ</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full">
+                        <div 
+                          className="h-full bg-primary rounded-full transition-all"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-muted-foreground">Tiến độ:</span>
+                        <span className="font-medium">{Math.round(progress)}%</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
