@@ -19,6 +19,7 @@ interface Campaign {
   charityId: string
   title: string
   description: string
+  detailGoal: string
   status: 'STARTING' | 'ONGOING' | 'CLOSED' | 'COMPLETED'
   targetAmount: number
   currentAmount: number
@@ -53,46 +54,60 @@ const mockCampaign: Campaign = {
   id: '1',
   charityId: '1',
   title: 'Hỗ trợ đồng bào miền Trung',
-  description: `# Chiến dịch hỗ trợ đồng bào miền Trung
+  description: `### Chiến dịch hỗ trợ đồng bào miền Trung
 
-## 1. Bối cảnh
-Sau đợt bão lũ vừa qua, nhiều địa phương tại miền Trung đã bị thiệt hại nặng nề về người và của. Nhiều gia đình đã mất nhà cửa, tài sản và phương tiện sinh kế.
-
-## 2. Mục tiêu
-- Hỗ trợ 1000 hộ gia đình bị ảnh hưởng bởi bão
-- Xây dựng lại 50 ngôi nhà bị hư hỏng nặng
-- Cung cấp nhu yếu phẩm và dụng cụ học tập cho trẻ em
-
-## 3. Đối tượng thụ hưởng
-- Hộ gia đình bị thiệt hại về nhà cửa
-- Hộ nghèo, cận nghèo bị ảnh hưởng
-- Học sinh có hoàn cảnh khó khăn
-
-## 4. Kế hoạch triển khai
-### Giai đoạn 1: Khảo sát (2 tuần)
-- Khảo sát thiệt hại
-- Lập danh sách hộ gia đình cần hỗ trợ
-- Xác định mức độ ưu tiên
-
-### Giai đoạn 2: Hỗ trợ khẩn cấp (1 tháng)
-- Phân phối nhu yếu phẩm
-- Hỗ trợ sửa chữa nhà tạm
-- Cấp phát dụng cụ học tập
-
-### Giai đoạn 3: Tái thiết (3 tháng)
-- Xây dựng nhà mới
-- Hỗ trợ phục hồi sinh kế
-- Theo dõi và đánh giá
-
-## 5. Ngân sách dự kiến
-- Xây nhà: 500.000.000 VNĐ
-- Nhu yếu phẩm: 300.000.000 VNĐ
-- Dụng cụ học tập: 200.000.000 VNĐ
-
-## 6. Kết quả mong đợi
-- 1000 hộ gia đình được hỗ trợ ổn định cuộc sống
-- 50 ngôi nhà được xây mới
-- 500 học sinh được hỗ trợ dụng cụ học tập`,
+  #### 1. Mục tiêu
+  Hỗ trợ đồng bào miền Trung sau bão lũ thông qua cung cấp nhu yếu phẩm, xây dựng nhà ở, và hỗ trợ học tập cho trẻ em nhằm giúp 1000 hộ gia đình phục hồi cuộc sống, xây mới 50 ngôi nhà, và đảm bảo dụng cụ học tập cho 500 học sinh.
+  
+  #### 2. Đối tượng thụ hưởng
+  - Hộ gia đình bị thiệt hại nặng
+  - Hộ nghèo, cận nghèo
+  - Trẻ em có hoàn cảnh khó khăn
+  
+  #### 3. Kết quả mong đợi
+  - 1000 hộ gia đình được hỗ trợ ổn định cuộc sống
+  - 50 ngôi nhà được xây mới
+  - 500 học sinh được hỗ trợ dụng cụ học tập`,
+  detailGoal: `### Chiến dịch hỗ trợ đồng bào miền Trung
+  
+  #### 1. Bối cảnh
+  Sau đợt bão lũ vừa qua, nhiều địa phương tại miền Trung đã bị thiệt hại nặng nề về người và của. Nhiều gia đình đã mất nhà cửa, tài sản và phương tiện sinh kế.
+  
+  #### 2. Mục tiêu
+  - Hỗ trợ 1000 hộ gia đình bị ảnh hưởng bởi bão
+  - Xây dựng lại 50 ngôi nhà bị hư hỏng nặng
+  - Cung cấp nhu yếu phẩm và dụng cụ học tập cho trẻ em
+  
+  #### 3. Đối tượng thụ hưởng
+  - Hộ gia đình bị thiệt hại về nhà cửa
+  - Hộ nghèo, cận nghèo bị ảnh hưởng
+  - Học sinh có hoàn cảnh khó khăn
+  
+  #### 4. Kế hoạch triển khai
+  ##### Giai đoạn 1: Khảo sát (2 tuần)
+  - Khảo sát thiệt hại
+  - Lập danh sách hộ gia đình cần hỗ trợ
+  - Xác định mức độ ưu tiên
+  
+  ##### Giai đoạn 2: Hỗ trợ khẩn cấp (1 tháng)
+  - Phân phối nhu yếu phẩm
+  - Hỗ trợ sửa chữa nhà tạm
+  - Cấp phát dụng cụ học tập
+  
+  ##### Giai đoạn 3: Tái thiết (3 tháng)
+  - Xây dựng nhà mới
+  - Hỗ trợ phục hồi sinh kế
+  - Theo dõi và đánh giá
+  
+  #### 5. Ngân sách dự kiến
+  - Xây nhà: 500.000.000 VNĐ
+  - Nhu yếu phẩm: 300.000.000 VNĐ
+  - Dụng cụ học tập: 200.000.000 VNĐ
+  
+  #### 6. Kết quả mong đợi
+  - 1000 hộ gia đình được hỗ trợ ổn định cuộc sống
+  - 50 ngôi nhà được xây mới
+  - 500 học sinh được hỗ trợ dụng cụ học tập`,  
   status: 'ONGOING',
   targetAmount: 1000000000,
   currentAmount: 750000000,
@@ -235,14 +250,23 @@ export default function CampaignDetailPage({ params }: { params: { id: string } 
           {/* Tabs cho nội dung chi tiết */}
           <Card>
             <CardContent className="p-6">
-              <Tabs defaultValue="plan">
+              <Tabs defaultValue="description">
                 <TabsList className="mb-4">
+                  <TabsTrigger value="description">Mô tả</TabsTrigger>
                   <TabsTrigger value="plan">Kế hoạch chi tiết</TabsTrigger>
                   <TabsTrigger value="comments">Bình luận</TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="plan" className="prose max-w-none">
-                  <div dangerouslySetInnerHTML={{ __html: marked.parse(mockCampaign.description) }} />
+                <TabsContent value="description">
+                  <div className="prose prose-sm md:prose-base lg:prose-lg prose-slate max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(mockCampaign.description) }} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="plan">
+                  <div className="prose prose-sm md:prose-base lg:prose-lg prose-slate max-w-none">
+                    <div dangerouslySetInnerHTML={{ __html: marked.parse(mockCampaign.detailGoal) }} />
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="comments">

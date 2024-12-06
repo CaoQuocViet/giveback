@@ -1,42 +1,69 @@
-import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 
-interface CommentListProps {
-  comments: Array<{
-    id: string
-    content: string
-    user: {
-      name: string
-      role: string
-    }
-    createdAt: string
-  }>
+interface Comment {
+  id: string
+  content: string
+  user: {
+    name: string
+    role: string
+  }
+  createdAt: string
 }
 
-export function CommentList({ comments }: CommentListProps) {
+function getRoleBadgeStyle(role: string) {
+  switch (role) {
+    case 'ADMIN':
+      return 'bg-red-100 text-red-800 border-red-200'
+    case 'CHARITY':
+      return 'bg-blue-100 text-blue-800 border-blue-200'
+    case 'DONOR':
+      return 'bg-green-100 text-green-800 border-green-200'
+    default:
+      return 'bg-gray-100 text-gray-800 border-gray-200'
+  }
+}
+
+function getRoleLabel(role: string) {
+  switch (role) {
+    case 'ADMIN':
+      return 'Quản trị viên'
+    case 'CHARITY':
+      return 'Tổ chức từ thiện'
+    case 'DONOR':
+      return 'Nhà hảo tâm'
+    default:
+      return role
+  }
+}
+
+export function CommentList({ comments }: { comments: Comment[] }) {
   return (
-    <div className="space-y-4">
-      <h4 className="font-medium">Bình luận</h4>
-      <div className="space-y-3">
-        {comments.map((comment) => (
-          <div key={comment.id} className="text-sm">
-            <div className="flex items-center gap-2">
-              {comment.user && (
-                <>
-                  <span className="font-medium">{comment.user.name}</span>
-                  <Badge variant="secondary" className="text-xs">
-                    {comment.user.role}
-                  </Badge>
-                </>
-              )}
-              <span className="text-muted-foreground">
+    <div className="space-y-6">
+      {comments.map((comment) => (
+        <div key={comment.id} className="flex gap-4 p-4 rounded-lg border bg-card">
+          {/* Avatar placeholder */}
+          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
+            <span className="text-lg font-medium">
+              {comment.user.name.charAt(0).toUpperCase()}
+            </span>
+          </div>
+
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-medium">{comment.user.name}</span>
+              <Badge className={`${getRoleBadgeStyle(comment.user.role)}`}>
+                {getRoleLabel(comment.user.role)}
+              </Badge>
+              <span className="text-sm text-muted-foreground">
                 {formatDate(comment.createdAt)}
               </span>
             </div>
-            <p className="mt-1">{comment.content}</p>
+            
+            <p className="text-sm whitespace-pre-wrap">{comment.content}</p>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   )
 }

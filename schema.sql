@@ -69,7 +69,7 @@ CREATE TABLE Campaigns (
   charity_id varchar REFERENCES Charities(id),
   title varchar NOT NULL,
   description text,
-  goal text,
+  detail_goal text,
   status CampaignStatus NOT NULL DEFAULT 'STARTING',
   rating decimal DEFAULT 0,
   target_amount decimal NOT NULL,

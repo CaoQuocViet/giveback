@@ -83,7 +83,7 @@ function getMenuByRole(role: string): MenuItem[] {
       return [
         { label: "Thông tin tổ chức", href: "/dashboard/profile", icon: Icons.user },
         { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
-        { label: "Quản lý chiến dịch", href: "/dashboard/campaigns", icon: Icons.campaign },
+        { label: "Quản lý chiến dịch", href: "/dashboard/charity/campaigns", icon: Icons.campaign },
         { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
       ];
     case "DONOR":
