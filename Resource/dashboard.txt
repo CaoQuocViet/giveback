@@ -14,17 +14,17 @@
          + Mật khẩu (Users-password)
          + Họ tên | Người đại diện (Users-full_name)
          + Role (DONOR/CHARITY/BENEFICIARY)
-         + Thông tin địa chỉ (tỉnh/huyện/xã/số nhà-ấp/phường)
+         + Thông tin địa chỉ (tỉnh/huyện/xã/số nhà-ấp|phường) (province, district, ward, adress)
    - Nếu role là CHARITY:
-      + Thêm trường tên tổ chức (title)
-      + Thêm trường mô tả (description)
-      + Số giấy phép hoạt động (license_number)
-      + Ngày cấp giấy phép (license_date)
-      + Cơ quan cấp phép (license_issuer)
-      + Upload giấy phép hoạt động
+      + Thêm trường tên tổ chức (Charities-title)
+      + Thêm trường mô tả (Charities-description)
+      + Số giấy phép hoạt động (Charities-license_number)
+      + Ngày cấp giấy phép (Charities-license_date)
+      + Cơ quan cấp phép (Charities-license_issuer)
+      + Upload giấy phép hoạt động (Charities-license_image_url)
 
 3. Đăng nhập (/auth/login)
-   - Đăng nhập bằng email/phone + password
+   - Đăng nhập bằng email/phone + password (Users-email/Users-phone + Users-password)
    - Sau khi đăng nhập thành công:
      + Chuyển đến dashboard tương ứng với role
      + Set token vào cookie/localStorage
@@ -45,7 +45,7 @@
    
 3. Chi tiết tổ chức (/dashboard/charities/[id])
    - Xem thông tin chi tiết tổ chức
-   - Xác thực nếu tổ chức đang PENDING: chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
+   - Xác thực nếu tổ chức đang PENDING (Charities-verification_status): chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
       + Nút "Xác thực" -> Chuyển status thành VERIFIED
       + Nút "Buộc dừng" -> Chuyển status thành REJECTED
    - Xem danh sách chiến dịch của tổ chức 
@@ -142,6 +142,38 @@
       + Ngày cứu trợ (Distributions-relief_date)
       + Địa điểm(Distributions-adress, ward, district, province)
       + Hình ảnh chứng minh (Distributions-proof_images)
+    - Nút "Tạo khoản đóng góp" -> Mở form tạo đóng góp trung gian (Tức là đóng góp dùm, TCTN chỉ việc thêm record giao dịch vào danh sách đóng góp):
+         * Số tiền đóng góp (Donations-amount)
+         * Tên người đóng góp (không bắt buộc, chỉ để hiển thị)
+         * Ghi chú (không bắt buộc)
+         * Tự động set:
+           - status = SUCCESS
+           - payment_method_id = NULL 
+           - payment_transaction_id = NULL
+           - invoice_code = "CHARITY_CREATED_" + random_string
+           - donor_id = 'system_donor'
+           - note = `Đóng góp trực tiếp qua ${charity_name}${donor_name ? ` - ${donor_name}` : ''}`
+
+    - Chiến dịch được quản lý bởi Tổ chức từ thiện (Campaigns-status):
+      + Trạng thái:
+          * STARTING:
+            - Không nhận đóng góp
+            - Không trao hỗ trợ
+            - Cho phép xóa/sửa thông tin
+          * ONGOING:
+            - Nhận đóng góp
+            - Cho phép trao hỗ trợ
+            - Không cho xóa
+            - Cho phép sửa thông tin
+          * CLOSED:
+            - Không nhận đóng góp
+            - Cho phép trao hỗ trợ
+            - Không cho xóa
+            - Cho phép sửa thông tin
+          * COMPLETED:
+            - Không nhận đóng góp
+            - Không trao hỗ trợ
+            - Không cho xóa/sửa
 
 3. Danh sách tổ chức (/dashboard/charities)
    - Xem danh sách tất cả tổ chức từ thiện
@@ -359,51 +391,3 @@
      + Báo cáo đóng góp (hiển thị số lượng số lượng người đóng góp): mỗi bảng trong báo là 1 người đóng góp
      + Báo cáo hỗ trợ (hiển thị số lượng số lượng đợt hỗ trợ): mỗi bảng trong báo cáo là một đợt hỗ trợ
    - Export báo cáo (PDF/Excel)
-
-================== LUỒNG XỬ LÝ CHÍNH ==================
-
-1. Xác thực tổ chức:
-   PENDING -> Admin xác thực -> VERIFIED/REJECTED
-
-2. Quản lý chiến dịch:
-   STARTING -> Tổ chức bắt đầu -> ONGOING -> 
-   (Hết hạn/Đủ tiền) -> CLOSED -> 
-   (Đã phân phối hết) -> COMPLETED
-
-3. Đóng góp:
-   Chọn chiến dịch -> Nhập thông tin đóng góp ->
-   PENDING -> Thanh toán thành công -> SUCCESS/FAILED ->
-   Cập nhật số tiền cho chiến dịch
-
-4. Phân phối hỗ trợ:
-   Tạo kế hoạch phân phối -> Upload bằng chứng ->
-   Người nhận xác nhận -> Cập nhật trạng thái
-
-================== LUỒNG ĐÁNH GIÁ ==================
-
-1. Đánh giá chiến dịch:
-   - Tất cả user (ADMIN/DONOR/CHARITY/BENEFICIARY) đều có thể đánh giá
-   - Flow đánh giá:
-     + User comment về chiến dịch 
-     + Chọn số sao (0-5)
-     + Backend tạo rating mới liên kết với comment
-     + Trigger tính lại rating trung bình của chiến dịch:
-       > Lấy tất cả rating của chiến dịch
-       > Tính trung bình và cập nhật vào campaigns.rating
-       > Trigger tính lại rating của tổ chức:
-         * Lấy rating trung bình của tất cả chiến dịch của tổ chức
-         * Cập nhật vào charities.rating
-
-2. Hiển thị rating:
-   - Trang chi tiết chiến dịch:
-     + Hiển thị số sao trung bình
-     + Danh sách comment có rating
-     + Filter comment theo số sao
-   - Trang chi tiết tổ chức:
-     + Hiển thị số sao trung bình (tính từ rating các chiến dịch)
-     + Top chiến dịch được đánh giá cao
-
-3. Query tối ưu:
-   - Dùng materialized view để cache rating trung bình
-   - Chỉ tính lại khi có rating mới
-   - Index cho các trường thường query

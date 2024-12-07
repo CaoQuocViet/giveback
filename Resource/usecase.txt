@@ -1,172 +1,94 @@
-Role:
-   + Admin: Tự thêm vào hệ thống
-   + Người đóng góp: chọn Role lúc đăng kí
-   + Tổ chức từ thiện: chọn Role lúc đăng kí
-   + Người nhận hỗ trợ: chọn Role lúc đăng kí
+ADMIN: Tự thêm vào hệ thống
+1. Quản lý tài khoản:
+   - Xem/Sửa thông tin cá nhân
+   - Đổi mật khẩu
 
-Đăng kí: xác thực OTP
-   1. Người dùng truy cập trang đăng ký tài khoản.
-   2. Nhập thông tin tài khoản: họ tên, email, số điện thoại, mật khẩu
-      o Cho phép chọn vai trò là tổ chức từ thiện:
-         + Phải tải lên giấy phép hoạt động và ảnh xác minh
-         + Trạng thái xác thực mặc định là DANGCHO
-         + Điểm đánh giá mặc định là 0
-      o Cho phép chọn vai trò là người đóng góp
-      o Cho phép chọn vai trò là người nhận hỗ trợ:
-         + Trạng thái xác thực mặc định là false
-   3. Hệ thống kiểm tra trùng lặp thông tin (email, số điện thoại).
-   4. Người dùng gửi yêu cầu đăng ký.
-   5. Hệ thống gởi OTP đến số điện thoại.
-   6. Người dùng nhập mã OTP trong vòng 3 phút.
-   7. Hệ thống xác minh OTP.
-   8. Đăng ký thành công, chuyển đến trang đăng nhập.
+2. Quản lý tổ chức:
+   - Xem danh sách tổ chức từ thiện
+   - Xác thực tổ chức (PENDING -> VERIFIED/REJECTED)
+   - Xem chi tiết thông tin tổ chức
 
-Đăng nhập: nhập email + mật khẩu
+3. Quản lý chiến dịch:
+   - Xem danh sách tất cả chiến dịch
+   - Xem chi tiết chiến dịch
+   - Theo dõi tiến độ chiến dịch
+   - Xem sao kê đóng góp
 
-==========================================================
-==========================================================
+4. Báo cáo thống kê:
+   - Xem báo cáo theo chiến dịch
+   - Xem báo cáo theo tổ chức
+   - Xem báo cáo đóng góp
+   - Xem báo cáo hỗ trợ
+   - Xuất báo cáo (PDF/Excel)
 
-Chức năng news và heatmap đã được làm xong rồi, nó hoạt động ở mọi trường hợp đăng nhập/chưa đăng nhập/mọi vai trò và không cần đề cập đến.
+CHARITY: chọn Role lúc đăng kí
+1. Quản lý tổ chức:
+   - Xem/Sửa thông tin tổ chức
+   - Upload/Cập nhật giấy phép
+   - Xem trạng thái xác thực
 
-Chức năng đóng góp: chỉ dành cho người đóng góp
-   - Tích hợp Zalopay API
-   - Quy trình thanh toán:
-      + Chọn số tiền đóng góp
-      + Xác nhận giao dịch
-      + Xử lý callback từ Zalopay
-      + Cập nhật trạng thái đóng góp (DANGCHO/THANHCONG/THATBAI)
+2. Quản lý chiến dịch:
+   - Tạo chiến dịch mới
+   - Quản lý chiến dịch của tổ chức
+   - Cập nhật thông tin chiến dịch
+   - Xem danh sách tất cả chiến dịch
+   - Xem chi tiết chiến dịch
 
-Chức năng theo dõi và báo cáo: Tổ chức từ thiện, Người đóng góp, người nhận, Admin
-   - Báo cáo theo chiến dịch (LoaiBaoCao.CHIENDICH)
-   - Báo cáo tổng hợp theo tổ chức (LoaiBaoCao.TOCHUC)
-   - Báo cáo đóng góp (LoaiBaoCao.DONGGOP)
-   - Báo cáo hỗ trợ (LoaiBaoCao.HOTRO)
-   - Xuất báo cáo PDF/Excel
+3. Quản lý phân phối:
+   - Tạo kế hoạch phân phối
+   - Upload bằng chứng phân phối
+   - Theo dõi trạng thái phân phối
 
-Chức năng phản hồi và đánh giá: 
-   - Bình luận trên trang chiến dịch:
-      + Bắt buộc có cờ vai_tro chỉ định role (VaiTro)
-      + Tùy chọn cờ da_dong_gop với người đóng góp (đã có đóng góp)
-      + Tùy chọn cờ da_nhan với người nhận (đã nhận rồi)
-   - Đánh giá chiến dịch: chỉ dành cho người đóng góp đã đóng góp thành công
+4. Báo cáo thống kê:
+   - Xem báo cáo theo chiến dịch
+   - Xem báo cáo tổng hợp
+   - Xem báo cáo đóng góp
+   - Xem báo cáo hỗ trợ
+   - Xuất báo cáo (PDF/Excel)
 
-Chiến dịch được quản lý bởi Tổ chức từ thiện:
-   + Trạng thái:
-      * KHOIDONG:
-         - Không nhận đóng góp
-         - Không trao hỗ trợ
-         - Cho phép xóa/sửa thông tin
-      * DANGKEUGOI:
-         - Nhận đóng góp
-         - Cho phép trao hỗ trợ
-         - Không cho xóa
-         - Cho phép sửa thông tin
-      * DADONG:
-         - Không nhận đóng góp
-         - Cho phép trao hỗ trợ
-         - Không cho xóa
-         - Cho phép sửa thông tin
-      * DAKETTHUC:
-         - Không nhận đóng góp
-         - Không trao hỗ trợ
-         - Không cho xóa/sửa
+DONOR: chọn Role lúc đăng kí
+1. Quản lý tài khoản:
+   - Xem/Sửa thông tin cá nhân
+   - Đổi mật khẩu
 
-   + Nút chia sẻ chiến dịch lên mạng xã hội
+2. Đóng góp:
+   - Xem danh sách chiến dịch
+   - Đóng góp qua ZaloPay
+   - Xem lịch sử đóng góp
+   - Theo dõi trạng thái đóng góp
 
-==========================================================
-==========================================================
+3. Tương tác:
+   - Xem danh sách tổ chức
+   - Xem chi tiết tổ chức
+   - Bình luận và đánh giá chiến dịch
+   - Chia sẻ chiến dịch
 
-Admin:
-   + Xác thực tổ chức từ thiện: cập nhật trang_thai_xac_thuc (DAXACTHUC/TUCHOI)
-   + Xem danh sách tổ chức từ thiện đã được duyệt
-   + Giám sát chiến dịch:
-      - Thông tin cơ bản
-      - Thống kê thu chi
-   
-Tổ chức từ thiện:
-   + Xem danh sách tổ chức từ thiện đã được duyệt
-   + Khi trang_thai_xac_thuc là DANGCHO hoặc TUCHOI: không tạo và quản lý chiến dịch được
-   + Khi trang_thai_xac_thuc là DAXACTHUC:
-      - Quản lý thông tin tổ chức
-      - Quản lý chiến dịch:
-         * Xem danh sách chiến dịch (của chính TCTT đã tạo trước đó)
-         * Tạo chiến dịch mới (chiến dịch kêu gọi đóng góp)
-         * Tạo đóng góp trung gian (đóng góp dùm, TCTN chỉ việc thêm record vào danh sách đóng góp)
-         * Tạo hỗ trợ mới (tạo một kế hoạch hỗ trợ: tốn bao nhiêu, cho vùng nào...)
-      - Tạo báo cáo
+4. Báo cáo thống kê:
+   - Xem báo cáo theo chiến dịch
+   - Xem báo cáo tổng hợp
+   - Xem báo cáo đóng góp
+   - Xem báo cáo hỗ trợ
+   - Xuất báo cáo (PDF/Excel)
 
-Người đóng góp:
-   + Xem lịch sử đóng góp
-   + Xem danh sách tổ chức từ thiện đã được duyệt
-   + Theo dõi chiến dịch:
-      - Xem thông tin chi tiết
-      - Bình luận với cờ la_nguoi_dong_gop
-      - Đánh giá chiến dịch
-   + Đóng góp qua Zalopay
+BENEFICIARY: chọn Role lúc đăng kí
+1. Quản lý tài khoản:
+   - Xem/Sửa thông tin cá nhân
+   - Đổi mật khẩu
 
-Người nhận hỗ trợ:
-   + Xem danh sách tổ chức từ thiện đã được duyệt
-   + Theo dõi chiến dịch:
-      - Xem thông tin chi tiết
-      - Bình luận với cờ la_nguoi_nhan
+2. Theo dõi hỗ trợ:
+   - Xem danh sách chiến dịch
+   - Xem chi tiết chiến dịch
+   - Xác nhận nhận hỗ trợ
 
-==========================================================
-==========================================================
+3. Tương tác:
+   - Xem danh sách tổ chức
+   - Xem chi tiết tổ chức
+   - Bình luận và đánh giá chiến dịch
+   - Chia sẻ chiến dịch
 
-Luồng chính:
-
-Chưa đăng nhập:
-   - Trang chủ hiển thị đầy đủ tính năng, header
-   - Chỉ có thể truy cập heatmap và newsfeed
-   - Các chức năng khác yêu cầu đăng nhập => nhảy đến trang đăng nhập
-
-Đã đăng nhập:
-   - Trang chủ có thêm nút vào dashboard (khi bấm vào avatar)
-   - Mỗi vai trò có dashboard riêng phân biệt với trang chủ hiện tại
-   - Chặn truy cập các chức năng không được phép
-
-Tuy là có 1 admin và user thì có 3 cờ (quyên góp, nhận cứu trợ, tổ chức từ thiện) nhưng chỉ cần 1 khung dashboard duy nhất, vẫn dùng chung header và footer hiện tại.
-
-Thay nút "Trang chủ" trên haeder thành Dashboard. Sau khi đăng nhập sẽ tự điều hướng đến Dashboard, chưa đăng nhập thì bấm vào sẽ điều hướng đến trang đăng nhập.
-
-Dashboard ứng với đối tượng nào thì hiển thị tính năng mà đối tượng đó có thể dùng, danh sách tính năng nằm bên trái:
-   + Admin: danh sách tổ chức từ thiện (có xác nhận cho phép/không cho phép), Theo dõi báo cáo.
-   + Tổ chức từ thiện: danh sách tổ chức từ thiện, quản lý chiến dịch, theo dõi báo cáo.
-   + Người đóng góp: danh sách tổ chức từ thiện, Theo dõi báo cáo, Lịch sử đóng góp.
-   + Người nhận hỗ trợ: danh sách tổ chức từ thiện, Theo dõi báo cáo
-
-Chức năng theo dõi báo cáo:
-   - Liệt kê danh sách các chiến dịch
-   - Mỗi chiến dịch:
-      + Thông tin cơ bản
-      + Nút đóng góp
-      + Nút sao kê
-      + Nút chia sẻ (URL lên mxh)
-      + Phần mô tả
-      + Phần bình luận
-   - Phân trang
-
-Danh sách tổ chức từ thiện:
-   - liệt kê danh sách
-   - Mỗi tổ chứ từ thiện:
-      + Trạng thái xác minh
-      + thông tin cơ bản
-      + bình luận và đánh giá tổ chức từ thiện  (đánh giá bằng sao)
-      + Danh sách chiến dịch của tổ chức này
-   - Phân trang
-
-Quản lý chiến dịch:
-   - Danh sách các chiến dịch của tổ chức này
-      + Trạng thái
-      + Ngày bắt đầu
-      + Ngày kết thúc
-      + Ngày chỉnh sửa
-      + Nút sửa
-      + Nút xóa
-   - Nút thêm chiến dịch
-   - Phân trang
-
-Lịch sử đóng góp:
-   - Liệt kê lịch sử đóng góp theo số lần đóng góp
-
-Mỗi đối tượng có một trang cá nhân riêng để cập nhật thông tin.
+4. Báo cáo thống kê:
+   - Xem báo cáo theo chiến dịch
+   - Xem báo cáo tổng hợp
+   - Xem báo cáo đóng góp
+   - Xem báo cáo hỗ trợ
+   - Xuất báo cáo (PDF/Excel)
