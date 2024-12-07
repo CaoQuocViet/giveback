@@ -1,94 +1,147 @@
-ADMIN: Tự thêm vào hệ thống
-1. Quản lý tài khoản:
-   - Xem/Sửa thông tin cá nhân
-   - Đổi mật khẩu
+Actor: ADMIN
+Usecase: Xác thực tổ chức từ thiện
+1. Preconditions:
+   - Admin đã đăng nhập vào hệ thống
+   - Tổ chức cần xác thực đang ở trạng thái PENDING
+   - Tổ chức đã upload đầy đủ giấy tờ
+2. Main Flow:
+   a. Admin truy cập trang danh sách tổ chức (/dashboard/charities)
+   b. Admin lọc danh sách theo trạng thái PENDING
+   c. Admin chọn xem chi tiết một tổ chức
+   d. Hệ thống hiển thị thông tin chi tiết:
+      - Thông tin cơ bản (tên, mô tả, địa chỉ)
+      - Giấy phép hoạt động (số, ngày cấp, cơ quan cấp)
+      - File scan giấy phép
+   e. Admin kiểm tra tính hợp lệ của giấy tờ
+   f. Admin quyết định xác thực hoặc từ chối
+3. Alternative Flows:
+   3.1. Xác thực thành công:
+      a. Cập nhật trạng thái tổ chức thành VERIFIED
+      b. Gửi email thông báo cho tổ chức
+   3.2. Từ chối xác thực:
+      a. Cập nhật trạng thái tổ chức thành REJECTED
+      b. Gửi email thông báo kèm lý do từ chối
+4. Postconditions:
+   - Trạng thái tổ chức được cập nhật
+   - Tổ chức nhận được email thông báo
+   - Lịch sử xác thực được lưu lại
 
-2. Quản lý tổ chức:
-   - Xem danh sách tổ chức từ thiện
-   - Xác thực tổ chức (PENDING -> VERIFIED/REJECTED)
-   - Xem chi tiết thông tin tổ chức
+Actor: CHARITY
+Usecase: Tạo chiến dịch mới
+1. Preconditions:
+   - Tổ chức đã đăng nhập vào hệ thống
+   - Tổ chức đã được xác thực (VERIFIED)
+2. Main Flow:
+   a. Tổ chức truy cập trang tạo chiến dịch mới
+   b. Nhập thông tin chiến dịch:
+      - Tên chiến dịch (bắt buộc)
+      - Mô tả chi tiết (bắt buộc)
+      - Upload hình ảnh minh họa
+      - Ngân sách mục tiêu (bắt buộc)
+      - Thời gian bắt đầu/kết thúc (bắt buộc)
+      - Địa điểm thực hiện (bắt buộc)
+      - Kế hoạch chi tiết (bắt buộc)
+   c. Hệ thống kiểm tra tính hợp lệ của thông tin
+   d. Tổ chức xác nhận tạo chiến dịch
+3. Alternative Flows:
+   3.1. Thông tin không hợp lệ:
+      a. Hệ thống hiển thị thông báo lỗi
+      b. Quay lại bước nhập thông tin
+   3.2. Tổ chức chưa được xác thực:
+      a. Hiển thị thông báo cần được xác thực
+      b. Chuyển đến trang quản lý tổ chức
+4. Postconditions:
+   - Chiến dịch được tạo với trạng thái STARTING
+   - Hiển thị trong danh sách chiến dịch của tổ chức
+   - Có thể chỉnh sửa/xóa khi đang STARTING
 
-3. Quản lý chiến dịch:
-   - Xem danh sách tất cả chiến dịch
-   - Xem chi tiết chiến dịch
-   - Theo dõi tiến độ chiến dịch
-   - Xem sao kê đóng góp
+Usecase: Quản lý phân phối cứu trợ
+1. Preconditions:
+   - Tổ chức đã đăng nhập
+   - Chiến dịch đang ở trạng thái CLOSED
+2. Main Flow:
+   a. Tổ chức tạo kế hoạch phân phối:
+      - Tên đợt phân phối
+      - Ngày thực hiện
+      - Địa điểm
+      - Số lượng người nhận
+      - Ngân sách dự kiến
+   b. Upload bằng chứng phân phối:
+      - Hình ảnh thực tế
+      - Danh sách người nhận
+      - Biên bản bàn giao
+   c. Hệ thống kiểm tra và xác nhận
+3. Alternative Flows:
+   3.1. Thông tin không đầy đủ:
+      a. Hiển thị thông báo lỗi
+      b. Yêu cầu bổ sung thông tin
+4. Postconditions:
+   - Thông tin phân phối được lưu lại
+   - Cập nhật trạng thái chiến dịch nếu đã phân phối hết
 
-4. Báo cáo thống kê:
-   - Xem báo cáo theo chiến dịch
-   - Xem báo cáo theo tổ chức
-   - Xem báo cáo đóng góp
-   - Xem báo cáo hỗ trợ
-   - Xuất báo cáo (PDF/Excel)
+Actor: DONOR
+Usecase: Đóng góp cho chiến dịch
+1. Preconditions:
+   - Người dùng đã đăng nhập với role DONOR
+   - Chiến dịch đang ở trạng thái ONGOING
+   - Đã tích hợp cổng thanh toán ZaloPay
+2. Main Flow:
+   a. Donor chọn chiến dịch muốn đóng góp
+   b. Hệ thống hiển thị form đóng góp:
+      - Số tiền đóng góp (bắt buộc)
+      - Lời nhắn (không bắt buộc)
+   c. Donor xác nhận thông tin
+   d. Chuyển đến cổng thanh toán ZaloPay
+   e. Donor thực hiện thanh toán
+   f. ZaloPay callback về hệ thống
+3. Alternative Flows:
+   3.1. Thanh toán thành công:
+      a. Cập nhật số tiền hiện tại của chiến dịch
+      b. Lưu thông tin đóng góp vào DB
+      c. Gửi email xác nhận cho donor
+      d. Hiển thị thông báo thành công
+   3.2. Thanh toán thất bại:
+      a. Lưu log giao dịch thất bại
+      b. Hiển thị thông báo lỗi
+      c. Cho phép thử lại
+4. Postconditions:
+   - Thông tin đóng góp được lưu lại
+   - Số tiền chiến dịch được cập nhật
+   - Donor nhận được email xác nhận
 
-CHARITY: chọn Role lúc đăng kí
-1. Quản lý tổ chức:
-   - Xem/Sửa thông tin tổ chức
-   - Upload/Cập nhật giấy phép
-   - Xem trạng thái xác thực
+Actor: BENEFICIARY
+Usecase: Xác nhận nhận cứu trợ
+1. Preconditions:
+   - Người dùng đã đăng nhập với role BENEFICIARY
+   - Đã được đăng ký trong danh sách nhận cứu trợ
+2. Main Flow:
+   a. Người nhận xác nhận thông tin:
+      - Thông tin cá nhân
+      - Số lượng/giá trị nhận được
+      - Thời gian và địa điểm
+   b. Upload hình ảnh xác nhận (nếu cần)
+   c. Ký biên bản nhận cứu trợ
+3. Alternative Flows:
+   3.1. Thông tin không chính xác:
+      a. Báo cáo sai lệch
+      b. Yêu cầu kiểm tra lại
+4. Postconditions:
+   - Cập nhật trạng thái nhận cứu trợ
+   - Lưu lại bằng chứng xác nhận
 
-2. Quản lý chiến dịch:
-   - Tạo chiến dịch mới
-   - Quản lý chiến dịch của tổ chức
-   - Cập nhật thông tin chiến dịch
-   - Xem danh sách tất cả chiến dịch
-   - Xem chi tiết chiến dịch
-
-3. Quản lý phân phối:
-   - Tạo kế hoạch phân phối
-   - Upload bằng chứng phân phối
-   - Theo dõi trạng thái phân phối
-
-4. Báo cáo thống kê:
-   - Xem báo cáo theo chiến dịch
-   - Xem báo cáo tổng hợp
-   - Xem báo cáo đóng góp
-   - Xem báo cáo hỗ trợ
-   - Xuất báo cáo (PDF/Excel)
-
-DONOR: chọn Role lúc đăng kí
-1. Quản lý tài khoản:
-   - Xem/Sửa thông tin cá nhân
-   - Đổi mật khẩu
-
-2. Đóng góp:
-   - Xem danh sách chiến dịch
-   - Đóng góp qua ZaloPay
-   - Xem lịch sử đóng góp
-   - Theo dõi trạng thái đóng góp
-
-3. Tương tác:
-   - Xem danh sách tổ chức
-   - Xem chi tiết tổ chức
-   - Bình luận và đánh giá chiến dịch
-   - Chia sẻ chiến dịch
-
-4. Báo cáo thống kê:
-   - Xem báo cáo theo chiến dịch
-   - Xem báo cáo tổng hợp
-   - Xem báo cáo đóng góp
-   - Xem báo cáo hỗ trợ
-   - Xuất báo cáo (PDF/Excel)
-
-BENEFICIARY: chọn Role lúc đăng kí
-1. Quản lý tài khoản:
-   - Xem/Sửa thông tin cá nhân
-   - Đổi mật khẩu
-
-2. Theo dõi hỗ trợ:
-   - Xem danh sách chiến dịch
-   - Xem chi tiết chiến dịch
-   - Xác nhận nhận hỗ trợ
-
-3. Tương tác:
-   - Xem danh sách tổ chức
-   - Xem chi tiết tổ chức
-   - Bình luận và đánh giá chiến dịch
-   - Chia sẻ chiến dịch
-
-4. Báo cáo thống kê:
-   - Xem báo cáo theo chiến dịch
-   - Xem báo cáo tổng hợp
-   - Xem báo cáo đóng góp
-   - Xem báo cáo hỗ trợ
-   - Xuất báo cáo (PDF/Excel)
+Usecase chung: Tương tác cộng đồng
+1. Preconditions:
+   - Người dùng đã đăng nhập (bất kỳ role nào)
+2. Main Flow:
+   a. Người dùng có thể:
+      - Bình luận về chiến dịch
+      - Đánh giá (1-5 sao)
+      - Chia sẻ thông tin
+   b. Hệ thống kiểm duyệt nội dung
+3. Alternative Flows:
+   3.1. Nội dung vi phạm:
+      a. Ẩn/xóa nội dung
+      b. Cảnh báo người dùng
+4. Postconditions:
+   - Lưu lại tương tác
+   - Cập nhật điểm đánh giá trung bình
