@@ -23,3 +23,5 @@ Công việc ngày 07/12:
     - Dùng orm tìm hiểu thêm sync hoặc migration cho đỡ phải export db vào source
     - Cần giải quyết trường Distributions-proof_images
     - Comment tính năng cho từng trường trong schema
+    - Đăng kí xác thực OTP có cần thêm trường gì không? Tham khảo cả DB của anh Vương
+    - Dựa vào flow để điều chỉnh thuộc tính của các trường (NULL,...)
