@@ -164,6 +164,25 @@
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
 
+-- Thêm system donor để tổ chức tạo đóng góp trực tiếp
+INSERT INTO Users (
+  id,
+  full_name, 
+  email,
+  phone,
+  password,
+  role,
+  otp_verified
+) VALUES (
+  'system_donor',
+  'Đóng góp trực tiếp qua tổ chức', 
+  'system.donor@giveback.local',
+  '0000000000',
+  'SYSTEM_ACCOUNT_NOT_FOR_LOGIN', -- password hash không dùng được để login
+  'DONOR',
+  true -- đã verify OTP
+);
+
   -- Indexes
   CREATE INDEX idx_users_email ON Users(email);
   CREATE INDEX idx_users_phone ON Users(phone);
