@@ -41,14 +41,6 @@ const AllArticles = () => {
               <AiOutlineSearch className="block pt-2 text-xl" />
               <span className="block pt-2 text-xl">Tìm kiếm</span>
             </button>
-
-            <a
-              href="/news/all-news"
-              rel="noopener noreferrer"
-              className="mx-2 mb-3 flex items-center justify-center rounded-md bg-blue-600 px-4 pb-2 text-white shadow-lg transition-all hover:text-white hover:shadow-none md:mx-5"
-            >
-              <span className="block pt-2 text-xl">Tất cả bài viết</span>
-            </a>
             <LinkTo
               href="/news/all-news/all-components"
               passHref
