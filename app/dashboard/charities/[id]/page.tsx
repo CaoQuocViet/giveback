@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -27,6 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Pagination } from "@/components/ui/pagination"
 
 // Cập nhật mock data
 const mockCharity = {
@@ -46,7 +48,7 @@ const mockCharity = {
   description:
     "Tổ chức nhân đạo lớn nhất Việt Nam, hoạt động trong lĩnh vực cứu trợ nhân đạo và từ thiện.",
   representativeName: "Nguyễn Văn A",
-  licenseDescription: "Giấy phép hoạt động số 123/GP-BTXH",
+  licenseDescription: "Giấy phép hoạt đ���ng số 123/GP-BTXH",
   licenseUrl: "/documents/license.pdf",
   verificationStatus: "PENDING",
   rating: 4.8,
@@ -101,6 +103,14 @@ export default function CharityDetailPage({
   params: { id: string }
 }) {
   const isAdmin = mockUser.role === "ADMIN"
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 5 // Số dòng trong bảng
+
+  const totalCampaigns = mockCharity.campaigns.length
+  const currentCampaigns = mockCharity.campaigns.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
 
   return (
     <div className="h-full overflow-auto bg-gray-50/50 p-6">
@@ -234,7 +244,7 @@ export default function CharityDetailPage({
                     </a>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground mb-2">Mạng xã h���i</div>
+                    <div className="text-sm font-medium text-muted-foreground mb-2">Mạng xã hội</div>
                     <div className="flex gap-4">
                       {Object.entries(mockCharity.socialLinks).map(([platform, url]) => (
                         <a key={platform} href={url} target="_blank" rel="noopener noreferrer"
@@ -303,7 +313,7 @@ export default function CharityDetailPage({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockCharity.campaigns.map((campaign) => (
+                  {currentCampaigns.map((campaign) => (
                     <TableRow key={campaign.id}>
                       <TableCell>
                         <Link
@@ -333,6 +343,17 @@ export default function CharityDetailPage({
                 </TableBody>
               </Table>
             </div>
+            
+            {totalCampaigns > itemsPerPage && (
+              <div className="mt-4">
+                <Pagination
+                  total={totalCampaigns}
+                  page={currentPage}
+                  onPageChange={setCurrentPage}
+                  itemsPerPage={itemsPerPage}
+                />
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
