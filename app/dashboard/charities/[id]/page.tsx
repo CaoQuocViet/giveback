@@ -10,6 +10,9 @@ import {
   Phone,
   Star,
   XCircle,
+  Facebook,
+  Twitter,
+  Youtube,
 } from "lucide-react"
 
 import { formatAmount, formatDate } from "@/lib/utils"
@@ -51,6 +54,19 @@ const mockCharity = {
   totalRaised: 25000000000,
   licenseImageUrl: "/images/license.jpg",
 
+  // Thêm các trường mới
+  licenseNumber: "123/GP-BTXH",
+  licenseDate: "2020-01-01T00:00:00Z",
+  licenseIssuer: "Bộ Lao động - Thương binh và Xã hội",
+  
+  foundingDate: "1946-11-23T00:00:00Z",
+  website: "https://redcross.org.vn",
+  socialLinks: {
+    facebook: "https://facebook.com/",
+    twitter: "https://twitter.com/",
+    youtube: "https://youtube.com/"
+  },
+
   // Danh sách chiến dịch
   campaigns: [
     {
@@ -87,185 +103,239 @@ export default function CharityDetailPage({
   const isAdmin = mockUser.role === "ADMIN"
 
   return (
-    <div className="h-full overflow-auto p-6">
-      {/* Header */}
-      <div className="mb-6 flex items-start gap-6">
-        <div className="relative size-32 overflow-hidden rounded-lg">
-          <Image
-            src={mockCharity.avatar}
-            alt={mockCharity.title}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="flex-1">
-          <div className="mb-2 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold">{mockCharity.title}</h1>
-              <Badge
-                className={getVerificationStatusStyle(
-                  mockCharity.verificationStatus
+    <div className="h-full overflow-auto bg-gray-50/50 p-6">
+      {/* Header với background gradient */}
+      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100">
+        <div className="flex items-start gap-6">
+          {/* Avatar với kích thước cố định và căn chỉnh */}
+          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200">
+            <Image
+              src={mockCharity.avatar}
+              alt={mockCharity.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="flex-1 min-h-[150px] flex flex-col justify-between">
+            {/* Title section */}
+            <div>
+              <div className="mb-2 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <h1 className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent">
+                    {mockCharity.title}
+                  </h1>
+                  <Badge
+                    className={`${getVerificationStatusStyle(
+                      mockCharity.verificationStatus
+                    )} shadow-sm`}
+                  >
+                    {getVerificationStatusLabel(mockCharity.verificationStatus)}
+                  </Badge>
+                </div>
+
+                {/* Admin buttons */}
+                {isAdmin && mockCharity.verificationStatus === "PENDING" && (
+                  <div className="flex gap-3">
+                    <Button
+                      variant="default"
+                      className="bg-gradient-to-r from-green-500 to-emerald-600 text-white transition-all hover:from-green-600 hover:to-emerald-700"
+                    >
+                      <Check className="mr-2 size-4" />
+                      Xác thực
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      className="bg-gradient-to-r from-red-500 to-rose-600 transition-all hover:from-red-600 hover:to-rose-700"
+                    >
+                      <XCircle className="mr-2 size-4" />
+                      Buộc dừng
+                    </Button>
+                  </div>
                 )}
-              >
-                {getVerificationStatusLabel(mockCharity.verificationStatus)}
-              </Badge>
+              </div>
+
+              {/* Description */}
+              <p className="mb-4 max-w-2xl text-gray-600">{mockCharity.description}</p>
             </div>
 
-            {/* Thêm 2 nút cho ADMIN khi tổ chức đang ở trạng thái PENDING */}
-            {isAdmin && mockCharity.verificationStatus === "PENDING" && (
-              <div className="flex gap-3">
-                <Button
-                  variant="default"
-                  className="bg-green-500 hover:bg-green-600"
-                  onClick={() => {
-                    console.log("Verify charity:", params.id)
-                  }}
-                >
-                  <Check className="mr-2 size-4" />
-                  Xác thực
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => {
-                    console.log("Reject charity:", params.id)
-                  }}
-                >
-                  <XCircle className="mr-2 size-4" />
-                  Buộc dừng
-                </Button>
+            {/* Stats section - luôn ở dưới cùng */}
+            <div className="grid grid-cols-3 gap-6">
+              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
+                <div className="font-medium text-gray-900">{mockCharity.campaignCount}</div>
+                <div className="text-sm text-gray-600">Chiến dịch</div>
               </div>
-            )}
-          </div>
-          <p className="mb-4 max-w-2xl text-muted-foreground">
-            {mockCharity.description}
-          </p>
-          <div className="grid grid-cols-3 gap-6 text-sm">
-            <div>
-              <div className="font-medium">{mockCharity.campaignCount}</div>
-              <div className="text-muted-foreground">Chiến dịch</div>
-            </div>
-            <div>
-              <div className="font-medium">
-                {formatAmount(mockCharity.totalRaised)} VNĐ
+              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
+                <div className="font-medium text-gray-900">
+                  {formatAmount(mockCharity.totalRaised)} VNĐ
+                </div>
+                <div className="text-sm text-gray-600">Đã quyên góp</div>
               </div>
-              <div className="text-muted-foreground">Đã quyên góp</div>
-            </div>
-            <div className="flex items-center gap-1">
-              <Star className="size-4 fill-primary text-primary" />
-              <div className="font-medium">{mockCharity.rating}/5</div>
-              <div className="ml-1 text-muted-foreground">Đánh giá</div>
+              <div className="flex items-center gap-1 rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
+                <Star className="size-4 fill-yellow-400 text-yellow-400" />
+                <div className="font-medium text-gray-900">{mockCharity.rating}/5</div>
+                <div className="ml-1 text-sm text-gray-600">Đánh giá</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Thông tin chi tiết và giấy phép */}
-      <div className="mb-6 grid gap-6 md:grid-cols-2">
-        {/* Thông tin liên hệ */}
-        <Card>
-          <CardContent className="p-6">
-            <h2 className="mb-4 text-lg font-semibold">Thông tin liên hệ</h2>
-            <div className="grid gap-4">
-              <div className="flex items-start gap-2">
-                <FileText className="mt-0.5 size-5 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Người đại diện</div>
-                  <div>{mockCharity.representativeName}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <MapPin className="mt-0.5 size-5 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Địa chỉ</div>
-                  <div>
-                    {mockCharity.address}, {mockCharity.ward},{" "}
-                    {mockCharity.district}, {mockCharity.province}
+      {/* Content */}
+      <div className="space-y-6">
+        {/* Row 1: Info Cards */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Left column */}
+          <div className="space-y-6">
+            {/* Contact Info Card */}
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+              <CardContent className="p-6">
+                <h2 className="mb-4 text-lg font-semibold text-gray-900">Thông tin liên hệ</h2>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-2">
+                    <MapPin className="mt-0.5 size-5 text-muted-foreground" />
+                    <div>
+                      <div className="font-medium">Địa chỉ</div>
+                      <div>{mockCharity.address}, {mockCharity.ward}, {mockCharity.district}, {mockCharity.province}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Mail className="mt-0.5 size-5 text-muted-foreground" />
+                    <div>
+                      <div className="font-medium">Email</div>
+                      <div>{mockCharity.email}</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Phone className="mt-0.5 size-5 text-muted-foreground" />
+                    <div>
+                      <div className="font-medium">Điện thoại</div>
+                      <div>{mockCharity.phone}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <Mail className="mt-0.5 size-5 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Email</div>
-                  <div>{mockCharity.email}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <Phone className="mt-0.5 size-5 text-muted-foreground" />
-                <div>
-                  <div className="font-medium">Điện thoại</div>
-                  <div>{mockCharity.phone}</div>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
 
-        {/* Giấy phép hoạt động */}
-        <Card>
-          <CardContent className="p-6">
-            <h2 className="mb-4 text-lg font-semibold">Giấy phép hoạt động</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-sm">{mockCharity.licenseDescription}</div>
-              <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
-                <Image
-                  src={mockCharity.licenseImageUrl}
-                  alt="Giấy phép hoạt động"
-                  fill
-                  className="object-cover"
-                />
+            {/* Organization Info Card */}
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+              <CardContent className="p-6">
+                <h2 className="mb-4 text-lg font-semibold text-gray-900">Thông tin tổ chức</h2>
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Ngày thành lập</div>
+                    <div>{formatDate(mockCharity.foundingDate)}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Website</div>
+                    <a href={mockCharity.website} target="_blank" rel="noopener noreferrer" 
+                       className="text-primary hover:underline">
+                      {mockCharity.website}
+                    </a>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground mb-2">Mạng xã h���i</div>
+                    <div className="flex gap-4">
+                      {Object.entries(mockCharity.socialLinks).map(([platform, url]) => (
+                        <a key={platform} href={url} target="_blank" rel="noopener noreferrer"
+                           className="text-muted-foreground hover:text-primary">
+                          {platform === 'facebook' && <Facebook className="h-5 w-5" />}
+                          {platform === 'twitter' && <Twitter className="h-5 w-5" />}
+                          {platform === 'youtube' && <Youtube className="h-5 w-5" />}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Right column - License Card */}
+          <Card className="h-full overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+            <CardContent className="p-6">
+              <h2 className="mb-4 text-lg font-semibold text-gray-900">Giấy phép hoạt động</h2>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Số giấy phép</div>
+                    <div>{mockCharity.licenseNumber}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Ngày cấp</div>
+                    <div>{formatDate(mockCharity.licenseDate)}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Cơ quan cấp</div>
+                    <div>{mockCharity.licenseIssuer}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium text-muted-foreground">Mô tả</div>
+                    <div>{mockCharity.licenseDescription}</div>
+                  </div>
+                </div>
+                <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
+                  <Image
+                    src={mockCharity.licenseImageUrl}
+                    alt="Giấy phép hoạt động"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Row 2: Campaigns Table */}
+        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+          <CardContent className="p-6">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Danh sách chiến dịch</h2>
+            <div className="rounded-lg border border-gray-200 bg-white">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gray-50/50">
+                    <TableHead className="text-gray-600">Tên chiến dịch</TableHead>
+                    <TableHead className="text-gray-600">Trạng thái</TableHead>
+                    <TableHead className="text-gray-600">Mục tiêu</TableHead>
+                    <TableHead className="text-gray-600">Đã quyên góp</TableHead>
+                    <TableHead className="text-gray-600">Thời gian</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockCharity.campaigns.map((campaign) => (
+                    <TableRow key={campaign.id}>
+                      <TableCell>
+                        <Link
+                          href={`/dashboard/campaigns/${campaign.id}`}
+                          className="text-primary hover:underline"
+                        >
+                          {campaign.title}
+                        </Link>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">
+                          {getStatusLabel(campaign.status)}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        {formatAmount(campaign.targetAmount)} VNĐ
+                      </TableCell>
+                      <TableCell>
+                        {formatAmount(campaign.currentAmount)} VNĐ
+                      </TableCell>
+                      <TableCell>
+                        <div>{formatDate(campaign.startDate)}</div>
+                        <div>{formatDate(campaign.endDate)}</div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>
       </div>
-
-      {/* Danh sách chiến dịch */}
-      <Card>
-        <CardContent className="p-6">
-          <h2 className="mb-4 text-lg font-semibold">Danh sách chiến dịch</h2>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Tên chiến dịch</TableHead>
-                <TableHead>Trạng thái</TableHead>
-                <TableHead>Mục tiêu</TableHead>
-                <TableHead>Đã quyên góp</TableHead>
-                <TableHead>Thời gian</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockCharity.campaigns.map((campaign) => (
-                <TableRow key={campaign.id}>
-                  <TableCell>
-                    <Link
-                      href={`/dashboard/campaigns/${campaign.id}`}
-                      className="text-primary hover:underline"
-                    >
-                      {campaign.title}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {getStatusLabel(campaign.status)}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {formatAmount(campaign.targetAmount)} VNĐ
-                  </TableCell>
-                  <TableCell>
-                    {formatAmount(campaign.currentAmount)} VNĐ
-                  </TableCell>
-                  <TableCell>
-                    <div>{formatDate(campaign.startDate)}</div>
-                    <div>{formatDate(campaign.endDate)}</div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
     </div>
   )
 }
