@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { FileText, Flag, History, LogOut, User, Users } from "lucide-react"
+import { FileText, Flag, History, LogOut, Settings, User, Users } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,8 +14,8 @@ interface DashboardLayoutProps {
 
 // Mock user data
 const mockUser = {
-  name: "Người dùng",
-  role: "ADMIN", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
+  name: "Đang Trầm Cảm",
+  role: "CHARITY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
   avatar: "/default-avatar.png",
 }
 
@@ -27,6 +27,8 @@ const Icons = {
   history: History,
   logOut: LogOut,
   campaign: Flag,
+  fileText: FileText,
+  settings: Settings,
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -115,6 +117,11 @@ function getMenuByRole(role: string): MenuItem[] {
           icon: Icons.users,
         },
         {
+          label: "Danh sách chiến dịch",
+          href: "/dashboard/campaigns",
+          icon: Icons.fileText,
+        },
+        {
           label: "Theo dõi báo cáo",
           href: "/dashboard/reports",
           icon: Icons.report,
@@ -128,14 +135,19 @@ function getMenuByRole(role: string): MenuItem[] {
           icon: Icons.user,
         },
         {
+          label: "Quản lý chiến dịch",
+          href: "/dashboard/charity/campaigns",
+          icon: Icons.settings,
+        },
+        {
           label: "Danh sách tổ chức",
           href: "/dashboard/charities",
           icon: Icons.users,
         },
         {
-          label: "Quản lý chiến dịch",
-          href: "/dashboard/charity/campaigns",
-          icon: Icons.campaign,
+          label: "Danh sách chiến dịch",
+          href: "/dashboard/campaigns",
+          icon: Icons.fileText,
         },
         {
           label: "Theo dõi báo cáo",
@@ -151,14 +163,19 @@ function getMenuByRole(role: string): MenuItem[] {
           icon: Icons.user,
         },
         {
+          label: "Lịch sử đóng góp",
+          href: "/dashboard/donations",
+          icon: Icons.history,
+        },
+        {
           label: "Danh sách tổ chức",
           href: "/dashboard/charities",
           icon: Icons.users,
         },
         {
-          label: "Lịch sử đóng góp",
-          href: "/dashboard/donations",
-          icon: Icons.history,
+          label: "Danh sách chiến dịch",
+          href: "/dashboard/campaigns",
+          icon: Icons.fileText,
         },
         {
           label: "Theo dõi báo cáo",
@@ -177,6 +194,11 @@ function getMenuByRole(role: string): MenuItem[] {
           label: "Danh sách tổ chức",
           href: "/dashboard/charities",
           icon: Icons.users,
+        },
+        {
+          label: "Danh sách chiến dịch",
+          href: "/dashboard/campaigns",
+          icon: Icons.fileText,
         },
         {
           label: "Theo dõi báo cáo",
