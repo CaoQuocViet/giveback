@@ -152,7 +152,7 @@ export default function Register() {
               <SelectContent>
                 <SelectItem value="DONOR">👤 Người đóng góp</SelectItem>
                 <SelectItem value="CHARITY">🏢 Tổ chức từ thiện</SelectItem>
-                <SelectItem value="BENEFICIARY">🤲 Người thụ hưởng</SelectItem>
+                <SelectItem value="BENEFICIARY">🤲 Người nhận hỗ trợ</SelectItem>
               </SelectContent>
             </Select>
           </div>

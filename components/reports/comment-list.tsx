@@ -1,5 +1,6 @@
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { Star } from "lucide-react"
 
 interface Comment {
   id: string
@@ -9,6 +10,7 @@ interface Comment {
     role: string
   }
   createdAt: string
+  rating: number
 }
 
 function getRoleBadgeStyle(role: string) {
@@ -19,6 +21,8 @@ function getRoleBadgeStyle(role: string) {
       return "bg-blue-100 text-blue-800 border-blue-200"
     case "DONOR":
       return "bg-green-100 text-green-800 border-green-200"
+    case "BENEFICIARY":
+      return "bg-purple-100 text-purple-800 border-purple-200"
     default:
       return "bg-gray-100 text-gray-800 border-gray-200"
   }
@@ -32,6 +36,8 @@ function getRoleLabel(role: string) {
       return "Tổ chức từ thiện"
     case "DONOR":
       return "Nhà hảo tâm"
+    case "BENEFICIARY":
+      return "Người nhận hỗ trợ"
     default:
       return role
   }
@@ -53,11 +59,15 @@ export function CommentList({ comments }: { comments: Comment[] }) {
           </div>
 
           <div className="flex-1">
-            <div className="mb-1 flex items-center gap-2">
+            <div className="mb-2 flex items-center gap-2">
               <span className="font-medium">{comment.user.name}</span>
               <Badge className={`${getRoleBadgeStyle(comment.user.role)}`}>
                 {getRoleLabel(comment.user.role)}
               </Badge>
+              <div className="flex items-center gap-0.5">
+                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                <span className="text-xs text-muted-foreground">{comment.rating}</span>
+              </div>
               <span className="text-sm text-muted-foreground">
                 {formatDate(comment.createdAt)}
               </span>

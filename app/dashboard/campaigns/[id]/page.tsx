@@ -2,9 +2,10 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { DollarSign, Edit, FileText, Share2, Trash } from "lucide-react"
+import { DollarSign, Edit, FileText, Share2, Trash, Star, MapPin, Users } from "lucide-react"
 import { marked } from "marked"
 import { useSession } from "next-auth/react"
+import { useState } from "react"
 
 import { formatAmount, formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -13,6 +14,8 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DonateButton } from "@/components/campaigns/donate-button"
 import { CommentList } from "@/components/reports/comment-list"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 
 // Cập nhật interface theo database schema
 interface Campaign {
@@ -33,6 +36,20 @@ interface Campaign {
   images: string[]
   createdAt: string
   updatedAt: string
+  rating: number
+  distributions: Array<{
+    id: string
+    title: string
+    amount: number
+    distributionDate: string
+    beneficiaryCount: number
+    description: string
+    province: string
+    district: string
+    ward: string
+    address: string
+    relief_date: string
+  }>
   // Thông tin bổ sung từ relation
   charity: {
     id: string
@@ -42,6 +59,7 @@ interface Campaign {
   comments: Array<{
     id: string
     content: string
+    rating: number
     user: {
       name: string
       role: string
@@ -72,7 +90,7 @@ const mockCampaign: Campaign = {
   detailGoal: `### Chiến dịch hỗ trợ đồng bào miền Trung
   
   #### 1. Bối cảnh
-  Sau đợt bão lũ vừa qua, nhiều địa phương tại miền Trung đã bị thiệt hại nặng nề về người và của. Nhiều gia đình đã mất nhà cửa, tài sản và phương tiện sinh kế.
+  Sau đợt bão lũ vừa qua, nhiều địa phương tại miền Trung đã bị thiệt hại nặng nề về người và của. Nhiều gia đình đã mất nhà cửa, tài sản và phương tiện sinh k.
   
   #### 2. Mục tiêu
   - Hỗ trợ 1000 hộ gia đình bị ảnh hưởng bởi bão
@@ -125,6 +143,35 @@ const mockCampaign: Campaign = {
   ],
   createdAt: "2024-02-28T00:00:00Z",
   updatedAt: "2024-03-15T00:00:00Z",
+  rating: 4.5,
+  distributions: [
+    {
+      id: "1",
+      title: "Đợt cứu trợ 1",
+      amount: 250000000,
+      distributionDate: "2024-03-15",
+      beneficiaryCount: 100,
+      description: "Phân phối lương thực và nhu yếu phẩm cho người dân vùng lũ",
+      province: "Quảng Nam",
+      district: "Đại Lộc",
+      ward: "Đại Hiệp",
+      address: "Thôn 5",
+      relief_date: "2024-03-20"
+    },
+    {
+      id: "2",
+      title: "Khoản cứu trợ 2",
+      amount: 200000000,
+      distributionDate: "2024-03-20T00:00:00Z",
+      beneficiaryCount: 500,
+      description: "Cung cấp dụng cụ học tập cho 500 học sinh có hoàn cảnh khó khăn.",
+      address: "123 Đường Hùng Vương",
+      ward: "An Xuân",
+      district: "Tam Kỳ",
+      province: "Quảng Nam",
+      relief_date: "2024-03-20T00:00:00Z"
+    }
+  ],
   charity: {
     id: "1",
     name: "Hội Chữ thập đỏ Việt Nam",
@@ -134,6 +181,7 @@ const mockCampaign: Campaign = {
     {
       id: "1",
       content: "Rất ý nghĩa, tôi sẽ ủng hộ!",
+      rating: 5,
       user: {
         name: "Nguyễn Văn A",
         role: "DONOR",
@@ -144,6 +192,7 @@ const mockCampaign: Campaign = {
       id: "2",
       content:
         "Cảm ơn mọi người đã quan tâm và ủng hộ chiến dịch. Chúng tôi xin cảm ơn rất nhiều vì sự giúp đỡ.",
+      rating: 4,
       user: {
         name: "Jack",
         role: "BENEFICIARY",
@@ -153,6 +202,7 @@ const mockCampaign: Campaign = {
     {
       id: "3",
       content: "Tôi đã đóng góp 5 triệu. Mong chiến dịch sẽ sớm đạt mục tiêu!",
+      rating: 3,
       user: {
         name: "Trần Thị B",
         role: "DONOR",
@@ -162,6 +212,7 @@ const mockCampaign: Campaign = {
     {
       id: "4",
       content: "Đã chia sẻ thông tin chiến dịch trên các kênh truyền thông.",
+      rating: 2,
       user: {
         name: "Lê Văn C",
         role: "ADMIN",
@@ -172,6 +223,7 @@ const mockCampaign: Campaign = {
       id: "5",
       content:
         "Cập nhật: Đã hoàn thành khảo sát và lập danh sách các hộ gia đình cần hỗ trợ khẩn cấp.",
+      rating: 1,
       user: {
         name: "Hội Chữ thập đỏ Việt Nam",
         role: "CHARITY",
@@ -196,6 +248,17 @@ export default function CampaignDetailPage({
     isOwner && ["STARTING", "ONGOING", "CLOSED"].includes(mockCampaign.status)
   const canDelete = isOwner && mockCampaign.status === "STARTING"
 
+  const [newComment, setNewComment] = useState({
+    content: "",
+    rating: 0
+  })
+
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Xử lý submit comment
+    console.log("New comment:", newComment)
+  }
+
   return (
     <div className="p-6">
       {/* Header */}
@@ -209,154 +272,108 @@ export default function CampaignDetailPage({
         <Badge>{getStatusLabel(mockCampaign.status)}</Badge>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3">
-        {/* Thông tin chính */}
-        <div className="space-y-6 md:col-span-2">
-          {/* Ảnh và thông tin cơ bản */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                {/* Ảnh minh họa */}
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <Image
-                    src="/campaign-image.jpg"
-                    alt={mockCampaign.title}
-                    fill
-                    className="object-cover"
-                  />
+      {/* Basic Info Section - Grid with equal height */}
+      <div className="mb-6 grid gap-6 md:grid-cols-3">
+        {/* Left side - Basic info */}
+        <Card className="md:col-span-2">
+          <CardContent className="flex h-full flex-col p-6">
+            <div className="grid h-full gap-6 md:grid-cols-2">
+              {/* Ảnh minh họa */}
+              <div className="relative aspect-video overflow-hidden rounded-lg">
+                <Image
+                  src="/campaign-image.jpg"
+                  alt={mockCampaign.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+
+              {/* Thông tin bên phải */}
+              <div className="flex flex-col justify-between space-y-4">
+                {/* Thời gian */}
+                <div className="rounded-lg border bg-card p-4">
+                  <h3 className="mb-2 font-medium">Thời gian</h3>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-muted-foreground">Bắt đầu:</span>
+                      <div className="font-medium">
+                        {formatDate(mockCampaign.startDate)}
+                      </div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Kết thúc:</span>
+                      <div className="font-medium">
+                        {formatDate(mockCampaign.endDate)}
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Thông tin bên phải */}
-                <div className="space-y-6">
-                  {/* Thời gian */}
-                  <div className="rounded-lg border bg-card p-4">
-                    <h3 className="mb-2 font-medium">Thời gian</h3>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <span className="text-muted-foreground">Bắt đầu:</span>
-                        <div className="font-medium">
-                          {formatDate(mockCampaign.startDate)}
-                        </div>
-                      </div>
-                      <div>
-                        <span className="text-muted-foreground">Kết thúc:</span>
-                        <div className="font-medium">
-                          {formatDate(mockCampaign.endDate)}
-                        </div>
-                      </div>
+                {/* Địa điểm */}
+                <div className="rounded-lg border bg-card p-4">
+                  <h3 className="mb-2 font-medium">Địa điểm</h3>
+                  <div className="space-y-1 text-sm">
+                    <div>{mockCampaign.address}</div>
+                    <div>
+                      {mockCampaign.ward}, {mockCampaign.district}
                     </div>
+                    <div>{mockCampaign.province}</div>
                   </div>
+                </div>
 
-                  {/* Địa điểm */}
-                  <div className="rounded-lg border bg-card p-4">
-                    <h3 className="mb-2 font-medium">Địa điểm</h3>
-                    <div className="space-y-1 text-sm">
-                      <div>{mockCampaign.address}</div>
-                      <div>
-                        {mockCampaign.ward}, {mockCampaign.district}
-                      </div>
-                      <div>{mockCampaign.province}</div>
-                    </div>
-                  </div>
-
-                  {/* Ngân sách */}
-                  <div className="rounded-lg border bg-card p-4">
-                    <h3 className="mb-2 font-medium">Ngân sách</h3>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Mục tiêu:</span>
-                        <span className="font-medium">
-                          {formatAmount(mockCampaign.targetAmount)} VNĐ
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Đã nhận:</span>
-                        <span className="font-medium">
-                          {formatAmount(mockCampaign.currentAmount)} VNĐ
-                        </span>
-                      </div>
-                      <div className="h-2 rounded-full bg-secondary">
-                        <div
-                          className="h-full rounded-full bg-primary transition-all"
-                          style={{ width: `${progress}%` }}
-                        />
-                      </div>
-                      <div className="flex justify-between text-xs">
-                        <span className="text-muted-foreground">Tiến độ:</span>
-                        <span className="font-medium">
-                          {Math.round(progress)}%
-                        </span>
-                      </div>
+                {/* Ngân sách */}
+                <div className="rounded-lg border bg-card p-4">
+                  <h3 className="mb-2 font-medium">Ngân sách</h3>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Mục tiêu:</span>
+                      <span className="font-medium">
+                        {formatAmount(mockCampaign.targetAmount)} VNĐ
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* Tabs cho nội dung chi tiết */}
-          <Card>
-            <CardContent className="p-6">
-              <Tabs defaultValue="description">
-                <TabsList className="mb-4">
-                  <TabsTrigger value="description">Mô tả</TabsTrigger>
-                  <TabsTrigger value="plan">Kế hoạch chi tiết</TabsTrigger>
-                  <TabsTrigger value="comments">Bình luận</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="description">
-                  <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: marked.parse(mockCampaign.description),
-                      }}
-                    />
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="plan">
-                  <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: marked.parse(mockCampaign.detailGoal),
-                      }}
-                    />
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="comments">
-                  <CommentList comments={mockCampaign.comments} />
-                </TabsContent>
-              </Tabs>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Thông tin quyên góp */}
+        {/* Right side - Stats */}
+        <div className="flex flex-col gap-6">
+          {/* Rating Card */}
           <Card>
             <CardContent className="space-y-4 p-6">
+              {/* Thêm rating trung bình */}
               <div>
                 <div className="mb-1 text-sm font-medium text-muted-foreground">
-                  Đã quyên góp được
+                  Đánh giá trung bình
                 </div>
-                <div className="text-2xl font-bold">
-                  {formatAmount(mockCampaign.currentAmount)} VNĐ
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  trên {formatAmount(mockCampaign.targetAmount)} VNĐ
+                <div className="flex items-center gap-2">
+                  <div className="flex">
+                    {[1,2,3,4,5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-4 w-4 ${
+                          star <= mockCampaign.rating
+                            ? "fill-yellow-400 text-yellow-400"
+                            : "fill-gray-200 text-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="font-medium">{mockCampaign.rating.toFixed(1)}</span>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Thống kê */}
-          <Card>
-            <CardContent className="space-y-4 p-6">
+          {/* Stats Card */}
+          <Card className="flex-1">
+            <CardContent className="flex h-full flex-col justify-between space-y-4 p-6">
+              {/* Tiến trình nhận */}
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span>Đã quyên góp</span>
+                  <span>Tiến trình nhận</span>
                   <span className="font-medium">
                     {formatAmount(mockCampaign.currentAmount)} /{" "}
                     {formatAmount(mockCampaign.targetAmount)} VNĐ
@@ -370,9 +387,23 @@ export default function CampaignDetailPage({
                 </div>
               </div>
 
-              <div className="space-y-1 text-sm text-muted-foreground">
-                <div>Bắt đầu: {formatDate(mockCampaign.startDate)}</div>
-                <div>Kết thúc: {formatDate(mockCampaign.endDate)}</div>
+              {/* Đã cứu trợ */}
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span>Đã cứu trợ</span>
+                  <span className="font-medium">
+                    {formatAmount(mockCampaign.distributedAmount)} /{" "}
+                    {formatAmount(mockCampaign.currentAmount)} VNĐ
+                  </span>
+                </div>
+                <div className="h-2 rounded-full bg-secondary">
+                  <div
+                    className="h-full rounded-full bg-green-500"
+                    style={{ 
+                      width: `${(mockCampaign.distributedAmount / mockCampaign.currentAmount) * 100}%` 
+                    }}
+                  />
+                </div>
               </div>
 
               {/* Actions */}
@@ -415,6 +446,145 @@ export default function CampaignDetailPage({
           </Card>
         </div>
       </div>
+
+      {/* Detailed Info Section - Full width */}
+      <Card className="w-full">
+        <CardContent className="p-6">
+          <Tabs defaultValue="description" className="space-y-4">
+            <TabsList>
+              <TabsTrigger value="description">Mô tả</TabsTrigger>
+              <TabsTrigger value="detail-goal">Kế hoạch chi tiết</TabsTrigger>
+              <TabsTrigger value="distributions">Các khoản cứu trợ</TabsTrigger>
+              <TabsTrigger value="comments">Bình luận</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="description">
+              <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(mockCampaign.description),
+                  }}
+                />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="detail-goal">
+              <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: marked.parse(mockCampaign.detailGoal),
+                  }}
+                />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="distributions">
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="space-y-6">
+                    {mockCampaign.distributions.map((dist) => (
+                      <div
+                        key={dist.id}
+                        className="rounded-lg border bg-card p-6"
+                      >
+                        {/* Header */}
+                        <div className="mb-4 flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-medium">{dist.title}</h3>
+                            <p className="mt-1 text-sm text-muted-foreground">{dist.description}</p>
+                          </div>
+                          <Badge variant="outline" className="shrink-0">
+                            {formatDate(dist.relief_date)}
+                          </Badge>
+                        </div>
+
+                        {/* Grid thông tin */}
+                        <div className="grid gap-6 md:grid-cols-2">
+                          {/* Cột trái */}
+                          <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                              <DollarSign className="h-4 w-4 text-muted-foreground" />
+                              <div>
+                                <div className="text-sm text-muted-foreground">Ngân sách</div>
+                                <div className="font-medium">{formatAmount(dist.amount)} VNĐ</div>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <Users className="h-4 w-4 text-muted-foreground" />
+                              <div>
+                                <div className="text-sm text-muted-foreground">Số người nhận</div>
+                                <div className="font-medium">{dist.beneficiaryCount} người</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Cột phải */}
+                          <div>
+                            <div className="flex items-start gap-2">
+                              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                              <div>
+                                <div className="text-sm text-muted-foreground">Địa điểm</div>
+                                <div className="font-medium">
+                                  {dist.address}
+                                  <div className="text-sm text-muted-foreground">
+                                    {dist.ward}, {dist.district}, {dist.province}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="comments">
+              <Card>
+                <CardContent className="pt-6">
+                  {/* Form thêm bình luận mới */}
+                  <form onSubmit={handleCommentSubmit} className="mb-6 space-y-4">
+                    <div className="space-y-2">
+                      <Label>Đánh giá</Label>
+                      <div className="flex gap-2">
+                        {[1,2,3,4,5].map((star) => (
+                          <Button
+                            key={star}
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setNewComment({...newComment, rating: star})}
+                            className={star <= newComment.rating ? "text-yellow-400" : "text-gray-300"}
+                          >
+                            <Star className="h-5 w-5 fill-current" />
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <Label>Nội dung bình luận</Label>
+                      <Textarea
+                        required
+                        placeholder="Nhập bình luận của bạn..."
+                        value={newComment.content}
+                        onChange={(e) => setNewComment({...newComment, content: e.target.value})}
+                      />
+                    </div>
+                    
+                    <Button type="submit">Gửi bình luận</Button>
+                  </form>
+
+                  <CommentList comments={mockCampaign.comments} />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   )
 }

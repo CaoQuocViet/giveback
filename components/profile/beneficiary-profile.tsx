@@ -79,7 +79,7 @@ export function BeneficiaryProfile() {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Vai trò</label>
-                  <Input disabled value="Người thụ hưởng" className="bg-muted cursor-not-allowed" />
+                  <Input disabled value="Người nhận hỗ trợ" className="bg-muted cursor-not-allowed" />
                 </div>
               </div>
             </div>
