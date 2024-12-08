@@ -183,18 +183,116 @@ INSERT INTO Users (
   true -- đã verify OTP
 );
 
-  -- Indexes
-  CREATE INDEX idx_users_email ON Users(email);
-  CREATE INDEX idx_users_phone ON Users(phone);
-  CREATE INDEX idx_campaigns_charity ON Campaigns(charity_id);
-  CREATE INDEX idx_donations_campaign ON Donations(campaign_id);
-  CREATE INDEX idx_donations_donor ON Donations(donor_id);
-  CREATE INDEX idx_distributions_campaign ON Distributions(campaign_id);
-  CREATE INDEX idx_comments_campaign ON Comments(campaign_id);
-  CREATE INDEX idx_comments_user ON Comments(user_id);
-  CREATE INDEX idx_comments_campaign_rating ON Comments(campaign_id, rating);
-  CREATE INDEX idx_donations_invoice ON Donations(invoice_code);
-  CREATE INDEX idx_charities_merchant ON Charities(merchant_id);
-  CREATE INDEX idx_donations_transaction ON Donations(payment_transaction_id);
-  CREATE INDEX idx_distributions_created_by ON Distributions(created_by);
-  CREATE INDEX idx_distributions_confirmed_by ON Distributions(confirmed_by);
+-- Indexes
+-- Users indexes
+CREATE INDEX idx_users_email ON Users(email);
+CREATE INDEX idx_users_phone ON Users(phone); 
+CREATE INDEX idx_users_role ON Users(role);
+
+-- Campaigns indexes 
+CREATE INDEX idx_campaigns_charity ON Campaigns(charity_id);
+CREATE INDEX idx_campaigns_status ON Campaigns(status);
+CREATE INDEX idx_campaigns_dates ON Campaigns(start_date, end_date);
+CREATE INDEX idx_campaigns_location ON Campaigns(province, district);
+CREATE INDEX idx_campaigns_rating ON Campaigns(rating DESC);
+
+-- Donations indexes
+CREATE INDEX idx_donations_campaign ON Donations(campaign_id);
+CREATE INDEX idx_donations_donor ON Donations(donor_id);
+CREATE INDEX idx_donations_status ON Donations(status);
+CREATE INDEX idx_donations_created ON Donations(created_at DESC);
+
+-- Distributions indexes
+CREATE INDEX idx_distributions_campaign ON Distributions(campaign_id);
+CREATE INDEX idx_distributions_date ON Distributions(distribution_date);
+CREATE INDEX idx_distributions_location ON Distributions(province, district);
+
+-- Comments indexes
+CREATE INDEX idx_comments_campaign ON Comments(campaign_id);
+CREATE INDEX idx_comments_user ON Comments(user_id);
+CREATE INDEX idx_comments_rating ON Comments(rating DESC);
+
+-- Trigger cập nhật rating campaign khi có comment mới
+CREATE OR REPLACE FUNCTION update_campaign_rating()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Campaigns 
+  SET rating = (
+    SELECT AVG(rating)::decimal(3,2)
+    FROM Comments
+    WHERE campaign_id = NEW.campaign_id
+  )
+  WHERE id = NEW.campaign_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_campaign_rating
+AFTER INSERT OR UPDATE OR DELETE ON Comments
+FOR EACH ROW
+EXECUTE FUNCTION update_campaign_rating();
+
+-- Trigger cập nhật rating charity khi rating campaign thay đổi 
+CREATE OR REPLACE FUNCTION update_charity_rating() 
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Charities
+  SET rating = (
+    SELECT AVG(rating)::decimal(3,2)
+    FROM Campaigns 
+    WHERE charity_id = (SELECT charity_id FROM Campaigns WHERE id = NEW.id)
+  )
+  WHERE id = (SELECT charity_id FROM Campaigns WHERE id = NEW.id);
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_charity_rating
+AFTER UPDATE OF rating ON Campaigns
+FOR EACH ROW 
+EXECUTE FUNCTION update_charity_rating();
+
+-- Trigger cập nhật số tiền campaign khi có donation mới
+CREATE OR REPLACE FUNCTION update_campaign_amount()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.status = 'SUCCESS' THEN
+    UPDATE Campaigns
+    SET current_amount = current_amount + NEW.amount
+    WHERE id = NEW.campaign_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_campaign_amount
+AFTER UPDATE OF status ON Donations
+FOR EACH ROW
+WHEN (NEW.status = 'SUCCESS')
+EXECUTE FUNCTION update_campaign_amount();
+
+-- Trigger cập nhật thống kê cho charity
+CREATE OR REPLACE FUNCTION update_charity_stats()
+RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Charities
+  SET 
+    campaign_count = (
+      SELECT COUNT(*) FROM Campaigns WHERE charity_id = NEW.charity_id
+    ),
+    total_raised = (
+      SELECT COALESCE(SUM(d.amount), 0)
+      FROM Donations d
+      JOIN Campaigns c ON d.campaign_id = c.id 
+      WHERE c.charity_id = NEW.charity_id
+      AND d.status = 'SUCCESS'
+    )
+  WHERE id = NEW.charity_id;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_update_charity_stats
+AFTER INSERT OR UPDATE ON Campaigns
+FOR EACH ROW
+EXECUTE FUNCTION update_charity_stats();
