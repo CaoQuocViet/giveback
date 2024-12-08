@@ -12,7 +12,7 @@ import { StarIcon } from "lucide-react"
 
 export function CharityProfile() {
   const [userData, setUserData] = useState({
-    fullName: "Hope Foundation",
+    fullName: "No Hope Foundation",
     email: "contact@hopefoundation.org",
     phone: "+1234567890",
     role: "CHARITY",

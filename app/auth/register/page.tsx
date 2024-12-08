@@ -4,7 +4,13 @@ import { FormEvent, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import PhoneAuth from "../../../components/auth/PhoneAuth"
+import PhoneAuth from "@/components/auth/PhoneAuth"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { AddressFields } from "@/components/profile/address-fields"
 
 export default function Register() {
   const [email, setEmail] = useState("")
@@ -14,6 +20,7 @@ export default function Register() {
   const [phoneVerified, setPhoneVerified] = useState(false)
   const [phoneNumber, setPhoneNumber] = useState("")
   const router = useRouter()
+  const [selectedRole, setSelectedRole] = useState("DONOR")
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -39,6 +46,7 @@ export default function Register() {
           email,
           password,
           phoneNumber,
+          role: selectedRole,
         }),
       })
 
@@ -55,100 +63,179 @@ export default function Register() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8">
-      <div className="w-full rounded-lg bg-white shadow dark:border dark:border-gray-700 dark:bg-gray-800 sm:max-w-md md:mt-0 xl:p-0">
-        <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-            Đăng kí tài khoản để bắt đầu
-          </h1>
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4 md:space-y-6"
-            action="#"
-          >
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8">
+      <div className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-${selectedRole === "CHARITY" ? "3" : "2"} gap-8`}>
+        {/* Cột 1 - Form cơ bản */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+          <div className="space-y-2">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Đăng kí tài khoản để bắt đầu
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Điền thông tin của bạn để đăng ký
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email field */}
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Nhập email của bạn
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="email">Nhập email của bạn</Label>
+              <Input
                 type="email"
-                name="email"
+                id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
+                className="transition-colors focus:ring-2 focus:ring-primary/20"
                 required
               />
             </div>
 
             {/* Password fields */}
-            <div>
-              <label
-                htmlFor="password"
-                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Mật khẩu
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="confirm-password"
-                className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Xác nhận lại mật khẩu
-              </label>
-              <input
-                type="password"
-                name="confirm-password"
-                value={confirmation}
-                onChange={(e) => setConfirmation(e.target.value)}
-                className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
-                required
-              />
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="password">Mật khẩu</Label>
+                <Input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="transition-colors focus:ring-2 focus:ring-primary/20"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Xác nhận lại mật khẩu</Label>
+                <Input
+                  type="password"
+                  id="confirm-password"
+                  value={confirmation}
+                  onChange={(e) => setConfirmation(e.target.value)}
+                  className="transition-colors focus:ring-2 focus:ring-primary/20"
+                  required
+                />
+              </div>
             </div>
 
             {/* Phone verification */}
             <PhoneAuth onVerificationSuccess={() => setPhoneVerified(true)} />
 
+            {/* Error message */}
             {error && (
-              <div
-                className="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
-                role="alert"
-              >
+              <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-red-600">
                 <span className="block sm:inline">{error}</span>
               </div>
             )}
 
-            <button
-              type="submit"
-              className="focus:ring-primary-300 w-full rounded-lg bg-gray-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4"
-            >
-              Tạo tài khoản
-            </button>
-
-            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+            {/* Login link */}
+            <p className="text-sm text-gray-500">
               Bạn đã có tài khoản?{" "}
-              <Link
-                href="/auth/login"
-                className="font-medium text-gray-600 hover:underline dark:text-gray-500"
-              >
+              <Link href="/auth/login" className="text-primary hover:underline font-medium">
                 Đăng nhập ở đây
               </Link>
             </p>
+
+            <Button type="submit" className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90">
+              Tạo tài khoản
+            </Button>
           </form>
         </div>
+
+        {/* Cột 2 - Role và địa chỉ */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+          {/* Role selection */}
+          <div className="space-y-2">
+            <Label className="text-lg font-medium">Vai trò của bạn</Label>
+            <Select value={selectedRole} onValueChange={setSelectedRole}>
+              <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20">
+                <SelectValue placeholder="Chọn vai trò" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="DONOR">👤 Người đóng góp</SelectItem>
+                <SelectItem value="CHARITY">🏢 Tổ chức từ thiện</SelectItem>
+                <SelectItem value="BENEFICIARY">🤲 Người thụ hưởng</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Thông tin địa chỉ */}
+          <div className="space-y-2">
+            <Label className="text-lg font-medium">Địa chỉ</Label>
+            <AddressFields 
+              onChange={(values) => {
+                console.log(values)
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Cột 3 - Thông tin bổ sung cho CHARITY */}
+        {selectedRole === "CHARITY" && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+            <h3 className="text-lg font-medium bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Thông tin tổ chức
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label>Tên tổ chức</Label>
+                <Input 
+                  placeholder="Nhập tên tổ chức" 
+                  className="transition-colors focus:ring-2 focus:ring-primary/20"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Mô tả</Label>
+                <Textarea 
+                  placeholder="Mô tả về tổ chức của bạn"
+                  className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20" 
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Số giấy phép hoạt động</Label>
+                <Input 
+                  placeholder="Nhập số giấy phép"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20" 
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Ngày cấp giấy phép</Label>
+                  <Input 
+                    type="date"
+                    className="transition-colors focus:ring-2 focus:ring-primary/20" 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Cơ quan cấp phép</Label>
+                  <Input 
+                    placeholder="Tên cơ quan cấp"
+                    className="transition-colors focus:ring-2 focus:ring-primary/20" 
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Giấy phép hoạt động</Label>
+                <div className="border-2 border-dashed border-gray-200 rounded-lg p-4 hover:border-primary/50 transition-colors">
+                  <Input 
+                    type="file" 
+                    accept="image/*"
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium
+                    file:bg-primary/10 file:text-primary hover:file:bg-primary/20" 
+                  />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Hình ảnh giấy phép hoạt động (JPG, PNG)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
-    </main>
+    </div>
   )
 }
