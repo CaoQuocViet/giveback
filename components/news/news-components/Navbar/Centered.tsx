@@ -1,25 +1,26 @@
-import classes from "./Navbar.module.scss";
-import { useState } from "react";
-import { combineClasses, transformImagePaths } from "../../utils/utils";
-import { LogoType, THEMES } from "../../shared/enums";
-import LinkTo from "../LinkTo";
-import { useTheme } from "next-themes";
-import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai";
-import NavCatergoryDD from "../Misc/NavCategoryDD";
-import { iNavLink, iNavSocials, iNavbar } from "../../shared/interfaces";
-import { BsFillShareFill } from "react-icons/bs";
+import { useState } from "react"
+import { useTheme } from "next-themes"
+import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai"
+import { BsFillShareFill } from "react-icons/bs"
+
+import { LogoType, THEMES } from "../../shared/enums"
+import { iNavLink, iNavSocials, iNavbar } from "../../shared/interfaces"
+import { combineClasses, transformImagePaths } from "../../utils/utils"
+import LinkTo from "../LinkTo"
+import NavCatergoryDD from "../Misc/NavCategoryDD"
+import classes from "./Navbar.module.scss"
 
 const CenteredNavbar = ({
   openSearch,
   toggleSideMenu,
   openSidebar = false,
   navSetup,
-  onShareClick
+  onShareClick,
 }: iNavbar) => {
-  const { navLinks, socials, logo } = navSetup;
+  const { navLinks, socials, logo } = navSetup
 
-  const [openDD, setOpenDD] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const [openDD, setOpenDD] = useState(false)
+  const { theme, setTheme } = useTheme()
 
   return (
     <div className={"container"}>
@@ -33,7 +34,7 @@ const CenteredNavbar = ({
             )}
             onClick={() => toggleSideMenu()}
           >
-            <AiOutlineMenu className="dark:text-white text-black text-2xl" />
+            <AiOutlineMenu className="text-2xl text-black dark:text-white" />
           </div>
           <div
             className={combineClasses(classes.search_icon_wrapper)}
@@ -42,14 +43,14 @@ const CenteredNavbar = ({
             <button
               name="search"
               aria-label="search"
-              className="dark:text-white text-black"
+              className="text-black dark:text-white"
             >
               <AiOutlineSearch className="text-[24px]" />
             </button>
           </div>
           <div className="" onClick={() => onShareClick()}>
             <button name="share" aria-label="share page">
-              <BsFillShareFill className="dark:text-white text-black text-[18px] mt-[7px] ml-3" />
+              <BsFillShareFill className="ml-3 mt-[7px] text-[18px] text-black dark:text-white" />
             </button>
           </div>
         </div>
@@ -93,7 +94,7 @@ const CenteredNavbar = ({
             ))}
         </div>
       </div>
-      <div className="flex justify-center items-center font-regular text-[14px] d-sm-none mt-3">
+      <div className="font-regular d-sm-none mt-3 flex items-center justify-center text-[14px]">
         {navLinks.map((each: iNavLink, i: any) =>
           each.type !== "dropdown" ? (
             !each.newTab ? (
@@ -111,7 +112,7 @@ const CenteredNavbar = ({
                 key={each.path}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block mx-2 flex-wrap font-normal	"
+                className="mx-2 block flex-wrap font-normal	"
               >
                 {each.label}
               </a>
@@ -127,7 +128,7 @@ const CenteredNavbar = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CenteredNavbar;
+export default CenteredNavbar

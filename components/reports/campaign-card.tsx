@@ -1,11 +1,12 @@
 "use client"
 
+import Image from "next/image"
+import Link from "next/link"
+
+import { formatAmount, formatDate } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
-import { formatDate, formatAmount } from "@/lib/utils"
-import Link from "next/link"
 
 interface CampaignCardProps {
   campaign: {
@@ -21,7 +22,7 @@ interface CampaignCardProps {
     raised: number
     startDate: string
     endDate: string
-    status: 'KHOIDONG' | 'DANGKEUGOI' | 'DADONG' | 'DAKETTHUC'
+    status: "KHOIDONG" | "DANGKEUGOI" | "DADONG" | "DAKETTHUC"
   }
 }
 
@@ -31,7 +32,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
   return (
     <Card>
       <CardHeader className="relative">
-        <div className="aspect-video relative overflow-hidden rounded-t-lg">
+        <div className="relative aspect-video overflow-hidden rounded-t-lg">
           <Image
             src={campaign.image}
             alt={campaign.name}
@@ -39,7 +40,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             className="object-cover"
           />
         </div>
-        <Badge className="absolute top-2 right-2">
+        <Badge className="absolute right-2 top-2">
           {getStatusLabel(campaign.status)}
         </Badge>
       </CardHeader>
@@ -57,12 +58,13 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             <div className="flex justify-between text-sm">
               <span>Đã quyên góp</span>
               <span className="font-medium">
-                {formatAmount(campaign.raised)} / {formatAmount(campaign.target)} VNĐ
+                {formatAmount(campaign.raised)} /{" "}
+                {formatAmount(campaign.target)} VNĐ
               </span>
             </div>
-            <div className="h-2 bg-secondary rounded-full">
-              <div 
-                className="h-full bg-primary rounded-full"
+            <div className="h-2 rounded-full bg-secondary">
+              <div
+                className="h-full rounded-full bg-primary"
                 style={{ width: `${progress}%` }}
               />
             </div>
@@ -77,9 +79,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
 
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href={`/dashboard/campaigns/${campaign.id}`}>
-            Xem chi tiết
-          </Link>
+          <Link href={`/dashboard/campaigns/${campaign.id}`}>Xem chi tiết</Link>
         </Button>
       </CardFooter>
     </Card>
@@ -88,10 +88,15 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
 
 function getStatusLabel(status: string) {
   switch (status) {
-    case 'KHOIDONG': return 'Khởi động'
-    case 'DANGKEUGOI': return 'Đang kêu gọi'
-    case 'DADONG': return 'Đã đóng'
-    case 'DAKETTHUC': return 'Đã kết thúc'
-    default: return status
+    case "KHOIDONG":
+      return "Khởi động"
+    case "DANGKEUGOI":
+      return "Đang kêu gọi"
+    case "DADONG":
+      return "Đã đóng"
+    case "DAKETTHUC":
+      return "Đã kết thúc"
+    default:
+      return status
   }
-} 
+}

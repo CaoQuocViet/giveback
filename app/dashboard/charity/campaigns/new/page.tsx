@@ -1,29 +1,29 @@
 "use client"
 
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { 
+import {
+  Box,
   Button,
-  TextField,
   Card,
   CardContent,
-  Typography,
   Grid,
-  Box
-} from '@mui/material'
+  TextField,
+  Typography,
+} from "@mui/material"
+import { useSession } from "next-auth/react"
 
 export default function NewCampaignPage() {
   const { data: session } = useSession()
   const router = useRouter()
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", py: 4 }}>
       <Card>
         <CardContent>
           <Typography variant="h5" gutterBottom>
             Tạo chiến dịch mới
           </Typography>
-          
+
           <form>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -125,7 +125,14 @@ export default function NewCampaignPage() {
               </Grid>
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 4 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 2,
+                mt: 4,
+              }}
+            >
               <Button variant="outlined" onClick={() => router.back()}>
                 Hủy
               </Button>
@@ -138,4 +145,4 @@ export default function NewCampaignPage() {
       </Card>
     </Box>
   )
-} 
+}

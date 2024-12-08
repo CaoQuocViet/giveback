@@ -1,8 +1,9 @@
 "use client"
 
+import Link from "next/link"
+
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import Link from "next/link"
 
 interface DonationListProps {
   donations: Array<{
@@ -16,7 +17,7 @@ interface DonationListProps {
         name: string
       }
     }
-    status: 'pending' | 'completed' | 'failed'
+    status: "pending" | "completed" | "failed"
     createdAt: string
     paymentMethod: {
       name: string
@@ -35,7 +36,7 @@ export function DonationList({ donations, filter }: DonationListProps) {
 
   if (filteredDonations.length === 0) {
     return (
-      <div className="text-center py-12 text-muted-foreground">
+      <div className="py-12 text-center text-muted-foreground">
         Chưa có khoản đóng góp nào
       </div>
     )
@@ -44,12 +45,9 @@ export function DonationList({ donations, filter }: DonationListProps) {
   return (
     <div className="space-y-4">
       {filteredDonations.map((donation) => (
-        <div
-          key={donation.id}
-          className="bg-card rounded-lg border p-4"
-        >
-          <div className="flex items-center justify-between mb-2">
-            <Link 
+        <div key={donation.id} className="rounded-lg border bg-card p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <Link
               href={`/dashboard/campaigns/${donation.campaign.id}`}
               className="text-lg font-semibold hover:underline"
             >
@@ -59,8 +57,8 @@ export function DonationList({ donations, filter }: DonationListProps) {
               {getStatusLabel(donation.status)}
             </Badge>
           </div>
-          
-          <div className="text-sm text-muted-foreground mb-4">
+
+          <div className="mb-4 text-sm text-muted-foreground">
             <p>Tổ chức: {donation.campaign.charity.name}</p>
             <p>Mã giao dịch: {donation.transaction_code}</p>
             <p>Thời gian: {formatDate(donation.createdAt)}</p>
@@ -78,30 +76,30 @@ export function DonationList({ donations, filter }: DonationListProps) {
 
 function getStatusVariant(status: string) {
   switch (status) {
-    case 'completed':
-      return 'success'
-    case 'pending':
-      return 'warning'
-    case 'failed':
-      return 'destructive'
+    case "completed":
+      return "success"
+    case "pending":
+      return "warning"
+    case "failed":
+      return "destructive"
     default:
-      return 'default'
+      return "default"
   }
 }
 
 function getStatusLabel(status: string) {
   switch (status) {
-    case 'completed':
-      return 'Đã hoàn thành'
-    case 'pending':
-      return 'Đang xử lý'
-    case 'failed':
-      return 'Thất bại'
+    case "completed":
+      return "Đã hoàn thành"
+    case "pending":
+      return "Đang xử lý"
+    case "failed":
+      return "Thất bại"
     default:
       return status
   }
 }
 
 function formatAmount(amount: number) {
-  return new Intl.NumberFormat('vi-VN').format(amount)
-} 
+  return new Intl.NumberFormat("vi-VN").format(amount)
+}

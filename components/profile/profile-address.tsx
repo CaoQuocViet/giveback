@@ -1,8 +1,8 @@
 "use client"
 
-import { Select } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Select } from "@/components/ui/select"
 
 interface ProfileAddressProps {
   initialData?: {
@@ -44,4 +44,4 @@ export function ProfileAddress({ initialData, onChange }: ProfileAddressProps) {
       </div>
     </div>
   )
-} 
+}

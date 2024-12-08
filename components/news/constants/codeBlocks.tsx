@@ -1,4 +1,4 @@
-import { ListType, ImageSize, TextAlign } from "../shared/enums";
+import { ImageSize, ListType, TextAlign } from "../shared/enums"
 
 export const HowToUsePageLayout = `
     // import PageLayout from components
@@ -14,7 +14,7 @@ export const HowToUsePageLayout = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseTextCode = `
     // import TextAlign from enums
@@ -54,7 +54,7 @@ export const HowToUseTextCode = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseImageCode = `
     // import ImageSize from enums
@@ -72,7 +72,7 @@ export const HowToUseImageCode = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseList = `
     // import ListType from enums
@@ -98,7 +98,7 @@ export const HowToUseList = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseAccordian = `
     // import Accordian from components
@@ -116,7 +116,7 @@ export const HowToUseAccordian = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseSeperator = `
     // import Seperator from components
@@ -130,7 +130,7 @@ export const HowToUseSeperator = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseLinkTo = `
     // import LinkTo from components
@@ -147,7 +147,7 @@ export const HowToUseLinkTo = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseSlider = `
     // import Slider from components
@@ -166,7 +166,7 @@ export const HowToUseSlider = `
     }
 
     export default Article;
-`;
+`
 
 export const HowToUseVideo = `
     // import VideoPlayer from components
@@ -178,7 +178,7 @@ export const HowToUseVideo = `
     }
 
     export default Article;
-`;
+`
 
 export const AuthorSetup = `
     // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
@@ -198,7 +198,7 @@ export const AuthorSetup = `
             },
         ]
     }
-`;
+`
 
 export const NavbarSetup = `
     // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
@@ -209,7 +209,7 @@ export const NavbarSetup = `
         sideNavLinks: [],
         socials: [],
     }
-`;
+`
 
 export const NavbarSetupType = `
     // file --> /NEWS_CONSTANTS/_NEW_SETUP.tsx
@@ -220,7 +220,7 @@ export const NavbarSetupType = `
     export const PRIMARY_NAV = {
         type: NavbarType.CENTERED,
     }
-`;
+`
 
 export const NavbarSetup_NAVLINKS = `
     export const PRIMARY_NAV = {
@@ -246,7 +246,7 @@ export const NavbarSetup_NAVLINKS = `
             },
         ]
     }
-`;
+`
 
 export const NavbarSetup_Socials = `
     export const PRIMARY_NAV = {
@@ -265,7 +265,7 @@ export const NavbarSetup_Socials = `
             },
         ]
     }
-`;
+`
 export const rightSideAdCode = `
     // import PageLayout from components
     import { ..., PageLayout, ... } from "../@/components/news";
@@ -285,7 +285,7 @@ export const rightSideAdCode = `
     }
 
     export default Article;
-`;
+`
 
 export const Article_Entry_inList = `
     // Import author profiles, just type the name you have set in _NEW_SETUP inside the curly brackets
@@ -318,4 +318,4 @@ export const Article_Entry_inList = `
         },
         ...
     ]
-`;
+`

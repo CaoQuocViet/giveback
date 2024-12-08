@@ -1,19 +1,20 @@
-import LinkTo from "../LinkTo";
-import { IArticleHeaderData } from "../../shared/interfaces";
+import Image from "next/image"
+
+import { IArticleHeaderData } from "../../shared/interfaces"
 import {
   combineClasses,
   transformImagePaths,
   transformPath,
-} from "../../utils/utils";
-import classes from "./ArticleCard.module.scss";
-import Avatar from "../Misc/Avatar";
-import ArticleCardCategory from "../Misc/ArticleCardCategory";
-import ArticleTags from "../Misc/ArticleTags";
-import Image from "next/image";
+} from "../../utils/utils"
+import LinkTo from "../LinkTo"
+import ArticleCardCategory from "../Misc/ArticleCardCategory"
+import ArticleTags from "../Misc/ArticleTags"
+import Avatar from "../Misc/Avatar"
+import classes from "./ArticleCard.module.scss"
 
 interface IProp {
-  article: IArticleHeaderData;
-  path: string;
+  article: IArticleHeaderData
+  path: string
 }
 
 const ArticleCard = ({ article, path }: IProp) => {
@@ -21,14 +22,14 @@ const ArticleCard = ({ article, path }: IProp) => {
   const origin =
     typeof window !== "undefined" && window.location.origin
       ? window.location.origin
-      : "";
+      : ""
 
   const imgLoader = ({ src, width, quality }: any) => {
-    return `${origin}${src}?w=${width}&q=${quality || 75}`;
-  };
+    return `${origin}${src}?w=${width}&q=${quality || 75}`
+  }
 
   return (
-    <div className={"w-full lg:w-1/3 md:w-1/2 md:px-[15px] px-2 mb-[30px]"}>
+    <div className={"mb-[30px] w-full px-2 md:w-1/2 md:px-[15px] lg:w-1/3"}>
       <LinkTo
         href={transformPath(path)}
         passHref
@@ -38,7 +39,7 @@ const ArticleCard = ({ article, path }: IProp) => {
         )}
       >
         <div>
-          <div className={"rounded-t-[4px] overflow-hidden h-[200px] relative"}>
+          <div className={"relative h-[200px] overflow-hidden rounded-t-[4px]"}>
             <Image
               src={transformImagePaths(article.thumbnail)}
               alt={article.articleTitle}
@@ -50,13 +51,13 @@ const ArticleCard = ({ article, path }: IProp) => {
           </div>
 
           <div className={"d-block px-[15px] py-0"}>
-            <p className={"font-normal text-xs pt-3 mb-0 md:mb-3"}>
+            <p className={"mb-0 pt-3 text-xs font-normal md:mb-3"}>
               {article.date}
             </p>
             <LinkTo href={transformPath(path)} passHref>
               <h1
                 className={
-                  "text-[22px] font-bold cursor-pointer tracking-wide hover:text-blue-600"
+                  "cursor-pointer text-[22px] font-bold tracking-wide hover:text-blue-600"
                 }
               >
                 {article.articleTitle}
@@ -82,7 +83,7 @@ const ArticleCard = ({ article, path }: IProp) => {
           <div className={"flex items-center"}>
             <Avatar
               author={article.author}
-              className="w-[40px] h-[40px] mr-3 text-xl"
+              className="mr-3 size-[40px] text-xl"
             />
             <LinkTo
               href={"/blog?author=" + article.author.name}
@@ -102,7 +103,7 @@ const ArticleCard = ({ article, path }: IProp) => {
         </div>
       </LinkTo>
     </div>
-  );
-};
+  )
+}
 
-export default ArticleCard;
+export default ArticleCard

@@ -1,7 +1,7 @@
 "use client"
 
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 interface ProfileFormProps {
@@ -15,10 +15,12 @@ interface ProfileFormProps {
 
 export function ProfileForm({ initialData, onSubmit }: ProfileFormProps) {
   return (
-    <form onSubmit={(e) => {
-      e.preventDefault()
-      // Handle form submission
-    }}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        // Handle form submission
+      }}
+    >
       <div className="space-y-4">
         <div className="grid gap-2">
           <Label htmlFor="fullName">Họ và tên</Label>
@@ -56,4 +58,4 @@ export function ProfileForm({ initialData, onSubmit }: ProfileFormProps) {
       </div>
     </form>
   )
-} 
+}

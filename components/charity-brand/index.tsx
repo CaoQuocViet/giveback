@@ -1,16 +1,18 @@
-"use client";
-import React from "react";
-import SingleBrand from "./SingleBrand";
-import brandData from "./brandData";
+"use client"
+
+import React from "react"
+
+import SingleBrand from "./SingleBrand"
+import brandData from "./brandData"
 
 const CharityBrand = () => {
   return (
     <>
       {/* <!-- ===== Clients Start ===== --> */}
-      <section className="border border-x-0 border-y-stroke bg-alabaster py-11 dark:border-y-strokedark dark:bg-black">
-        <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-          <div className="flex flex-wrap justify-center items-center gap-20">
-          {brandData.map((brand, key) => (
+      <section className="border-y-stroke bg-alabaster dark:border-y-strokedark border border-x-0 py-11 dark:bg-black">
+        <div className="max-w-c-1390 mx-auto px-4 md:px-8 2xl:px-0">
+          <div className="flex flex-wrap items-center justify-center gap-20">
+            {brandData.map((brand, key) => (
               <SingleBrand brand={brand} key={key} />
             ))}
           </div>
@@ -18,7 +20,7 @@ const CharityBrand = () => {
       </section>
       {/* <!-- ===== Clients End ===== --> */}
     </>
-  );
-};
+  )
+}
 
-export default CharityBrand;
+export default CharityBrand

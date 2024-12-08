@@ -1,7 +1,13 @@
 "use client"
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface DonationFilterProps {
   filter: {
@@ -45,16 +51,18 @@ export function DonationFilter({ filter, onChange }: DonationFilterProps) {
         </SelectContent>
       </Select>
 
-      <Button 
+      <Button
         variant="outline"
-        onClick={() => onChange({
-          status: 'all',
-          dateRange: 'all',
-          campaign: ''
-        })}
+        onClick={() =>
+          onChange({
+            status: "all",
+            dateRange: "all",
+            campaign: "",
+          })
+        }
       >
         Đặt lại
       </Button>
     </div>
   )
-} 
+}

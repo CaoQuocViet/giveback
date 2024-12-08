@@ -1,19 +1,23 @@
 /**These are necessary imports / components for the page */
-'use client';
-import Image from 'next/image';
+"use client"
+
+import Image from "next/image"
 
 export default function CoffeeShopArticle() {
   return (
-    <article className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">
+    <article className="mx-auto max-w-4xl px-4 py-8">
+      <h1 className="mb-4 text-3xl font-bold">
         Chủ quán đề nghị khách thanh toán vào tài khoản Mặt trận Tổ quốc
       </h1>
 
       <div className="prose max-w-none">
-        <div className="bg-gray-50 p-4 rounded-lg mb-6">
-          <h2 className="text-xl font-semibold mb-2">Tóm tắt</h2>
-          <ul className="list-disc list-inside space-y-2">
-            <li>Chủ quán cà phê ở Tam Kỳ kêu gọi khách chuyển tiền đồ uống vào tài khoản MTTQ</li>
+        <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <h2 className="mb-2 text-xl font-semibold">Tóm tắt</h2>
+          <ul className="list-inside list-disc space-y-2">
+            <li>
+              Chủ quán cà phê ở Tam Kỳ kêu gọi khách chuyển tiền đồ uống vào tài
+              khoản MTTQ
+            </li>
             <li>Áp dụng trong 4 ngày (12-15/9) để ủng hộ đồng bào miền Bắc</li>
             <li>Nhiều khách hàng chuyển khoản cao hơn giá trị đồ uống</li>
             <li>Quán đón khoảng 100 lượt khách mỗi ngày</li>
@@ -27,13 +31,17 @@ export default function CoffeeShopArticle() {
           height={450}
           className="my-6 rounded-lg"
         />
-        <p className="text-sm text-gray-600 mt-2 mb-6">
-          Anh Nguyễn Hẹn ở quán cà phê thuộc phường Tân Thạnh, TP Tam Kỳ, chiều 12/9. Ảnh: Nhân vật cung cấp
+        <p className="mb-6 mt-2 text-sm text-gray-600">
+          Anh Nguyễn Hẹn ở quán cà phê thuộc phường Tân Thạnh, TP Tam Kỳ, chiều
+          12/9. Ảnh: Nhân vật cung cấp
         </p>
 
-        <blockquote className="border-l-4 border-gray-300 pl-4 my-6 italic">
-          "Tôi đã lớn lên với nhiều cơn bão nên hiểu sự khó khăn của người dân các tỉnh phía Bắc trong thiên tai"
-          <footer className="text-gray-600 mt-2">- Anh Nguyễn Hẹn, chủ quán cà phê</footer>
+        <blockquote className="my-6 border-l-4 border-gray-300 pl-4 italic">
+          "Tôi đã lớn lên với nhiều cơn bão nên hiểu sự khó khăn của người dân
+          các tỉnh phía Bắc trong thiên tai"
+          <footer className="mt-2 text-gray-600">
+            - Anh Nguyễn Hẹn, chủ quán cà phê
+          </footer>
         </blockquote>
 
         <Image
@@ -43,8 +51,9 @@ export default function CoffeeShopArticle() {
           height={450}
           className="my-6 rounded-lg"
         />
-        <p className="text-sm text-gray-600 mt-2 mb-6">
-          Quán cà phê của anh Hẹn ở phường Tân Thạnh, TP Tam Kỳ, chiều 12/9. Ảnh: Nhân vật cung cấp
+        <p className="mb-6 mt-2 text-sm text-gray-600">
+          Quán cà phê của anh Hẹn ở phường Tân Thạnh, TP Tam Kỳ, chiều 12/9.
+          Ảnh: Nhân vật cung cấp
         </p>
 
         <div className="mt-8 text-sm text-gray-600">
@@ -53,5 +62,5 @@ export default function CoffeeShopArticle() {
         </div>
       </div>
     </article>
-  );
+  )
 }

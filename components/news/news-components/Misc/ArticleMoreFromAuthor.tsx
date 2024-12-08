@@ -1,39 +1,40 @@
-import Link from "next/link";
-import { iArticle, IAuthor } from "../../shared/interfaces";
+import Link from "next/link"
+
+import { IAuthor, iArticle } from "../../shared/interfaces"
 import {
   combineClasses,
   isDesktopDevice,
   transformImagePaths,
   transformPath,
-} from "../../utils/utils";
-import LinkTo from "../LinkTo";
-import Avatar from "./Avatar";
-import SocialShare from "../SocialShare/SocialShare";
+} from "../../utils/utils"
+import LinkTo from "../LinkTo"
+import SocialShare from "../SocialShare/SocialShare"
+import Avatar from "./Avatar"
 
 const ArticleMoreFromAuthor = ({
   author,
   relatedArticles,
   articleGrid = false,
 }: {
-  author: IAuthor;
-  relatedArticles: iArticle[];
-  articleGrid?: boolean;
+  author: IAuthor
+  relatedArticles: iArticle[]
+  articleGrid?: boolean
 }) => {
   const wrapperClasses =
-    "bg-white dark:bg-slate-800 dark:border-none border-slate-100 shadow-lg border md:rounded-[8px] px-[15px] py-[10px] mb-[30px] overflow-hidden";
+    "bg-white dark:bg-slate-800 dark:border-none border-slate-100 shadow-lg border md:rounded-[8px] px-[15px] py-[10px] mb-[30px] overflow-hidden"
   return (
     <>
       <div className={wrapperClasses}>
         <div className="flex items-center">
-          <Avatar author={author} className="w-[60px] h-[60px] mr-3 text-xl" />
+          <Avatar author={author} className="mr-3 size-[60px] text-xl" />
           <div className="font-semibold">
-            <p className={"text-[20px]  mb-0 mt-0"}>{author.name}</p>
-            <p className="text-xs mt-0 mb-0">{author.designation}</p>
+            <p className={"my-0  text-[20px]"}>{author.name}</p>
+            <p className="my-0 text-xs">{author.designation}</p>
           </div>
         </div>
-        <p className="text-[16px] mt-2">{author.bio}</p>
+        <p className="mt-2 text-[16px]">{author.bio}</p>
         {author.social?.length && (
-          <div className="flex items-center flex-wrap mt-3">
+          <div className="mt-3 flex flex-wrap items-center">
             {author.social.map((each, i) => (
               <a
                 href={each.link}
@@ -51,7 +52,7 @@ const ArticleMoreFromAuthor = ({
 
       {isDesktopDevice() && (
         <div className={wrapperClasses}>
-          <p className="border-b border-gray-300 pb-2 mb-3 font-medium w-full">
+          <p className="mb-3 w-full border-b border-gray-300 pb-2 font-medium">
             Share this article
           </p>
           <SocialShare />
@@ -60,7 +61,7 @@ const ArticleMoreFromAuthor = ({
 
       {relatedArticles.length && (
         <div className={wrapperClasses}>
-          <p className="border-b border-gray-300 pb-2 mb-3 font-medium w-full">
+          <p className="mb-3 w-full border-b border-gray-300 pb-2 font-medium">
             More from Author
           </p>
           <div className={articleGrid ? "flex flex-wrap" : ""}>
@@ -75,20 +76,20 @@ const ArticleMoreFromAuthor = ({
                 >
                   <div
                     className="
-                                            rounded-[3px] dark:bg-slate-800
-                                            border border-slate-200 dark:border-slate-900
-                                            flex items-center overflow-hidden
-                                            shadow-lg hover:shadow-md
+                                            flex items-center
+                                            overflow-hidden rounded-[3px] border
+                                            border-slate-200 shadow-lg hover:shadow-md
+                                            dark:border-slate-900 dark:bg-slate-800
                                         "
                   >
-                    <div className={"object-cover shrink-0"}>
+                    <div className={"shrink-0 object-cover"}>
                       <img
                         src={transformImagePaths(each.preview.thumbnail)}
-                        className="w-[120px] h-[70px] mr-2 object-cover"
+                        className="mr-2 h-[70px] w-[120px] object-cover"
                         alt={each.preview.articleTitle}
                       />
                     </div>
-                    <div className="pr-1 text-[16px] hover:text-blue-500 font-semibold">
+                    <div className="pr-1 text-[16px] font-semibold hover:text-blue-500">
                       {each.preview.articleTitle}
                     </div>
                   </div>
@@ -99,7 +100,7 @@ const ArticleMoreFromAuthor = ({
               <LinkTo
                 href={"/blog?author=" + author.name}
                 passHref
-                className="block text-sm py-3 px-2 text-center dark:bg-slate-900 bg-blue-500 rounded text-white font-bold hover:!text-blue-900 dark:hover:!text-slate-400 transition-all"
+                className="block rounded bg-blue-500 px-2 py-3 text-center text-sm font-bold text-white transition-all hover:!text-blue-900 dark:bg-slate-900 dark:hover:!text-slate-400"
               >
                 <p>All articles from {author.name}</p>
               </LinkTo>
@@ -108,7 +109,7 @@ const ArticleMoreFromAuthor = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default ArticleMoreFromAuthor;
+export default ArticleMoreFromAuthor

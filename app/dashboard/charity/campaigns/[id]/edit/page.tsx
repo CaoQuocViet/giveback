@@ -1,46 +1,50 @@
 "use client"
 
-import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { 
+import {
+  Box,
   Button,
-  TextField,
   Card,
   CardContent,
-  Typography,
-  Grid,
-  Box,
-  Select,
-  MenuItem,
   FormControl,
+  FormHelperText,
+  Grid,
   InputLabel,
-  FormHelperText
-} from '@mui/material'
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material"
+import { useSession } from "next-auth/react"
 
 // Mock data - sẽ được thay thế bằng API call
 const mockCampaign = {
-  id: '1',
-  title: 'Hỗ trợ đồng bào miền Trung',
-  status: 'ONGOING',
-  startDate: '2024-03-01',
-  endDate: '2024-04-01',
+  id: "1",
+  title: "Hỗ trợ đồng bào miền Trung",
+  status: "ONGOING",
+  startDate: "2024-03-01",
+  endDate: "2024-04-01",
   targetAmount: 100000000,
-  description: 'Mô tả chi tiết về chiến dịch...',
-  images: ['image1.jpg', 'image2.jpg']
+  description: "Mô tả chi tiết về chiến dịch...",
+  images: ["image1.jpg", "image2.jpg"],
 }
 
-export default function EditCampaignPage({ params }: { params: { id: string } }) {
+export default function EditCampaignPage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const { data: session } = useSession()
   const router = useRouter()
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: 'auto', py: 4 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", py: 4 }}>
       <Card>
         <CardContent>
           <Typography variant="h5" gutterBottom>
             Chỉnh sửa chiến dịch
           </Typography>
-          
+
           <form>
             <Grid container spacing={3}>
               <Grid item xs={12}>
@@ -57,10 +61,7 @@ export default function EditCampaignPage({ params }: { params: { id: string } })
               <Grid item xs={12}>
                 <FormControl fullWidth>
                   <InputLabel>Trạng thái</InputLabel>
-                  <Select
-                    defaultValue={mockCampaign.status}
-                    label="Trạng thái"
-                  >
+                  <Select defaultValue={mockCampaign.status} label="Trạng thái">
                     <MenuItem value="ONGOING">Đang kêu gọi</MenuItem>
                     <MenuItem value="CLOSED">Đã đóng</MenuItem>
                     <MenuItem value="COMPLETED">Đã kết thúc</MenuItem>
@@ -130,7 +131,14 @@ export default function EditCampaignPage({ params }: { params: { id: string } })
               </Grid>
             </Grid>
 
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mt: 4 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: 2,
+                mt: 4,
+              }}
+            >
               <Button variant="outlined" onClick={() => router.back()}>
                 Hủy
               </Button>
@@ -143,4 +151,4 @@ export default function EditCampaignPage({ params }: { params: { id: string } })
       </Card>
     </Box>
   )
-} 
+}

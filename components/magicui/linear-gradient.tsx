@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from "react"
 
 type Direction =
   | "top"
@@ -8,7 +8,7 @@ type Direction =
   | "top left"
   | "top right"
   | "bottom left"
-  | "bottom right";
+  | "bottom right"
 
 interface LinearGradientProps {
   /**
@@ -16,49 +16,49 @@ interface LinearGradientProps {
    * @default #00000000
    * @type string
    * */
-  from?: string;
+  from?: string
 
   /**
    * The color to transition to
    * @default #290A5C
    * @type string
    * */
-  to?: string;
+  to?: string
 
   /**
    * The width of the gradient
    * @default 100%
    * @type string
    * */
-  width?: string;
+  width?: string
 
   /**
    * The height of the gradient
    * @default 100%
    * @type string
    * */
-  height?: string;
+  height?: string
 
   /**
    * The direction of the gradient
    * @default bottom
    * @type string
    * */
-  direction?: Direction;
+  direction?: Direction
 
   /**
    * The point at which the transition occurs
    * @default 50%
    * @type string
    * */
-  transitionPoint?: string;
+  transitionPoint?: string
 
   /**
    * The class name to apply to the gradient
    * @default ""
    * @type string
    * */
-  className?: string;
+  className?: string
 }
 
 const LinearGradient = ({
@@ -77,9 +77,8 @@ const LinearGradient = ({
     width: width,
     height: height,
     background: `linear-gradient(to ${direction}, ${from}, ${transitionPoint}, ${to})`,
-  };
-  return <div className={className} style={styles} />;
-};
+  }
+  return <div className={className} style={styles} />
+}
 
-export default LinearGradient;
-
+export default LinearGradient

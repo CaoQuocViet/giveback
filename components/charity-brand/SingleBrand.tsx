@@ -1,10 +1,11 @@
-import React from "react";
-import Image from "next/image";
-import { CharityBrand } from "@/types/charity-brand";
-import { motion } from "framer-motion";
+import React from "react"
+import Image from "next/image"
+import { motion } from "framer-motion"
+
+import { CharityBrand } from "@/types/charity-brand"
 
 const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
-  const { image, href, name, imageLight, id } = brand;
+  const { image, href, name, imageLight, id } = brand
 
   return (
     <>
@@ -25,7 +26,7 @@ const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
         transition={{ duration: 1, delay: id }}
         viewport={{ once: true }}
         href={href}
-        className="animate_top mx-w-full relative block h-[100px] w-[140px] mx-8" // Thêm mx-4 để tạo khoảng cách giữa các logo
+        className="animate_top mx-w-full relative mx-8 block h-[100px] w-[140px]" // Thêm mx-4 để tạo khoảng cách giữa các logo
       >
         <Image
           className="opacity-65 transition-all duration-300 hover:opacity-100 dark:hidden"
@@ -41,7 +42,7 @@ const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
         />
       </motion.a>
     </>
-  );
-};
+  )
+}
 
-export default SingleBrand;
+export default SingleBrand

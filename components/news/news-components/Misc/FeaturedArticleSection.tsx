@@ -5,25 +5,30 @@ import Seperator from "../Seperator"
 import Text from "../Text"
 
 const FeaturedArticleSection = () => {
-    const featureArticles = SORTED_ARTICLES_BY_DATE.filter((article: iArticle) => article.featureArticle === true)
-    return (
+  const featureArticles = SORTED_ARTICLES_BY_DATE.filter(
+    (article: iArticle) => article.featureArticle === true
+  )
+  return featureArticles.length ? (
+    <>
+      <Text
+        subtitle
+        className="mb-5 w-full px-3 text-3xl !font-medium md:!text-4xl"
+      >
+        Các bài viết nổi bật
+      </Text>
+      <hr className="border-1 mx-auto mb-5 w-[98%]" />
 
-        featureArticles.length ?
-            (<>
-                <Text subtitle className="mb-5 md:!text-4xl text-3xl w-full px-3 !font-medium">
-                    Các bài viết nổi bật
-                </Text>
-                <hr className='border-1 mb-5 w-[98%] mx-auto' />
+      {featureArticles.map((each, i) => (
+        <FeaturedArticle
+          article={each.preview}
+          path={each.path}
+          key={each.path + i}
+        />
+      ))}
 
-                {
-                    featureArticles.map((each, i) => (
-                        <FeaturedArticle article={each.preview} path={each.path} key={each.path + i} />
-                    ))
-                }
-
-                <Seperator />
-            </>) : null
-    )
+      <Seperator />
+    </>
+  ) : null
 }
 
 export default FeaturedArticleSection

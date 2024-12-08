@@ -1,11 +1,15 @@
 const HomeLayout = ({ children }: { children: any }) => {
-    return (
-        <>
-            <div className={"dark:bg-slate-900 dark:text-white bg-slate-100 text-black pb-[20px] md:min-h-screen font-regular text-lg leading-relaxed"}>
-                {children}
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div
+        className={
+          "font-regular bg-slate-100 pb-[20px] text-lg leading-relaxed text-black dark:bg-slate-900 dark:text-white md:min-h-screen"
+        }
+      >
+        {children}
+      </div>
+    </>
+  )
 }
 
 export default HomeLayout

@@ -1,20 +1,26 @@
-'use client';
-import Image from 'next/image';
+"use client"
+
+import Image from "next/image"
 
 export default function StormFormationArticle() {
   return (
-    <article className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-4">
+    <article className="mx-auto max-w-4xl px-4 py-8">
+      <h1 className="mb-4 text-3xl font-bold">
         Bão hình thành và "chết" như thế nào?
       </h1>
 
       <div className="prose max-w-none">
         {/* Tóm tắt format từ home-layout */}
-        <div className="bg-gray-50 p-4 rounded-lg mb-6">
-          <h2 className="text-xl font-semibold mb-2">Tóm tắt</h2>
-          <ul className="list-disc list-inside space-y-2">
-            <li>Bão hình thành từ vùng áp thấp trên biển có nhiệt độ trên 26.5°C</li>
-            <li>Cần ít nhất 3 điều kiện: nhiệt độ nước biển ấm, độ ẩm cao và lực Coriolis</li>
+        <div className="mb-6 rounded-lg bg-gray-50 p-4">
+          <h2 className="mb-2 text-xl font-semibold">Tóm tắt</h2>
+          <ul className="list-inside list-disc space-y-2">
+            <li>
+              Bão hình thành từ vùng áp thấp trên biển có nhiệt độ trên 26.5°C
+            </li>
+            <li>
+              Cần ít nhất 3 điều kiện: nhiệt độ nước biển ấm, độ ẩm cao và lực
+              Coriolis
+            </li>
             <li>Bão suy yếu khi đi vào đất liền hoặc gặp vùng nước lạnh</li>
             <li>Chu kỳ sống của bão thường kéo dài 5-7 ngày</li>
           </ul>
@@ -27,15 +33,20 @@ export default function StormFormationArticle() {
           height={450}
           className="my-6 rounded-lg"
         />
-        <p className="text-sm text-gray-600 mt-2 mb-6">
+        <p className="mb-6 mt-2 text-sm text-gray-600">
           Sơ đồ minh họa quá trình hình thành và phát triển của bão. Ảnh: NASA
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Quá trình hình thành bão</h2>
+        <h2 className="mb-4 mt-8 text-2xl font-semibold">
+          Quá trình hình thành bão
+        </h2>
         <div className="space-y-4">
           <div className="border-l-4 border-blue-500 pl-4">
             <p className="font-semibold">Giai đoạn 1: Vùng áp thấp</p>
-            <p>Hình thành từ vùng nước biển ấm trên 26.5°C, không khí nóng bốc lên tạo áp suất thấp</p>
+            <p>
+              Hình thành từ vùng nước biển ấm trên 26.5°C, không khí nóng bốc
+              lên tạo áp suất thấp
+            </p>
           </div>
           <div className="border-l-4 border-blue-500 pl-4">
             <p className="font-semibold">Giai đoạn 2: Áp thấp nhiệt đới</p>
@@ -54,13 +65,16 @@ export default function StormFormationArticle() {
           height={450}
           className="my-6 rounded-lg"
         />
-        <p className="text-sm text-gray-600 mt-2 mb-6">
+        <p className="mb-6 mt-2 text-sm text-gray-600">
           Cấu trúc điển hình của một cơn bão trưởng thành. Ảnh: NOAA
         </p>
 
-        <h2 className="text-2xl font-semibold mt-8 mb-4">Quá trình suy yếu và tan rã</h2>
+        <h2 className="mb-4 mt-8 text-2xl font-semibold">
+          Quá trình suy yếu và tan rã
+        </h2>
         <p className="mb-4">
-          Bão suy yếu khi đi vào đất liền do mất nguồn năng lượng từ nước biển ấm, ma sát với địa hình và thiếu hơi nước...
+          Bão suy yếu khi đi vào đất liền do mất nguồn năng lượng từ nước biển
+          ấm, ma sát với địa hình và thiếu hơi nước...
         </p>
 
         <Image
@@ -70,8 +84,9 @@ export default function StormFormationArticle() {
           height={450}
           className="my-6 rounded-lg"
         />
-        <p className="text-sm text-gray-600 mt-2 mb-6">
-          Hình ảnh vệ tinh cho thấy bão Yagi suy yếu nhanh chóng sau khi đổ bộ vào đất liền. Ảnh: NOAA
+        <p className="mb-6 mt-2 text-sm text-gray-600">
+          Hình ảnh vệ tinh cho thấy bão Yagi suy yếu nhanh chóng sau khi đổ bộ
+          vào đất liền. Ảnh: NOAA
         </p>
 
         <div className="mt-8 text-sm text-gray-600">
@@ -79,5 +94,5 @@ export default function StormFormationArticle() {
         </div>
       </div>
     </article>
-  );
+  )
 }

@@ -1,8 +1,10 @@
 "use client"
 
-import { CampaignCard } from "./campaign-card"
-import { Pagination } from "@/components/ui/pagination"
 import { useState } from "react"
+
+import { Pagination } from "@/components/ui/pagination"
+
+import { CampaignCard } from "./campaign-card"
 
 interface CampaignListProps {
   data?: {
@@ -19,7 +21,7 @@ interface CampaignListProps {
       raised: number
       startDate: string
       endDate: string
-      status: 'KHOIDONG' | 'DANGKEUGOI' | 'DADONG' | 'DAKETTHUC'
+      status: "KHOIDONG" | "DANGKEUGOI" | "DADONG" | "DAKETTHUC"
       comments: Array<{
         id: string
         content: string
@@ -41,14 +43,14 @@ export function CampaignList({ data }: CampaignListProps) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">Danh sách chiến dịch</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {data?.campaigns.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
         ))}
       </div>
 
-      <Pagination 
+      <Pagination
         total={data?.total || 0}
         page={page}
         onPageChange={setPage}
@@ -56,4 +58,4 @@ export function CampaignList({ data }: CampaignListProps) {
       />
     </div>
   )
-} 
+}

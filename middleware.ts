@@ -1,6 +1,7 @@
-import { NextRequest } from "next/server";
-import { authMiddleware } from "next-firebase-auth-edge";
-import { clientConfig, serverConfig } from "./config";
+import { NextRequest } from "next/server"
+import { authMiddleware } from "next-firebase-auth-edge"
+
+import { clientConfig, serverConfig } from "./config"
 
 export async function middleware(request: NextRequest) {
   return authMiddleware(request, {
@@ -11,7 +12,7 @@ export async function middleware(request: NextRequest) {
     cookieSignatureKeys: serverConfig.cookieSignatureKeys,
     cookieSerializeOptions: serverConfig.cookieSerializeOptions,
     serviceAccount: serverConfig.serviceAccount,
-  });
+  })
 }
 
 export const config = {
@@ -23,4 +24,4 @@ export const config = {
     "/api/login",
     "/api/logout",
   ],
-};
+}

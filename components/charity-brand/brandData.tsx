@@ -1,4 +1,4 @@
-import { CharityBrand } from "@/types/charity-brand";
+import { CharityBrand } from "@/types/charity-brand"
 
 const brandData: CharityBrand[] = [
   {
@@ -43,6 +43,6 @@ const brandData: CharityBrand[] = [
     image: "/images/brand/brand-light-06.svg",
     imageLight: "/images/brand/brand-dark-06.svg",
   },
-];
+]
 
-export default brandData;
+export default brandData

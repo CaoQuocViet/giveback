@@ -1,9 +1,10 @@
-import ReactPlayer from "react-player";
-import { transformImagePaths, combineClasses } from "../../utils/utils";
+import ReactPlayer from "react-player"
+
+import { combineClasses, transformImagePaths } from "../../utils/utils"
 
 interface iVideoPlayer {
-  url?: string;
-  className?: String;
+  url?: string
+  className?: String
 }
 
 const VideoPlayer = ({ url, className }: iVideoPlayer) => {
@@ -23,7 +24,7 @@ const VideoPlayer = ({ url, className }: iVideoPlayer) => {
         }}
       />
     </div>
-  );
-};
+  )
+}
 
-export default VideoPlayer;
+export default VideoPlayer

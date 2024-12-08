@@ -1,6 +1,7 @@
-import { BsXLg } from "react-icons/bs";
-import { combineClasses } from "../../utils/utils";
-import SocialShare from "./SocialShare";
+import { BsXLg } from "react-icons/bs"
+
+import { combineClasses } from "../../utils/utils"
+import SocialShare from "./SocialShare"
 
 const SocialShareModal = ({ closeModal, openShareModal = false }: any) => {
   return (
@@ -13,7 +14,7 @@ const SocialShareModal = ({ closeModal, openShareModal = false }: any) => {
       )}
     >
       <div
-        className="absolute top-0 left-0 w-screen h-screen bg-black opacity-50"
+        className="absolute left-0 top-0 h-screen w-screen bg-black opacity-50"
         onClick={closeModal}
       ></div>
       <div
@@ -22,17 +23,17 @@ const SocialShareModal = ({ closeModal, openShareModal = false }: any) => {
           openShareModal ? "top-0" : "top-10"
         )}
       >
-        <div className="flex border-gray-300 pb-2 mb-3 border-b">
-          <p className="  font-medium w-full">Share:</p>
+        <div className="mb-3 flex border-b border-gray-300 pb-2">
+          <p className="  w-full font-medium">Share:</p>
           <span className="pl-5" onClick={closeModal}>
-            <BsXLg className="pt-1 text-[18px] cursor-pointer" />
+            <BsXLg className="cursor-pointer pt-1 text-[18px]" />
           </span>
         </div>
 
         <SocialShare />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SocialShareModal;
+export default SocialShareModal

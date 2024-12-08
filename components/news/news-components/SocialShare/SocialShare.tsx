@@ -1,17 +1,17 @@
-import { BsLinkedin, BsLink45Deg, BsXLg } from "react-icons/bs";
-import { AiFillTwitterCircle, AiFillFacebook } from "react-icons/ai";
-import { WEBSITE_URL } from "../../NEWS_CONSTANTS/_NEW_SETUP";
-import { combineClasses } from "../../utils/utils";
-import { useEffect, useState } from "react";
-import { GAEvent } from "../../google";
+import { useEffect, useState } from "react"
+import { AiFillFacebook, AiFillTwitterCircle } from "react-icons/ai"
+import { BsLink45Deg, BsLinkedin, BsXLg } from "react-icons/bs"
+
+import { WEBSITE_URL } from "../../NEWS_CONSTANTS/_NEW_SETUP"
+import { GAEvent } from "../../google"
+import { combineClasses } from "../../utils/utils"
 
 const SocialShare = () => {
-  const url =
-    typeof window !== "undefined" ? window.location.href : WEBSITE_URL;
+  const url = typeof window !== "undefined" ? window.location.href : WEBSITE_URL
 
-  const twitterShare = `http://twitter.com/share?text=Check out this article!! &url=${url}&hashtags=webdevelopment,javacript,javascriptdaily,webdevelopmenttutorial,tutorial`;
-  const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
-  const linkedinShare = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=Check out this article!!&source=LinkedIn`;
+  const twitterShare = `http://twitter.com/share?text=Check out this article!! &url=${url}&hashtags=webdevelopment,javacript,javascriptdaily,webdevelopmenttutorial,tutorial`
+  const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${url}`
+  const linkedinShare = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=Check out this article!!&source=LinkedIn`
 
   const trackShareEvent = (social: string) => {
     GAEvent({
@@ -19,26 +19,26 @@ const SocialShare = () => {
       event_category: "click",
       label: social,
       value: null,
-    });
-  };
+    })
+  }
 
   const copyLink = () => {
     if (typeof window !== "undefined" && navigator) {
-      navigator.clipboard.writeText(url);
-      setShowCopiedAlert(true);
+      navigator.clipboard.writeText(url)
+      setShowCopiedAlert(true)
     }
-    trackShareEvent("copy_clipboard_clicked");
-  };
+    trackShareEvent("copy_clipboard_clicked")
+  }
 
-  const [showCopiedAlert, setShowCopiedAlert] = useState(false);
+  const [showCopiedAlert, setShowCopiedAlert] = useState(false)
 
   useEffect(() => {
     if (showCopiedAlert) {
       setTimeout(() => {
-        setShowCopiedAlert(false);
-      }, 2000);
+        setShowCopiedAlert(false)
+      }, 2000)
     }
-  }, [showCopiedAlert]);
+  }, [showCopiedAlert])
 
   return (
     <>
@@ -48,9 +48,9 @@ const SocialShare = () => {
           aria-label="facebook-share"
           href={facebookShare}
           onClick={() => {
-            window.open(facebookShare, "popup", "width=300,height=500");
-            trackShareEvent("facebook_share_clicked");
-            return false;
+            window.open(facebookShare, "popup", "width=300,height=500")
+            trackShareEvent("facebook_share_clicked")
+            return false
           }}
           target="popup"
         >
@@ -61,9 +61,9 @@ const SocialShare = () => {
           aria-label="twitter-share"
           href={twitterShare}
           onClick={() => {
-            window.open(twitterShare, "popup", "width=600,height=500");
-            trackShareEvent("twitter_share_clicked");
-            return false;
+            window.open(twitterShare, "popup", "width=600,height=500")
+            trackShareEvent("twitter_share_clicked")
+            return false
           }}
           target="popup"
         >
@@ -74,9 +74,9 @@ const SocialShare = () => {
           aria-label="linkedin-share"
           href={linkedinShare}
           onClick={() => {
-            window.open(linkedinShare, "popup", "width=500,height=500");
-            trackShareEvent("linkedin_share_clicked");
-            return false;
+            window.open(linkedinShare, "popup", "width=500,height=500")
+            trackShareEvent("linkedin_share_clicked")
+            return false
           }}
           target="popup"
         >
@@ -102,11 +102,11 @@ const SocialShare = () => {
       >
         <strong className="font-bold">Link Copied</strong>
         <span className="pl-5">
-          <BsXLg className="pt-1 text-[18px] cursor-pointer" />
+          <BsXLg className="cursor-pointer pt-1 text-[18px]" />
         </span>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default SocialShare;
+export default SocialShare

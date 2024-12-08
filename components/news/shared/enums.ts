@@ -8,7 +8,7 @@ export enum ImageSize {
   FUll = "full",
   SMALL = "small",
   MEDIUM = "medium",
-  XS = 'xs'
+  XS = "xs",
 }
 
 export enum NavbarType {
@@ -21,7 +21,7 @@ export enum TextAlign {
   RIGHT = "right",
   CENTER = "center",
   JUSTIFY = "justify",
-  NONE = "unset"
+  NONE = "unset",
 }
 
 export enum LogoType {
@@ -32,5 +32,5 @@ export enum LogoType {
 export enum ListType {
   disc = "list-disc",
   number = "list-decimal",
-  none = "list-none"
+  none = "list-none",
 }

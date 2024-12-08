@@ -1,29 +1,36 @@
-import ArticleCard from "../ArticleCards/ArticleCard";
-import { SORTED_ARTICLES_BY_DATE } from "../../NEWS_CONSTANTS/_ARTICLES_LIST";
-import { useEffect, useState } from "react";
-import { PageLayout } from "..";
-import { combineClasses } from "../../utils/utils";
-import ReactPaginate from "react-paginate";
-import { iArticle } from "../../shared/interfaces";
-import { AiFillCaretRight, AiFillCaretLeft } from "react-icons/ai";
-import { usePathname } from "next/navigation";
-import './pagination.scss'; // Import file SCSS
+import { useEffect, useState } from "react"
+import { usePathname } from "next/navigation"
+import { AiFillCaretLeft, AiFillCaretRight } from "react-icons/ai"
+import ReactPaginate from "react-paginate"
 
-const NewsIndexPage = ({ articlesPerPage = 6 }: { articlesPerPage?: number }) => {
-  const pathname = usePathname();
-  const searchParams = new URLSearchParams(window.location.search);
+import { PageLayout } from ".."
+import { SORTED_ARTICLES_BY_DATE } from "../../NEWS_CONSTANTS/_ARTICLES_LIST"
+import { iArticle } from "../../shared/interfaces"
+import { combineClasses } from "../../utils/utils"
+import ArticleCard from "../ArticleCards/ArticleCard"
+import "./pagination.scss"
 
-  const category = searchParams.get('category');
-  const author = searchParams.get('author');
+// Import file SCSS
+
+const NewsIndexPage = ({
+  articlesPerPage = 6,
+}: {
+  articlesPerPage?: number
+}) => {
+  const pathname = usePathname()
+  const searchParams = new URLSearchParams(window.location.search)
+
+  const category = searchParams.get("category")
+  const author = searchParams.get("author")
 
   const categoryArticles = SORTED_ARTICLES_BY_DATE.filter(
     (each) => each.preview.category === category
-  );
+  )
   const authorArticles = SORTED_ARTICLES_BY_DATE.filter(
     (each) => each.preview.author.name === author
-  );
+  )
 
-  const [ARTICLES, setARTICLES] = useState(SORTED_ARTICLES_BY_DATE);
+  const [ARTICLES, setARTICLES] = useState(SORTED_ARTICLES_BY_DATE)
 
   useEffect(() => {
     setARTICLES(
@@ -32,23 +39,23 @@ const NewsIndexPage = ({ articlesPerPage = 6 }: { articlesPerPage?: number }) =>
         : author
         ? authorArticles
         : SORTED_ARTICLES_BY_DATE
-    );
-  }, [category, author]);
+    )
+  }, [category, author])
 
-  const [currentItems, setCurrentItems] = useState(ARTICLES);
-  const [pageCount, setPageCount] = useState(0);
-  const [itemOffset, setItemOffset] = useState(0);
+  const [currentItems, setCurrentItems] = useState(ARTICLES)
+  const [pageCount, setPageCount] = useState(0)
+  const [itemOffset, setItemOffset] = useState(0)
 
   useEffect(() => {
-    const endOffset = itemOffset + articlesPerPage;
-    setCurrentItems(ARTICLES.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(ARTICLES.length / articlesPerPage));
-  }, [itemOffset, articlesPerPage, ARTICLES]);
+    const endOffset = itemOffset + articlesPerPage
+    setCurrentItems(ARTICLES.slice(itemOffset, endOffset))
+    setPageCount(Math.ceil(ARTICLES.length / articlesPerPage))
+  }, [itemOffset, articlesPerPage, ARTICLES])
 
   const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * articlesPerPage) % ARTICLES.length;
-    setItemOffset(newOffset);
-  };
+    const newOffset = (event.selected * articlesPerPage) % ARTICLES.length
+    setItemOffset(newOffset)
+  }
 
   return (
     <PageLayout home>
@@ -60,7 +67,7 @@ const NewsIndexPage = ({ articlesPerPage = 6 }: { articlesPerPage?: number }) =>
       >
         {category || author ? (
           <h1
-            className="px-2 mb-[30px] text-[45px] font-bold"
+            className="mb-[30px] px-2 text-[45px] font-bold"
             style={{ textTransform: "capitalize" }}
           >
             {category || author}
@@ -90,7 +97,7 @@ const NewsIndexPage = ({ articlesPerPage = 6 }: { articlesPerPage?: number }) =>
         />
       </div>
     </PageLayout>
-  );
-};
+  )
+}
 
-export default NewsIndexPage;
+export default NewsIndexPage

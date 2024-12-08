@@ -28,3 +28,7 @@ Công việc ngày 07/12:
     - Đăng kí xác thực OTP có cần thêm trường gì không? Tham khảo cả
      DB của anh Vương
     - Dựa vào flow để điều chỉnh thuộc tính của các trường (NULL,...)
+Công Việc ngày 08/12:
+    - Viết lại giao diện lần cuối
+    - Viết chi tiết các flow
+    - Nhàu đầu vô backend

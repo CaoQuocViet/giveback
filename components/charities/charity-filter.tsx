@@ -1,8 +1,15 @@
 "use client"
 
 import { Search } from "lucide-react"
+
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface CharityFilterProps {
   filter: {
@@ -17,12 +24,12 @@ export function CharityFilter({ filter, onChange }: CharityFilterProps) {
   return (
     <div className="flex gap-4">
       <div className="relative">
-        <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-2 top-2.5 size-4 text-muted-foreground" />
         <Input
           placeholder="Tìm kiếm tổ chức..."
           value={filter.search}
           onChange={(e) => onChange({ ...filter, search: e.target.value })}
-          className="pl-8 w-[300px]"
+          className="w-[300px] pl-8"
         />
       </div>
 
@@ -56,4 +63,4 @@ export function CharityFilter({ filter, onChange }: CharityFilterProps) {
       </Select>
     </div>
   )
-} 
+}

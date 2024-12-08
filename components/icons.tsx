@@ -1,17 +1,17 @@
 import {
+  ClipboardList,
+  Facebook,
+  FileBarChart,
+  FileText,
+  Flag,
+  History,
   LucideProps,
   Moon,
   SunMedium,
   Twitter,
-  Facebook,
-  type Icon as LucideIcon,
   User,
   Users,
-  FileText,
-  History,
-  Flag,
-  ClipboardList,
-  FileBarChart
+  type Icon as LucideIcon,
 } from "lucide-react"
 
 export type Icon = LucideIcon
@@ -36,5 +36,5 @@ export const Icons = {
   history: History,
   flag: Flag,
   campaign: ClipboardList,
-  report: FileBarChart
+  report: FileBarChart,
 }

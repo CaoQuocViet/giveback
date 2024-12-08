@@ -1,12 +1,13 @@
-import { BiChevronDown } from "react-icons/bi";
-import { combineClasses, getCategories } from "../../utils/utils";
-import LinkTo from "../LinkTo";
+import { BiChevronDown } from "react-icons/bi"
+
+import { combineClasses, getCategories } from "../../utils/utils"
+import LinkTo from "../LinkTo"
 
 interface INavCatergoryDD {
-  openDD: boolean;
-  setOpenDD: any;
-  label: string;
-  floating?: boolean;
+  openDD: boolean
+  setOpenDD: any
+  label: string
+  floating?: boolean
 }
 
 const NavCatergoryDD = ({
@@ -15,7 +16,7 @@ const NavCatergoryDD = ({
   label,
   floating = false,
 }: INavCatergoryDD) => {
-  const CATEGORIES = getCategories();
+  const CATEGORIES = getCategories()
   return (
     <>
       <div className={"relative"}>
@@ -38,28 +39,29 @@ const NavCatergoryDD = ({
             openDD ? "h-auto" : "h-0 border-0"
           )}
         >
-          <LinkTo href={"/blog"} passHref className="block text-sm py-2 px-2">
+          <LinkTo href={"/blog"} passHref className="block p-2 text-sm">
             <span onClick={() => setOpenDD(!openDD)}>All Articles</span>
           </LinkTo>
-          {CATEGORIES && CATEGORIES.map((each) => (
-            <LinkTo
-              href={"/blog?category=" + each}
-              key={each}
-              passHref
-              className="block text-sm py-2 px-2 border-t border-gray-400"
-            >
-              <span
-                style={{ textTransform: "capitalize" }}
-                onClick={() => setOpenDD(!openDD)}
+          {CATEGORIES &&
+            CATEGORIES.map((each) => (
+              <LinkTo
+                href={"/blog?category=" + each}
+                key={each}
+                passHref
+                className="block border-t border-gray-400 p-2 text-sm"
               >
-                {each}
-              </span>
-            </LinkTo>
-          ))}
+                <span
+                  style={{ textTransform: "capitalize" }}
+                  onClick={() => setOpenDD(!openDD)}
+                >
+                  {each}
+                </span>
+              </LinkTo>
+            ))}
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default NavCatergoryDD;
+export default NavCatergoryDD

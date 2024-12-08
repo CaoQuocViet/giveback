@@ -12,10 +12,10 @@ interface ProfileAvatarProps {
 export function ProfileAvatar({ imageUrl, onUpload }: ProfileAvatarProps) {
   return (
     <div className="flex flex-col items-center gap-4">
-      <Avatar className="h-24 w-24">
+      <Avatar className="size-24">
         <AvatarImage src={imageUrl} alt="Avatar" />
         <AvatarFallback>
-          <Icons.user className="h-12 w-12" />
+          <Icons.user className="size-12" />
         </AvatarFallback>
       </Avatar>
 
@@ -33,4 +33,4 @@ export function ProfileAvatar({ imageUrl, onUpload }: ProfileAvatarProps) {
       </Button>
     </div>
   )
-} 
+}

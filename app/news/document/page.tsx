@@ -1,16 +1,16 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
+import { motion } from "framer-motion"
 
 export default function DocumentPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-white shadow-xl rounded-lg overflow-hidden"
+          className="overflow-hidden rounded-lg bg-white shadow-xl"
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8">
@@ -23,18 +23,19 @@ export default function DocumentPage() {
           </div>
 
           {/* Content */}
-          <div className="px-6 py-8 space-y-8">
+          <div className="space-y-8 px-6 py-8">
             {/* Giới thiệu */}
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+              <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800">
                 <span className="mr-2">📖</span> Giới thiệu
               </h2>
               <div className="prose text-gray-600">
                 <p>
-                  GIVEBACK là nền tảng kết nối các nhà hảo tâm với các tổ chức từ thiện uy tín,
-                  nhằm hỗ trợ đồng bào gặp khó khăn do thiên tai. Chúng tôi cam kết:
+                  GIVEBACK là nền tảng kết nối các nhà hảo tâm với các tổ chức
+                  từ thiện uy tín, nhằm hỗ trợ đồng bào gặp khó khăn do thiên
+                  tai. Chúng tôi cam kết:
                 </p>
-                <ul className="list-disc list-inside space-y-2 ml-4">
+                <ul className="ml-4 list-inside list-disc space-y-2">
                   <li>Minh bạch trong quản lý và phân phối tài trợ</li>
                   <li>Kết nối trực tiếp người đóng góp với tổ chức từ thiện</li>
                   <li>Cập nhật thông tin thiên tai kịp thời</li>
@@ -45,13 +46,15 @@ export default function DocumentPage() {
 
             {/* Đối tượng sử dụng */}
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+              <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800">
                 <span className="mr-2">👥</span> Đối tượng Sử dụng
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-blue-800 mb-2">Người Đóng góp</h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+                <div className="rounded-lg bg-blue-50 p-4">
+                  <h3 className="mb-2 font-semibold text-blue-800">
+                    Người Đóng góp
+                  </h3>
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Đăng ký tài khoản dễ dàng</li>
                     <li>Xác thực qua số điện thoại</li>
                     <li>Chọn hình thức đóng góp</li>
@@ -59,9 +62,11 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="bg-green-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-green-800 mb-2">Tổ chức Từ thiện</h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                <div className="rounded-lg bg-green-50 p-4">
+                  <h3 className="mb-2 font-semibold text-green-800">
+                    Tổ chức Từ thiện
+                  </h3>
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Xác thực giấy phép hoạt động</li>
                     <li>Tạo chiến dịch cứu trợ</li>
                     <li>Quản lý và phân phối</li>
@@ -69,9 +74,11 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="bg-purple-50 p-4 rounded-lg">
-                  <h3 className="font-semibold text-purple-800 mb-2">Quản trị viên</h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                <div className="rounded-lg bg-purple-50 p-4">
+                  <h3 className="mb-2 font-semibold text-purple-800">
+                    Quản trị viên
+                  </h3>
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Kiểm duyệt tổ chức</li>
                     <li>Giám sát hoạt động</li>
                     <li>Quản lý hệ thống</li>
@@ -83,48 +90,48 @@ export default function DocumentPage() {
 
             {/* Tính năng nổi bật */}
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+              <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800">
                 <span className="mr-2">⭐</span> Tính năng Nổi bật
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="border border-gray-200 p-4 rounded-lg">
-                  <h3 className="font-semibold text-gray-800 mb-2">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="rounded-lg border border-gray-200 p-4">
+                  <h3 className="mb-2 font-semibold text-gray-800">
                     <span className="mr-2">💳</span> Đa dạng Hình thức Đóng góp
                   </h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Chuyển khoản ngân hàng</li>
                     <li>Ví điện tử (Momo, VNPay)</li>
                     <li>Thẻ tín dụng/ghi nợ</li>
                   </ul>
                 </div>
 
-                <div className="border border-gray-200 p-4 rounded-lg">
-                  <h3 className="font-semibold text-gray-800 mb-2">
+                <div className="rounded-lg border border-gray-200 p-4">
+                  <h3 className="mb-2 font-semibold text-gray-800">
                     <span className="mr-2">📊</span> Báo cáo Minh bạch
                   </h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Cập nhật thời gian thực</li>
                     <li>Thống kê chi tiết</li>
                     <li>Xuất báo cáo định kỳ</li>
                   </ul>
                 </div>
 
-                <div className="border border-gray-200 p-4 rounded-lg">
-                  <h3 className="font-semibold text-gray-800 mb-2">
+                <div className="rounded-lg border border-gray-200 p-4">
+                  <h3 className="mb-2 font-semibold text-gray-800">
                     <span className="mr-2">🗺️</span> Bản đồ Thiên tai
                   </h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Hiển thị vùng bị ảnh hưởng</li>
                     <li>Thông tin cứu trợ</li>
                     <li>Cập nhật tình hình</li>
                   </ul>
                 </div>
 
-                <div className="border border-gray-200 p-4 rounded-lg">
-                  <h3 className="font-semibold text-gray-800 mb-2">
+                <div className="rounded-lg border border-gray-200 p-4">
+                  <h3 className="mb-2 font-semibold text-gray-800">
                     <span className="mr-2">📱</span> Tiện ích
                   </h3>
-                  <ul className="list-disc list-inside text-gray-600 space-y-2">
+                  <ul className="list-inside list-disc space-y-2 text-gray-600">
                     <li>Thông báo tự động</li>
                     <li>Tương tác dễ dàng</li>
                     <li>Hỗ trợ 24/7</li>
@@ -135,36 +142,38 @@ export default function DocumentPage() {
 
             {/* Quy trình hoạt động */}
             <section>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
+              <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800">
                 <span className="mr-2">🔄</span> Quy trình Hoạt động
               </h2>
               <div className="relative">
-                <div className="absolute left-4 inset-y-0 w-0.5 bg-gray-200"></div>
-                <div className="space-y-6 relative">
+                <div className="absolute inset-y-0 left-4 w-0.5 bg-gray-200"></div>
+                <div className="relative space-y-6">
                   {[
                     {
                       title: "Bước 1: Đăng ký & Xác thực",
-                      desc: "Đăng ký tài khoản và xác thực qua OTP"
+                      desc: "Đăng ký tài khoản và xác thực qua OTP",
                     },
                     {
                       title: "Bước 2: Tạo hoặc Chọn Chiến dịch",
-                      desc: "Tổ chức tạo chiến dịch hoặc người dùng chọn chiến dịch để đóng góp"
+                      desc: "Tổ chức tạo chiến dịch hoặc người dùng chọn chiến dịch để đóng góp",
                     },
                     {
                       title: "Bước 3: Thực hiện Đóng góp",
-                      desc: "Chọn hình thức và thực hiện đóng góp"
+                      desc: "Chọn hình thức và thực hiện đóng góp",
                     },
                     {
                       title: "Bước 4: Theo dõi & Nhận Báo cáo",
-                      desc: "Cập nhật tiến độ và nhận báo cáo sử dụng đóng góp"
-                    }
+                      desc: "Cập nhật tiến độ và nhận báo cáo sử dụng đóng góp",
+                    },
                   ].map((step, index) => (
-                    <div key={index} className="ml-8 relative">
-                      <div className="absolute -left-10 mt-1.5 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                    <div key={index} className="relative ml-8">
+                      <div className="absolute -left-10 mt-1.5 flex size-6 items-center justify-center rounded-full bg-blue-600 text-white">
                         {index + 1}
                       </div>
-                      <h3 className="font-semibold text-gray-800">{step.title}</h3>
-                      <p className="text-gray-600 mt-1">{step.desc}</p>
+                      <h3 className="font-semibold text-gray-800">
+                        {step.title}
+                      </h3>
+                      <p className="mt-1 text-gray-600">{step.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -174,5 +183,5 @@ export default function DocumentPage() {
         </motion.div>
       </div>
     </div>
-  );
+  )
 }

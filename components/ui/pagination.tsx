@@ -7,7 +7,12 @@ interface PaginationProps {
   itemsPerPage: number
 }
 
-export function Pagination({ total, page, onPageChange, itemsPerPage }: PaginationProps) {
+export function Pagination({
+  total,
+  page,
+  onPageChange,
+  itemsPerPage,
+}: PaginationProps) {
   const totalPages = Math.ceil(total / itemsPerPage)
 
   return (
@@ -20,7 +25,7 @@ export function Pagination({ total, page, onPageChange, itemsPerPage }: Paginati
       >
         Trước
       </Button>
-      
+
       <div className="flex items-center gap-1">
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
           <Button
@@ -44,4 +49,4 @@ export function Pagination({ total, page, onPageChange, itemsPerPage }: Paginati
       </Button>
     </div>
   )
-} 
+}

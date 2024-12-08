@@ -1,79 +1,80 @@
-import { NavbarType, THEMES } from "../../shared/enums";
-import SimpleNavbar from "./SimpleNavbar";
-import CenteredNavbar from "./Centered";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
+
+import { PRIMARY_NAV } from "../../NEWS_CONSTANTS/_NEW_SETUP"
+import { NavbarType, THEMES } from "../../shared/enums"
 import {
   addBodyNoScroll,
   combineClasses,
   getDeviceType,
   removeBodyNoScroll,
   webShare,
-} from "../../utils/utils";
-import NavSidebar from "./NavSideBar";
-import Search from "../Search";
-import { PRIMARY_NAV } from "../../NEWS_CONSTANTS/_NEW_SETUP";
-import { useTheme } from "next-themes";
-import classes from "./Navbar.module.scss";
-import SocialShareModal from "../SocialShare/SocialShareModal";
+} from "../../utils/utils"
+import Search from "../Search"
+import SocialShareModal from "../SocialShare/SocialShareModal"
+import CenteredNavbar from "./Centered"
+import NavSidebar from "./NavSideBar"
+import classes from "./Navbar.module.scss"
+import SimpleNavbar from "./SimpleNavbar"
 
 const Navbar = () => {
-  const { theme, setTheme } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
-  const [openSidebar, setOpenSidebar] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [openShareModal, setOpenShareModal] = useState(false);
+  const { theme, setTheme } = useTheme()
+  const [isMobile, setIsMobile] = useState(false)
+  const [openSidebar, setOpenSidebar] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+  const [openShareModal, setOpenShareModal] = useState(false)
 
   useEffect(() => {
     showSearch
       ? addBodyNoScroll()
       : () => {
-          return;
-        };
+          return
+        }
     return () => {
-      removeBodyNoScroll();
-    };
-  }, [showSearch]);
+      removeBodyNoScroll()
+    }
+  }, [showSearch])
 
   const changeTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
-  };
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
 
-  const [scrolled, setScrolled] = useState(false);
-  let lastScrollTop = 0;
+  const [scrolled, setScrolled] = useState(false)
+  let lastScrollTop = 0
   useEffect(() => {
-    setIsMobile(getDeviceType() === "tablet" || getDeviceType() === "mobile");
+    setIsMobile(getDeviceType() === "tablet" || getDeviceType() === "mobile")
 
     window.onscroll = () => {
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      const scrollYDistance = window.scrollY;
+      const st = window.pageYOffset || document.documentElement.scrollTop
+      const scrollYDistance = window.scrollY
       if (scrollYDistance > 0 && st > lastScrollTop) {
-        setScrolled(true);
+        setScrolled(true)
       } else if (scrollYDistance > 50 && st < lastScrollTop) {
-        setScrolled(false);
+        setScrolled(false)
       }
-      lastScrollTop = st <= 0 ? 0 : st;
-    };
+      lastScrollTop = st <= 0 ? 0 : st
+    }
 
     return () => {
-      setScrolled(false);
-    };
-  }, []);
+      setScrolled(false)
+    }
+  }, [])
 
   const openSearch = () => {
-    setShowSearch(true);
-  };
+    setShowSearch(true)
+  }
 
   const toggleSideMenu = () => {
-    setOpenSidebar(!openSidebar);
-  };
+    setOpenSidebar(!openSidebar)
+  }
 
   const onShareClick = () => {
     if (!webShare()) {
-      setOpenShareModal(true);
+      setOpenShareModal(true)
     }
-  };
+  }
 
-  return null;
-};
+  return null
+}
 
-export default Navbar;
+export default Navbar

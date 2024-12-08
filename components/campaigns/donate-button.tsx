@@ -1,7 +1,10 @@
 "use client"
 
 import { useState } from "react"
+import { DollarSign } from "lucide-react"
 import { useSession } from "next-auth/react"
+
+import { formatAmount } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -19,8 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { formatAmount } from "@/lib/utils"
-import { DollarSign } from "lucide-react"
 
 interface DonateButtonProps {
   campaignId: string
@@ -35,7 +36,11 @@ const mockPaymentMethods = [
   { id: "3", name: "Thẻ tín dụng/ghi nợ" },
 ]
 
-export function DonateButton({ campaignId, campaignTitle, minAmount = 10000 }: DonateButtonProps) {
+export function DonateButton({
+  campaignId,
+  campaignTitle,
+  minAmount = 10000,
+}: DonateButtonProps) {
   const { data: session } = useSession()
   const [open, setOpen] = useState(false)
   const [amount, setAmount] = useState("")
@@ -59,7 +64,7 @@ export function DonateButton({ campaignId, campaignTitle, minAmount = 10000 }: D
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full">
-          <DollarSign className="w-4 h-4 mr-2" />
+          <DollarSign className="mr-2 size-4" />
           Đóng góp
         </Button>
       </DialogTrigger>
@@ -71,7 +76,7 @@ export function DonateButton({ campaignId, campaignTitle, minAmount = 10000 }: D
           <div className="text-sm text-muted-foreground">
             Chiến dịch: {campaignTitle}
           </div>
-          
+
           <div className="space-y-2">
             <label className="text-sm font-medium">Số tiền quyên góp</label>
             <Input
@@ -95,7 +100,9 @@ export function DonateButton({ campaignId, campaignTitle, minAmount = 10000 }: D
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Phương thức thanh toán</label>
+            <label className="text-sm font-medium">
+              Phương thức thanh toán
+            </label>
             <Select
               value={paymentMethod}
               onValueChange={setPaymentMethod}
@@ -133,4 +140,4 @@ export function DonateButton({ campaignId, campaignTitle, minAmount = 10000 }: D
       </DialogContent>
     </Dialog>
   )
-} 
+}
