@@ -14,10 +14,10 @@ export function SiteHeader() {
 
   const navItems = [
     { href: "/dashboard", label: "Bảng điều khiển" },
-    { href: "/dashboard/donations", label: "Đóng góp" },
-    { href: "/dashboard/reports", label: "Báo cáo" },
+    { href: "/dashboard/campaigns", label: "Chiến dịch" },
     { href: "/heatmap", label: "Bản đồ" },
     { href: "/news", label: "Tin tức" },
+    { href: "/document", label: "Về dự án" },
   ]
 
   return (
