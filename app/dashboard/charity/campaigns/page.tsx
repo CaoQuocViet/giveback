@@ -2,8 +2,16 @@
 
 import Link from "next/link"
 import { Button } from "@mui/material"
-import { Edit, Plus } from "lucide-react"
+import { Edit, Plus, Heart, DollarSign } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { useState } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -15,6 +23,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { CreateDistributionForm } from "@/components/campaigns/create-distribution-form"
+import { CreateDonationForm } from "@/components/campaigns/create-donation-form"
 
 // Mock data - sẽ được thay thế bằng API call
 const mockCampaigns = [
@@ -54,20 +64,47 @@ const mockCampaigns = [
 
 export default function CharityCampaignsPage() {
   const { data: session } = useSession()
-
-  //   if (session?.user?.role !== 'CHARITY') {
-  //     return <div>Không có quyền truy cập</div>
-  //   }
+  const [selectedCampaign, setSelectedCampaign] = useState<string>("")
 
   return (
     <div className="container mx-auto py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Quản lý chiến dịch</h1>
-        <Link href="/dashboard/charity/campaigns/new">
-          <Button variant="contained" startIcon={<Plus />}>
-            Thêm chiến dịch
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outlined" startIcon={<Heart />}>
+                Tạo khoản cứu trợ
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Tạo khoản cứu trợ mới</DialogTitle>
+              </DialogHeader>
+              <CreateDistributionForm campaigns={mockCampaigns} />
+            </DialogContent>
+          </Dialog>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outlined" startIcon={<DollarSign />}>
+                Tạo khoản đóng góp
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Tạo khoản đóng góp mới</DialogTitle>
+              </DialogHeader>
+              <CreateDonationForm campaigns={mockCampaigns} />
+            </DialogContent>
+          </Dialog>
+
+          <Link href="/dashboard/charity/campaigns/new">
+            <Button variant="contained" startIcon={<Plus />}>
+              Thêm chiến dịch
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Table>
