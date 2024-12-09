@@ -82,7 +82,10 @@
     total_raised decimal DEFAULT 0,
     
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    bank_name varchar,
+    bank_branch varchar,
+    bank_owner varchar
   );
 
   -- Thêm rating, goal vào Campaigns
@@ -164,7 +167,6 @@
     rating decimal NOT NULL CHECK (rating >= 0 AND rating <= 5),
     role Role NOT NULL,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
 
 -- Thêm system donor để tổ chức tạo đóng góp trực tiếp
