@@ -1,34 +1,19 @@
 ================== CHƯA ĐĂNG NHẬP ==================
 
 1. Trang chủ (/)
+   - Đăng nhập/Đăng ký
    - Xem bản đồ nhiệt (heatmap) thiên tai
    - Xem tin tức (newsfeed) thiên tai
-   - Xem danh sách tổ chức từ thiện
-   - Xem danh sách chiến dịch
-   - Đăng nhập/Đăng ký
+   - Xem thống kê hệ thống (/dashboard) => Chung cho cả 4 Role, mặc định đăng nhập thành công là vào đây
+      + Số tổ chức từ thiện
+      + Số chiến dịch (tất cả status)
+      + Tổng số tiền quyên góp
+      + Tống số tiền đã cứu trợ (thông tin từ các khoản cứu trợ của tất cả các chiến dịch)
+      + Số người đóng góp (đã thật sự Donate)
+      + Số người đã nhận hỗ trợ (tổng kết từ các khoản cứu trợ của tất cả các chiến dịch)
+      [Lưới 3x3 bao gồm số liệu và biểu đồ tương ứng với số liệu cho mỗi thống kê]
 
-2. Đăng ký (/auth/register)
-   - Form đăng ký với các trường:
-         + Email (unique)
-         + Số điện thoại (unique, dùng để xác thực OTP) 
-         + Mật khẩu (Users-password)
-         + Họ tên | Người đại diện (Users-full_name)
-         + Role (DONOR/CHARITY/BENEFICIARY)
-         + Thông tin địa chỉ (tỉnh/huyện/xã/số nhà-ấp|phường) (province, district, ward, adress)
-   - Nếu role là CHARITY:
-      + Thêm trường tên tổ chức (Charities-title)
-      + Thêm trường mô tả (Charities-description)
-      + Số giấy phép hoạt động (Charities-license_number)
-      + Ngày cấp giấy phép (Charities-license_date)
-      + Cơ quan cấp phép (Charities-license_issuer)
-      + Upload giấy phép hoạt động (Charities-license_image_url)
-
-3. Đăng nhập (/auth/login)
-   - Đăng nhập bằng email/phone + password (Users-email/Users-phone + Users-password)
-   - Sau khi đăng nhập thành công:
-     + Chuyển đến dashboard tương ứng với role
-     + Set token vào cookie/localStorage
-
+================== ĐÃ ĐĂNG NHẬP ==================
 ================== ADMIN ==================
 
 1. Dashboard (/dashboard)
@@ -85,7 +70,7 @@
             + Tên khoản cứu trợ (Distributions-title)
             + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
             + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
-            + Ngân sách (Distributions-amount)
+            + Ngân sách (Distributions-budget)
             + Số lượng người nhận (Distributions-beneficiary_count)
             + Ngày cứu trợ (Distributions-relief_date)
             + Địa điểm(Distributions-adress, ward, district, province)
@@ -137,18 +122,18 @@
       + Tên khoản cứu trợ (Distributions-title)
       + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
       + Mô tả (Distributions-description)
-      + Ngân sách (Distributions-amount)
+      + Ngân sách (Distributions-budget)
       + Số lượng người nhận (Distributions-beneficiary_count)
       + Ngày cứu trợ (Distributions-relief_date)
       + Địa điểm(Distributions-adress, ward, district, province)
       + Hình ảnh chứng minh (Distributions-proof_images)
-    - Nút "Tạo khoản đóng góp" -> Mở form tạo đóng góp trung gian (Tức là đóng góp dùm, TCTN chỉ việc thêm record giao dịch vào danh sách đóng góp):
+   - Nút "Tạo khoản đóng góp" -> Mở form tạo đóng góp trung gian (Tức là đóng góp dùm, TCTN chỉ việc thêm record giao dịch vào danh sách đóng góp):
          * Số tiền đóng góp (Donations-amount)
          * Tên người đóng góp (không bắt buộc, chỉ để hiển thị)
          * Ghi chú (không bắt buộc)
-         * Tự động set:
+         * Tự động set: Có thông tin system user phụ vụ mục đích đóng góp trung gian này
            - status = SUCCESS
-           - payment_method_id = NULL 
+           - payment_method_id = NULL
            - payment_transaction_id = NULL
            - invoice_code = "CHARITY_CREATED_" + random_string
            - donor_id = 'system_donor'
@@ -170,7 +155,7 @@
             - Cho phép trao hỗ trợ
             - Không cho xóa
             - Cho phép sửa thông tin
-          * COMPLETED:
+          * COMPLETED: chỉ được completed khi mà tổng ngân sách nhận được đã mang đi cứu trợ hết
             - Không nhận đóng góp
             - Không trao hỗ trợ
             - Không cho xóa/sửa
@@ -219,7 +204,7 @@
             + Tên khoản cứu trợ (Distributions-title)
             + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
             + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
-            + Ngân sách (Distributions-amount)
+            + Ngân sách (Distributions-budget)
             + Số lượng người nhận (Distributions-beneficiary_count)
             + Ngày cứu trợ (Distributions-relief_date)
             + Địa điểm(Distributions-adress, ward, district, province)
@@ -294,7 +279,7 @@
             + Tên khoản cứu trợ (Distributions-title)
             + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
             + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
-            + Ngân sách (Distributions-amount)
+            + Ngân sách (Distributions-budget)
             + Số lượng người nhận (Distributions-beneficiary_count)
             + Ngày cứu trợ (Distributions-relief_date)
             + Địa điểm(Distributions-adress, ward, district, province)
@@ -378,7 +363,7 @@
             + Tên khoản cứu trợ (Distributions-title)
             + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
             + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
-            + Ngân sách (Distributions-amount)
+            + Ngân sách (Distributions-budget)
             + Số lượng người nhận (Distributions-beneficiary_count)
             + Ngày cứu trợ (Distributions-relief_date)
             + Địa điểm(Distributions-adress, ward, district, province)

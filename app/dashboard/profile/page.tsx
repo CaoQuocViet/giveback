@@ -9,7 +9,7 @@ import { DonorProfile } from "@/components/profile/donor-profile"
 
 export default function ProfilePage() {
   const { data: session } = useSession()
-  const role = session?.user?.role || "CHARITY"
+  const role = session?.user?.role || "BENEFICIARY"
 
   const renderProfile = () => {
     switch (role) {

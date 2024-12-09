@@ -142,7 +142,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
       </div>
 
       <div>
-        <label className="text-sm font-medium">Số nhà/Đường/Ấp</label>
+        <label className="text-sm font-medium">Số/Đường/Ấp</label>
         <Input
           value={address}
           onChange={(e) => {
