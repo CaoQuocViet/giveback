@@ -40,7 +40,8 @@
     ward varchar,
     address varchar,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    phone_verified_at timestamp
   );
 
   CREATE TABLE Admins (
@@ -103,7 +104,8 @@
     address varchar,
     images varchar NOT NULL,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    edit_history jsonb
   );
 
   CREATE TABLE PaymentMethods (
@@ -124,14 +126,15 @@
     is_anonymous boolean NOT NULL DEFAULT false,  -- Flag đóng góp ẩn danh
     status PaymentStatus NOT NULL DEFAULT 'PENDING',
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_intermediate boolean DEFAULT false
   );
 
   CREATE TABLE Distributions (
     id varchar PRIMARY KEY,
     campaign_id varchar REFERENCES Campaigns(id),
     title varchar NOT NULL,
-    amount decimal NOT NULL,
+    budget decimal NOT NULL,
     distribution_date timestamp NOT NULL,
     
     -- Thông tin địa điểm
@@ -183,6 +186,27 @@ INSERT INTO Users (
   true -- đã verify OTP
 );
 
+-- Tạo bảng OTP
+CREATE TABLE OTPCodes (
+  id varchar PRIMARY KEY,
+  phone varchar NOT NULL REFERENCES Users(phone),
+  code varchar NOT NULL,
+  expires_at timestamp NOT NULL,
+  verified boolean DEFAULT false,
+  attempt_count int DEFAULT 0,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng PasswordReset
+CREATE TABLE PasswordResets (
+  id varchar PRIMARY KEY,
+  user_id varchar NOT NULL REFERENCES Users(id),
+  token varchar NOT NULL UNIQUE,
+  expires_at timestamp NOT NULL,
+  used boolean DEFAULT false,
+  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indexes
 -- Users indexes
 CREATE INDEX idx_users_email ON Users(email);
@@ -211,6 +235,12 @@ CREATE INDEX idx_distributions_location ON Distributions(province, district);
 CREATE INDEX idx_comments_campaign ON Comments(campaign_id);
 CREATE INDEX idx_comments_user ON Comments(user_id);
 CREATE INDEX idx_comments_rating ON Comments(rating DESC);
+
+-- Auth indexes
+CREATE INDEX idx_otpcodes_phone ON OTPCodes(phone);
+CREATE INDEX idx_otpcodes_expires ON OTPCodes(expires_at);
+CREATE INDEX idx_passwordresets_token ON PasswordResets(token);
+CREATE INDEX idx_passwordresets_expires ON PasswordResets(expires_at);
 
 -- Trigger cập nhật rating campaign khi có comment mới
 CREATE OR REPLACE FUNCTION update_campaign_rating()
