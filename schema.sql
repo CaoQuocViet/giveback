@@ -214,6 +214,7 @@ CREATE TABLE PasswordResets (
 CREATE INDEX idx_users_email ON Users(email);
 CREATE INDEX idx_users_phone ON Users(phone); 
 CREATE INDEX idx_users_role ON Users(role);
+CREATE INDEX idx_users_location ON Users(province, district);
 
 -- Campaigns indexes 
 CREATE INDEX idx_campaigns_charity ON Campaigns(charity_id);
@@ -221,22 +222,30 @@ CREATE INDEX idx_campaigns_status ON Campaigns(status);
 CREATE INDEX idx_campaigns_dates ON Campaigns(start_date, end_date);
 CREATE INDEX idx_campaigns_location ON Campaigns(province, district);
 CREATE INDEX idx_campaigns_rating ON Campaigns(rating DESC);
+CREATE INDEX idx_campaigns_amount ON Campaigns(target_amount, current_amount);
+
+-- Charities indexes
+CREATE INDEX idx_charities_verification ON Charities(verification_status);
+CREATE INDEX idx_charities_stats ON Charities(rating DESC, total_raised DESC);
 
 -- Donations indexes
 CREATE INDEX idx_donations_campaign ON Donations(campaign_id);
 CREATE INDEX idx_donations_donor ON Donations(donor_id);
 CREATE INDEX idx_donations_status ON Donations(status);
 CREATE INDEX idx_donations_created ON Donations(created_at DESC);
+CREATE INDEX idx_donations_amount_date ON Donations(amount DESC, created_at DESC);
 
 -- Distributions indexes
 CREATE INDEX idx_distributions_campaign ON Distributions(campaign_id);
 CREATE INDEX idx_distributions_date ON Distributions(distribution_date);
 CREATE INDEX idx_distributions_location ON Distributions(province, district);
+CREATE INDEX idx_distributions_budget ON Distributions(budget DESC);
 
 -- Comments indexes
 CREATE INDEX idx_comments_campaign ON Comments(campaign_id);
 CREATE INDEX idx_comments_user ON Comments(user_id);
 CREATE INDEX idx_comments_rating ON Comments(rating DESC);
+CREATE INDEX idx_comments_created ON Comments(created_at DESC);
 
 -- Auth indexes
 CREATE INDEX idx_otpcodes_phone ON OTPCodes(phone);
@@ -244,18 +253,30 @@ CREATE INDEX idx_otpcodes_expires ON OTPCodes(expires_at);
 CREATE INDEX idx_passwordresets_token ON PasswordResets(token);
 CREATE INDEX idx_passwordresets_expires ON PasswordResets(expires_at);
 
+-- Triggers
 -- Trigger cập nhật rating campaign khi có comment mới
 CREATE OR REPLACE FUNCTION update_campaign_rating()
 RETURNS TRIGGER AS $$
 BEGIN
-  UPDATE Campaigns 
-  SET rating = (
-    SELECT AVG(rating)::decimal(3,2)
-    FROM Comments
-    WHERE campaign_id = NEW.campaign_id
-  )
-  WHERE id = NEW.campaign_id;
-  RETURN NEW;
+  IF TG_OP = 'DELETE' THEN
+    UPDATE Campaigns 
+    SET rating = COALESCE((
+      SELECT AVG(rating)::decimal(3,2)
+      FROM Comments
+      WHERE campaign_id = OLD.campaign_id
+    ), 0)
+    WHERE id = OLD.campaign_id;
+    RETURN OLD;
+  ELSE
+    UPDATE Campaigns 
+    SET rating = (
+      SELECT AVG(rating)::decimal(3,2)
+      FROM Comments
+      WHERE campaign_id = NEW.campaign_id
+    )
+    WHERE id = NEW.campaign_id;
+    RETURN NEW;
+  END IF;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -269,11 +290,11 @@ CREATE OR REPLACE FUNCTION update_charity_rating()
 RETURNS TRIGGER AS $$
 BEGIN
   UPDATE Charities
-  SET rating = (
+  SET rating = COALESCE((
     SELECT AVG(rating)::decimal(3,2)
     FROM Campaigns 
     WHERE charity_id = (SELECT charity_id FROM Campaigns WHERE id = NEW.id)
-  )
+  ), 0)
   WHERE id = (SELECT charity_id FROM Campaigns WHERE id = NEW.id);
   RETURN NEW;
 END;
@@ -284,14 +305,22 @@ AFTER UPDATE OF rating ON Campaigns
 FOR EACH ROW 
 EXECUTE FUNCTION update_charity_rating();
 
--- Trigger cập nhật số tiền campaign khi có donation mới
+-- Trigger cập nhật số tiền campaign khi có donation mới hoặc hủy
 CREATE OR REPLACE FUNCTION update_campaign_amount()
 RETURNS TRIGGER AS $$
 BEGIN
-  IF NEW.status = 'SUCCESS' THEN
-    UPDATE Campaigns
-    SET current_amount = current_amount + NEW.amount
-    WHERE id = NEW.campaign_id;
+  IF TG_OP = 'UPDATE' THEN
+    IF OLD.status = 'SUCCESS' AND NEW.status != 'SUCCESS' THEN
+      -- Trừ số tiền nếu donation bị hủy
+      UPDATE Campaigns
+      SET current_amount = current_amount - OLD.amount
+      WHERE id = NEW.campaign_id;
+    ELSIF NEW.status = 'SUCCESS' AND OLD.status != 'SUCCESS' THEN
+      -- Cộng số tiền nếu donation thành công
+      UPDATE Campaigns
+      SET current_amount = current_amount + NEW.amount
+      WHERE id = NEW.campaign_id;
+    END IF;
   END IF;
   RETURN NEW;
 END;
@@ -300,7 +329,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_update_campaign_amount
 AFTER UPDATE OF status ON Donations
 FOR EACH ROW
-WHEN (NEW.status = 'SUCCESS')
 EXECUTE FUNCTION update_campaign_amount();
 
 -- Trigger cập nhật thống kê cho charity
@@ -312,13 +340,13 @@ BEGIN
     campaign_count = (
       SELECT COUNT(*) FROM Campaigns WHERE charity_id = NEW.charity_id
     ),
-    total_raised = (
-      SELECT COALESCE(SUM(d.amount), 0)
+    total_raised = COALESCE((
+      SELECT SUM(d.amount)
       FROM Donations d
       JOIN Campaigns c ON d.campaign_id = c.id 
       WHERE c.charity_id = NEW.charity_id
       AND d.status = 'SUCCESS'
-    )
+    ), 0)
   WHERE id = NEW.charity_id;
   RETURN NEW;
 END;
@@ -328,3 +356,37 @@ CREATE TRIGGER trg_update_charity_stats
 AFTER INSERT OR UPDATE ON Campaigns
 FOR EACH ROW
 EXECUTE FUNCTION update_charity_stats();
+
+-- Thêm trigger tự động cập nhật updated_at
+CREATE OR REPLACE FUNCTION update_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = CURRENT_TIMESTAMP;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_users_updated_at
+BEFORE UPDATE ON Users
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trg_charities_updated_at
+BEFORE UPDATE ON Charities
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trg_campaigns_updated_at
+BEFORE UPDATE ON Campaigns
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trg_donations_updated_at
+BEFORE UPDATE ON Donations
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER trg_distributions_updated_at
+BEFORE UPDATE ON Distributions
+FOR EACH ROW
+EXECUTE FUNCTION update_updated_at();
