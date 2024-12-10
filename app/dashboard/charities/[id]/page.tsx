@@ -48,7 +48,7 @@ const mockCharity = {
   description:
     "Tổ chức nhân đạo lớn nhất Việt Nam, hoạt động trong lĩnh vực cứu trợ nhân đạo và từ thiện.",
   representativeName: "Nguyễn Văn A",
-  licenseDescription: "Giấy phép hoạt đ���ng số 123/GP-BTXH",
+  licenseDescription: "Giấy phép hoạt động số 123/GP-BTXH",
   licenseUrl: "/documents/license.pdf",
   verificationStatus: "PENDING",
   rating: 4.8,
@@ -113,12 +113,12 @@ export default function CharityDetailPage({
   )
 
   return (
-    <div className="h-full overflow-auto bg-gray-50/50 p-6">
+    <div className="h-full overflow-auto bg-gray-50/50 dark:bg-gray-900 p-6">
       {/* Header với background gradient */}
-      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100">
+      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-6 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
         <div className="flex items-start gap-6">
           {/* Avatar với kích thước cố định và căn chỉnh */}
-          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200">
+          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700">
             <Image
               src={mockCharity.avatar}
               alt={mockCharity.title}
@@ -132,7 +132,7 @@ export default function CharityDetailPage({
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h1 className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent">
+                  <h1 className="bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-2xl font-bold text-transparent">
                     {mockCharity.title}
                   </h1>
                   <Badge
@@ -159,32 +159,32 @@ export default function CharityDetailPage({
                       className="bg-gradient-to-r from-red-500 to-rose-600 transition-all hover:from-red-600 hover:to-rose-700"
                     >
                       <XCircle className="mr-2 size-4" />
-                      Buộc dừng
+                      Buộc dỡng
                     </Button>
                   </div>
                 )}
               </div>
 
               {/* Description */}
-              <p className="mb-4 max-w-2xl text-gray-600">{mockCharity.description}</p>
+              <p className="mb-4 max-w-2xl text-gray-600 dark:text-gray-400">{mockCharity.description}</p>
             </div>
 
             {/* Stats section - luôn ở dưới cùng */}
             <div className="grid grid-cols-3 gap-6">
-              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
-                <div className="font-medium text-gray-900">{mockCharity.campaignCount}</div>
-                <div className="text-sm text-gray-600">Chiến dịch</div>
+              <div className="rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+                <div className="font-medium text-gray-900 dark:text-gray-100">{mockCharity.campaignCount}</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Chiến dịch</div>
               </div>
-              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
-                <div className="font-medium text-gray-900">
+              <div className="rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+                <div className="font-medium text-gray-900 dark:text-gray-100">
                   {formatAmount(mockCharity.totalRaised)} VNĐ
                 </div>
-                <div className="text-sm text-gray-600">Đã quyên góp</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Đã quyên góp</div>
               </div>
-              <div className="flex items-center gap-1 rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100">
+              <div className="flex items-center gap-1 rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
                 <Star className="size-4 fill-yellow-400 text-yellow-400" />
-                <div className="font-medium text-gray-900">{mockCharity.rating}/5</div>
-                <div className="ml-1 text-sm text-gray-600">Đánh giá</div>
+                <div className="font-medium text-gray-900 dark:text-gray-100">{mockCharity.rating}/5</div>
+                <div className="ml-1 text-sm text-gray-600 dark:text-gray-400">Đánh giá</div>
               </div>
             </div>
           </div>
@@ -198,29 +198,29 @@ export default function CharityDetailPage({
           {/* Left column */}
           <div className="space-y-6">
             {/* Contact Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
               <CardContent className="p-6">
-                <h2 className="mb-4 text-lg font-semibold text-gray-900">Thông tin liên hệ</h2>
+                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin liên hệ</h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-2">
-                    <MapPin className="mt-0.5 size-5 text-muted-foreground" />
+                    <MapPin className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium">Địa chỉ</div>
-                      <div>{mockCharity.address}, {mockCharity.ward}, {mockCharity.district}, {mockCharity.province}</div>
+                      <div className="font-medium dark:text-gray-200">Địa chỉ</div>
+                      <div className="dark:text-gray-400">{mockCharity.address}, {mockCharity.ward}, {mockCharity.district}, {mockCharity.province}</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Mail className="mt-0.5 size-5 text-muted-foreground" />
+                    <Mail className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium">Email</div>
-                      <div>{mockCharity.email}</div>
+                      <div className="font-medium dark:text-gray-200">Email</div>
+                      <div className="dark:text-gray-400">{mockCharity.email}</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Phone className="mt-0.5 size-5 text-muted-foreground" />
+                    <Phone className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium">Điện thoại</div>
-                      <div>{mockCharity.phone}</div>
+                      <div className="font-medium dark:text-gray-200">Điện thoại</div>
+                      <div className="dark:text-gray-400">{mockCharity.phone}</div>
                     </div>
                   </div>
                 </div>
@@ -228,27 +228,27 @@ export default function CharityDetailPage({
             </Card>
 
             {/* Organization Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
               <CardContent className="p-6">
-                <h2 className="mb-4 text-lg font-semibold text-gray-900">Thông tin tổ chức</h2>
+                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin tổ chức</h2>
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Ngày thành lập</div>
-                    <div>{formatDate(mockCharity.foundingDate)}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày thành lập</div>
+                    <div className="dark:text-gray-300">{formatDate(mockCharity.foundingDate)}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Website</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Website</div>
                     <a href={mockCharity.website} target="_blank" rel="noopener noreferrer" 
-                       className="text-primary hover:underline">
+                       className="text-primary hover:underline dark:text-gray-300">
                       {mockCharity.website}
                     </a>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground mb-2">Mạng xã hội</div>
-                    <div className="flex gap-4">
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400 mb-2">Mạng xã hội</div>
+                    <div className="flex gap-4 dark:text-gray-300">
                       {Object.entries(mockCharity.socialLinks).map(([platform, url]) => (
                         <a key={platform} href={url} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary">
+                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
                           {platform === 'facebook' && <Facebook className="h-5 w-5" />}
                           {platform === 'twitter' && <Twitter className="h-5 w-5" />}
                           {platform === 'youtube' && <Youtube className="h-5 w-5" />}
@@ -262,26 +262,26 @@ export default function CharityDetailPage({
           </div>
 
           {/* Right column - License Card */}
-          <Card className="h-full overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+          <Card className="h-full overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
             <CardContent className="p-6">
-              <h2 className="mb-4 text-lg font-semibold text-gray-900">Giấy phép hoạt động</h2>
+              <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Giấy phép hoạt động</h2>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Số giấy phép</div>
-                    <div>{mockCharity.licenseNumber}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số giấy phép</div>
+                    <div className="dark:text-gray-300">{mockCharity.licenseNumber}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Ngày cấp</div>
-                    <div>{formatDate(mockCharity.licenseDate)}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày cấp</div>
+                    <div className="dark:text-gray-300">{formatDate(mockCharity.licenseDate)}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Cơ quan cấp</div>
-                    <div>{mockCharity.licenseIssuer}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Cơ quan cấp</div>
+                    <div className="dark:text-gray-300">{mockCharity.licenseIssuer}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground">Mô tả</div>
-                    <div>{mockCharity.licenseDescription}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Mô tả</div>
+                    <div className="dark:text-gray-300">{mockCharity.licenseDescription}</div>
                   </div>
                 </div>
                 <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
@@ -298,43 +298,43 @@ export default function CharityDetailPage({
         </div>
 
         {/* Row 2: Campaigns Table */}
-        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 shadow-sm ring-1 ring-gray-100">
+        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
           <CardContent className="p-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">Danh sách chiến dịch</h2>
-            <div className="rounded-lg border border-gray-200 bg-white">
+            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Danh sách chiến dịch</h2>
+            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-gray-50/50">
-                    <TableHead className="text-gray-600">Tên chiến dịch</TableHead>
-                    <TableHead className="text-gray-600">Trạng thái</TableHead>
-                    <TableHead className="text-gray-600">Mục tiêu</TableHead>
-                    <TableHead className="text-gray-600">Đã quyên góp</TableHead>
-                    <TableHead className="text-gray-600">Thời gian</TableHead>
+                  <TableRow className="bg-gray-50/50 dark:bg-gray-800/50">
+                    <TableHead className="text-gray-600 dark:text-gray-400">Tên chiến dịch</TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">Trạng thái</TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">Mục tiêu</TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">Đã quyên góp</TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">Thời gian</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {currentCampaigns.map((campaign) => (
-                    <TableRow key={campaign.id}>
-                      <TableCell>
+                    <TableRow key={campaign.id} className="dark:border-gray-700">
+                      <TableCell className="dark:text-gray-300">
                         <Link
                           href={`/dashboard/campaigns/${campaign.id}`}
-                          className="text-primary hover:underline"
+                          className="text-primary hover:underline dark:text-primary-400"
                         >
                           {campaign.title}
                         </Link>
                       </TableCell>
-                      <TableCell>
-                        <Badge variant="secondary">
+                      <TableCell className="dark:text-gray-300">
+                        <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300">
                           {getStatusLabel(campaign.status)}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="dark:text-gray-300">
                         {formatAmount(campaign.targetAmount)} VNĐ
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="dark:text-gray-300">
                         {formatAmount(campaign.currentAmount)} VNĐ
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="dark:text-gray-300">
                         <div>{formatDate(campaign.startDate)}</div>
                         <div>{formatDate(campaign.endDate)}</div>
                       </TableCell>
@@ -351,6 +351,7 @@ export default function CharityDetailPage({
                   page={currentPage}
                   onPageChange={setCurrentPage}
                   itemsPerPage={itemsPerPage}
+                  className="dark:text-gray-300"
                 />
               </div>
             )}

@@ -35,7 +35,7 @@ export function CharityProfile() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <Card>
+      <Card className="dark:bg-gray-800 dark:border-gray-700">
         <CardContent className="p-6">
           {/* Header với ảnh đại diện và thông tin cơ bản */}
           <div className="flex items-center space-x-6 mb-8">
@@ -58,13 +58,14 @@ export function CharityProfile() {
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
-                <h2 className="text-2xl font-semibold">{userData.fullName}</h2>
-                <Badge variant={userData.verification_status === "VERIFIED" ? "default" : "secondary"}>
+                <h2 className="text-2xl font-semibold dark:text-gray-100">{userData.fullName}</h2>
+                <Badge variant={userData.verification_status === "VERIFIED" ? "default" : "secondary"}
+                  className="dark:bg-gray-700 dark:text-gray-300">
                   {userData.verification_status === "VERIFIED" ? "Đã xác minh" : "Chưa xác minh"}
                 </Badge>
               </div>
-              <p className="text-muted-foreground">{userData.email}</p>
-              <p className="text-sm text-muted-foreground">Số điện thoại: {userData.phone}</p>
+              <p className="text-muted-foreground dark:text-gray-400">{userData.email}</p>
+              <p className="text-sm text-muted-foreground dark:text-gray-400">Số điện thoại: {userData.phone}</p>
               <div className="flex items-center gap-1 mt-2">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <StarIcon 
@@ -81,37 +82,37 @@ export function CharityProfile() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-medium mb-4">Thông tin cơ bản</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin cơ bản</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium">Tên tổ chức</label>
-                    <Input defaultValue={userData.fullName} />
+                    <label className="text-sm font-medium dark:text-gray-300">Tên tổ chức</label>
+                    <Input className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" defaultValue={userData.fullName} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium">Email</label>
-                    <Input defaultValue={userData.email} />
+                    <label className="text-sm font-medium dark:text-gray-300">Email</label>
+                    <Input className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" defaultValue={userData.email} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Số điện thoại</label>
-                    <Input disabled value={userData.phone} className="bg-muted cursor-not-allowed" />
+                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số điện thoại</label>
+                    <Input disabled value={userData.phone} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
                   </div>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-lg font-medium mb-4">Thông tin pháp lý</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin pháp lý</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Số giấy phép</label>
-                    <Input disabled value={userData.license_number} className="bg-muted cursor-not-allowed" />
+                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số giấy phép</label>
+                    <Input disabled value={userData.license_number} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Ngày cấp</label>
-                    <Input disabled value={new Date(userData.license_date).toLocaleDateString('vi-VN')} className="bg-muted cursor-not-allowed" />
+                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày cấp</label>
+                    <Input disabled value={new Date(userData.license_date).toLocaleDateString('vi-VN')} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Mô tả giấy phép</label>
-                    <Input disabled value={userData.license_description} className="bg-muted cursor-not-allowed" />
+                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Mô tả giấy phép</label>
+                    <Input disabled value={userData.license_description} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
                   </div>
                 </div>
               </div>
@@ -119,7 +120,7 @@ export function CharityProfile() {
 
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-medium mb-4">Địa chỉ</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Địa chỉ</h3>
                 <AddressFields 
                   defaultValues={{
                     province: userData.province,
@@ -134,7 +135,7 @@ export function CharityProfile() {
               </div>
 
               <div>
-                <h3 className="text-lg font-medium mb-4">Thống kê hoạt động</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thống kê hoạt động</h3>
                 <div className="space-y-4">
                   <div>
                     <div className="flex justify-between text-sm mb-1">
@@ -158,12 +159,14 @@ export function CharityProfile() {
           </div>
 
           {/* Footer với thông tin bổ sung */}
-          <div className="mt-8 pt-6 border-t grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+          <div className="mt-8 pt-6 border-t dark:border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-gray-400">
             <div>Ngày tạo: {new Date(userData.createdAt).toLocaleDateString('vi-VN')}</div>
             <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
           </div>
 
-          <Button className="w-full mt-8">Lưu thay đổi</Button>
+          <Button className="w-full mt-8 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">
+            Lưu thay đổi
+          </Button>
         </CardContent>
       </Card>
     </div>

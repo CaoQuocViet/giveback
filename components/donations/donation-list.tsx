@@ -45,11 +45,11 @@ export function DonationList({ donations, filter }: DonationListProps) {
   return (
     <div className="space-y-4">
       {filteredDonations.map((donation) => (
-        <div key={donation.id} className="rounded-lg border bg-card p-4">
+        <div key={donation.id} className="rounded-lg border bg-card p-4 dark:bg-gray-800 dark:border-gray-700">
           <div className="mb-2 flex items-center justify-between">
             <Link
               href={`/dashboard/campaigns/${donation.campaign.id}`}
-              className="text-lg font-semibold hover:underline"
+              className="text-lg font-semibold hover:underline dark:text-gray-100"
             >
               {donation.campaign.name}
             </Link>
@@ -58,14 +58,14 @@ export function DonationList({ donations, filter }: DonationListProps) {
             </Badge>
           </div>
 
-          <div className="mb-4 text-sm text-muted-foreground">
+          <div className="mb-4 text-sm text-muted-foreground dark:text-gray-400">
             <p>Tổ chức: {donation.campaign.charity.name}</p>
             <p>Mã giao dịch: {donation.transaction_code}</p>
             <p>Thời gian: {formatDate(donation.createdAt)}</p>
             <p>Phương thức: {donation.paymentMethod.name}</p>
           </div>
 
-          <div className="text-xl font-bold">
+          <div className="text-xl font-bold dark:text-gray-100">
             {formatAmount(donation.amount)} VNĐ
           </div>
         </div>

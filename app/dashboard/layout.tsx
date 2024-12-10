@@ -15,7 +15,7 @@ interface DashboardLayoutProps {
 // Mock user data
 const mockUser = {
   name: "Đang Trầm Cảm",
-  role: "DONOR", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
+  role: "CHARITY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
   avatar: "/default-avatar.png",
 }
 
@@ -35,13 +35,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const [menuItems] = useState(getMenuByRole(mockUser.role))
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md">
+      <aside className="w-64 bg-white shadow-md dark:bg-gray-800 dark:border-gray-700">
         {/* Profile Section */}
-        <div className="border-b p-6">
+        <div className="border-b p-6 dark:border-gray-700">
           <div className="flex items-center space-x-4">
-            <div className="flex size-12 items-center justify-center rounded-full bg-primary/10">
+            <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/5">
               <img
                 src={mockUser.avatar}
                 alt="Profile"
@@ -49,8 +49,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               />
             </div>
             <div>
-              <p className="text-lg font-semibold">{mockUser.name}</p>
-              <Badge variant="secondary" className="mt-1">
+              <p className="text-lg font-semibold dark:text-gray-100">{mockUser.name}</p>
+              <Badge variant="secondary" className="mt-1 dark:bg-gray-700 dark:text-gray-300">
                 {getRoleLabel(mockUser.role)}
               </Badge>
             </div>
@@ -66,13 +66,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   href={item.href}
                   className="group relative flex items-center rounded-lg px-4 py-3
                     text-sm font-medium transition-colors
-                    hover:bg-primary/10 hover:text-primary"
+                    hover:bg-primary/10 hover:text-primary
+                    dark:text-gray-300 dark:hover:bg-primary/5 dark:hover:text-primary"
                 >
                   <div
                     className="absolute left-0 h-8 w-1 rounded-r-full bg-primary opacity-0
                     transition-opacity group-hover:opacity-100"
                   />
-                  <item.icon className="mr-3 size-5 text-muted-foreground group-hover:text-primary" />
+                  <item.icon className="mr-3 size-5 text-muted-foreground group-hover:text-primary dark:text-gray-400" />
                   <span>{item.label}</span>
                 </Link>
               </li>
@@ -81,8 +82,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* Footer */}
-        <div className="absolute bottom-0 w-64 border-t bg-white p-4">
-          <Button variant="outline" className="w-full justify-start" size="sm">
+        <div className="absolute bottom-0 w-64 border-t bg-white p-4 dark:bg-gray-800 dark:border-gray-700">
+          <Button variant="outline" className="w-full justify-start dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" size="sm">
             <Icons.logOut className="mr-2 size-4" />
             Đăng xuất
           </Button>
@@ -90,7 +91,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+      <main className="flex-1 overflow-y-auto p-8 dark:bg-gray-900">{children}</main>
     </div>
   )
 }

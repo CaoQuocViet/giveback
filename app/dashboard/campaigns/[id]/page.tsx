@@ -111,7 +111,7 @@ const mockCampaign: Campaign = {
   ##### Giai đoạn 2: Hỗ trợ khẩn cấp (1 tháng)
   - Phân phối nhu yếu phẩm
   - Hỗ trợ sửa chữa nhà tạm
-  - Cấp phát dụng cụ học tập
+  - Cung cấp nhu yếu phẩm và dụng cụ học tập
   
   ##### Giai đoạn 3: Tái thiết (3 tháng)
   - Xây dựng nhà mới
@@ -260,16 +260,19 @@ export default function CampaignDetailPage({
   }
 
   return (
-    <div className="p-6">
-      {/* Header */}
-      <div className="mb-6 flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">{mockCampaign.title}</h1>
-          <p className="text-muted-foreground">
-            Tổ chức: {mockCampaign.charity.name}
-          </p>
+    <div className="h-full overflow-auto bg-gray-50/50 p-6 dark:bg-gray-900">
+      {/* Header section */}
+      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100 
+        dark:from-gray-800 dark:to-gray-900 dark:ring-gray-700">
+        <div className="mb-6 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">{mockCampaign.title}</h1>
+            <p className="text-muted-foreground">
+              Tổ chức: {mockCampaign.charity.name}
+            </p>
+          </div>
+          <Badge>{getStatusLabel(mockCampaign.status)}</Badge>
         </div>
-        <Badge>{getStatusLabel(mockCampaign.status)}</Badge>
       </div>
 
       {/* Basic Info Section - Grid with equal height */}
@@ -451,31 +454,35 @@ export default function CampaignDetailPage({
       <Card className="w-full">
         <CardContent className="p-6">
           <Tabs defaultValue="description" className="space-y-4">
-            <TabsList>
-              <TabsTrigger value="description">Mô tả</TabsTrigger>
-              <TabsTrigger value="detail-goal">Kế hoạch chi tiết</TabsTrigger>
-              <TabsTrigger value="distributions">Các khoản cứu trợ</TabsTrigger>
-              <TabsTrigger value="comments">Bình luận</TabsTrigger>
+            <TabsList className="dark:bg-gray-700">
+              <TabsTrigger value="description" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+                Mô tả
+              </TabsTrigger>
+              <TabsTrigger value="plan" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+                Kế hoạch chi tiết
+              </TabsTrigger>
+              <TabsTrigger value="distributions" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+                Phân phối
+              </TabsTrigger>
+              <TabsTrigger value="comments" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+                Đánh giá
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="description">
-              <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: marked.parse(mockCampaign.description),
-                  }}
-                />
-              </div>
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
+                <CardContent className="prose dark:prose-invert max-w-none pt-6">
+                  <div dangerouslySetInnerHTML={{ __html: marked(mockCampaign.description) }} />
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            <TabsContent value="detail-goal">
-              <div className="prose prose-sm prose-slate max-w-none md:prose-base lg:prose-lg">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: marked.parse(mockCampaign.detailGoal),
-                  }}
-                />
-              </div>
+            <TabsContent value="plan">
+              <Card className="dark:bg-gray-800 dark:border-gray-700">
+                <CardContent className="prose dark:prose-invert max-w-none pt-6">
+                  <div dangerouslySetInnerHTML={{ __html: marked(mockCampaign.detailGoal) }} />
+                </CardContent>
+              </Card>
             </TabsContent>
 
             <TabsContent value="distributions">

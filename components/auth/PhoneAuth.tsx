@@ -88,19 +88,19 @@ export default function PhoneAuth({
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="0912345678"
-            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
+            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
           />
           <button
             onClick={handleSendOTP}
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
           >
             Gửi OTP
           </button>
         </div>
       </div>
 
-      {message && <div className="text-green-500">{message}</div>}
-      {error && <div className="text-red-500">{error}</div>}
+      {message && <div className="text-green-500 dark:text-green-400">{message}</div>}
+      {error && <div className="text-red-500 dark:text-red-400">{error}</div>}
 
       {requestId && (
         <div>
@@ -112,11 +112,11 @@ export default function PhoneAuth({
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             placeholder="123456"
-            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm"
+            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
           />
           <button
             onClick={handleVerifyOTP}
-            className="focus:ring-primary-300 mt-2 w-full rounded-lg bg-green-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-4"
+            className="focus:ring-primary-300 mt-2 w-full rounded-lg bg-green-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700"
           >
             Xác nhận OTP
           </button>
