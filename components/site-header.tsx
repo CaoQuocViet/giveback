@@ -14,7 +14,7 @@ export function SiteHeader() {
 
   const navItems = [
     { href: "/dashboard", label: "Bảng điều khiển" },
-    { href: "/dashboard/campaigns", label: "Chiến dịch" },
+    { href: "/", label: "Trang chủ" },
     { href: "/heatmap", label: "Bản đồ" },
     { href: "/news", label: "Tin tức" },
     { href: "/document", label: "Về dự án" },

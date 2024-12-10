@@ -32,7 +32,7 @@ const Home = () => {
               <span className="block pt-2 text-xl">Tất cả bài viết</span>
             </a>
             <LinkTo
-              href="/news/all-news/all-components"
+              href="/dashboard/campaigns"
               passHref
               className="mx-2 mb-3 flex items-center justify-center rounded-md bg-blue-600 px-4 pb-2 text-white shadow-lg transition-all hover:text-white hover:shadow-none md:mx-5"
             >
@@ -40,8 +40,7 @@ const Home = () => {
             </LinkTo>
 
             <a
-              href=""
-              target="_blank"
+              href="/dashboard/donations"
               rel="noopener noreferrer"
               className="mx-2 mb-3 flex items-center justify-center rounded-md bg-blue-600 px-4 pb-2 text-white shadow-lg transition-all hover:text-white hover:shadow-none md:mx-5"
             >

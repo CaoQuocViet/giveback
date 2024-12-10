@@ -29,7 +29,7 @@ export default function Feature() {
             title: "Đóng góp từ thiện",
             description:
               "Đóng góp qua nhiều hình thức: chuyển khoản ngân hàng, ví điện tử. Lựa chọn nơi đóng góp từ thông tin newsfeed.",
-            href: "/donation",
+            href: "/dashboard/donations",
           },
           {
             icon: (
@@ -38,7 +38,7 @@ export default function Feature() {
             title: "Theo dõi và báo cáo",
             description:
               "Hiển thị thông tin công khai về tổng quyên góp, danh sách theo thời gian thực, xuất báo cáo chi tiết.",
-            href: "/report",
+            href: "/dashboard/reports",
           },
           {
             icon: (
@@ -47,7 +47,7 @@ export default function Feature() {
             title: "Quản lý chiến dịch",
             description:
               "Tạo và quản lý các chiến dịch cứu trợ thiên tai. Cập nhật trạng thái về các thay đổi của chiến dịch.",
-            href: "/campaign",
+            href: "/dashboard/campaigns",
           },
           {
             icon: (
@@ -56,7 +56,7 @@ export default function Feature() {
             title: "Phản hồi và đánh giá",
             description:
               "Gửi phản hồi và đánh giá về tình hình quyên góp và nhận hỗ trợ. Hiển thị thông tin và bình luận về chiến dịch.",
-            href: "/feedback",
+            href: "/dashboard/campaigns",
           },
           {
             icon: (

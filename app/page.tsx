@@ -38,17 +38,15 @@ export default function IndexPage() {
         </div>
         <div className="flex justify-center gap-4">
           <Link
-            href={siteConfig.links.docs}
-            target="_blank"
+            href="/dashboard/campaigns"
             rel="noreferrer"
             className={buttonVariants()}
           >
             Xem chiến dịch
           </Link>
           <Link
-            target="_blank"
             rel="noreferrer"
-            href={siteConfig.links.facebook}
+            href="/dashboard/donations"
             className={buttonVariants({ variant: "outline" })}
           >
             Đóng góp ngay
