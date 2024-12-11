@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { StarIcon } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
 
 export function CharityProfile() {
   const [userData, setUserData] = useState({
@@ -30,7 +31,25 @@ export function CharityProfile() {
     total_raised: 1000000000,
     rating: 4.8,
     createdAt: "2021-12-01T10:00:00Z",
-    updatedAt: "2023-11-20T14:00:00Z"
+    updatedAt: "2023-11-20T14:00:00Z",
+    representative_name: "Nguyễn Văn A",
+    organization_name: "Quỹ Hy Vọng",
+    description: "Tổ chức từ thiện hoạt động trong lĩnh vực...",
+    website: "https://hopefoundation.org",
+    founding_date: "2020-01-01",
+    social_links: {
+      facebook: "https://facebook.com/hopefoundation",
+      twitter: "https://twitter.com/hopefoundation",
+      youtube: "https://youtube.com/hopefoundation"
+    },
+    bank_name: "Vietcombank",
+    bank_branch: "Hà Nội",
+    bank_owner: "QUỸ HY VỌNG",
+    bank_account: "1234567890",
+    merchant_id: "MERCHANT123",
+    merchant_name: "Quỹ Hy Vọng",
+    payment_gateway: "VNPay",
+    api_key: "xxxxx-xxxxx-xxxxx"
   })
 
   return (
@@ -78,47 +97,69 @@ export function CharityProfile() {
             </div>
           </div>
 
-          {/* Thông tin chính */}
+          {/* Chia layout thành 2 cột */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Cột trái */}
             <div className="space-y-6">
+              {/* Thông tin người đại diện */}
               <div>
-                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin cơ bản</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin người đại diện</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium dark:text-gray-300">Tên tổ chức</label>
-                    <Input className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" defaultValue={userData.fullName} />
+                    <label className="text-sm font-medium dark:text-gray-300">Họ và tên</label>
+                    <Input 
+                      value={userData.representative_name}
+                      onChange={(e) => setUserData(prev => ({...prev, representative_name: e.target.value}))}
+                    />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Email</label>
-                    <Input className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100" defaultValue={userData.email} />
+                    <Input value={userData.email} />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số điện thoại</label>
-                    <Input disabled value={userData.phone} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
+                    <label className="text-sm font-medium text-muted-foreground">Số điện thoại</label>
+                    <Input disabled value={userData.phone} />
                   </div>
                 </div>
               </div>
 
+              {/* Thông tin tổ chức */}
               <div>
-                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin pháp lý</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin tổ chức</h3>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số giấy phép</label>
-                    <Input disabled value={userData.license_number} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
+                    <label className="text-sm font-medium dark:text-gray-300">Tên tổ chức</label>
+                    <Input 
+                      value={userData.organization_name}
+                      onChange={(e) => setUserData(prev => ({...prev, organization_name: e.target.value}))}
+                    />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày cấp</label>
-                    <Input disabled value={new Date(userData.license_date).toLocaleDateString('vi-VN')} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
+                    <label className="text-sm font-medium dark:text-gray-300">Mô tả</label>
+                    <Textarea 
+                      value={userData.description}
+                      onChange={(e) => setUserData(prev => ({...prev, description: e.target.value}))}
+                    />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground dark:text-gray-400">Mô tả giấy phép</label>
-                    <Input disabled value={userData.license_description} className="bg-muted cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" />
+                    <label className="text-sm font-medium dark:text-gray-300">Website</label>
+                    <Input 
+                      value={userData.website}
+                      onChange={(e) => setUserData(prev => ({...prev, website: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Ngày thành lập</label>
+                    <Input 
+                      type="date"
+                      value={userData.founding_date}
+                      onChange={(e) => setUserData(prev => ({...prev, founding_date: e.target.value}))}
+                    />
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="space-y-6">
+              {/* Địa chỉ */}
               <div>
                 <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Địa chỉ</h3>
                 <AddressFields 
@@ -128,45 +169,149 @@ export function CharityProfile() {
                     ward: userData.ward,
                     address: userData.address
                   }}
-                  onChange={(values) => {
-                    setUserData(prev => ({...prev, ...values}))
-                  }}
+                  onChange={(values) => setUserData(prev => ({...prev, ...values}))}
                 />
               </div>
+            </div>
 
+            {/* Cột phải */}
+            <div className="space-y-6">
+              {/* Thông tin mạng xã hội */}
               <div>
-                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thống kê hoạt động</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Mạng xã hội</h3>
                 <div className="space-y-4">
                   <div>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>Số chiến dịch đã tạo</span>
-                      <span className="font-medium">{userData.campaign_count}</span>
-                    </div>
-                    <Progress value={Math.min((userData.campaign_count / 50) * 100, 100)} />
+                    <label className="text-sm font-medium dark:text-gray-300">Facebook</label>
+                    <Input 
+                      value={userData.social_links.facebook}
+                      onChange={(e) => setUserData(prev => ({
+                        ...prev, 
+                        social_links: {...prev.social_links, facebook: e.target.value}
+                      }))}
+                    />
                   </div>
                   <div>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>Tổng tiền gây quỹ</span>
-                      <span className="font-medium">
-                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(userData.total_raised)}
-                      </span>
-                    </div>
-                    <Progress value={Math.min((userData.total_raised / 2000000000) * 100, 100)} />
+                    <label className="text-sm font-medium dark:text-gray-300">Twitter</label>
+                    <Input 
+                      value={userData.social_links.twitter}
+                      onChange={(e) => setUserData(prev => ({
+                        ...prev, 
+                        social_links: {...prev.social_links, twitter: e.target.value}
+                      }))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Youtube</label>
+                    <Input 
+                      value={userData.social_links.youtube}
+                      onChange={(e) => setUserData(prev => ({
+                        ...prev, 
+                        social_links: {...prev.social_links, youtube: e.target.value}
+                      }))}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Thông tin ngân hàng */}
+              <div>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin ngân hàng</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Tên ngân hàng</label>
+                    <Input 
+                      value={userData.bank_name}
+                      onChange={(e) => setUserData(prev => ({...prev, bank_name: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Chi nhánh</label>
+                    <Input 
+                      value={userData.bank_branch}
+                      onChange={(e) => setUserData(prev => ({...prev, bank_branch: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Chủ tài khoản</label>
+                    <Input 
+                      value={userData.bank_owner}
+                      onChange={(e) => setUserData(prev => ({...prev, bank_owner: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Số tài khoản</label>
+                    <Input 
+                      value={userData.bank_account}
+                      onChange={(e) => setUserData(prev => ({...prev, bank_account: e.target.value}))}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Thông tin merchant */}
+              <div>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin merchant</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Merchant ID</label>
+                    <Input 
+                      value={userData.merchant_id}
+                      onChange={(e) => setUserData(prev => ({...prev, merchant_id: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Tên merchant</label>
+                    <Input 
+                      value={userData.merchant_name}
+                      onChange={(e) => setUserData(prev => ({...prev, merchant_name: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">Cổng thanh toán</label>
+                    <Input 
+                      value={userData.payment_gateway}
+                      onChange={(e) => setUserData(prev => ({...prev, payment_gateway: e.target.value}))}
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium dark:text-gray-300">API Key</label>
+                    <Input 
+                      type="password"
+                      value={userData.api_key}
+                      onChange={(e) => setUserData(prev => ({...prev, api_key: e.target.value}))}
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Footer với thông tin bổ sung */}
-          <div className="mt-8 pt-6 border-t dark:border-gray-700 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-gray-400">
-            <div>Ngày tạo: {new Date(userData.createdAt).toLocaleDateString('vi-VN')}</div>
-            <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
+          {/* Thống kê hoạt động */}
+          <div className="mt-8">
+            <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thống kê hoạt động</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 bg-muted rounded-lg dark:bg-gray-700">
+                <div className="text-sm text-muted-foreground mb-1">Số chiến dịch đã tạo</div>
+                <div className="text-2xl font-bold dark:text-gray-100">{userData.campaign_count}</div>
+              </div>
+              <div className="p-4 bg-muted rounded-lg dark:bg-gray-700">
+                <div className="text-sm text-muted-foreground mb-1">Tổng tiền gây quỹ</div>
+                <div className="text-2xl font-bold dark:text-gray-100">
+                  {new Intl.NumberFormat('vi-VN').format(userData.total_raised)}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <Button className="w-full mt-8 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600">
-            Lưu thay đổi
-          </Button>
+          {/* Footer */}
+          <div className="mt-8 pt-6 border-t dark:border-gray-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground dark:text-gray-400 mb-8">
+              <div>Ngày tạo: {new Date(userData.createdAt).toLocaleDateString('vi-VN')}</div>
+              <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
+            </div>
+            <Button className="w-full">Lưu thay đổi</Button>
+          </div>
+
         </CardContent>
       </Card>
     </div>
