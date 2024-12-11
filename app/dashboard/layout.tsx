@@ -1,22 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FileText, Flag, History, LogOut, Settings, User, Users } from "lucide-react"
+import Cookies from 'js-cookie'
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/hooks/useAuth"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
-}
-
-// Mock user data
-const mockUser = {
-  name: "Đang Trầm Cảm",
-  role: "CHARITY", // Có thể thay đổi role để test: ADMIN, CHARITY, DONOR, BENEFICIARY
-  avatar: "/default-avatar.png",
 }
 
 // Thay thế Icons bằng các components từ lucide-react
@@ -32,7 +27,38 @@ const Icons = {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const [menuItems] = useState(getMenuByRole(mockUser.role))
+  const router = useRouter()
+  const { logout } = useAuth()
+  const [userData, setUserData] = useState<any>(null)
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
+
+  useEffect(() => {
+    // Kiểm tra token
+    const token = Cookies.get('auth_token')
+    if (!token) {
+      router.push('/auth/login')
+      return
+    }
+
+    // Lấy user info từ localStorage
+    const userStr = localStorage.getItem('user')
+    if (userStr) {
+      const user = JSON.parse(userStr)
+      setUserData(user)
+      setMenuItems(getMenuByRole(user.role))
+    } else {
+      router.push('/auth/login')
+    }
+  }, [router])
+
+  const handleLogout = () => {
+    logout()
+  }
+
+  // Show loading khi chưa có userData
+  if (!userData) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
@@ -43,15 +69,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex items-center space-x-4">
             <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/5">
               <img
-                src={mockUser.avatar}
+                src={userData.avatar || "/default-avatar.png"}
                 alt="Profile"
                 className="size-10 rounded-full object-cover"
               />
             </div>
             <div>
-              <p className="text-lg font-semibold dark:text-gray-100">{mockUser.name}</p>
+              <p className="text-lg font-semibold dark:text-gray-100">
+                {userData.full_name}
+              </p>
               <Badge variant="secondary" className="mt-1 dark:bg-gray-700 dark:text-gray-300">
-                {getRoleLabel(mockUser.role)}
+                {getRoleLabel(userData.role)}
               </Badge>
             </div>
           </div>
@@ -83,7 +111,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Footer */}
         <div className="absolute bottom-0 w-64 border-t bg-white p-4 dark:bg-gray-800 dark:border-gray-700">
-          <Button variant="outline" className="w-full justify-start dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" size="sm">
+          <Button 
+            variant="outline" 
+            className="w-full justify-start dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" 
+            size="sm"
+            onClick={handleLogout}
+          >
             <Icons.logOut className="mr-2 size-4" />
             Đăng xuất
           </Button>
@@ -212,17 +245,17 @@ function getMenuByRole(role: string): MenuItem[] {
   }
 }
 
-function getRoleLabel(role?: string): string {
+function getRoleLabel(role: string): string {
   switch (role) {
     case "ADMIN":
       return "Quản trị viên"
     case "CHARITY":
       return "Tổ chức từ thiện"
     case "DONOR":
-      return "Người đóng góp"
+      return "Nhà hảo tâm"
     case "BENEFICIARY":
-      return "Người nhận hỗ trợ"
+      return "Người thụ hưởng"
     default:
-      return ""
+      return role
   }
 }

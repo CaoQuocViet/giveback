@@ -1,34 +1,36 @@
 "use client"
 
-import { FormEvent, useState } from "react"
+import { useState, FormEvent } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useAuth } from "@/hooks/useAuth"
 
 export default function Login() {
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
+  const [identifier, setIdentifier] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const { login } = useAuth()
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
     setError("")
+    setIsLoading(true)
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ 
-          identifier: email || phone,
+          identifier,
           password,
-          type: email ? "email" : "phone"
+          type: identifier.includes('@') ? 'email' : 'phone'
         }),
       })
 
@@ -38,9 +40,13 @@ export default function Login() {
         throw new Error(data.error || "Đăng nhập thất bại")
       }
 
-      router.push("/")
+      login(data.data.token, data.data.user)
+      router.push(`/dashboard`)
+      
     } catch (e) {
       setError((e as Error).message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -55,65 +61,47 @@ export default function Login() {
             </p>
           </div>
 
-          <Tabs defaultValue="email" className="space-y-6">
-            <TabsList className="grid grid-cols-2 dark:bg-gray-700">
-              <TabsTrigger className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600" value="email">Email</TabsTrigger>
-              <TabsTrigger className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600" value="phone">Số điện thoại</TabsTrigger>
-            </TabsList>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="identifier">Email hoặc số điện thoại</Label>
+              <Input
+                type="text"
+                id="identifier"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
+                placeholder="abc@example.com hoặc 0912345678"
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                required
+              />
+            </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <TabsContent value="email">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    type="email"
-                    id="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="abc@example.com"
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                  />
-                </div>
-              </TabsContent>
+            <div className="space-y-2">
+              <Label htmlFor="password">Mật khẩu</Label>
+              <Input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                required
+              />
+            </div>
 
-              <TabsContent value="phone">
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Số điện thoại</Label>
-                  <Input
-                    type="tel"
-                    id="phone"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+84 xxx xxx xxx"
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                  />
-                </div>
-              </TabsContent>
-
-              <div className="space-y-2">
-                <Label htmlFor="password">Mật khẩu</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
-                  required
-                />
+            {error && (
+              <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400">
+                <span className="block sm:inline">{error}</span>
               </div>
+            )}
 
-              {error && (
-                <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400">
-                  <span className="block sm:inline">{error}</span>
-                </div>
-              )}
-
-              <Button type="submit" className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 dark:hover:bg-primary/90">
-                Đăng nhập
-              </Button>
-            </form>
-          </Tabs>
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 dark:hover:bg-primary/90"
+              disabled={isLoading}
+            >
+              {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
+            </Button>
+          </form>
 
           <p className="text-sm text-center text-muted-foreground dark:text-gray-400 mt-6">
             Bạn chưa có tài khoản?{" "}
