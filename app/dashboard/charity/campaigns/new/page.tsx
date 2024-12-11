@@ -11,10 +11,18 @@ import {
   Typography,
 } from "@mui/material"
 import { useSession } from "next-auth/react"
+import { AddressFields } from "@/components/profile/address-fields"
+import { useState } from "react"
 
 export default function NewCampaignPage() {
   const { data: session } = useSession()
   const router = useRouter()
+  const [addressData, setAddressData] = useState({
+    province: "",
+    district: "",
+    ward: "",
+    address: ""
+  })
 
   return (
     <Box sx={{ maxWidth: 1200, mx: "auto", py: 4 }}>
@@ -76,39 +84,12 @@ export default function NewCampaignPage() {
                 />
               </Grid>
 
-              <Grid item xs={4}>
-                <TextField
-                  fullWidth
-                  id="province"
-                  label="Tỉnh/Thành phố"
-                  placeholder="Chọn tỉnh/thành phố"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <TextField
-                  fullWidth
-                  id="district"
-                  label="Quận/Huyện"
-                  placeholder="Chọn quận/huyện"
-                />
-              </Grid>
-
-              <Grid item xs={4}>
-                <TextField
-                  fullWidth
-                  id="ward"
-                  label="Phường/Xã"
-                  placeholder="Chọn phường/xã"
-                />
-              </Grid>
-
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="address"
-                  label="Địa chỉ cụ thể"
-                  placeholder="Nhập địa chỉ cụ thể"
+                <AddressFields
+                  defaultValues={addressData}
+                  onChange={(values) => {
+                    setAddressData(values)
+                  }}
                 />
               </Grid>
 

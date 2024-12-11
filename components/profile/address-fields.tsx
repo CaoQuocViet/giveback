@@ -37,21 +37,58 @@ interface AddressFieldsProps {
 
 export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
   const [addressData, setAddressData] = useState<AddressData>({})
+  const [provinces, setProvinces] = useState<Array<{code: string, name: string}>>([])
+  const [districts, setDistricts] = useState<Array<{code: string, name: string}>>([])
+  const [wards, setWards] = useState<Array<{code: string, name: string}>>([])
+  
   const [selectedProvince, setSelectedProvince] = useState(defaultValues?.province || "")
   const [selectedDistrict, setSelectedDistrict] = useState(defaultValues?.district || "")
   const [selectedWard, setSelectedWard] = useState(defaultValues?.ward || "")
   const [address, setAddress] = useState(defaultValues?.address || "")
 
+  // Fetch provinces when component mounts
   useEffect(() => {
-    // Fetch địa chỉ từ file JSON
-    fetch("/api/address-data")
+    fetch('http://localhost:5000/api/administrative/provinces')
       .then(res => res.json())
-      .then(data => setAddressData(data))
+      .then(data => {
+        if (data.success) {
+          setProvinces(data.data)
+        }
+      })
+      .catch(err => console.error('Error fetching provinces:', err))
   }, [])
 
-  const provinces = Object.keys(addressData)
-  const districts = selectedProvince ? Object.keys(addressData[selectedProvince]?.districts || {}) : []
-  const wards = selectedDistrict ? Object.keys(addressData[selectedProvince]?.districts[selectedDistrict]?.wards || {}) : []
+  // Fetch districts when province changes
+  useEffect(() => {
+    if (selectedProvince) {
+      fetch(`http://localhost:5000/api/administrative/districts/${selectedProvince}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setDistricts(data.data)
+          }
+        })
+        .catch(err => console.error('Error fetching districts:', err))
+    } else {
+      setDistricts([])
+    }
+  }, [selectedProvince])
+
+  // Fetch wards when district changes
+  useEffect(() => {
+    if (selectedProvince && selectedDistrict) {
+      fetch(`http://localhost:5000/api/administrative/wards/${selectedProvince}/${selectedDistrict}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            setWards(data.data)
+          }
+        })
+        .catch(err => console.error('Error fetching wards:', err))
+    } else {
+      setWards([])
+    }
+  }, [selectedProvince, selectedDistrict])
 
   return (
     <div className="grid gap-4">
@@ -76,8 +113,8 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
           </SelectTrigger>
           <SelectContent>
             {provinces.map((province) => (
-              <SelectItem key={province} value={province}>
-                {addressData[province].name}
+              <SelectItem key={province.code} value={province.code}>
+                {province.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -105,8 +142,8 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
           </SelectTrigger>
           <SelectContent>
             {districts.map((district) => (
-              <SelectItem key={district} value={district}>
-                {addressData[selectedProvince].districts[district].name}
+              <SelectItem key={district.code} value={district.code}>
+                {district.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -133,8 +170,8 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
           </SelectTrigger>
           <SelectContent>
             {wards.map((ward) => (
-              <SelectItem key={ward} value={ward}>
-                {addressData[selectedProvince].districts[selectedDistrict].wards[ward].name}
+              <SelectItem key={ward.code} value={ward.code}>
+                {ward.name}
               </SelectItem>
             ))}
           </SelectContent>
