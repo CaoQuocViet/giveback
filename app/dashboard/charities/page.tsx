@@ -1,97 +1,111 @@
 "use client"
 
-import { useState } from "react"
-import { useSession } from "next-auth/react"
-import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Cookies from 'js-cookie'
 import { CharityList } from "@/components/charities/charity-list"
 import { Pagination } from "@/components/ui/pagination"
 
-// Mock data
-const mockCharities = {
-  charities: [
-    {
-      id: "1",
-      name: "Hội Chữ thập đỏ Việt Nam",
-      logo: "/images/red-cross.jpg",
-      description:
-        "Tổ chức nhân đạo lớn nhất Việt Nam, hoạt động trong lĩnh vực cứu trợ nhân đạo và từ thiện.",
-      verified: true,
-      rating: 4.8,
-      totalCampaigns: 150,
-      totalDonations: 25000,
-      address: "Hà Nội, Việt Nam",
-    },
-    {
-      id: "2",
-      name: "Quỹ Hy vọng xanh Việt Nam",
-      logo: "/images/hope.jpg",
-      description:
-        "Quỹ từ thiện tập trung vào giáo dục và phát triển cộng đồng.",
-      verified: true,
-      rating: 4.5,
-      totalCampaigns: 75,
-      totalDonations: 12000,
-      address: "TP.HCM, Việt Nam",
-    },
-    {
-      id: "3",
-      name: "Hội Chữ thập đỏ Việt Nam",
-      logo: "/images/red-cross.jpg",
-      description:
-        "Tổ chức nhân đạo lớn nhất Việt Nam, hoạt động trong lĩnh vực cứu trợ nhân đạo và từ thiện.",
-      verified: true,
-      rating: 4.8,
-      totalCampaigns: 150,
-      totalDonations: 25000,
-      address: "Hà Nội, Việt Nam",
-    },
-    {
-      id: "4",
-      name: "Quỹ Hy vọng xanh Việt Nam",
-      logo: "/images/hope.jpg",
-      description:
-        "Quỹ từ thiện tập trung vào giáo dục và phát triển cộng đồng.",
-      verified: true,
-      rating: 4.5,
-      totalCampaigns: 75,
-      totalDonations: 12000,
-      address: "TP.HCM, Việt Nam",
-    },
-    {
-      id: "5",
-      name: "Trái tim cho em",
-      logo: "/images/heart.jpg",
-      description:
-        "Chương trình hỗ trợ phẫu thuật tim bẩm sinh cho trẻ em nghèo.",
-      verified: true,
-      rating: 4.9,
-      totalCampaigns: 50,
-      totalDonations: 8000,
-      address: "Đà Nẵng, Việt Nam",
-    },
-  ],
+interface CharityListResponse {
+  success: boolean
+  data: {
+    charities: Array<{
+      id: string
+      title: string
+      description: string
+      rating: string | number
+      campaign_count: number
+      total_raised: string | number
+      verification_status: 'PENDING' | 'VERIFIED' | 'REJECTED'
+      user: {
+        full_name: string
+        profile_image: string | null
+      }
+    }>
+    pagination: {
+      total: number
+      page: number
+      total_pages: number
+    }
+  }
 }
 
 export default function CharitiesPage() {
-  const { data: session } = useSession()
+  const router = useRouter()
+  const [charities, setCharities] = useState<CharityListResponse['data']['charities']>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [totalItems, setTotalItems] = useState(0)
   const itemsPerPage = 9 // 3x3 grid
-  
-  const totalPages = Math.ceil(mockCharities.charities.length / itemsPerPage)
-  const currentCharities = {
-    charities: mockCharities.charities.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    )
+
+  const fetchCharities = async () => {
+    try {
+      setIsLoading(true)
+      const token = Cookies.get('auth_token')
+      if (!token) {
+        router.push('/auth/login')
+        return
+      }
+
+      const response = await fetch(`http://localhost:5000/api/charities?page=${currentPage}&limit=${itemsPerPage}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Lỗi khi lấy danh sách tổ chức')
+      }
+
+      const data: CharityListResponse = await response.json()
+      
+      // Transform API data to match CharityList component format
+      const transformedCharities = data.data.charities.map(charity => ({
+        id: charity.id,
+        name: charity.title,
+        logo: charity.user.profile_image 
+          ? (charity.user.profile_image.startsWith('http') 
+            ? charity.user.profile_image 
+            : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`)
+          : '/images/default-charity.jpg', // Fallback image
+        description: charity.description,
+        verification_status: charity.verification_status,
+        rating: Number(charity.rating),
+        totalCampaigns: charity.campaign_count,
+        totalDonations: Number(charity.total_raised),
+        address: '' // TODO: Add address from user data if needed
+      }))
+
+      setCharities(transformedCharities)
+      setTotalItems(data.data.pagination.total)
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchCharities()
+  }, [currentPage])
+
+  if (isLoading) {
+    return <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+    </div>
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center p-4">{error}</div>
   }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 space-y-6">
-      <CharityList data={currentCharities} />
+      <CharityList data={{ charities }} />
       
       <Pagination
-        total={mockCharities.charities.length}
+        total={totalItems}
         page={currentPage}
         onPageChange={setCurrentPage}
         itemsPerPage={itemsPerPage}

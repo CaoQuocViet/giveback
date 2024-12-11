@@ -14,7 +14,7 @@ interface CharityCardProps {
     name: string
     logo: string
     description: string
-    verified: boolean
+    verification_status: 'PENDING' | 'VERIFIED' | 'REJECTED'
     rating: number
     totalCampaigns: number
     totalDonations: number
@@ -34,11 +34,23 @@ export function CharityCard({ charity }: CharityCardProps) {
             className="object-cover"
           />
         </div>
-        {charity.verified && (
-          <Badge variant="success" className="absolute right-2 top-2">
-            Đã xác minh
-          </Badge>
-        )}
+        <Badge 
+          variant={
+            charity.verification_status === 'VERIFIED' 
+              ? "success" 
+              : charity.verification_status === 'REJECTED'
+              ? "destructive"
+              : "warning"
+          } 
+          className="absolute right-2 top-2"
+        >
+          {charity.verification_status === 'VERIFIED' 
+            ? "Đã xác minh"
+            : charity.verification_status === 'REJECTED'
+            ? "Từ chối"
+            : "Chờ xác minh"
+          }
+        </Badge>
       </CardHeader>
       <CardContent>
         <h3 className="mb-2 text-lg font-semibold">{charity.name}</h3>
