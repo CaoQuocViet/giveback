@@ -61,9 +61,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+      {/* Fixed Sidebar - Thêm top-16 để bắt đầu sau header */}
+      <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-white shadow-md dark:bg-gray-800 dark:border-gray-700">
         {/* Profile Section */}
         <div className="border-b p-6 dark:border-gray-700">
           <div className="flex items-center space-x-4">
@@ -85,8 +85,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </div>
         </div>
 
-        {/* Navigation Menu */}
-        <nav className="p-4">
+        {/* Navigation Menu - Điều chỉnh chiều cao */}
+        <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4">
           <ul className="space-y-1">
             {menuItems.map((item) => (
               <li key={item.href}>
@@ -109,7 +109,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </ul>
         </nav>
 
-        {/* Footer */}
+        {/* Logout Button */}
         <div className="absolute bottom-0 w-64 border-t bg-white p-4 dark:bg-gray-800 dark:border-gray-700">
           <Button 
             variant="outline" 
@@ -123,8 +123,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-8 dark:bg-gray-900">{children}</main>
+      {/* Main Content - Thêm pt-16 để bắt đầu sau header */}
+      <main className="ml-64 flex-1 p-8 pt-16">
+        {children}
+      </main>
     </div>
   )
 }
