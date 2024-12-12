@@ -1,26 +1,72 @@
-import { useRouter } from 'next/navigation'
-import Cookies from 'js-cookie'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 
 export function useAuth() {
   const router = useRouter()
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-  const login = (token: string, user: any) => {
-    // Lưu token vào cookie với thời hạn 24h
-    Cookies.set('auth_token', token, { expires: 1 })
-    // Lưu user info vào localStorage
-    localStorage.setItem('user', JSON.stringify(user))
-    // Trigger storage event manually vì localStorage.setItem không trigger trong cùng tab
-    window.dispatchEvent(new Event('storage'))
+  const login = (token: string, userData: any) => {
+    // Save token in cookies with a 1-day expiration
+    Cookies.set("auth_token", token, { expires: 1 })
+
+    // Save user data in localStorage
+    localStorage.setItem("user", JSON.stringify(userData))
+
+    // Update state
+    setUser(userData)
+    setLoading(false)
+
+    // Trigger storage event to synchronize across tabs
+    window.dispatchEvent(new Event("storage"))
   }
 
   const logout = () => {
-    // Xóa token và user info
-    Cookies.remove('auth_token')
-    localStorage.removeItem('user')
-    // Trigger storage event
-    window.dispatchEvent(new Event('storage'))
-    router.push('/auth/login')
+    // Remove token and user data
+    Cookies.remove("auth_token")
+    localStorage.removeItem("user")
+
+    // Update state
+    setUser(null)
+    setLoading(false)
+
+    // Trigger storage event to synchronize across tabs
+    window.dispatchEvent(new Event("storage"))
+
+    // Redirect to login page
+    router.push("/auth/login")
   }
 
-  return { login, logout }
-} 
+  useEffect(() => {
+    const token = Cookies.get("auth_token")
+    const userStr = localStorage.getItem("user")
+
+    if (token && userStr) {
+      const userData = JSON.parse(userStr)
+      setUser(userData)
+    }
+
+    setLoading(false)
+
+    // Listen for storage events to handle login/logout across tabs
+    const handleStorage = () => {
+      const updatedToken = Cookies.get("auth_token")
+      const updatedUserStr = localStorage.getItem("user")
+      if (updatedToken && updatedUserStr) {
+        const updatedUser = JSON.parse(updatedUserStr)
+        setUser(updatedUser)
+      } else {
+        setUser(null)
+      }
+    }
+
+    window.addEventListener("storage", handleStorage)
+
+    return () => {
+      window.removeEventListener("storage", handleStorage)
+    }
+  }, [])
+
+  return { user, isAuthenticated: !!user, loading, login, logout }
+}
