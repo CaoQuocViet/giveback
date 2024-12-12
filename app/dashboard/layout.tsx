@@ -77,21 +77,21 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:from-gray-900 dark:to-blue-900/20">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
       <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
-        bg-white shadow-lg
-        dark:from-gray-800 dark:via-blue-900/10 dark:to-indigo-900/10 
-        dark:border-blue-900/20"
+        bg-white dark:bg-gray-900
+        shadow-lg dark:shadow-black/40
+        border-r border-gray-200 dark:border-gray-800"
       >
         {/* Profile Section */}
-        <div className="border-b border-gray-200 dark:border-blue-900/30 p-6 
-          hover:bg-gray-50 dark:hover:bg-blue-900/20 transition-colors"
+        <div className="border-b border-gray-200 dark:border-gray-800 p-6 
+          hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
         >
           <div className="flex items-center space-x-4">
             <div className="flex size-12 items-center justify-center rounded-full 
-              bg-blue-100/50 dark:bg-blue-900/30 
-              ring-2 ring-blue-200 dark:ring-blue-700 
-              hover:ring-blue-300 dark:hover:ring-blue-600 transition-all"
+              bg-blue-100 dark:bg-blue-950
+              ring-2 ring-blue-200 dark:ring-blue-800 
+              hover:ring-blue-300 dark:hover:ring-blue-700 transition-all"
             >
               <img
                 src={userData.avatar || "/default-avatar.png"}
@@ -100,7 +100,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               />
             </div>
             <div>
-              <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
                 {userData.full_name}
               </p>
               <Badge className={`mt-1.5 font-medium ${getRoleBadgeColor(userData.role)}`}>
@@ -113,7 +113,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Navigation Menu */}
         <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4 
           scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
-          dark:scrollbar-track-blue-900/10 dark:scrollbar-thumb-blue-800"
+          dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800"
         >
           <ul className="space-y-2.5">
             {menuItems.map((item) => (
@@ -170,14 +170,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* Logout Button */}
-        <div className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-blue-900/30 
-          bg-white dark:bg-gray-800/80 p-4"
+        <div className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-gray-800 
+          bg-white dark:bg-gray-900 p-4"
         >
           <Button 
             variant="outline" 
             className="w-full justify-start font-medium
               hover:bg-red-50 hover:text-red-600 hover:border-red-200
-              dark:hover:bg-red-900/20 dark:hover:text-red-400 dark:hover:border-red-800
+              dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-900
+              dark:border-gray-800 dark:text-gray-200
               transition-all duration-200"
             size="sm"
             onClick={handleLogout}
@@ -188,7 +189,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </aside>
 
-      <main className="ml-64 flex-1 p-6">
+      <main className="ml-64 flex-1 p-6 dark:bg-gray-950">
         <div className="mx-auto max-w-7xl">
           {children}
         </div>
