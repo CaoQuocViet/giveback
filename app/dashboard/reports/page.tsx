@@ -56,10 +56,10 @@ export default function ReportsPage() {
     const fetchReports = async () => {
       try {
         const [campaignRes, charityRes, donationRes, distributionRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/reports/campaign'),
-          axios.get('http://localhost:5000/api/reports/charity'),
-          axios.get('http://localhost:5000/api/reports/donation'),
-          axios.get('http://localhost:5000/api/reports/distribution')
+          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/campaign`),
+          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/charity`),
+          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/donation`),
+          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/distribution`)
         ])
 
         setCampaignReport(campaignRes.data)
@@ -127,7 +127,7 @@ export default function ReportsPage() {
   const handleExport = async (type: string, format: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/reports/${type}/export`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/reports/${type}/export`,
         {
           params: { format },
           responseType: "blob",

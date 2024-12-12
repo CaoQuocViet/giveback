@@ -48,7 +48,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
 
   // Fetch provinces when component mounts
   useEffect(() => {
-    fetch('http://localhost:5000/api/administrative/provinces')
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/provinces`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -61,7 +61,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
   // Fetch districts when province changes
   useEffect(() => {
     if (selectedProvince) {
-      fetch(`http://localhost:5000/api/administrative/districts/${selectedProvince}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/districts/${selectedProvince}`)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -77,7 +77,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
   // Fetch wards when district changes
   useEffect(() => {
     if (selectedProvince && selectedDistrict) {
-      fetch(`http://localhost:5000/api/administrative/wards/${selectedProvince}/${selectedDistrict}`)
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/wards/${selectedProvince}/${selectedDistrict}`)
         .then(res => res.json())
         .then(data => {
           if (data.success) {

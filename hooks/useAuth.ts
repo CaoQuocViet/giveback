@@ -50,6 +50,7 @@ export function useAuth() {
     setLoading(false)
 
     // Listen for storage events to handle login/logout across tabs
+    // Phạm Ngọc Khôi
     const handleStorage = () => {
       const updatedToken = Cookies.get("auth_token")
       const updatedUserStr = localStorage.getItem("user")

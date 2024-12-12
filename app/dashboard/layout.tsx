@@ -26,6 +26,22 @@ const Icons = {
   settings: Settings,
 }
 
+// Thêm helper function để lấy màu cho role badge (đồng bộ với header)
+function getRoleBadgeColor(role: string): string {
+  switch (role) {
+    case "ADMIN":
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+    case "CHARITY":
+      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300"
+    case "DONOR":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+    case "BENEFICIARY":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+    default:
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
+  }
+}
+
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter()
   const { logout } = useAuth()
@@ -61,48 +77,92 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-      {/* Fixed Sidebar - Thêm top-16 để bắt đầu sau header */}
-      <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 bg-white shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex min-h-screen bg-gray-100 dark:from-gray-900 dark:to-blue-900/20">
+      <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
+        bg-white shadow-lg
+        dark:from-gray-800 dark:via-blue-900/10 dark:to-indigo-900/10 
+        dark:border-blue-900/20"
+      >
         {/* Profile Section */}
-        <div className="border-b p-6 dark:border-gray-700">
+        <div className="border-b border-gray-200 dark:border-blue-900/30 p-6 
+          hover:bg-gray-50 dark:hover:bg-blue-900/20 transition-colors"
+        >
           <div className="flex items-center space-x-4">
-            <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 dark:bg-primary/5">
+            <div className="flex size-12 items-center justify-center rounded-full 
+              bg-blue-100/50 dark:bg-blue-900/30 
+              ring-2 ring-blue-200 dark:ring-blue-700 
+              hover:ring-blue-300 dark:hover:ring-blue-600 transition-all"
+            >
               <img
                 src={userData.avatar || "/default-avatar.png"}
                 alt="Profile"
-                className="size-10 rounded-full object-cover"
+                className="size-10 rounded-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div>
-              <p className="text-lg font-semibold dark:text-gray-100">
+              <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 {userData.full_name}
               </p>
-              <Badge variant="secondary" className="mt-1 dark:bg-gray-700 dark:text-gray-300">
+              <Badge className={`mt-1.5 font-medium ${getRoleBadgeColor(userData.role)}`}>
                 {getRoleLabel(userData.role)}
               </Badge>
             </div>
           </div>
         </div>
 
-        {/* Navigation Menu - Điều chỉnh chiều cao */}
-        <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4">
-          <ul className="space-y-1">
+        {/* Navigation Menu */}
+        <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4 
+          scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
+          dark:scrollbar-track-blue-900/10 dark:scrollbar-thumb-blue-800"
+        >
+          <ul className="space-y-2.5">
             {menuItems.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="group relative flex items-center rounded-lg px-4 py-3
-                    text-sm font-medium transition-colors
-                    hover:bg-primary/10 hover:text-primary
-                    dark:text-gray-300 dark:hover:bg-primary/5 dark:hover:text-primary"
+                  className={`group flex items-center rounded-xl px-4 py-3.5
+                    text-sm font-medium transition-all duration-300 ease-in-out
+                    bg-white/60 dark:bg-blue-900/20
+                    hover:bg-blue-100/60 hover:text-blue-700 hover:translate-x-1
+                    dark:text-blue-100 dark:hover:bg-blue-800/30 dark:hover:text-blue-300
+                    border border-transparent hover:border-blue-200/50 dark:hover:border-blue-700/50
+                    shadow-sm hover:shadow-md backdrop-blur-sm
+                    relative overflow-hidden`}
                 >
-                  <div
-                    className="absolute left-0 h-8 w-1 rounded-r-full bg-primary opacity-0
-                    transition-opacity group-hover:opacity-100"
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
+                    dark:from-blue-600/20 dark:to-transparent
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
                   />
-                  <item.icon className="mr-3 size-5 text-muted-foreground group-hover:text-primary dark:text-gray-400" />
-                  <span>{item.label}</span>
+
+                  {/* Icon container */}
+                  <div className="relative flex items-center justify-center size-9 
+                    rounded-lg bg-blue-100/80 dark:bg-blue-900/50
+                    group-hover:bg-blue-200/80 dark:group-hover:bg-blue-800/50
+                    transition-colors duration-300 mr-3
+                    border border-blue-200 dark:border-blue-700
+                    group-hover:border-blue-300 dark:group-hover:border-blue-600"
+                  >
+                    <item.icon className="size-5 text-blue-600 dark:text-blue-300 
+                      group-hover:text-blue-700 dark:group-hover:text-blue-200
+                      transition-colors duration-300" 
+                    />
+                  </div>
+
+                  {/* Label */}
+                  <span className="relative font-medium tracking-wide
+                    text-gray-700 dark:text-blue-100
+                    group-hover:text-blue-700 dark:group-hover:text-blue-200
+                    transition-all duration-300"
+                  >
+                    {item.label}
+                  </span>
+
+                  {/* Indicator line */}
+                  <div className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
+                    transform translate-x-full group-hover:translate-x-0
+                    transition-transform duration-300 rounded-l-full"
+                  />
                 </Link>
               </li>
             ))}
@@ -110,10 +170,15 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* Logout Button */}
-        <div className="absolute bottom-0 w-64 border-t bg-white p-4 dark:bg-gray-800 dark:border-gray-700">
+        <div className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-blue-900/30 
+          bg-white dark:bg-gray-800/80 p-4"
+        >
           <Button 
             variant="outline" 
-            className="w-full justify-start dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600" 
+            className="w-full justify-start font-medium
+              hover:bg-red-50 hover:text-red-600 hover:border-red-200
+              dark:hover:bg-red-900/20 dark:hover:text-red-400 dark:hover:border-red-800
+              transition-all duration-200"
             size="sm"
             onClick={handleLogout}
           >
@@ -123,14 +188,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </aside>
 
-      {/* Main Content - Thêm pt-16 để bắt đầu sau header */}
-      <main className="ml-64 flex-1 p-8 pt-16">
-        {children}
+      <main className="ml-64 flex-1 p-6">
+        <div className="mx-auto max-w-7xl">
+          {children}
+        </div>
       </main>
     </div>
   )
 }
-
 // Helper functions and types
 interface MenuItem {
   label: string
@@ -261,3 +326,4 @@ function getRoleLabel(role: string): string {
       return role
   }
 }
+
