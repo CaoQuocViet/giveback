@@ -1,13 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import axios from "axios"
-import Cookies from "js-cookie"
-import { DollarSign, FileText, Package, Users } from "lucide-react"
-
-import { useAuth } from "@/hooks/useAuth"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { FileText, Users, DollarSign, Package } from "lucide-react"
+import axios from "axios"
 
 interface CampaignReport {
   id: string
@@ -25,7 +22,7 @@ interface CharityReport {
   campaignCount: number
   totalFundraised: number
   totalDistributed: number
-  averageRating: number
+  averageRating: string
 }
 
 interface DonationReport {
@@ -36,67 +33,96 @@ interface DonationReport {
   lastDonationDate: string
 }
 
-interface Distribution {
-  title: string
-  budget: number
-  beneficiaryCount: number
-  reliefDate: string
-  representativeName: string
-  location: string
-}
-
 interface DistributionReport {
   campaignName: string
-  distributions: Distribution[]
+  distributions: any[]
 }
 
 export default function ReportsPage() {
-  const { user, isAuthenticated, loading } = useAuth()
+  const [loading, setLoading] = useState(true)
   const [campaignReport, setCampaignReport] = useState<CampaignReport[]>([])
   const [charityReport, setCharityReport] = useState<CharityReport[]>([])
   const [donationReport, setDonationReport] = useState<DonationReport[]>([])
-  const [distributionReport, setDistributionReport] = useState<
-    DistributionReport[]
-  >([])
+  const [distributionReport, setDistributionReport] = useState<DistributionReport[]>([])
+
+  const [stats, setStats] = useState({
+    campaignCount: 0,
+    charityCount: 0,
+    donorCount: 0,
+    distributionCount: 0
+  })
 
   useEffect(() => {
-    if (isAuthenticated) {
-      fetchReports()
-    }
-  }, [isAuthenticated])
-
-  const fetchReports = async () => {
-    try {
-      const token = Cookies.get("auth_token")
-      if (!token) {
-        console.error("No authentication token found.")
-        return
-      }
-      const [campaignRes, charityRes, donationRes, distributionRes] =
-        await Promise.all([
-          axios.get("http://localhost:5000/api/reports/campaign", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get("http://localhost:5000/api/reports/charity", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get("http://localhost:5000/api/reports/donation", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
-          axios.get("http://localhost:5000/api/reports/distribution", {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+    const fetchReports = async () => {
+      try {
+        const [campaignRes, charityRes, donationRes, distributionRes] = await Promise.all([
+          axios.get('http://localhost:5000/api/reports/campaign'),
+          axios.get('http://localhost:5000/api/reports/charity'),
+          axios.get('http://localhost:5000/api/reports/donation'),
+          axios.get('http://localhost:5000/api/reports/distribution')
         ])
 
-      setCampaignReport(campaignRes.data.data)
-      setCharityReport(charityRes.data.data)
-      setDonationReport(donationRes.data.data)
-      setDistributionReport(distributionRes.data.data)
-      console.log(distributionRes.data.data)
-    } catch (error) {
-      console.error("Error fetching reports:", error)
+        setCampaignReport(campaignRes.data)
+        setCharityReport(charityRes.data)
+        setDonationReport(donationRes.data)
+        setDistributionReport(distributionRes.data)
+      } catch (error) {
+        console.error('Error fetching reports:', error)
+      } finally {
+        setLoading(false)
+      }
     }
-  }
+
+    fetchReports()
+  }, [])
+
+  useEffect(() => {
+    setStats({
+      campaignCount: campaignReport.length,
+      charityCount: charityReport.length,
+      donorCount: donationReport.length,
+      distributionCount: distributionReport.length
+    })
+  }, [campaignReport, charityReport, donationReport, distributionReport])
+
+  const reportTypes = [
+    {
+      title: "Báo cáo chiến dịch",
+      description: "Thống kê về các chiến dịch và tiến độ thực hiện",
+      icon: FileText,
+      type: "campaign",
+      data: campaignReport,
+      count: stats.campaignCount,
+      color: "bg-blue-800 hover:bg-blue-900"
+    },
+    {
+      title: "Báo cáo tổ chức",
+      description: "Thống kê hoạt động của các tổ chức từ thiện",
+      icon: Users,
+      type: "charity",
+      data: charityReport,
+      count: stats.charityCount,
+      color: "bg-emerald-800 hover:bg-emerald-900"
+    },
+    {
+      title: "Báo cáo đóng góp",
+      description: "Thống kê các khoản đóng góp theo thời gian",
+      icon: DollarSign,
+      type: "donation",
+      data: donationReport,
+      count: stats.donorCount,
+      color: "bg-violet-800 hover:bg-violet-900"
+    },
+    {
+      title: "Báo cáo hỗ trợ",
+      description: "Thống kê các đợt phân phối hỗ trợ",
+      icon: Package,
+      type: "distribution",
+      data: distributionReport,
+      count: stats.distributionCount,
+      color: "bg-rose-800 hover:bg-rose-900"
+    }
+  ]
 
   const handleExport = async (type: string, format: string) => {
     try {
@@ -120,236 +146,68 @@ export default function ReportsPage() {
       link.parentNode?.removeChild(link)
     } catch (error) {
       console.error(`Error exporting ${type} report:`, error)
-      // Handle error (e.g., show notification)
     }
   }
 
   if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (!isAuthenticated) {
-    return <div>You are not authorized to view this page.</div>
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <p className="mt-2">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Báo cáo Tổng Quan</h1>
+    <div className="mx-auto max-w-7xl py-8 px-4">
+      <h1 className="text-2xl font-bold mb-6">Theo dõi báo cáo</h1>
 
-      {/* Campaign Report */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg">Báo cáo theo chiến dịch</h2>
-            <div>
-              <Button
-                variant="outline"
-                className="mr-2"
-                onClick={() => handleExport("campaign", "pdf")}
-              >
-                Xuất PDF
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleExport("campaign", "excel")}
-              >
-                Xuất Excel
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {campaignReport.length === 0 ? (
-            <p>Chưa có dữ liệu báo cáo chiến dịch.</p>
-          ) : (
-            campaignReport.map((campaign) => (
-              <div key={campaign.id} className="mb-4 p-4 border rounded">
-                <h3 className="text-xl font-semibold">{campaign.title}</h3>
-                <p>Trạng thái: {campaign.status}</p>
-                <p>Tổng tiền đã nhận: {campaign.totalReceived}</p>
-                <p>Tổng tiền đã cứu trợ: {campaign.totalDistributed}</p>
-                <p>Số người đóng góp: {campaign.donorCount}</p>
-                <p>Số đợt cứu trợ: {campaign.distributionCount}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {reportTypes.map((report) => (
+          <Card 
+            key={report.type} 
+            className="border hover:shadow-lg transition-all duration-200"
+          >
+            <CardHeader className={`flex flex-row items-center gap-4 ${report.color} text-white rounded-t-lg`}>
+              <report.icon className="h-8 w-8" />
+              <div>
+                <h3 className="font-semibold text-lg">{report.title}</h3>
+                <p className="text-sm text-white/90">
+                  {report.description}
+                </p>
               </div>
-            ))
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Charity Report */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg">Báo cáo tổng hợp theo tổ chức</h2>
-            <div>
-              <Button
-                variant="outline"
-                className="mr-2"
-                onClick={() => handleExport("charity", "pdf")}
-              >
-                Xuất PDF
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleExport("charity", "excel")}
-              >
-                Xuất Excel
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {charityReport.length === 0 ? (
-            <p>Chưa có dữ liệu báo cáo tổ chức.</p>
-          ) : (
-            charityReport.map((charity) => {
-              const rating = parseFloat(charity.averageRating).toFixed(1)
-              return (
-                <div key={charity.id} className="mb-4 p-4 border rounded">
-                  <h3 className="text-xl font-semibold">{charity.title}</h3>
-                  <p>Số chiến dịch đã tạo: {charity.campaignCount}</p>
-                  <p>Tổng tiền đã gây quỹ: {charity.totalFundraised}</p>
-                  <p>Tổng tiền đã cứu trợ: {charity.totalDistributed}</p>
-                  <p>Đánh giá trung bình: {rating}</p>
-                </div>
-              )
-            })
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Donation Report */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg">Báo cáo đóng góp</h2>
-            <div>
-              <Button
-                variant="outline"
-                className="mr-2"
-                onClick={() => handleExport("donation", "pdf")}
-              >
-                Xuất PDF
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleExport("donation", "excel")}
-              >
-                Xuất Excel
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {donationReport.length === 0 ? (
-            <p>Chưa có dữ liệu báo cáo đóng góp.</p>
-          ) : (
-            <table className="min-w-full table-auto">
-              <thead>
-                <tr>
-                  <th className="px-4 py-2">ID cá nhân</th>
-                  <th className="px-4 py-2">Tên người đóng góp</th>
-                  <th className="px-4 py-2">Số chiến dịch đã tham gia</th>
-                  <th className="px-4 py-2">Tổng số tiền đã đóng góp</th>
-                  <th className="px-4 py-2">Thời gian đóng góp gần nhất</th>
-                </tr>
-              </thead>
-              <tbody>
-                {donationReport.map((donor) => (
-                  <tr key={donor.id} className="text-center">
-                    <td className="border px-4 py-2">{donor.id}</td>
-                    <td className="border px-4 py-2">{donor.fullName}</td>
-                    <td className="border px-4 py-2">{donor.campaignCount}</td>
-                    <td className="border px-4 py-2">{donor.totalDonated}</td>
-                    <td className="border px-4 py-2">
-                      {new Date(donor.lastDonationDate).toLocaleDateString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Distribution Report */}
-      <Card className="mb-6">
-        <CardHeader>
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg">Báo cáo hỗ trợ (Distribution)</h2>
-            <div>
-              <Button
-                variant="outline"
-                className="mr-2"
-                onClick={() => handleExport("distribution", "pdf")}
-              >
-                Xuất PDF
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleExport("distribution", "excel")}
-              >
-                Xuất Excel
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {distributionReport.length === 0 ? (
-            <p>Chưa có dữ liệu báo cáo hỗ trợ.</p>
-          ) : (
-            distributionReport.map((campaign, index) => (
-              <div key={index} className="mb-6">
-                <h3 className="text-xl font-semibold mb-2">
-                  Chiến dịch: {campaign.campaignName}
-                </h3>
-                {campaign.distributions.length === 0 ? (
-                  <p>Không có đợt hỗ trợ nào cho chiến dịch này.</p>
-                ) : (
-                  <table className="min-w-full table-auto mb-4">
-                    <thead>
-                      <tr>
-                        <th className="px-4 py-2">Tên khoản cứu trợ</th>
-                        <th className="px-4 py-2">Người đại diện tổ chức</th>
-                        <th className="px-4 py-2">Ngân sách đã sử dụng</th>
-                        <th className="px-4 py-2">Số lượng người nhận</th>
-                        <th className="px-4 py-2">Ngày cứu trợ</th>
-                        <th className="px-4 py-2">Địa điểm thực hiện</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {campaign.distributions.map((distribution, idx) => (
-                        <tr key={idx} className="text-center">
-                          <td className="border px-4 py-2">
-                            {distribution.title}
-                          </td>
-                          <td className="border px-4 py-2">
-                            {distribution.representativeName}
-                          </td>
-                          <td className="border px-4 py-2">
-                            {distribution.budget}
-                          </td>
-                          <td className="border px-4 py-2">
-                            {distribution.beneficiaryCount}
-                          </td>
-                          <td className="border px-4 py-2">
-                            {new Date(
-                              distribution.reliefDate
-                            ).toLocaleDateString()}
-                          </td>
-                          <td className="border px-4 py-2">
-                            {distribution.location}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="text-center mb-6">
+                <span className="text-4xl font-bold text-gray-800">{report.data.length}</span>
+                <p className="text-sm text-gray-600 mt-1">
+                  {report.type === 'campaign' && 'các chiến dịch'}
+                  {report.type === 'charity' && 'các tổ chức'}
+                  {report.type === 'donation' && 'những người đóng góp'}
+                  {report.type === 'distribution' && 'các đợt hỗ trợ'}
+                </p>
               </div>
-            ))
-          )}
-        </CardContent>
-      </Card>
+              <div className="flex gap-3">
+                <Button 
+                  className={`flex-1 ${report.color} hover:opacity-90`}
+                  onClick={() => handleExport(report.type, 'pdf')}
+                >
+                  Xuất PDF
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="flex-1 border-2 hover:bg-gray-50"
+                  onClick={() => handleExport(report.type, 'excel')}
+                >
+                  Xuất Excel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
