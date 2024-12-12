@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, FormEvent } from "react"
+import { FormEvent, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+
 import { useAuth } from "@/hooks/useAuth"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function Login() {
   const [identifier, setIdentifier] = useState("")
@@ -27,10 +28,10 @@ export default function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           identifier,
           password,
-          type: identifier.includes('@') ? 'email' : 'phone'
+          type: identifier.includes("@") ? "email" : "phone",
         }),
       })
 
@@ -42,7 +43,6 @@ export default function Login() {
 
       login(data.data.token, data.data.user)
       router.push(`/dashboard`)
-      
     } catch (e) {
       setError((e as Error).message)
     } finally {
@@ -94,8 +94,8 @@ export default function Login() {
               </div>
             )}
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 dark:hover:bg-primary/90"
               disabled={isLoading}
             >
@@ -105,7 +105,10 @@ export default function Login() {
 
           <p className="text-sm text-center text-muted-foreground dark:text-gray-400 mt-6">
             Bạn chưa có tài khoản?{" "}
-            <Link href="/auth/register" className="text-primary dark:text-primary-400 hover:underline font-medium">
+            <Link
+              href="/auth/register"
+              className="text-primary dark:text-primary-400 hover:underline font-medium"
+            >
               Đăng ký ở đây
             </Link>
           </p>
