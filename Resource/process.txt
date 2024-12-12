@@ -1,0 +1,34 @@
+suprabase:ghjPAXFe3ODd63CW
+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
+node 20
+npm latest
+
+
+Chức năng chưa hoàn thành:
+    - Quản lý Chiến dịch (Ưu tiên #1)
+    - Đóng góp (Ưu tiên #2)
+    - Theo dõi và Báo cáo (Ưu tiên #3)
+    - Phản hồi và Đánh giá (Ưu tiên #4)
+
+Công việc ngày 06/12:
+    - Làm sao để fit tất cả các feature trong trang chủ với các tính năng.  (-)
+    - Sửa lại cấu trúc hoặc tính năng của dashboard nếu cần.                (✓)
+    - Map toàn bộ tính năng với CSDL                                        (+)
+    - Mang CSDL đã hoàn thiện đi hỏi anh Vương                              (✓)
+Công việc ngày 07/12:
+    - Bảng Distributions có cần thêm trang riêng, làm chi tiết hơn không?
+    - Viết toàn bộ các Luồng
+    - Chọn luồng để viết backend trước
+    - Cái schema phải fit giữa index và DB, đừng có kiểu sửa table 1 kiểu,
+     đánh index 1 kiểu khác
+    - Dùng orm tìm hiểu thêm sync hoặc migration cho đỡ phải export
+     db vào source
+    - Cần giải quyết trường Distributions-proof_images
+    - Comment tính năng cho từng trường trong schema
+    - Đăng kí xác thực OTP có cần thêm trường gì không? Tham khảo cả
+     DB của anh Vương
+    - Dựa vào flow để điều chỉnh thuộc tính của các trường (NULL,...)
+Công Việc ngày 08/12:
+    - Viết lại giao diện lần cuối
+    - Viết chi tiết các flow
+    - Nhàu đầu vô backend
