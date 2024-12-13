@@ -1,17 +1,22 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Cookies from "js-cookie"
-import Link from "next/link"
 import Image from "next/image"
+import Link from "next/link"
+import Cookies from "js-cookie"
 
+import {
+  Campaign,
+  CampaignsResponse,
+  getStatusLabel,
+  getStatusVariant,
+} from "@/types/campaigns"
 import { formatAmount } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { CampaignFilter } from "@/components/campaigns/campaign-filter"
-import { CampaignCard } from "@/components/campaigns/campaign-card"
 import { Pagination } from "@/components/ui/pagination"
-import { Campaign, CampaignsResponse, getStatusLabel, getStatusVariant } from "@/types/campaigns"
+import { CampaignCard } from "@/components/campaigns/campaign-card"
+import { CampaignFilter } from "@/components/campaigns/campaign-filter"
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])
@@ -21,12 +26,12 @@ export default function CampaignsPage() {
   const [filter, setFilter] = useState({
     status: "all",
     rating: "all",
-    search: ""
+    search: "",
   })
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
-    total_pages: 1
+    total_pages: 1,
   })
   const itemsPerPage = 9
 
@@ -36,9 +41,9 @@ export default function CampaignsPage() {
         setIsLoading(true)
         setError(null)
 
-        const token = Cookies.get('auth_token')
+        const token = Cookies.get("auth_token")
         if (!token) {
-          setError('Vui lòng đăng nhập để xem danh sách chiến dịch')
+          setError("Vui lòng đăng nhập để xem danh sách chiến dịch")
           return
         }
 
@@ -47,39 +52,43 @@ export default function CampaignsPage() {
           limit: itemsPerPage.toString(),
           status: filter.status !== "all" ? filter.status : "",
           rating: filter.rating !== "all" ? filter.rating : "",
-          search: filter.search
+          search: filter.search,
         })
 
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/campaigns?${queryParams}`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
         )
 
         if (!response.ok) {
           const errorData = await response.json()
-          throw new Error(errorData.message || 'Network response was not ok')
+          throw new Error(errorData.message || "Network response was not ok")
         }
 
         const data: CampaignsResponse = await response.json()
-        
+
         if (!data || !data.data || !Array.isArray(data.data.campaigns)) {
-          throw new Error('Invalid response format')
+          throw new Error("Invalid response format")
         }
 
         if (data.success) {
           setCampaigns(data.data.campaigns)
           setPagination(data.data.pagination)
         } else {
-          throw new Error(data.message || 'Không thể tải danh sách chiến dịch')
+          throw new Error(data.message || "Không thể tải danh sách chiến dịch")
         }
       } catch (err) {
-        console.error('Error fetching campaigns:', err)
-        setError(err instanceof Error ? err.message : 'Đã có lỗi xảy ra khi tải dữ liệu')
+        console.error("Error fetching campaigns:", err)
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Đã có lỗi xảy ra khi tải dữ liệu"
+        )
       } finally {
         setIsLoading(false)
       }
@@ -88,9 +97,11 @@ export default function CampaignsPage() {
   }, [page, filter])
 
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
-    </div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   if (error) {
@@ -103,10 +114,7 @@ export default function CampaignsPage() {
         <h1 className="text-2xl font-bold">Danh sách chiến dịch</h1>
       </div>
 
-      <CampaignFilter
-        filter={filter}
-        onFilterChange={setFilter}
-      />
+      <CampaignFilter filter={filter} onFilterChange={setFilter} />
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {campaigns.map((campaign) => (

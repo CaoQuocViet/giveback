@@ -1,6 +1,7 @@
+import { Star } from "lucide-react"
+
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import { Star } from "lucide-react"
 
 interface Comment {
   id: string
@@ -8,9 +9,10 @@ interface Comment {
   user: {
     name: string
     role: string
+    avatar: string
   }
-  createdAt: string
   rating: number
+  created_at: string
 }
 
 function getRoleBadgeStyle(role: string) {
@@ -53,9 +55,11 @@ export function CommentList({ comments }: { comments: Comment[] }) {
         >
           {/* Avatar placeholder */}
           <div className="flex size-10 items-center justify-center rounded-full bg-muted">
-            <span className="text-lg font-medium">
-              {comment.user.name.charAt(0).toUpperCase()}
-            </span>
+            <img
+              src={comment.user.avatar}
+              alt={comment.user.name}
+              className="size-full object-cover"
+            />
           </div>
 
           <div className="flex-1">
@@ -66,10 +70,12 @@ export function CommentList({ comments }: { comments: Comment[] }) {
               </Badge>
               <div className="flex items-center gap-0.5">
                 <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
-                <span className="text-xs text-muted-foreground">{comment.rating}</span>
+                <span className="text-xs text-muted-foreground">
+                  {comment.rating}
+                </span>
               </div>
               <span className="text-sm text-muted-foreground">
-                {formatDate(comment.createdAt)}
+                {formatDate(comment.created_at)}
               </span>
             </div>
 
