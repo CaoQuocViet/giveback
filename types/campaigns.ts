@@ -2,7 +2,7 @@ export interface Campaign {
   id: string
   title: string
   description: string
-  campaign_image: string | null
+  campaignImage: string | null
   target_amount: number
   current_amount: number
   start_date: string | null

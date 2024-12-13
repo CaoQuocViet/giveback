@@ -1,14 +1,22 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { FileText, Flag, History, LogOut, Settings, User, Users } from "lucide-react"
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie"
+import {
+  FileText,
+  Flag,
+  History,
+  LogOut,
+  Settings,
+  User,
+  Users,
+} from "lucide-react"
 
+import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks/useAuth"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -50,20 +58,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   useEffect(() => {
     // Kiểm tra token
-    const token = Cookies.get('auth_token')
+    const token = Cookies.get("auth_token")
     if (!token) {
-      router.push('/auth/login')
+      router.push("/auth/login")
       return
     }
 
     // Lấy user info từ localStorage
-    const userStr = localStorage.getItem('user')
+    const userStr = localStorage.getItem("user")
     if (userStr) {
       const user = JSON.parse(userStr)
       setUserData(user)
       setMenuItems(getMenuByRole(user.role))
     } else {
-      router.push('/auth/login')
+      router.push("/auth/login")
     }
   }, [router])
 
@@ -78,32 +86,39 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
-      <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
+      <aside
+        className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
         bg-white dark:bg-gray-900
         shadow-lg dark:shadow-black/40
         border-r border-gray-200 dark:border-gray-800"
       >
         {/* Profile Section */}
-        <div className="border-b border-gray-200 dark:border-gray-800 p-6 
+        <div
+          className="border-b border-gray-200 dark:border-gray-800 p-6 
           hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
         >
           <div className="flex items-center space-x-4">
-            <div className="flex size-12 items-center justify-center rounded-full 
+            <div
+              className="flex size-12 items-center justify-center rounded-full 
               bg-blue-100 dark:bg-blue-950
               ring-2 ring-blue-200 dark:ring-blue-800 
               hover:ring-blue-300 dark:hover:ring-blue-700 transition-all"
             >
               <img
-                src={userData.avatar || "/default-avatar.png"}
+                src={userData.profileImage || "/default-avatar.png"}
                 alt="Profile"
                 className="size-10 rounded-full object-cover hover:scale-105 transition-transform"
               />
             </div>
             <div>
               <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
-                {userData.full_name}
+                {userData.fullName}
               </p>
-              <Badge className={`mt-1.5 font-medium ${getRoleBadgeColor(userData.role)}`}>
+              <Badge
+                className={`mt-1.5 font-medium ${getRoleBadgeColor(
+                  userData.role
+                )}`}
+              >
                 {getRoleLabel(userData.role)}
               </Badge>
             </div>
@@ -111,7 +126,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4 
+        <nav
+          className="h-[calc(100vh-280px)] overflow-y-auto p-4 
           scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
           dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800"
         >
@@ -130,27 +146,31 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     relative overflow-hidden`}
                 >
                   {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
+                  <div
+                    className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
                     dark:from-blue-600/20 dark:to-transparent
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   />
 
                   {/* Icon container */}
-                  <div className="relative flex items-center justify-center size-9 
+                  <div
+                    className="relative flex items-center justify-center size-9 
                     rounded-lg bg-blue-100/80 dark:bg-blue-900/50
                     group-hover:bg-blue-200/80 dark:group-hover:bg-blue-800/50
                     transition-colors duration-300 mr-3
                     border border-blue-200 dark:border-blue-700
                     group-hover:border-blue-300 dark:group-hover:border-blue-600"
                   >
-                    <item.icon className="size-5 text-blue-600 dark:text-blue-300 
+                    <item.icon
+                      className="size-5 text-blue-600 dark:text-blue-300 
                       group-hover:text-blue-700 dark:group-hover:text-blue-200
-                      transition-colors duration-300" 
+                      transition-colors duration-300"
                     />
                   </div>
 
                   {/* Label */}
-                  <span className="relative font-medium tracking-wide
+                  <span
+                    className="relative font-medium tracking-wide
                     text-gray-700 dark:text-blue-100
                     group-hover:text-blue-700 dark:group-hover:text-blue-200
                     transition-all duration-300"
@@ -159,7 +179,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   </span>
 
                   {/* Indicator line */}
-                  <div className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
+                  <div
+                    className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
                     transform translate-x-full group-hover:translate-x-0
                     transition-transform duration-300 rounded-l-full"
                   />
@@ -170,11 +191,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </nav>
 
         {/* Logout Button */}
-        <div className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-gray-800 
+        <div
+          className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-gray-800 
           bg-white dark:bg-gray-900 p-4"
         >
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="w-full justify-start font-medium
               hover:bg-red-50 hover:text-red-600 hover:border-red-200
               dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-900
@@ -190,9 +212,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </aside>
 
       <main className="ml-64 flex-1 p-6 dark:bg-gray-950">
-        <div className="mx-auto max-w-7xl">
-          {children}
-        </div>
+        <div className="mx-auto max-w-7xl">{children}</div>
       </main>
     </div>
   )
@@ -327,4 +347,3 @@ function getRoleLabel(role: string): string {
       return role
   }
 }
-

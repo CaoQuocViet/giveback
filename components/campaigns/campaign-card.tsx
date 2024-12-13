@@ -1,12 +1,13 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
+
+import { Campaign, getStatusLabel, getStatusVariant } from "@/types/campaigns"
+import { formatAmount, formatDate } from "@/lib/utils"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { formatAmount, formatDate } from "@/lib/utils"
-import { Campaign, getStatusLabel, getStatusVariant } from "@/types/campaigns"
-import Image from "next/image"
 
 interface CampaignCardProps {
   campaign: Campaign
@@ -17,9 +18,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
       <div className="relative aspect-video">
         <Image
-          src={campaign.campaign_image 
-            ? `${process.env.NEXT_PUBLIC_API_URL}/storage/campaigns/${campaign.campaign_image}`
-            : "/campaign-placeholder.jpg"
+          src={
+            campaign.campaignImage
+              ? `${process.env.NEXT_PUBLIC_API_URL}/storage/campaigns/${campaign.campaignImage}`
+              : "/campaign-placeholder.jpg"
           }
           alt={campaign.title}
           fill
@@ -30,7 +32,9 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold truncate flex-1 mr-2">{campaign.title}</h3>
+            <h3 className="font-semibold truncate flex-1 mr-2">
+              {campaign.title}
+            </h3>
             <Badge variant={getStatusVariant(campaign.status)}>
               {getStatusLabel(campaign.status)}
             </Badge>
@@ -63,7 +67,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
         </div>
       </CardContent>
 
-      {campaign.charity?.logo && (
+      {/* {campaign.charity?.logo && (
         <Image
           src={`${process.env.NEXT_PUBLIC_API_URL}/storage/charities/${campaign.charity.logo}`}
           alt={campaign.charity.name || ""}
@@ -71,7 +75,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           height={40}
           className="rounded-full"
         />
-      )}
+      )} */}
     </Card>
   )
-} 
+}

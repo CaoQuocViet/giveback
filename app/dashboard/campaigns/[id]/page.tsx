@@ -1,23 +1,45 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { DollarSign, Edit, FileText, Share2, Trash, Star, MapPin, Users } from "lucide-react"
+import axios from "axios"
+import Cookies from "js-cookie"
+import {
+  DollarSign,
+  Edit,
+  FileText,
+  MapPin,
+  Share2,
+  Star,
+  Trash,
+  Users,
+} from "lucide-react"
 import { marked } from "marked"
 import { useSession } from "next-auth/react"
-import Cookies from 'js-cookie';
 
 import { formatAmount, formatDate } from "@/lib/utils"
+import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
 import { DonateButton } from "@/components/campaigns/donate-button"
 import { CommentList } from "@/components/reports/comment-list"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+
+interface Comment {
+  id: string
+  user: {
+    name: string
+    role: string
+    avatar: string
+  }
+  content: string
+  rating: number
+  created_at: string
+}
 
 // Cập nhật interface theo database schema
 interface Campaign {
@@ -40,7 +62,7 @@ interface Campaign {
   budget: {
     target: number
     current: number
-    distributed: number
+    total_distributed: number
   }
   rating: number
   charity: {
@@ -61,93 +83,120 @@ interface Campaign {
       province: string
     }
   }>
-  comments: Array<{
-    user: {
-      name: string
-      role: string
-      avatar: string
-    }
-    content: string
-    rating: number
-    created_at: string
-  }>
+  comments: Comment[]
 }
 
 // Thêm hàm helper để xử lý markdown an toàn
 const renderMarkdown = (content: string | null | undefined) => {
-  if (!content) return '';
-  return marked(content);
-};
+  if (!content) return ""
+  return marked(content)
+}
 
 export default function CampaignDetailPage({
   params,
 }: {
   params: { id: string }
 }) {
-  const { data: session } = useSession()
-  const [campaign, setCampaign] = useState<Campaign | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, isAuthenticated } = useAuth()
+  const [campaign, setCampaign] = useState<Campaign | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [newComment, setNewComment] = useState({
     content: "",
-    rating: 0
-  });
+    rating: 0,
+  })
 
   useEffect(() => {
     const fetchCampaignDetail = async () => {
       try {
-        setLoading(true);
-        const token = Cookies.get('auth_token');
-        
+        setLoading(true)
+        const token = Cookies.get("auth_token")
+
         if (!token) {
-          console.error('No auth token found');
-          return;
+          console.error("No auth token found")
+          return
         }
 
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/campaigns/detail/${params.id}`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type': 'application/json'
-            }
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
-        );
+        )
 
         if (response.data.success) {
-          setCampaign(response.data.data);
+          setCampaign(response.data.data)
         }
       } catch (error) {
-        console.error('Error fetching campaign detail:', error);
+        console.error("Error fetching campaign detail:", error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
     if (params.id) {
-      fetchCampaignDetail();
+      fetchCampaignDetail()
     }
-  }, [params.id]);
+  }, [params.id])
 
-  const handleCommentSubmit = (e: React.FormEvent) => {
+  const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Xử lý submit comment
-    console.log("New comment:", newComment)
+    if (!isAuthenticated) {
+      setError("Vui lòng đăng nhập để bình luận.")
+      return
+    }
+    setSubmitting(true)
+    setError(null)
+    try {
+      const token = Cookies.get("auth_token")
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/campaigns/${params.id}/comments`,
+        {
+          content: newComment.content,
+          rating: newComment.rating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      // Append the new comment to the campaign's comments
+      setCampaign((prev) =>
+        prev
+          ? { ...prev, comments: [response.data.data, ...prev.comments] }
+          : prev
+      )
+      setNewComment({ content: "", rating: 0 })
+    } catch (err: any) {
+      console.error("Error submitting comment:", err)
+      setError(err.response?.data?.message || "Lỗi khi gửi bình luận.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
-  if (loading) return <div>Loading...</div>;
-  if (!campaign) return <div>Campaign not found</div>;
+  if (loading) return <div>Loading...</div>
+  if (!campaign) return <div>Campaign not found</div>
 
-  const progress = (campaign.budget.current / campaign.budget.target) * 100;
+  const progress = (campaign.budget.current / campaign.budget.target) * 100
 
-  const isOwner = session?.user?.role === "CHARITY" && campaign.charity.representative;
-  const canEdit = isOwner && ["STARTING", "ONGOING", "CLOSED"].includes(campaign.status);
-  const canDelete = isOwner && campaign.status === "STARTING";
+  const isOwner = user?.role === "CHARITY" && campaign.charity.representative
+  const canEdit =
+    isOwner && ["STARTING", "ONGOING", "CLOSED"].includes(campaign.status)
+  const canDelete = isOwner && campaign.status === "STARTING"
 
   return (
     <div className="h-full overflow-auto bg-gray-50/50 p-6 dark:bg-gray-900">
       {/* Header section */}
-      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100 
-        dark:from-gray-800 dark:to-gray-900 dark:ring-gray-700">
+      <div
+        className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100 
+        dark:from-gray-800 dark:to-gray-900 dark:ring-gray-700"
+      >
         <div className="mb-6 flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold">{campaign.title}</h1>
@@ -237,7 +286,7 @@ export default function CampaignDetailPage({
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex">
-                    {[1,2,3,4,5].map((star) => (
+                    {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
                         className={`h-4 w-4 ${
@@ -248,7 +297,9 @@ export default function CampaignDetailPage({
                       />
                     ))}
                   </div>
-                  <span className="font-medium">{campaign.rating.toFixed(1)}</span>
+                  <span className="font-medium">
+                    {campaign.rating.toFixed(1)}
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -279,15 +330,19 @@ export default function CampaignDetailPage({
                 <div className="flex justify-between text-sm">
                   <span>Đã cứu trợ</span>
                   <span className="font-medium">
-                    {formatAmount(campaign.budget.distributed)} /{" "}
+                    {formatAmount(campaign.budget.total_distributed)} /{" "}
                     {formatAmount(campaign.budget.current)} VNĐ
                   </span>
                 </div>
                 <div className="h-2 rounded-full bg-secondary">
                   <div
                     className="h-full rounded-full bg-green-500"
-                    style={{ 
-                      width: `${(campaign.budget.distributed / campaign.budget.current) * 100}%` 
+                    style={{
+                      width: `${
+                        (campaign.budget.total_distributed /
+                          campaign.budget.current) *
+                        100
+                      }%`,
                     }}
                   />
                 </div>
@@ -339,16 +394,28 @@ export default function CampaignDetailPage({
         <CardContent className="p-6">
           <Tabs defaultValue="description" className="space-y-4">
             <TabsList className="dark:bg-gray-700">
-              <TabsTrigger value="description" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+              <TabsTrigger
+                value="description"
+                className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
+              >
                 Mô tả
               </TabsTrigger>
-              <TabsTrigger value="plan" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+              <TabsTrigger
+                value="plan"
+                className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
+              >
                 Kế hoạch chi tiết
               </TabsTrigger>
-              <TabsTrigger value="distributions" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+              <TabsTrigger
+                value="distributions"
+                className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
+              >
                 Phân phối
               </TabsTrigger>
-              <TabsTrigger value="comments" className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600">
+              <TabsTrigger
+                value="comments"
+                className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
+              >
                 Đánh giá
               </TabsTrigger>
             </TabsList>
@@ -356,10 +423,10 @@ export default function CampaignDetailPage({
             <TabsContent value="description">
               <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardContent className="prose dark:prose-invert max-w-none pt-6">
-                  <div 
-                    dangerouslySetInnerHTML={{ 
-                      __html: renderMarkdown(campaign.description) 
-                    }} 
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: renderMarkdown(campaign.description),
+                    }}
                   />
                 </CardContent>
               </Card>
@@ -368,10 +435,10 @@ export default function CampaignDetailPage({
             <TabsContent value="plan">
               <Card className="dark:bg-gray-800 dark:border-gray-700">
                 <CardContent className="prose dark:prose-invert max-w-none pt-6">
-                  <div 
-                    dangerouslySetInnerHTML={{ 
-                      __html: renderMarkdown(campaign.detail_goal) 
-                    }} 
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: renderMarkdown(campaign.detail_goal),
+                    }}
                   />
                 </CardContent>
               </Card>
@@ -388,7 +455,10 @@ export default function CampaignDetailPage({
                         <div>{formatAmount(dist.budget)}</div>
                         <div>{dist.beneficiary_count}</div>
                         <div>{dist.location.address}</div>
-                        <div>{dist.location.ward}, {dist.location.district}, {dist.location.province}</div>
+                        <div>
+                          {dist.location.ward}, {dist.location.district},{" "}
+                          {dist.location.province}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -400,45 +470,58 @@ export default function CampaignDetailPage({
               <Card>
                 <CardContent className="pt-6">
                   {/* Form thêm bình luận mới */}
-                  <form onSubmit={handleCommentSubmit} className="mb-6 space-y-4">
+                  <form
+                    onSubmit={handleCommentSubmit}
+                    className="mb-6 space-y-4"
+                  >
                     <div className="space-y-2">
                       <Label>Đánh giá</Label>
                       <div className="flex gap-2">
-                        {[1,2,3,4,5].map((star) => (
+                        {[1, 2, 3, 4, 5].map((star) => (
                           <Button
                             key={star}
                             type="button"
                             variant="ghost"
                             size="sm"
-                            onClick={() => setNewComment({...newComment, rating: star})}
-                            className={star <= newComment.rating ? "text-yellow-400" : "text-gray-300"}
+                            onClick={() =>
+                              setNewComment({
+                                ...newComment,
+                                rating: Number(star),
+                              })
+                            }
+                            className={
+                              star <= newComment.rating
+                                ? "text-yellow-400"
+                                : "text-gray-300"
+                            }
                           >
                             <Star className="h-5 w-5 fill-current" />
                           </Button>
                         ))}
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                       <Label>Nội dung bình luận</Label>
                       <Textarea
                         required
                         placeholder="Nhập bình luận của bạn..."
                         value={newComment.content}
-                        onChange={(e) => setNewComment({...newComment, content: e.target.value})}
+                        onChange={(e) =>
+                          setNewComment({
+                            ...newComment,
+                            content: e.target.value,
+                          })
+                        }
                       />
                     </div>
-                    
-                    <Button type="submit">Gửi bình luận</Button>
+
+                    <Button type="submit" disabled={submitting}>
+                      {submitting ? "Gửi..." : "Gửi bình luận"}
+                    </Button>
                   </form>
 
-                  <CommentList comments={campaign.comments.map((comment, index) => (
-                    <div key={index}>
-                      <div>{comment.user.name}</div>
-                      <div>{comment.content}</div>
-                      <div>{comment.rating}</div>
-                    </div>
-                  ))} />
+                  <CommentList comments={campaign.comments} />
                 </CardContent>
               </Card>
             </TabsContent>
