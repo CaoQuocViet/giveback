@@ -1,0 +1,174 @@
+// Cú pháp dbdiagram theo tiêu chuẩn:
+//     + Tên bảng: PascalCase
+//     + Tên cột: snake_case
+//     + Kiểu dữ liệu: lowercase
+//     + Ràng buộc: UPPERCASE
+
+Enum Role {
+  ADMIN
+  DONOR
+  CHARITY
+  BENEFICIARY
+}
+
+Enum CampaignStatus {
+  STARTING
+  ONGOING
+  CLOSED
+  COMPLETED
+}
+
+Enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+Enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+Table Users {
+  id varchar [pk]
+  full_name varchar
+  email varchar [unique, not null]
+  phone varchar [unique, not null]
+  otp_verified boolean [default: false]
+  password varchar [not null]
+  role Role
+  profile_image varchar
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  created_at timestamp
+  updated_at timestamp 
+  phone_verified_at timestamp
+}
+
+Table Admins {
+  id varchar [pk, ref: > Users.id]
+  is_system_admin boolean [default: false]
+}
+
+Table Charities {
+  id varchar [pk, ref: > Users.id]
+  title varchar [not null]
+  description text
+  license_description text
+  license_image_url varchar [not null]
+  license_number varchar
+  license_date timestamp
+  license_issuer varchar
+  verification_status VerificationStatus [default: 'PENDING']
+  founding_date timestamp
+  website varchar
+  social_links jsonb
+  merchant_id varchar [unique]
+  merchant_name varchar
+  bank_account varchar
+  payment_gateway varchar
+  api_key varchar
+  rating decimal [default: 0]
+  campaign_count int [default: 0]
+  total_raised decimal [default: 0]
+  created_at timestamp 
+  updated_at timestamp
+  bank_name varchar
+  bank_branch varchar
+  bank_owner varchar
+}
+
+Table Campaigns {
+  id varchar [pk]
+  charity_id varchar [ref: > Charities.id]
+  title varchar [not null]
+  description text
+  detail_goal text
+  status CampaignStatus [default: 'STARTING']
+  rating decimal [default: 0]
+  target_amount decimal [not null]
+  current_amount decimal [default: 0]
+  start_date timestamp [not null]
+  end_date timestamp [not null]
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  images varchar [not null]
+  created_at timestamp
+  updated_at timestamp 
+  edit_history jsonb
+}
+
+Table PaymentMethods {
+  id varchar [pk]
+  name varchar [not null]
+  transaction_code varchar [unique, not null]
+}
+
+Table Donations {
+  id varchar [pk]
+  campaign_id varchar [ref: > Campaigns.id]
+  donor_id varchar [ref: > Users.id]
+  payment_method_id varchar [ref: > PaymentMethods.id]
+  amount decimal [not null]
+  note text
+  invoice_code varchar [unique]
+  payment_transaction_id varchar [unique]
+  is_anonymous boolean [default: false]
+  status PaymentStatus [default: 'PENDING']
+  created_at timestamp 
+  updated_at timestamp 
+  is_intermediate boolean [default: false]
+}
+
+Table Distributions {
+  id varchar [pk]
+  campaign_id varchar [ref: > Campaigns.id]
+  title varchar [not null]
+  budget decimal [not null]
+  distribution_date timestamp [not null]
+  province varchar
+  district varchar
+  ward varchar
+  address varchar
+  beneficiary_count int [not null]
+  description text
+  proof_images varchar
+  representative_name varchar [ref: > Users.id]
+  relief_date timestamp
+  created_at timestamp 
+  updated_at timestamp 
+}
+
+Table Comments {
+  id varchar [pk]
+  campaign_id varchar [ref: > Campaigns.id]
+  user_id varchar [ref: > Users.id]
+  content text [not null]
+  rating decimal [not null]
+  role Role
+  created_at timestamp 
+}
+
+Table OTPCodes {
+  id varchar [pk]
+  phone varchar [ref: > Users.phone]
+  code varchar [not null]
+  expires_at timestamp [not null]
+  verified boolean [default: false]
+  attempt_count int [default: 0]
+  created_at timestamp 
+}
+
+Table PasswordResets {
+  id varchar [pk]
+  user_id varchar [ref: > Users.id]
+  token varchar [unique, not null]
+  expires_at timestamp [not null]
+  used boolean [default: false]
+  created_at timestamp 
+}

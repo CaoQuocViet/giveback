@@ -48,7 +48,7 @@ export default function CharitiesPage() {
         return
       }
 
-      const response = await fetch(`http://localhost:5000/api/charities?page=${currentPage}&limit=${itemsPerPage}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities?page=${currentPage}&limit=${itemsPerPage}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

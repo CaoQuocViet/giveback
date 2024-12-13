@@ -1,0 +1,34 @@
+  switch (role) {
+    case "ADMIN":
+      return [
+        { label: "Thông tin quản trị", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Danh sách chiến dịch", href: "/dashboard/campaigns",  },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "CHARITY":
+      return [
+        { label: "Thông tin tổ chức", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Quản lý chiến dịch", href: "/dashboard/charity/campaigns",  },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Danh sách chiến dịch", href: "/dashboard/campaigns",  },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "DONOR":
+      return [
+        { label: "Thông tin cá nhân", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Lịch sử đóng góp", href: "/dashboard/donations", icon: Icons.history },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Danh sách chiến dịch", href: "/dashboard/campaigns", },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    case "BENEFICIARY":
+      return [
+        { label: "Thông tin cá nhân", href: "/dashboard/profile", icon: Icons.user },
+        { label: "Danh sách tổ chức", href: "/dashboard/charities", icon: Icons.users },
+        { label: "Danh sách chiến dịch", href: "/dashboard/campaigns",  },
+        { label: "Theo dõi báo cáo", href: "/dashboard/reports", icon: Icons.report }
+      ];
+    default:
+      return [];
+  }

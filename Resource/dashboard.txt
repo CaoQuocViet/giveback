@@ -1,0 +1,378 @@
+================== CHƯA ĐĂNG NHẬP ==================
+
+1. Trang chủ (/)
+   - Đăng nhập/Đăng ký
+   - Xem bản đồ nhiệt (heatmap) thiên tai
+   - Xem tin tức (newsfeed) thiên tai
+   - Xem thống kê hệ thống (/dashboard) => Chung cho cả 4 Role, mặc định đăng nhập thành công là vào đây
+      + Số tổ chức từ thiện
+      + Số chiến dịch (tất cả status)
+      + Tổng số tiền quyên góp
+      + Tống số tiền đã cứu trợ (thông tin từ các khoản cứu trợ của tất cả các chiến dịch)
+      + Số người đóng góp (đã thật sự Donate)
+      + Số người đã nhận hỗ trợ (tổng kết từ các khoản cứu trợ của tất cả các chiến dịch)
+      [Lưới 3x3 bao gồm số liệu và biểu đồ tương ứng với số liệu cho mỗi thống kê]
+
+================== ĐÃ ĐĂNG NHẬP ==================
+================== ADMIN ==================
+
+1. Dashboard (/dashboard)
+   - Sidebar menu:
+     + Thông tin quản trị (/dashboard/profile)
+     + Danh sách tổ chức (/dashboard/charities)
+     + Danh sách chiến dịch (/dashboard/campaigns)
+     + Theo dõi báo cáo (/dashboard/reports)
+
+2. Danh sách tổ chức (/dashboard/charities)
+   - Xem danh sách tất cả tổ chức từ thiện
+   - Filter theo trạng thái xác minh (PENDING/VERIFIED/REJECTED)
+   - Xem chi tiết tổ chức (/dashboard/charities/[id])
+   
+3. Chi tiết tổ chức (/dashboard/charities/[id])
+   - Xem thông tin chi tiết tổ chức
+   - Xác thực nếu tổ chức đang PENDING (Charities-verification_status): chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
+      + Nút "Xác thực" -> Chuyển status thành VERIFIED
+      + Nút "Buộc dừng" -> Chuyển status thành REJECTED
+   - Xem danh sách chiến dịch của tổ chức 
+
+4. Danh sách chiến dịch (/dashboard/campaigns) => Danh sách chung của tất cả tổ chức
+   - Xem dach sách tất cả các chiến dịch hiện có.
+   - Filter theo tình trạng của chiến dịch.
+   - Xem chi tiết 1 chiến dịch (/dashboard/campaigns/[id])
+
+5. Chi tiết chiến dịch (/dashboard/campaigns/[id])
+   - Xem thông tin chi tiết chiến dịch:
+      + Ẩn chức năng đóng góp với Role Admin
+      + Sao kê thông qua nút sao kê: Danh sách người đóng góp đã đóng góp cho chiến dịch, một bảng suy nhất
+      + Nút chia sẻ để copy đường dẫn của chiến dịch
+   - Hiện thông tin chi tiết chiến dịch:
+      + Thông tin cơ bản:
+         * Ảnh của chiến dịch (Campaigns-images)
+         * Tên chiến dịch (Campaigns-title)
+         * Tên tổ chức (Charities-title)
+         * Thời gian bắt đầu (Campaigns-start_date)
+         * Thời gian kế thúc (Campaigns-end_date)
+         * Địa điểm (Campaigns-adress, ward, district, province)
+         * Ngân sách mục tiêu (Campaigns-target_amount)
+         * Ngân sách hiện tại đã nhận đóng góp (Campaigns-current_amount)
+         * Đánh giá chiến dịch (Campaigns-rating)
+      + Các trường thông tin khác:
+         * Mô tả (Campaigns-description)
+         * Kế hoạch chi tiết (Campaigns-detail_goal)
+         * Bình luận: viết bình luận phải kèm đánh giá
+            + Avatar (Users-profile_image)
+            + Tên (Users-full_name)
+            + Nội dung (Comments-content)
+            + Rating (Comments-rating)
+            + Role (Comments-role)
+            + Thời gian tạo (Comments-created_at)
+         * "Các khoản cứu trợ" đã tạo (nằm giữa Kế hoạch chi tiết và Bình luận): mỗi khoản cứu trợ là 1 bảng
+            + Tên khoản cứu trợ (Distributions-title)
+            + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
+            + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
+            + Ngân sách (Distributions-budget)
+            + Số lượng người nhận (Distributions-beneficiary_count)
+            + Ngày cứu trợ (Distributions-relief_date)
+            + Địa điểm(Distributions-adress, ward, district, province)
+            + Hình ảnh chứng minh (Distributions-proof_images) => Trường này để ảnh bên cạnh chứ không đưa vào bảng.
+   
+6. Theo dõi báo cáo (/dashboard/reports)
+   - Xem tất cả báo cáo theo loại (4 nút):
+     + Báo cáo theo chiến dịch (hiển thị số lượng chiến dịch): mỗi bảng trong báo là một chiến dịch
+     + Báo cáo tổng hợp theo tổ chức (hiển thị số lượng tổ chức): mỗi bảng trong báo là một tổ chức
+     + Báo cáo đóng góp (hiển thị số lượng số lượng người đóng góp): mỗi bảng trong báo là 1 người đóng góp
+     + Báo cáo hỗ trợ (hiển thị số lượng số lượng đợt hỗ trợ): mỗi bảng trong báo cáo là một đợt hỗ trợ
+   - Export báo cáo (PDF/Excel)
+
+================== TỔ CHỨC TỪ THIỆN (CHARITY) ==================
+
+1. Dashboard (/dashboard)
+   - Sidebar menu:
+     + Thông tin tổ chức (/dashboard/profile)
+     + Danh sách tổ chức (/dashboard/charities)
+     + Quản lý chiến dịch (/dashboard/charity/campaigns)
+     + Danh sách chiến dịch (/dashboard/campaigns)
+     + Theo dõi báo cáo (/dashboard/reports)
+
+2. Quản lý chiến dịch (/dashboard/charity/campaigns) => của chính tổ chức đó
+   - Xem danh sách chiến dịch của tổ chức
+   - Nút "Xem chi tiết" => dẫn đến trang chi tiết chiến dịch mà cả 4 Role đều thấy (/dashboard/campaigns/[id])
+   - Nút thêm chiến dịch mới (/dashboard/charity/campaigns/new):
+      + Tên chiến dịch (Campaigns-title)
+      + Mô tả (Campaigns-description)
+      + Mục tiêu chi tiết (Campaigns-detail_goal)
+      + Địa điểm (tỉnh/huyện/xã/địa chỉ) (Campaigns-adress, ward, district, province)
+      + Ngày bắt đầu (Campaigns-start_date)
+      + Ngày kết thúc (Campaigns-end_date)
+      + Ngân sách quyên góp (Campaigns-target_amount)
+      + Trạng thái (chỉ được chọn STARTING/ONGOING) (Campaigns-status)
+      + Upload ảnh chiến dịch (Campaigns-image)
+   - Sửa chiến dịch (/dashboard/charity/campaigns/[id]/edit): nếu chưa COMPLETED mới được sửa
+      + Mô tả (Campaigns-description)
+      + Mục tiêu chi tiết (Campaigns-detail_goal)
+      + Địa điểm (tỉnh/huyện/xã/địa chỉ) (Campaigns-adress, ward, district, province)
+      + Ngày bắt đầu (Campaigns-start_date)
+      + Ngày kết thúc (Campaigns-end_date)
+      + Ngân sách quyên góp (Campaigns-target_amount)
+      + Trạng thái (chỉ được chọn STARTING/ONGOING) (Campaigns-status)
+      + Upload ảnh chiến dịch (Campaigns-image)
+      + Trạng thái (chỉ được tăng theo thứ tự: STARTING -> ONGOING -> CLOSED -> COMPLETED)
+   - Xóa chiến dịch (chỉ được xóa khi ở trạng thái STARTING)
+   - Nút thêm khoản cứu trợ (/dashboard/charity/campaigns/[id]/distributions):
+      + Tên khoản cứu trợ (Distributions-title)
+      + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
+      + Mô tả (Distributions-description)
+      + Ngân sách (Distributions-budget)
+      + Số lượng người nhận (Distributions-beneficiary_count)
+      + Ngày cứu trợ (Distributions-relief_date)
+      + Địa điểm(Distributions-adress, ward, district, province)
+      + Hình ảnh chứng minh (Distributions-proof_images)
+   - Nút "Tạo khoản đóng góp" -> Mở form tạo đóng góp trung gian (Tức là đóng góp dùm, TCTN chỉ việc thêm record giao dịch vào danh sách đóng góp):
+         * Số tiền đóng góp (Donations-amount)
+         * Tên người đóng góp (không bắt buộc, chỉ để hiển thị)
+         * Ghi chú (không bắt buộc)
+         * Tự động set: Có thông tin system user phụ vụ mục đích đóng góp trung gian này
+           - status = SUCCESS
+           - payment_method_id = NULL
+           - payment_transaction_id = NULL
+           - invoice_code = "CHARITY_CREATED_" + random_string
+           - donor_id = 'system_donor'
+           - note = `Đóng góp trực tiếp qua ${charity_name}${donor_name ? ` - ${donor_name}` : ''}`
+
+    - Chiến dịch được quản lý bởi Tổ chức từ thiện (Campaigns-status):
+      + Trạng thái:
+          * STARTING:
+            - Không nhận đóng góp
+            - Không trao hỗ trợ
+            - Cho phép xóa/sửa thông tin
+          * ONGOING:
+            - Nhận đóng góp
+            - Cho phép trao hỗ trợ
+            - Không cho xóa
+            - Cho phép sửa thông tin
+          * CLOSED:
+            - Không nhận đóng góp
+            - Cho phép trao hỗ trợ
+            - Không cho xóa
+            - Cho phép sửa thông tin
+          * COMPLETED: chỉ được completed khi mà tổng ngân sách nhận được đã mang đi cứu trợ hết
+            - Không nhận đóng góp
+            - Không trao hỗ trợ
+            - Không cho xóa/sửa
+
+3. Danh sách tổ chức (/dashboard/charities)
+   - Xem danh sách tất cả tổ chức từ thiện
+   - Filter theo trạng thái xác minh (PENDING/VERIFIED/REJECTED)
+   - Xem chi tiết tổ chức (/dashboard/charities/[id])
+   
+4. Chi tiết tổ chức (/dashboard/charities/[id])
+   - Xem thông tin chi tiết tổ chức
+   - Xác thực nếu tổ chức đang PENDING: chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
+   - Xem danh sách chiến dịch của tổ chức 
+
+5. Danh sách chiến dịch (/dashboard/campaigns) => Danh sách chung của tất cả tổ chức
+   - Xem dach sách tất cả các chiến dịch hiện có.
+   - Filter theo tình trạng của chiến dịch.
+   - Xem chi tiết 1 chiến dịch (/dashboard/campaigns/[id])
+
+6. Chi tiết chiến dịch (/dashboard/campaigns/[id]) => Trang chi tiết chung cả 4 Role đều thấy
+   - Ẩn chức năng đóng góp với Role CHARITY.
+   - Sao kê thông qua nút sao kê: Danh sách người đóng góp đã đóng góp cho chiến dịch [id], một bảng suy nhất.
+   - Nút chia sẻ để copy đường dẫn của chiến dịch.
+   - Hiện thông tin chi tiết chiến dịch:
+      + Thông tin cơ bản:
+         * Ảnh của chiến dịch (Campaigns-images)
+         * Tên chiến dịch (Campaigns-title)
+         * Tên tổ chức (Charities-title)
+         * Thời gian bắt đầu (Campaigns-start_date)
+         * Thời gian kế thúc (Campaigns-end_date)
+         * Địa điểm (Campaigns-adress, ward, district, province)
+         * Ngân sách mục tiêu (Campaigns-target_amount)
+         * Ngân sách hiện tại đã nhận đóng góp (Campaigns-current_amount)
+         * Đánh giá chiến dịch (Campaigns-rating)
+      + Các trường thông tin khác:
+         * Mô tả (Campaigns-description)
+         * Kế hoạch chi tiết (Campaigns-detail_goal)
+         * Bình luận: viết bình luận phải kèm đánh giá
+            + Avatar (Users-profile_image)
+            + Tên (Users-full_name)
+            + Nội dung (Comments-content)
+            + Rating (Comments-rating)
+            + Role (Comments-role)
+            + Thời gian tạo (Comments-created_at)
+         * "Các khoản cứu trợ" đã tạo (nằm giữa Kế hoạch chi tiết và Bình luận): mỗi khoản cứu trợ là 1 bảng
+            + Tên khoản cứu trợ (Distributions-title)
+            + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
+            + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
+            + Ngân sách (Distributions-budget)
+            + Số lượng người nhận (Distributions-beneficiary_count)
+            + Ngày cứu trợ (Distributions-relief_date)
+            + Địa điểm(Distributions-adress, ward, district, province)
+            + Hình ảnh chứng minh (Distributions-proof_images) => Trường này để ảnh bên cạnh chứ không đưa vào bảng.
+
+7. Theo dõi báo cáo (/dashboard/reports)
+   - Xem tất cả báo cáo theo loại (4 nút):
+     + Báo cáo theo chiến dịch (hiển thị số lượng chiến dịch): mỗi bảng trong báo là một chiến dịch
+     + Báo cáo tổng hợp theo tổ chức (hiển thị số lượng tổ chức): mỗi bảng trong báo là một tổ chức
+     + Báo cáo đóng góp (hiển thị số lượng số lượng người đóng góp): mỗi bảng trong báo là 1 người đóng góp
+     + Báo cáo hỗ trợ (hiển thị số lượng số lượng đợt hỗ trợ): mỗi bảng trong báo cáo là một đợt hỗ trợ
+   - Export báo cáo (PDF/Excel)
+
+================== NGƯỜI ĐÓNG GÓP (DONOR) ==================
+
+1. Dashboard (/dashboard)
+   - Sidebar menu:
+     + Thông tin cá nhân (/dashboard/profile)
+     + Danh sách tổ chức (/dashboard/charities)
+     + Danh sách chiến dịch (/dashboard/campaigns)
+     + Theo dõi báo cáo (/dashboard/reports)
+     + Lịch sử đóng góp (/dashboard/donations)
+
+2. Danh sách tổ chức (/dashboard/charities)
+   - Xem danh sách tất cả tổ chức từ thiện
+   - Filter theo trạng thái xác minh (PENDING/VERIFIED/REJECTED)
+   - Xem chi tiết tổ chức (/dashboard/charities/[id])
+
+3. Chi tiết tổ chức (/dashboard/charities/[id])
+   - Xem thông tin chi tiết tổ chức
+   - Xác thực nếu tổ chức đang PENDING: chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
+   - Xem danh sách chiến dịch của tổ chức 
+
+4. Danh sách chiến dịch (/dashboard/campaigns) => Danh sách chung của tất cả tổ chức
+   - Xem dach sách tất cả các chiến dịch hiện có.
+   - Filter theo tình trạng của chiến dịch.
+   - Xem chi tiết 1 chiến dịch (/dashboard/campaigns/[id])
+
+5. Chi tiết chiến dịch (/dashboard/campaigns/[id])
+   - Nút đóng góp (nếu chiến dịch đang ONGOING): [chức năng này dev cuối cùng khi tất cả đã hoàn thành]
+      + Chọn số tiền đóng góp
+      + Chọn phương thức thanh toán
+      + Thêm ghi chú (nếu có)
+      + Xác nhận thanh toán
+      + Chuyển đến trang thanh toán
+      + Callback từ cổng thanh toán -> cập nhật trạng thái đóng góp
+      + [Mặc định zalopay luôn]
+   - Sao kê thông qua nút sao kê: Danh sách người đóng góp đã đóng góp cho chiến dịch, một bảng suy nhất
+   - Nút chia sẻ để copy đường dẫn của chiến dịch
+   - Hiện thông tin chi tiết chiến dịch:
+      + Thông tin cơ bản:
+         * Ảnh của chiến dịch (Campaigns-images)
+         * Tên chiến dịch (Campaigns-title)
+         * Tên tổ chức (Charities-title)
+         * Thời gian bắt đầu (Campaigns-start_date)
+         * Thời gian kế thúc (Campaigns-end_date)
+         * Địa điểm (Campaigns-adress, ward, district, province)
+         * Ngân sách mục tiêu (Campaigns-target_amount)
+         * Ngân sách hiện tại đã nhận đóng góp (Campaigns-current_amount)
+         * Đánh giá chiến dịch (Campaigns-rating)
+      + Các trường thông tin khác:
+         * Mô tả (Campaigns-description)
+         * Kế hoạch chi tiết (Campaigns-detail_goal)
+         * Bình luận: viết bình luận phải kèm đánh giá
+            + Avatar (Users-profile_image)
+            + Tên (Users-full_name)
+            + Nội dung (Comments-content)
+            + Rating (Comments-rating)
+            + Role (Comments-role)
+            + Thời gian tạo (Comments-created_at)
+         * "Các khoản cứu trợ" đã tạo (nằm giữa Kế hoạch chi tiết và Bình luận): mỗi khoản cứu trợ là 1 bảng
+            + Tên khoản cứu trợ (Distributions-title)
+            + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
+            + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
+            + Ngân sách (Distributions-budget)
+            + Số lượng người nhận (Distributions-beneficiary_count)
+            + Ngày cứu trợ (Distributions-relief_date)
+            + Địa điểm(Distributions-adress, ward, district, province)
+            + Hình ảnh chứng minh (Distributions-proof_images) => Trường này để ảnh bên cạnh chứ không đưa vào bảng.
+
+6. Theo dõi báo cáo (/dashboard/reports)
+   - Xem tất cả báo cáo theo loại (4 nút):
+     + Báo cáo theo chiến dịch (hiển thị số lượng chiến dịch): mỗi bảng trong báo là một chiến dịch
+     + Báo cáo tổng hợp theo tổ chức (hiển thị số lượng tổ chức): mỗi bảng trong báo là một tổ chức
+     + Báo cáo đóng góp (hiển thị số lượng số lượng người đóng góp): mỗi bảng trong báo là 1 người đóng góp
+     + Báo cáo hỗ trợ (hiển thị số lượng số lượng đợt hỗ trợ): mỗi bảng trong báo cáo là một đợt hỗ trợ
+   - Export báo cáo (PDF/Excel)
+
+7. Lịch sử đóng góp (/dashboard/donations)
+   - Xem danh sách các lần đóng góp:
+      + Chiến dịch  (Campaigns-title thông qua Donations-campaign_id)
+      + Tổ chức (Charities-title thông qua Campaigns-charity_id)
+      + Mã giao dịch (Donations-invoice_code)
+      + Thời gian (Donations-created_at)
+      + Phương thức (PaymentMethods-name thông qua Donations-payment_method_id)
+      + Số tiền (Donations-amount)
+   - Xuất báo cáo excel:
+      + Chiến dịch  (Campaigns-title thông qua Donations-campaign_id)
+      + Tổ chức (Charities-title thông qua Campaigns-charity_id)
+      + Mã giao dịch (Donations-invoice_code)
+      + Thời gian (Donations-created_at)
+      + Phương thức (PaymentMethods-name thông qua Donations-payment_method_id)
+      + Số tiền (Donations-amount)
+
+================== NGƯỜI NHẬN HỖ TRỢ (BENEFICIARY) ==================
+
+1. Dashboard (/dashboard)
+   - Sidebar menu:
+     + Thông tin cá nhân (/dashboard/profile)
+     + Danh sách tổ chức (/dashboard/charities)
+     + Danh sách chiến dịch (/dashboard/campaigns)
+     + Theo dõi báo cáo (/dashboard/reports)
+
+2. Danh sách tổ chức (/dashboard/charities)
+   - Xem danh sách tất cả tổ chức từ thiện
+   - Filter theo trạng thái xác minh (PENDING/VERIFIED/REJECTED)
+   - Xem chi tiết tổ chức (/dashboard/charities/[id])
+
+3. Chi tiết tổ chức (/dashboard/charities/[id])
+   - Xem thông tin chi tiết tổ chức
+   - Xác thực nếu tổ chức đang PENDING: chỉ dành cho Role ADMIN, các Role khác thì ẩn 2 nút này
+   - Xem danh sách chiến dịch của tổ chức 
+
+4. Danh sách chiến dịch (/dashboard/campaigns) => Danh sách chung của tất cả tổ chức
+   - Xem dach sách tất cả các chiến dịch hiện có.
+   - Filter theo tình trạng của chiến dịch.
+   - Xem chi tiết 1 chiến dịch (/dashboard/campaigns/[id])
+
+5. Chi tiết chiến dịch (/dashboard/campaigns/[id])
+   - Xem thông tin chi tiết chiến dịch:
+      + Ẩn chức năng đóng góp với Role BENEFICIARY
+      + Sao kê thông qua nút sao kê: Danh sách người đóng góp đã đóng góp cho chiến dịch, một bảng suy nhất
+      + Nút chia sẻ để copy đường dẫn của chiến dịch
+   - Hiện thông tin chi tiết chiến dịch:
+      + Thông tin cơ bản:
+         * Ảnh của chiến dịch (Campaigns-images)
+         * Tên chiến dịch (Campaigns-title)
+         * Tên tổ chức (Charities-title)
+         * Thời gian bắt đầu (Campaigns-start_date)
+         * Thời gian kế thúc (Campaigns-end_date)
+         * Địa điểm (Campaigns-adress, ward, district, province)
+         * Ngân sách mục tiêu (Campaigns-target_amount)
+         * Ngân sách hiện tại đã nhận đóng góp (Campaigns-current_amount)
+         * Đánh giá chiến dịch (Campaigns-rating)
+      + Các trường thông tin khác:
+         * Mô tả (Campaigns-description)
+         * Kế hoạch chi tiết (Campaigns-detail_goal)
+         * Bình luận: viết bình luận phải kèm đánh giá
+            + Avatar (Users-profile_image)
+            + Tên (Users-full_name)
+            + Nội dung (Comments-content)
+            + Rating (Comments-rating)
+            + Role (Comments-role)
+            + Thời gian tạo (Comments-created_at)
+         * "Các khoản cứu trợ" đã tạo (nằm giữa Kế hoạch chi tiết và Bình luận): mỗi khoản cứu trợ là 1 bảng
+            + Tên khoản cứu trợ (Distributions-title)
+            + Người đại diện: bắt buộc là người đại diện tổ chức (Distributions-representative_name)
+            + Mô tả (Distributions-description) => Trường này viết mô tả chứ không đưa vào bảng
+            + Ngân sách (Distributions-budget)
+            + Số lượng người nhận (Distributions-beneficiary_count)
+            + Ngày cứu trợ (Distributions-relief_date)
+            + Địa điểm(Distributions-adress, ward, district, province)
+            + Hình ảnh chứng minh (Distributions-proof_images) => Trường này để ảnh bên cạnh chứ không đưa vào bảng.
+
+6. Theo dõi báo cáo (/dashboard/reports)
+   - Xem tất cả báo cáo theo loại (4 nút):
+     + Báo cáo theo chiến dịch (hiển thị số lượng chiến dịch): mỗi bảng trong báo là một chiến dịch
+     + Báo cáo tổng hợp theo tổ chức (hiển thị số lượng tổ chức): mỗi bảng trong báo là một tổ chức
+     + Báo cáo đóng góp (hiển thị số lượng số lượng người đóng góp): mỗi bảng trong báo là 1 người đóng góp
+     + Báo cáo hỗ trợ (hiển thị số lượng số lượng đợt hỗ trợ): mỗi bảng trong báo cáo là một đợt hỗ trợ
+   - Export báo cáo (PDF/Excel)

@@ -1,102 +1,77 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
-
-import { formatAmount, formatDate } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { formatAmount, formatDate } from "@/lib/utils"
+import { Campaign, getStatusLabel, getStatusVariant } from "@/types/campaigns"
+import Image from "next/image"
 
 interface CampaignCardProps {
-  campaign: {
-    id: string
-    name: string
-    image: string
-    description: string
-    charity: {
-      id: string
-      name: string
-    }
-    target: number
-    raised: number
-    startDate: string
-    endDate: string
-    status: "KHOIDONG" | "DANGKEUGOI" | "DADONG" | "DAKETTHUC"
-  }
+  campaign: Campaign
 }
 
 export function CampaignCard({ campaign }: CampaignCardProps) {
-  const progress = (campaign.raised / campaign.target) * 100
-
   return (
-    <Card>
-      <CardHeader className="relative">
-        <div className="relative aspect-video overflow-hidden rounded-t-lg">
-          <Image
-            src={campaign.image}
-            alt={campaign.name}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <Badge className="absolute right-2 top-2">
-          {getStatusLabel(campaign.status)}
-        </Badge>
-      </CardHeader>
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
+      <div className="relative aspect-video">
+        <Image
+          src={campaign.campaign_image 
+            ? `${process.env.NEXT_PUBLIC_API_URL}/storage/campaigns/${campaign.campaign_image}`
+            : "/campaign-placeholder.jpg"
+          }
+          alt={campaign.title}
+          fill
+          className="object-cover"
+        />
+      </div>
 
-      <CardContent>
+      <CardContent className="p-6">
         <div className="space-y-4">
-          <div>
-            <h3 className="text-xl font-semibold">{campaign.name}</h3>
-            <p className="text-sm text-muted-foreground">
-              Tổ chức: {campaign.charity.name}
-            </p>
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold truncate flex-1 mr-2">{campaign.title}</h3>
+            <Badge variant={getStatusVariant(campaign.status)}>
+              {getStatusLabel(campaign.status)}
+            </Badge>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span>Đã quyên góp</span>
-              <span className="font-medium">
-                {formatAmount(campaign.raised)} /{" "}
-                {formatAmount(campaign.target)} VNĐ
-              </span>
+          <div className="space-y-2 text-sm text-muted-foreground">
+            <div className="flex justify-between">
+              <span className="font-medium">Mục tiêu:</span>
+              <span>{formatAmount(campaign.target_amount)}</span>
             </div>
-            <div className="h-2 rounded-full bg-secondary">
-              <div
-                className="h-full rounded-full bg-primary"
-                style={{ width: `${progress}%` }}
-              />
+            <div className="flex justify-between">
+              <span className="font-medium">Đã quyên góp:</span>
+              <span>{formatAmount(campaign.current_amount)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Bắt đầu:</span>
+              <span>{formatDate(campaign.start_date)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Kết thúc:</span>
+              <span>{formatDate(campaign.end_date)}</span>
             </div>
           </div>
 
-          <div className="flex gap-4 text-sm text-muted-foreground">
-            <span>Bắt đầu: {formatDate(campaign.startDate)}</span>
-            <span>Kết thúc: {formatDate(campaign.endDate)}</span>
-          </div>
+          <Button asChild className="w-full" variant="default">
+            <Link href={`/dashboard/campaigns/${campaign.id}`}>
+              Xem chi tiết
+            </Link>
+          </Button>
         </div>
       </CardContent>
 
-      <CardFooter>
-        <Button asChild className="w-full">
-          <Link href={`/dashboard/campaigns/${campaign.id}`}>Xem chi tiết</Link>
-        </Button>
-      </CardFooter>
+      {campaign.charity?.logo && (
+        <Image
+          src={`${process.env.NEXT_PUBLIC_API_URL}/storage/charities/${campaign.charity.logo}`}
+          alt={campaign.charity.name || ""}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      )}
     </Card>
   )
-}
-
-function getStatusLabel(status: string) {
-  switch (status) {
-    case "KHOIDONG":
-      return "Khởi động"
-    case "DANGKEUGOI":
-      return "Đang kêu gọi"
-    case "DADONG":
-      return "Đã đóng"
-    case "DAKETTHUC":
-      return "Đã kết thúc"
-    default:
-      return status
-  }
-}
+} 
