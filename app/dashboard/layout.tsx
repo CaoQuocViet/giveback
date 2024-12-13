@@ -98,19 +98,26 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         >
           <div className="flex items-center space-x-4">
             <div
-              className="flex size-12 items-center justify-center rounded-full 
+              className="flex items-center justify-center rounded-full 
               bg-blue-100 dark:bg-blue-950
               ring-2 ring-blue-200 dark:ring-blue-800 
               hover:ring-blue-300 dark:hover:ring-blue-700 transition-all"
+              style={{ width: '40px', height: '40px' }} // Đặt kích thước ảnh cố định
             >
               <img
                 src={userData.profileImage || "/default-avatar.png"}
                 alt="Profile"
-                className="size-10 rounded-full object-cover hover:scale-105 transition-transform"
+                className="rounded-full object-cover hover:scale-105 transition-transform"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: '50%',
+                  objectFit: 'cover', // Đảm bảo ảnh không bị méo
+                }}
               />
             </div>
             <div>
-              <p className="text-lg font-semibold text-gray-900 dark:text-gray-50">
+              <p className="text-sm font-semibold text-gray-900 dark:text-gray-50">
                 {userData.fullName}
               </p>
               <Badge
