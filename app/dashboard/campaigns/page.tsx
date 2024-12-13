@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button"
 import { CampaignFilter } from "@/components/campaigns/campaign-filter"
 import { CampaignCard } from "@/components/campaigns/campaign-card"
 import { Pagination } from "@/components/ui/pagination"
-import { Campaign, CampaignsResponse, getStatusLabel, getStatusVariant } from "@/types/campaign"
+import { Campaign, CampaignsResponse, getStatusLabel, getStatusVariant } from "@/types/campaigns"
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([])

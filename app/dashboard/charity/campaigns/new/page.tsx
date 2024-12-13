@@ -1,15 +1,11 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { useSession } from "next-auth/react"
 import { AddressFields } from "@/components/profile/address-fields"
 import { useState } from "react"
@@ -25,105 +21,113 @@ export default function NewCampaignPage() {
   })
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", py: 4 }}>
-      <Card>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
+    <div className="container mx-auto py-6 space-y-6">
+      <Card className="p-6">
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold tracking-tight">
             Tạo chiến dịch mới
-          </Typography>
+          </h2>
 
-          <form>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="title"
-                  label="Tên chiến dịch"
-                  placeholder="Nhập tên chiến dịch"
-                />
-              </Grid>
+          <form className="space-y-6">
+            {/* Tên chiến dịch */}
+            <div className="space-y-2">
+              <Label htmlFor="title">Tên chiến dịch</Label>
+              <Input
+                id="title"
+                placeholder="Nhập tên chiến dịch"
+              />
+            </div>
 
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
+            {/* Thời gian */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="startDate">Ngày bắt đầu</Label>
+                <Input
                   id="startDate"
-                  label="Ngày bắt đầu"
                   type="date"
-                  InputLabelProps={{ shrink: true }}
                 />
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  fullWidth
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="endDate">Ngày kết thúc</Label>
+                <Input
                   id="endDate"
-                  label="Ngày kết thúc"
                   type="date"
-                  InputLabelProps={{ shrink: true }}
                 />
-              </Grid>
+              </div>
+            </div>
 
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="targetAmount"
-                  label="Ngân sách dự kiến"
-                  type="number"
-                  placeholder="VNĐ"
-                />
-              </Grid>
+            {/* Ngân sách */}
+            <div className="space-y-2">
+              <Label htmlFor="targetAmount">Ngân sách dự kiến (VNĐ)</Label>
+              <Input
+                id="targetAmount"
+                type="number"
+                placeholder="Nhập số tiền"
+              />
+            </div>
 
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="description"
-                  label="Mô tả chi tiết"
-                  multiline
-                  rows={5}
-                  placeholder="Nhập mô tả chi tiết về chiến dịch"
-                />
-              </Grid>
+            {/* Mô tả */}
+            <div className="space-y-2">
+              <Label htmlFor="description">Mô tả chiến dịch</Label>
+              <Textarea
+                id="description"
+                rows={5}
+                placeholder="Mô tả tổng quan về mục đích, đối tượng và phạm vi của chiến dịch..."
+                className="resize-none"
+              />
+            </div>
 
-              <Grid item xs={12}>
-                <AddressFields
-                  defaultValues={addressData}
-                  onChange={(values) => {
-                    setAddressData(values)
-                  }}
-                />
-              </Grid>
+            {/* Kế hoạch chi tiết */}
+            <div className="space-y-2">
+              <Label htmlFor="detail_goal">Kế hoạch chi tiết</Label>
+              <Textarea
+                id="detail_goal"
+                rows={8}
+                placeholder="Mô tả chi tiết các giai đoạn thực hiện, phân bổ nguồn lực và kết quả dự kiến..."
+                className="resize-none"
+              />
+            </div>
 
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  id="image"
-                  type="file"
-                  inputProps={{ multiple: true, accept: "image/*" }}
-                />
-                <Typography variant="caption" color="textSecondary">
-                  Có thể chọn nhiều ảnh
-                </Typography>
-              </Grid>
-            </Grid>
+            {/* Địa điểm */}
+            <div className="space-y-2">
+              <Label>Địa điểm triển khai</Label>
+              <AddressFields
+                defaultValues={addressData}
+                onChange={(values) => {
+                  setAddressData(values)
+                }}
+              />
+            </div>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: 2,
-                mt: 4,
-              }}
-            >
-              <Button variant="outlined" onClick={() => router.back()}>
+            {/* Upload ảnh */}
+            <div className="space-y-2">
+              <Label htmlFor="image">Hình ảnh chiến dịch</Label>
+              <Input
+                id="image"
+                type="file"
+                multiple
+                accept="image/*"
+                className="cursor-pointer"
+              />
+              <p className="text-sm text-muted-foreground">
+                Có thể chọn nhiều ảnh
+              </p>
+            </div>
+
+            {/* Actions */}
+            <div className="flex justify-end gap-4 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.back()}
+              >
                 Hủy
               </Button>
-              <Button variant="contained" type="submit">
-                Tạo mới
-              </Button>
-            </Box>
+              <Button type="submit">Tạo mới</Button>
+            </div>
           </form>
-        </CardContent>
+        </div>
       </Card>
-    </Box>
+    </div>
   )
 }
