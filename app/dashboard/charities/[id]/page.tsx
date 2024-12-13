@@ -115,7 +115,7 @@ export default function CharityDetailPage({
   return (
     <div className="h-full overflow-auto bg-gray-50/50 dark:bg-gray-900 p-6">
       {/* Header với background gradient */}
-      <div className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 p-6 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+      <div className="mb-6 rounded-xl bg-white dark:bg-black p-6 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
         <div className="flex items-start gap-6">
           {/* Avatar với kích thước cố định và căn chỉnh */}
           <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700">
@@ -198,7 +198,7 @@ export default function CharityDetailPage({
           {/* Left column */}
           <div className="space-y-6">
             {/* Contact Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
               <CardContent className="p-6">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin liên hệ</h2>
                 <div className="space-y-4">
@@ -228,7 +228,7 @@ export default function CharityDetailPage({
             </Card>
 
             {/* Organization Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
               <CardContent className="p-6">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin tổ chức</h2>
                 <div className="space-y-4">
@@ -262,7 +262,7 @@ export default function CharityDetailPage({
           </div>
 
           {/* Right column - License Card */}
-          <Card className="h-full overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+          <Card className="h-full overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
             <CardContent className="p-6">
               <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Giấy phép hoạt động</h2>
               <div className="grid grid-cols-2 gap-6">
@@ -298,13 +298,13 @@ export default function CharityDetailPage({
         </div>
 
         {/* Row 2: Campaigns Table */}
-        <Card className="overflow-hidden bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+        <Card className="overflow-hidden bg-white dark:bg-black shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
           <CardContent className="p-6">
             <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Danh sách chiến dịch</h2>
             <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
               <Table>
                 <TableHeader>
-                  <TableRow className="bg-gray-50/50 dark:bg-gray-800/50">
+                  <TableRow className="bg-gray-100 dark:bg-gray-900">
                     <TableHead className="text-gray-600 dark:text-gray-400">Tên chiến dịch</TableHead>
                     <TableHead className="text-gray-600 dark:text-gray-400">Trạng thái</TableHead>
                     <TableHead className="text-gray-600 dark:text-gray-400">Mục tiêu</TableHead>
