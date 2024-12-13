@@ -11,6 +11,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { Providers } from "./providers"
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: {
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             <TailwindIndicator />
           </Providers>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   )

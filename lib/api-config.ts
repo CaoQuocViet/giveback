@@ -28,6 +28,14 @@ export const API_ENDPOINTS = {
   PROVINCES: '/provinces',
   DISTRICTS: '/districts',
   WARDS: '/wards',
+  
+  // Profile endpoints
+  PROFILE: {
+    CHARITY: '/api/profile/charity',
+    DONOR: '/api/profile/donor',
+    ADMIN: '/api/profile/admin',
+    BENEFICIARY: '/api/profile/beneficiary'
+  },
 }
 
 // API client configuration

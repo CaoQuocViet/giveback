@@ -65,14 +65,27 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       return
     }
 
-    // Lấy user info từ localStorage
-    const userStr = localStorage.getItem("user")
-    if (userStr) {
-      const user = JSON.parse(userStr)
-      setUserData(user)
-      setMenuItems(getMenuByRole(user.role))
-    } else {
-      router.push("/auth/login")
+    // Lấy user info từ localStorage và thiết lập listener
+    const updateUserData = () => {
+      const userStr = localStorage.getItem("user")
+      if (userStr) {
+        const user = JSON.parse(userStr)
+        setUserData(user)
+        setMenuItems(getMenuByRole(user.role))
+      } else {
+        router.push("/auth/login")
+      }
+    }
+
+    // Lắng nghe sự thay đổi của localStorage
+    window.addEventListener('storage', updateUserData)
+    
+    // Khởi tạo lần đầu
+    updateUserData()
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('storage', updateUserData)
     }
   }, [router])
 

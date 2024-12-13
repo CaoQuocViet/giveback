@@ -1,37 +1,153 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
+import { DonorProfileResponse } from "@/types/profile"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { AddressFields } from "./address-fields"
-import { DonationStats } from "@/components/profile/donation-stats"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { AddressFields } from "@/components/profile/address-fields"
+import { DonationStats } from "./donation-stats"
+import { Button } from "@/components/ui/button"
+import { toast } from "sonner"
 
 export function DonorProfile() {
-  const [userData, setUserData] = useState({
-    fullName: "John Doe",
-    email: "johndoe@example.com",
-    phone: "+9876543210",
-    role: "DONOR",
-    avatarUrl: "https://example.com/donor-avatar.jpg",
-    province: "Ho Chi Minh",
-    district: "District 1",
-    ward: "Ben Nghe",
-    address: "456 Generosity Avenue",
-    createdAt: "2022-06-10T09:00:00Z",
-    updatedAt: "2023-10-15T16:00:00Z"
+  const [userData, setUserData] = useState<DonorProfileResponse['data'] | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    province: "",
+    district: "",
+    ward: "",
+    address: ""
   })
+
+  const fetchProfile = async () => {
+    try {
+      const token = Cookies.get('auth_token')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profile/donor`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile')
+      }
+
+      const data: DonorProfileResponse = await response.json()
+      setUserData(data.data)
+      setFormData({
+        fullName: data.data.fullName,
+        email: data.data.email,
+        province: data.data.province,
+        district: data.data.district,
+        ward: data.data.ward,
+        address: data.data.address
+      })
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchProfile()
+  }, [])
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const formData = new FormData()
+      formData.append('profileImage', file)
+
+      const token = Cookies.get('auth_token')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profile/donor`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to upload image')
+      }
+
+      const result = await response.json()
+      
+      // Cập nhật localStorage với thông tin mới
+      const userStr = localStorage.getItem('user')
+      if (userStr) {
+        const user = JSON.parse(userStr)
+        user.profileImage = result.data.profileImage
+        localStorage.setItem('user', JSON.stringify(user))
+        // Trigger storage event manually vì localStorage.setItem 
+        // không trigger event trên cùng window
+        window.dispatchEvent(new Event('storage'))
+      }
+
+      toast.success("Cập nhật ảnh đại diện thành công")
+      setUserData(result.data) // Cập nhật trực tiếp state thay vì gọi fetchProfile
+    } catch (error) {
+      toast.error("Không thể cập nhật ảnh đại diện")
+      console.error('Upload error:', error)
+    }
+  }
+
+  const handleSave = async () => {
+    try {
+      setIsSaving(true)
+      const token = Cookies.get('auth_token')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/profile/donor`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile')
+      }
+
+      toast.success("Cập nhật thông tin thành công")
+      fetchProfile() // Tải lại thông tin profile
+    } catch (error) {
+      toast.error("Không thể cập nhật thông tin")
+      console.error('Update error:', error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  if (isLoading) return <div>Loading...</div>
+  if (error || !userData) return <div>Error: {error}</div>
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      <DonationStats 
+        totalDonated={userData.donationStats.totalDonated}
+        campaignCount={userData.donationStats.campaignCount}
+      />
+
       <Card>
         <CardContent className="p-6">
           {/* Header với ảnh đại diện */}
           <div className="flex items-center space-x-6 mb-8">
             <div className="relative">
               <Avatar className="w-24 h-24">
-                <AvatarImage src={userData.avatarUrl} alt={userData.fullName} />
+                <AvatarImage 
+                  src={userData.profileImage || undefined} 
+                  alt={userData.fullName} 
+                />
                 <AvatarFallback>{userData.fullName.charAt(0)}</AvatarFallback>
               </Avatar>
               <label 
@@ -48,9 +164,7 @@ export function DonorProfile() {
                   type="file" 
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => {
-                    // TODO: Xử lý upload ảnh
-                  }}
+                  onChange={handleImageUpload}
                 />
               </label>
             </div>
@@ -70,11 +184,17 @@ export function DonorProfile() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium">Họ và tên</label>
-                  <Input defaultValue={userData.fullName} />
+                  <Input 
+                    value={formData.fullName}
+                    onChange={(e) => setFormData(prev => ({...prev, fullName: e.target.value}))}
+                  />
                 </div>
                 <div>
                   <label className="text-sm font-medium">Email</label>
-                  <Input defaultValue={userData.email} />
+                  <Input 
+                    value={formData.email}
+                    onChange={(e) => setFormData(prev => ({...prev, email: e.target.value}))}
+                  />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Số điện thoại</label>
@@ -97,7 +217,7 @@ export function DonorProfile() {
                   address: userData.address
                 }}
                 onChange={(values) => {
-                  setUserData(prev => ({...prev, ...values}))
+                  setFormData(prev => ({...prev, ...values}))
                 }}
               />
             </div>
@@ -109,12 +229,15 @@ export function DonorProfile() {
             <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
           </div>
 
-          <Button className="w-full mt-8">Lưu thay đổi</Button>
+          <Button 
+            className="w-full mt-8" 
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {isSaving ? "Đang lưu..." : "Lưu thay đổi"}
+          </Button>
         </CardContent>
       </Card>
-
-      {/* Thống kê đóng góp */}
-      <DonationStats />
     </div>
   )
 }

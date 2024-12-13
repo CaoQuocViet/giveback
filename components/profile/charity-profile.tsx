@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Cookies from 'js-cookie'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -10,47 +12,140 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { StarIcon } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
+import { CharityProfileResponse } from "@/types/profile"
+import { API_ENDPOINTS } from "@/lib/api-config"
+import apiClient from "@/lib/api-client"
+import { toast } from "react-hot-toast"
 
 export function CharityProfile() {
-  const [userData, setUserData] = useState({
-    fullName: "No Hope Foundation",
-    email: "contact@hopefoundation.org",
-    phone: "+1234567890",
-    role: "CHARITY",
-    avatarUrl: "https://example.com/charity-avatar.jpg",
-    province: "Hanoi",
-    district: "Ba Dinh",
-    ward: "Cong Vi",
-    address: "123 Hope Street",
-    license_description: "License to operate as a charity organization",
-    license_image_url: "https://example.com/license-image.jpg",
-    license_number: "12345-HOPE",
-    license_date: "2022-01-15",
-    verification_status: "VERIFIED",
-    campaign_count: 25,
-    total_raised: 1000000000,
-    rating: 4.8,
-    createdAt: "2021-12-01T10:00:00Z",
-    updatedAt: "2023-11-20T14:00:00Z",
-    representative_name: "Nguyễn Văn A",
-    organization_name: "Quỹ Hy Vọng",
-    description: "Tổ chức từ thiện hoạt động trong lĩnh vực...",
-    website: "https://hopefoundation.org",
-    founding_date: "2020-01-01",
-    social_links: {
-      facebook: "https://facebook.com/hopefoundation",
-      twitter: "https://twitter.com/hopefoundation",
-      youtube: "https://youtube.com/hopefoundation"
-    },
-    bank_name: "Vietcombank",
-    bank_branch: "Hà Nội",
-    bank_owner: "QUỸ HY VỌNG",
-    bank_account: "1234567890",
-    merchant_id: "MERCHANT123",
-    merchant_name: "Quỹ Hy Vọng",
-    payment_gateway: "VNPay",
-    api_key: "xxxxx-xxxxx-xxxxx"
-  })
+  const router = useRouter()
+  const [userData, setUserData] = useState<CharityProfileResponse["data"] | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = Cookies.get('auth_token')
+        if (!token) {
+          router.push('/auth/login')
+          return
+        }
+
+        const userStr = localStorage.getItem('user')
+        if (!userStr) {
+          router.push('/auth/login')
+          return
+        }
+
+        const user = JSON.parse(userStr)
+        if (user.role !== 'CHARITY') {
+          router.push('/dashboard')
+          return
+        }
+
+        const response = await apiClient.get<CharityProfileResponse>(API_ENDPOINTS.PROFILE.CHARITY)
+        if (response.success) {
+          setUserData(response.data)
+        } else {
+          setError("Không thể tải thông tin tổ chức")
+        }
+      } catch (error: any) {
+        console.error("Error fetching charity profile:", error)
+        setError(error.response?.data?.message || "Có lỗi xảy ra khi tải thông tin")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProfile()
+  }, [router])
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      const formData = new FormData()
+      formData.append('profileImage', file)
+
+      const response = await apiClient.put(API_ENDPOINTS.PROFILE.CHARITY, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      if (response.success) {
+        // Cập nhật localStorage
+        const userStr = localStorage.getItem('user')
+        if (userStr) {
+          const user = JSON.parse(userStr)
+          user.profileImage = response.data.profileImage
+          localStorage.setItem('user', JSON.stringify(user))
+          window.dispatchEvent(new Event('storage'))
+        }
+
+        toast.success("Cập nhật ảnh đại diện thành công")
+        setUserData(response.data)
+      }
+    } catch (error) {
+      toast.error("Không thể cập nhật ảnh đại diện")
+      console.error('Upload error:', error)
+    }
+  }
+
+  const handleSave = async () => {
+    if (!userData) return
+
+    try {
+      setIsSaving(true)
+      const updateData = {
+        userInfo: {
+          fullName: userData.fullName,
+          province: userData.province,
+          district: userData.district,
+          ward: userData.ward,
+          address: userData.address
+        },
+        charityInfo: {
+          representativeName: userData.charity.representativeName,
+          organizationName: userData.charity.organizationName,
+          description: userData.charity.description,
+          website: userData.charity.website,
+          socialLinks: userData.charity.socialLinks,
+          bankAccount: userData.charity.bankAccount,
+          bankName: userData.charity.bankName,
+          bankBranch: userData.charity.bankBranch,
+          bankOwner: userData.charity.bankOwner
+        }
+      }
+
+      const response = await apiClient.put(API_ENDPOINTS.PROFILE.CHARITY, updateData)
+      
+      if (response.success) {
+        toast.success("Cập nhật thông tin thành công")
+        setUserData(response.data)
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Không thể cập nhật thông tin")
+      console.error('Update error:', error)
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="flex justify-center items-center min-h-screen">Đang tải...</div>
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center">{error}</div>
+  }
+
+  if (!userData) {
+    return <div className="text-center">Không tìm thấy thông tin</div>
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -60,7 +155,7 @@ export function CharityProfile() {
           <div className="flex items-center space-x-6 mb-8">
             <div className="relative">
               <Avatar className="w-24 h-24">
-                <AvatarImage src={userData.avatarUrl} alt={userData.fullName} />
+                <AvatarImage src={userData.profileImage || ""} alt={userData.fullName} />
                 <AvatarFallback>{userData.fullName.charAt(0)}</AvatarFallback>
               </Avatar>
               <label 
@@ -72,15 +167,15 @@ export function CharityProfile() {
                   <polyline points="17 8 12 3 7 8"/>
                   <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
-                <input id="avatar-upload" type="file" accept="image/*" className="hidden" />
+                <input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
               </label>
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
                 <h2 className="text-2xl font-semibold dark:text-gray-100">{userData.fullName}</h2>
-                <Badge variant={userData.verification_status === "VERIFIED" ? "default" : "secondary"}
+                <Badge variant={userData.charity.verificationStatus === "VERIFIED" ? "default" : "secondary"}
                   className="dark:bg-gray-700 dark:text-gray-300">
-                  {userData.verification_status === "VERIFIED" ? "Đã xác minh" : "Chưa xác minh"}
+                  {userData.charity.verificationStatus === "VERIFIED" ? "Đã xác minh" : "Chưa xác minh"}
                 </Badge>
               </div>
               <p className="text-muted-foreground dark:text-gray-400">{userData.email}</p>
@@ -89,10 +184,10 @@ export function CharityProfile() {
                 {[1, 2, 3, 4, 5].map((star) => (
                   <StarIcon 
                     key={star}
-                    className={`w-4 h-4 ${star <= userData.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                    className={`w-4 h-4 ${star <= userData.charity.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
                   />
                 ))}
-                <span className="text-sm text-muted-foreground ml-2">{userData.rating}/5</span>
+                <span className="text-sm text-muted-foreground ml-2">{userData.charity.rating}/5</span>
               </div>
             </div>
           </div>
@@ -108,8 +203,14 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Họ và tên</label>
                     <Input 
-                      value={userData.representative_name}
-                      onChange={(e) => setUserData(prev => ({...prev, representative_name: e.target.value}))}
+                      value={userData.charity.representativeName}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          representativeName: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
@@ -130,30 +231,54 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Tên tổ chức</label>
                     <Input 
-                      value={userData.organization_name}
-                      onChange={(e) => setUserData(prev => ({...prev, organization_name: e.target.value}))}
+                      value={userData.charity.organizationName}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          organizationName: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Mô tả</label>
                     <Textarea 
-                      value={userData.description}
-                      onChange={(e) => setUserData(prev => ({...prev, description: e.target.value}))}
+                      value={userData.charity.description}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          description: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Website</label>
                     <Input 
-                      value={userData.website}
-                      onChange={(e) => setUserData(prev => ({...prev, website: e.target.value}))}
+                      value={userData.charity.website || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          website: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Ngày thành lập</label>
                     <Input 
                       type="date"
-                      value={userData.founding_date}
-                      onChange={(e) => setUserData(prev => ({...prev, founding_date: e.target.value}))}
+                      value={userData.charity.foundingDate}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          foundingDate: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                 </div>
@@ -169,7 +294,7 @@ export function CharityProfile() {
                     ward: userData.ward,
                     address: userData.address
                   }}
-                  onChange={(values) => setUserData(prev => ({...prev, ...values}))}
+                  onChange={(values) => setUserData(prev => prev ? {...prev, ...values} : null)}
                 />
               </div>
             </div>
@@ -183,31 +308,49 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Facebook</label>
                     <Input 
-                      value={userData.social_links.facebook}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev, 
-                        social_links: {...prev.social_links, facebook: e.target.value}
-                      }))}
+                      value={userData.charity.socialLinks.facebook || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          socialLinks: {
+                            ...prev.charity.socialLinks,
+                            facebook: e.target.value
+                          }
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Twitter</label>
                     <Input 
-                      value={userData.social_links.twitter}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev, 
-                        social_links: {...prev.social_links, twitter: e.target.value}
-                      }))}
+                      value={userData.charity.socialLinks.twitter || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          socialLinks: {
+                            ...prev.charity.socialLinks,
+                            twitter: e.target.value
+                          }
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Youtube</label>
                     <Input 
-                      value={userData.social_links.youtube}
-                      onChange={(e) => setUserData(prev => ({
-                        ...prev, 
-                        social_links: {...prev.social_links, youtube: e.target.value}
-                      }))}
+                      value={userData.charity.socialLinks.youtube || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          socialLinks: {
+                            ...prev.charity.socialLinks,
+                            youtube: e.target.value
+                          }
+                        }
+                      } : null)}
                     />
                   </div>
                 </div>
@@ -220,65 +363,113 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Tên ngân hàng</label>
                     <Input 
-                      value={userData.bank_name}
-                      onChange={(e) => setUserData(prev => ({...prev, bank_name: e.target.value}))}
+                      value={userData.charity.bankName}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          bankName: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Chi nhánh</label>
                     <Input 
-                      value={userData.bank_branch}
-                      onChange={(e) => setUserData(prev => ({...prev, bank_branch: e.target.value}))}
+                      value={userData.charity.bankBranch}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          bankBranch: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Chủ tài khoản</label>
                     <Input 
-                      value={userData.bank_owner}
-                      onChange={(e) => setUserData(prev => ({...prev, bank_owner: e.target.value}))}
+                      value={userData.charity.bankOwner}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          bankOwner: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Số tài khoản</label>
                     <Input 
-                      value={userData.bank_account}
-                      onChange={(e) => setUserData(prev => ({...prev, bank_account: e.target.value}))}
+                      value={userData.charity.bankAccount}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          bankAccount: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Thông tin merchant */}
+              {/* Thông tin thanh toán */}
               <div>
-                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin merchant</h3>
+                <h3 className="text-lg font-medium mb-4 dark:text-gray-100">Thông tin thanh toán</h3>
                 <div className="space-y-4">
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Merchant ID</label>
                     <Input 
-                      value={userData.merchant_id}
-                      onChange={(e) => setUserData(prev => ({...prev, merchant_id: e.target.value}))}
+                      value={userData.charity.merchantId || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          merchantId: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Tên merchant</label>
                     <Input 
-                      value={userData.merchant_name}
-                      onChange={(e) => setUserData(prev => ({...prev, merchant_name: e.target.value}))}
+                      value={userData.charity.merchantName || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          merchantName: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Cổng thanh toán</label>
                     <Input 
-                      value={userData.payment_gateway}
-                      onChange={(e) => setUserData(prev => ({...prev, payment_gateway: e.target.value}))}
+                      value={userData.charity.paymentGateway || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          paymentGateway: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">API Key</label>
                     <Input 
                       type="password"
-                      value={userData.api_key}
-                      onChange={(e) => setUserData(prev => ({...prev, api_key: e.target.value}))}
+                      value={userData.charity.apiKey || ""}
+                      onChange={(e) => setUserData(prev => prev ? {
+                        ...prev,
+                        charity: {
+                          ...prev.charity,
+                          apiKey: e.target.value
+                        }
+                      } : null)}
                     />
                   </div>
                 </div>
@@ -292,12 +483,12 @@ export function CharityProfile() {
             <div className="grid grid-cols-2 gap-4">
               <div className="p-4 bg-muted rounded-lg dark:bg-gray-700">
                 <div className="text-sm text-muted-foreground mb-1">Số chiến dịch đã tạo</div>
-                <div className="text-2xl font-bold dark:text-gray-100">{userData.campaign_count}</div>
+                <div className="text-2xl font-bold dark:text-gray-100">{userData.charity.campaignCount}</div>
               </div>
               <div className="p-4 bg-muted rounded-lg dark:bg-gray-700">
                 <div className="text-sm text-muted-foreground mb-1">Tổng tiền gây quỹ</div>
                 <div className="text-2xl font-bold dark:text-gray-100">
-                  {new Intl.NumberFormat('vi-VN').format(userData.total_raised)}
+                  {new Intl.NumberFormat('vi-VN').format(userData.charity.totalRaised)}
                 </div>
               </div>
             </div>
@@ -309,7 +500,13 @@ export function CharityProfile() {
               <div>Ngày tạo: {new Date(userData.createdAt).toLocaleDateString('vi-VN')}</div>
               <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
             </div>
-            <Button className="w-full">Lưu thay đổi</Button>
+            <Button 
+              className="w-full" 
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              {isSaving ? "Đang lưu..." : "Lưu thay đổi"}
+            </Button>
           </div>
 
         </CardContent>
