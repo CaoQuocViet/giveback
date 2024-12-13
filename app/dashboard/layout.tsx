@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { FileText, Flag, History, LogOut, Settings, User, Users } from "lucide-react"
 import Cookies from 'js-cookie'
 
@@ -44,6 +44,7 @@ function getRoleBadgeColor(role: string): string {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const { logout } = useAuth()
   const [userData, setUserData] = useState<any>(null)
   const [menuItems, setMenuItems] = useState<MenuItem[]>([])
@@ -116,56 +117,66 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800"
         >
           <ul className="space-y-2.5">
-            {menuItems.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`group flex items-center rounded-xl px-4 py-3.5
-                    text-sm font-medium transition-all duration-300 ease-in-out
-                    bg-white/60 dark:bg-blue-900/20
-                    hover:bg-blue-100/60 hover:text-blue-700 hover:translate-x-1
-                    dark:text-blue-100 dark:hover:bg-blue-800/30 dark:hover:text-blue-300
-                    border border-transparent hover:border-blue-200/50 dark:hover:border-blue-700/50
-                    shadow-sm hover:shadow-md backdrop-blur-sm
-                    relative overflow-hidden`}
-                >
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
-                    dark:from-blue-600/20 dark:to-transparent
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
-                  />
-
-                  {/* Icon container */}
-                  <div className="relative flex items-center justify-center size-9 
-                    rounded-lg bg-blue-100/80 dark:bg-blue-900/50
-                    group-hover:bg-blue-200/80 dark:group-hover:bg-blue-800/50
-                    transition-colors duration-300 mr-3
-                    border border-blue-200 dark:border-blue-700
-                    group-hover:border-blue-300 dark:group-hover:border-blue-600"
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
+              
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`group flex items-center rounded-xl px-4 py-3.5
+                      text-sm font-medium transition-all duration-300 ease-in-out
+                      bg-white/60 dark:bg-blue-900/20
+                      hover:bg-blue-100/60 hover:text-blue-700 hover:translate-x-1
+                      dark:text-blue-100 dark:hover:bg-blue-800/30 dark:hover:text-blue-300
+                      border border-transparent hover:border-blue-200/50 dark:hover:border-blue-700/50
+                      shadow-sm hover:shadow-md backdrop-blur-sm
+                      relative overflow-hidden
+                      ${isActive ? 'bg-blue-50 dark:bg-blue-900/40 border-blue-200 dark:border-blue-700' : ''}`}
                   >
-                    <item.icon className="size-5 text-blue-600 dark:text-blue-300 
-                      group-hover:text-blue-700 dark:group-hover:text-blue-200
-                      transition-colors duration-300" 
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
+                      dark:from-blue-600/20 dark:to-transparent
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
                     />
-                  </div>
 
-                  {/* Label */}
-                  <span className="relative font-medium tracking-wide
-                    text-gray-700 dark:text-blue-100
-                    group-hover:text-blue-700 dark:group-hover:text-blue-200
-                    transition-all duration-300"
-                  >
-                    {item.label}
-                  </span>
+                    {/* Icon container với style active */}
+                    <div className={`relative flex items-center justify-center size-9 
+                      rounded-lg mr-3 transition-colors duration-300
+                      border border-blue-200 dark:border-blue-700
+                      ${isActive 
+                        ? 'bg-blue-200/80 dark:bg-blue-800/80 border-blue-300 dark:border-blue-600' 
+                        : 'bg-blue-100/80 dark:bg-blue-900/50'
+                      }`}
+                    >
+                      <item.icon className={`size-5 transition-colors duration-300
+                        ${isActive
+                          ? 'text-blue-700 dark:text-blue-200'
+                          : 'text-blue-600 dark:text-blue-300'
+                        }`}
+                      />
+                    </div>
 
-                  {/* Indicator line */}
-                  <div className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
-                    transform translate-x-full group-hover:translate-x-0
-                    transition-transform duration-300 rounded-l-full"
-                  />
-                </Link>
-              </li>
-            ))}
+                    {/* Label với style active */}
+                    <span className={`relative font-medium tracking-wide transition-all duration-300
+                      ${isActive
+                        ? 'text-blue-700 dark:text-blue-200'
+                        : 'text-gray-700 dark:text-blue-100'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+
+                    {/* Indicator line chỉ hiện khi active */}
+                    {isActive && (
+                      <div className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
+                        rounded-l-full"
+                      />
+                    )}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
         </nav>
 
