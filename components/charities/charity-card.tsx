@@ -24,7 +24,7 @@ interface CharityCardProps {
 
 export function CharityCard({ charity }: CharityCardProps) {
   return (
-    <Card>
+    <Card className="flex flex-col h-full">
       <CardHeader className="relative">
         <div className="relative aspect-video overflow-hidden rounded-t-lg">
           <Image
@@ -35,12 +35,11 @@ export function CharityCard({ charity }: CharityCardProps) {
           />
         </div>
         <Badge 
-          variant={
-            charity.verification_status === 'VERIFIED' 
-              ? "success" 
-              : charity.verification_status === 'REJECTED'
-              ? "destructive"
-              : "warning"
+          variant={charity.verification_status === 'VERIFIED' 
+            ? "success" 
+            : charity.verification_status === 'REJECTED'
+            ? "destructive"
+            : "warning"
           } 
           className="absolute right-2 top-2"
         >
@@ -52,7 +51,7 @@ export function CharityCard({ charity }: CharityCardProps) {
           }
         </Badge>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col flex-grow">
         <h3 className="mb-2 text-lg font-semibold">{charity.name}</h3>
         <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
           {charity.description}
@@ -66,7 +65,7 @@ export function CharityCard({ charity }: CharityCardProps) {
           <div>{charity.totalDonations.toLocaleString()} lượt đóng góp</div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-center">
         <Button asChild className="w-full">
           <Link href={`/dashboard/charities/${charity.id}`}>Xem chi tiết</Link>
         </Button>
