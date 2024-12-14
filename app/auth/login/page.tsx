@@ -94,6 +94,15 @@ export default function Login() {
               </div>
             )}
 
+            <div className="flex items-center justify-between mt-4 mb-6">
+              <Link
+                href="/auth/reset-password"
+                className="text-sm text-primary hover:underline dark:text-primary-400"
+              >
+                Quên mật khẩu?
+              </Link>
+            </div>
+
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 dark:hover:bg-primary/90"
