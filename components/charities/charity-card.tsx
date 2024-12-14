@@ -52,17 +52,23 @@ export function CharityCard({ charity }: CharityCardProps) {
         </Badge>
       </CardHeader>
       <CardContent className="flex flex-col flex-grow">
-        <h3 className="mb-2 text-lg font-semibold">{charity.name}</h3>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-lg font-semibold">{charity.name}</h3>
+          <div className="flex items-center text-sm text-muted-foreground">
+            <Star className="mr-1 size-4 fill-yellow-400 text-yellow-400" />
+            <span>{charity.rating}/5</span>
+          </div>
+        </div>
         <p className="mb-4 line-clamp-2 text-sm text-muted-foreground">
           {charity.description}
         </p>
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <Star className="mr-1 size-4 fill-yellow-400 text-yellow-400" />
             <span>{charity.rating}/5</span>
-          </div>
+          </div> */}
           <div>{charity.totalCampaigns} chiến dịch</div>
-          <div>{charity.totalDonations.toLocaleString()} lượt đóng góp</div>
+          <div>{charity.totalDonations.toLocaleString()} VNĐ đóng góp</div>
         </div>
       </CardContent>
       <CardFooter className="flex justify-center">
