@@ -53,13 +53,19 @@ export function CommentList({ comments }: { comments: Comment[] }) {
           key={comment.id}
           className="flex gap-4 rounded-lg border bg-card p-4"
         >
-          {/* Avatar placeholder */}
-          <div className="flex size-10 items-center justify-center rounded-full bg-muted">
-            <img
-              src={comment.user.avatar}
-              alt={comment.user.name}
-              className="size-full object-cover"
-            />
+          <div className="flex size-10 items-center justify-center rounded-full bg-muted overflow-hidden">
+            {comment.user.avatar ? (
+              <img
+                src={comment.user.avatar}
+                alt={comment.user.name}
+                className="size-full object-cover"
+              />
+            ) : (
+              // Placeholder khi không có avatar
+              <span className="text-lg font-medium text-muted-foreground">
+                {comment.user.name.charAt(0)}
+              </span>
+            )}
           </div>
 
           <div className="flex-1">
