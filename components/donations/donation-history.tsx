@@ -1,35 +1,44 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 
 import { DonationFilter } from "./donation-filter"
 import { DonationList } from "./donation-list"
+import { DonationHistoryResponse } from "@/types/donation"
+import apiClient from "@/lib/api-client"
 
-interface DonationHistoryProps {
-  data?: {
-    donations: Array<{
-      id: string
-      amount: number
-      campaign: {
-        id: string
-        name: string
-        charity: {
-          name: string
-        }
-      }
-      status: "pending" | "completed" | "failed"
-      createdAt: string
-      paymentMethod: string
-    }>
-  }
-}
-
-export function DonationHistory({ data }: DonationHistoryProps) {
+export function DonationHistory() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<DonationHistoryResponse["data"] | null>(null)
   const [filter, setFilter] = useState({
     status: "all",
     dateRange: "all",
     campaign: "",
   })
+
+  useEffect(() => {
+    const fetchDonations = async () => {
+      try {
+        const response = await apiClient.get<DonationHistoryResponse>(
+          "/api/donor/donations"
+        )
+        setData(response.data)
+      } catch (error) {
+        console.error("Error fetching donations:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchDonations()
+  }, [])
+
+  if (loading) {
+    return <div>Đang tải...</div>
+  }
 
   return (
     <div className="space-y-6">
@@ -38,7 +47,7 @@ export function DonationHistory({ data }: DonationHistoryProps) {
         <DonationFilter filter={filter} onChange={setFilter} />
       </div>
 
-      <DonationList donations={data?.donations || []} filter={filter} />
+      <DonationList donations={data?.donations || []} />
     </div>
   )
 }

@@ -1,40 +1,20 @@
 "use client"
 
 import Link from "next/link"
+import { CalendarIcon, CreditCard, User, Building2 } from "lucide-react"
 
-import { formatDate } from "@/lib/utils"
+import { formatDate, formatAmount } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import { Card } from "@/components/ui/card"
+import { DonationHistory } from "@/types/donation"
+import { Separator } from "@/components/ui/separator"
 
 interface DonationListProps {
-  donations: Array<{
-    id: string
-    amount: number
-    transaction_code: string
-    campaign: {
-      id: string
-      name: string
-      charity: {
-        name: string
-      }
-    }
-    status: "pending" | "completed" | "failed"
-    createdAt: string
-    paymentMethod: {
-      name: string
-    }
-  }>
-  filter: {
-    status: string
-    dateRange: string
-    campaign: string
-  }
+  donations: DonationHistory[]
 }
 
-export function DonationList({ donations, filter }: DonationListProps) {
-  // Thêm logic filter sau
-  const filteredDonations = donations
-
-  if (filteredDonations.length === 0) {
+export function DonationList({ donations }: DonationListProps) {
+  if (donations.length === 0) {
     return (
       <div className="py-12 text-center text-muted-foreground">
         Chưa có khoản đóng góp nào
@@ -44,31 +24,76 @@ export function DonationList({ donations, filter }: DonationListProps) {
 
   return (
     <div className="space-y-4">
-      {filteredDonations.map((donation) => (
-        <div key={donation.id} className="rounded-lg border bg-card p-4 dark:bg-gray-800 dark:border-gray-700">
-          <div className="mb-2 flex items-center justify-between">
-            <Link
-              href={`/dashboard/campaigns/${donation.campaign.id}`}
-              className="text-lg font-semibold hover:underline dark:text-gray-100"
-            >
-              {donation.campaign.name}
-            </Link>
-            <Badge variant={getStatusVariant(donation.status)}>
-              {getStatusLabel(donation.status)}
-            </Badge>
-          </div>
+      {donations.map((donation) => (
+        <Card key={donation.id} className="p-6">
+          <div className="flex flex-col space-y-4">
+            {/* Header */}
+            <div className="flex items-start justify-between">
+              <div className="space-y-1">
+                <Link
+                  href={`/dashboard/campaigns/${donation.id}`}
+                  className="text-lg font-semibold hover:underline"
+                >
+                  {donation.campaignTitle}
+                </Link>
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Building2 className="mr-2 h-4 w-4" />
+                  {donation.charityTitle}
+                </div>
+              </div>
+              <Badge variant={getStatusVariant(donation.status)}>
+                {getStatusLabel(donation.status)}
+              </Badge>
+            </div>
 
-          <div className="mb-4 text-sm text-muted-foreground dark:text-gray-400">
-            <p>Tổ chức: {donation.campaign.charity.name}</p>
-            <p>Mã giao dịch: {donation.transaction_code}</p>
-            <p>Thời gian: {formatDate(donation.createdAt)}</p>
-            <p>Phương thức: {donation.paymentMethod.name}</p>
-          </div>
+            <Separator />
 
-          <div className="text-xl font-bold dark:text-gray-100">
-            {formatAmount(donation.amount)} VNĐ
+            {/* Details */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <div className="flex items-center text-sm">
+                  <CreditCard className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Phương thức:</span>
+                  <span className="ml-2 font-medium">{donation.paymentMethod}</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <CalendarIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Thời gian:</span>
+                  <span className="ml-2 font-medium">
+                    {formatDate(donation.createdAt)}
+                  </span>
+                </div>
+                {donation.note && (
+                  <div className="text-sm">
+                    <span className="text-muted-foreground">Ghi chú:</span>
+                    <span className="ml-2">{donation.note}</span>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center text-sm">
+                  <span className="text-muted-foreground">Mã giao dịch:</span>
+                  <span className="ml-2 font-medium">{donation.transactionId}</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <User className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <span className="text-muted-foreground">Hiển thị:</span>
+                  <span className="ml-2 font-medium">
+                    {donation.isAnonymous ? "Ẩn danh" : "Công khai"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Amount */}
+            <div className="flex justify-end">
+              <div className="text-xl font-bold text-primary">
+                {formatAmount(donation.amount)} VNĐ
+              </div>
+            </div>
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   )
@@ -76,11 +101,11 @@ export function DonationList({ donations, filter }: DonationListProps) {
 
 function getStatusVariant(status: string) {
   switch (status) {
-    case "completed":
+    case "SUCCESS":
       return "success"
-    case "pending":
+    case "PENDING":
       return "warning"
-    case "failed":
+    case "FAILED":
       return "destructive"
     default:
       return "default"
@@ -89,17 +114,13 @@ function getStatusVariant(status: string) {
 
 function getStatusLabel(status: string) {
   switch (status) {
-    case "completed":
-      return "Đã hoàn thành"
-    case "pending":
+    case "SUCCESS":
+      return "Thành công"
+    case "PENDING":
       return "Đang xử lý"
-    case "failed":
+    case "FAILED":
       return "Thất bại"
     default:
       return status
   }
-}
-
-function formatAmount(amount: number) {
-  return new Intl.NumberFormat("vi-VN").format(amount)
 }
