@@ -63,7 +63,7 @@ interface Campaign {
   id: string
   title: string
   description: string
-  detail_goal: string
+  detailGoal: string
   status: "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
   images: string[]
   timeline: {
@@ -478,7 +478,7 @@ export default function CampaignDetailPage({
                 <CardContent className="prose dark:prose-invert max-w-none pt-6">
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: renderMarkdown(campaign.detail_goal),
+                      __html: renderMarkdown(campaign.detailGoal),
                     }}
                   />
                 </CardContent>
