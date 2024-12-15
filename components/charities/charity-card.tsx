@@ -26,14 +26,15 @@ export function CharityCard({ charity }: CharityCardProps) {
   return (
     <Card className="flex flex-col h-full">
       <CardHeader className="relative">
-        <div className="relative aspect-video overflow-hidden rounded-t-lg">
-          <Image
-            src={charity.logo}
-            alt={charity.name}
-            fill
-            className="object-cover"
-          />
-        </div>
+      <div className="relative aspect-square overflow-hidden rounded-full">
+        <Image
+          src={charity.logo}
+          alt={charity.name}
+          fill
+          className="object-cover object-center"
+        />
+      </div>
+
         <Badge 
           variant={charity.verification_status === 'VERIFIED' 
             ? "success" 

@@ -238,9 +238,9 @@ export default function CampaignDetailPage({
         {/* Left side - Basic info */}
         <Card className="md:col-span-2">
           <CardContent className="flex h-full flex-col p-6">
-            <div className="grid h-full gap-6 md:grid-cols-2">
+          <div className="grid h-full gap-6 md:grid-cols-2">
               {/* Ảnh minh họa */}
-              <div className="relative aspect-video overflow-hidden rounded-lg">
+              <div className="relative h-full overflow-hidden rounded-lg">
                 <Image
                   src={campaign.images}
                   alt={campaign.title}
@@ -250,7 +250,7 @@ export default function CampaignDetailPage({
               </div>
 
               {/* Thông tin bên phải */}
-              <div className="flex flex-col justify-between space-y-4">
+              <div className="flex flex-col justify-between space-y-4 h-full">
                 {/* Thời gian */}
                 <div className="rounded-lg border bg-card p-4">
                   <h3 className="mb-2 font-medium">Thời gian</h3>

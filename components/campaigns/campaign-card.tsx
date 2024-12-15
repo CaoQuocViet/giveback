@@ -16,18 +16,15 @@ interface CampaignCardProps {
 export function CampaignCard({ campaign }: CampaignCardProps) {
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
-      <div className="relative aspect-video">
+      <div className="relative aspect-square overflow-hidden">
         <Image
-          src={
-            campaign.campaign_image
-              ? `${campaign.campaign_image}`
-              : "/campaign-placeholder.jpg"
-          }
+          src={campaign.campaign_image ? campaign.campaign_image : "/campaign-placeholder.jpg"}
           alt={campaign.title}
           fill
-          className="object-cover"
+          className="object-cover object-center"
         />
       </div>
+
 
       <CardContent className="p-6">
         <div className="space-y-4">

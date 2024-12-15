@@ -17,6 +17,7 @@ import { formatAmount, formatDate } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query"
 import { CharityDetailResponse } from "@/types/charity-detail"
 import { useAuth } from "@/hooks/useAuth"
+import ImageModal from "@/components/image-modal"
 
 const getCharityDetail = async (id: string): Promise<CharityDetailResponse> => {
   const token = Cookies.get("auth_token")
@@ -42,6 +43,7 @@ export default function CharityDetailPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
   const { toast } = useToast()
+  const [showLicenseModal, setShowLicenseModal] = useState(false)
 
   // Kiểm tra role admin
   const isAdmin = user?.role === 'ADMIN'
@@ -168,12 +170,12 @@ export default function CharityDetailPage() {
       <div className="mb-6 rounded-xl bg-white dark:bg-black p-6 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
         <div className="flex items-start gap-6">
           {/* Avatar với kích thước cố định và căn chỉnh */}
-          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700">
+          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700 flex justify-center items-center">
             <Image
               src={charity.user?.profileImage || '/placeholder.png'}
               alt={charity.title || 'Charity'}
               fill
-              className="object-cover"
+              className="object-cover object-center"
             />
           </div>
 
@@ -274,7 +276,7 @@ export default function CharityDetailPage() {
                     <Phone className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
                       <div className="font-medium dark:text-gray-200">Điện thoại</div>
-                      <div className="dark:text-gray-400">{charity.user?.phone || 'Chưa cập nh��t'}</div>
+                      <div className="dark:text-gray-400">{charity.user?.phone || 'Chưa cập nhật'}</div>
                     </div>
                   </div>
                 </div>
@@ -357,7 +359,8 @@ export default function CharityDetailPage() {
                     src={charity.licenseImageUrl || '/placeholder.png'}
                     alt="Giấy phép hoạt động"
                     fill
-                    className="object-cover"
+                    className="object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                    onClick={() => setShowLicenseModal(true)}
                   />
                 </div>
               </div>
@@ -426,6 +429,14 @@ export default function CharityDetailPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Thêm Modal */}
+      {showLicenseModal && (
+        <ImageModal
+          imageUrl={charity.licenseImageUrl || '/placeholder.png'}
+          onClose={() => setShowLicenseModal(false)}
+        />
+      )}
     </div>
   )
 }
