@@ -6,6 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Check, Facebook, Mail, MapPin, Phone, Star, Twitter, XCircle, Youtube } from "lucide-react"
 import Cookies from "js-cookie"
+import { useToast } from "@/components/ui/use-toast"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -40,6 +41,7 @@ export default function CharityDetailPage() {
   const { id } = useParams()
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
+  const { toast } = useToast()
 
   // Kiểm tra role admin
   const isAdmin = user?.role === 'ADMIN'
@@ -80,14 +82,68 @@ export default function CharityDetailPage() {
     (charity.verificationStatus === 'PENDING' || charity.verificationStatus === 'VERIFIED')
 
   // Handlers cho các nút (tạm thời console.log)
-  const handleVerify = () => {
-    console.log('Verify charity:', charity.id)
-    // TODO: Implement API call
+  const handleVerify = async () => {
+    try {
+      const token = Cookies.get('auth_token')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/verify`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to verify charity')
+      }
+
+      toast({
+        title: "Thành công",
+        description: "Đã xác thực tổ chức thành công",
+      })
+
+      // Refresh data
+      await queryClient.invalidateQueries(['charity', id])
+
+    } catch (error) {
+      console.error('Error verifying charity:', error)
+      toast({
+        title: "Lỗi",
+        description: "Không thể xác thực tổ chức. Vui lòng thử lại sau.",
+        variant: "destructive"
+      })
+    }
   }
 
-  const handleReject = () => {
-    console.log('Reject charity:', charity.id)
-    // TODO: Implement API call
+  const handleReject = async () => {
+    try {
+      const token = Cookies.get('auth_token')
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/reject`, {
+        method: 'PATCH',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to reject charity')
+      }
+
+      toast({
+        title: "Thành công",
+        description: "Đã từ chối xác thực tổ chức",
+      })
+
+      // Refresh data
+      await queryClient.invalidateQueries(['charity', id])
+
+    } catch (error) {
+      console.error('Error rejecting charity:', error)
+      toast({
+        title: "Lỗi",
+        description: "Không thể từ chối xác thực tổ chức. Vui lòng thử lại sau.",
+        variant: "destructive"
+      })
+    }
   }
 
   const totalCampaigns = charity.campaigns.length
@@ -218,7 +274,7 @@ export default function CharityDetailPage() {
                     <Phone className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
                       <div className="font-medium dark:text-gray-200">Điện thoại</div>
-                      <div className="dark:text-gray-400">{charity.user?.phone || 'Chưa cập nhật'}</div>
+                      <div className="dark:text-gray-400">{charity.user?.phone || 'Chưa cập nh��t'}</div>
                     </div>
                   </div>
                 </div>

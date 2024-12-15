@@ -63,7 +63,7 @@ export function CommentList({ comments }: { comments: Comment[] }) {
             ) : (
               // Placeholder khi không có avatar
               <span className="text-lg font-medium text-muted-foreground">
-                {comment.user.name.charAt(0)}
+                {comment.user?.name? comment.user.name.charAt(0): ""}
               </span>
             )}
           </div>

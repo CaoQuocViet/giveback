@@ -41,6 +41,22 @@ interface Comment {
   created_at: string
 }
 
+interface CampaignDonation {
+  id: string
+  donor: {
+    name: string
+    role: string
+    avatar: string | null
+  }
+  amount: number
+  message: string | null
+  payment_method: string
+  invoice_code: string | null
+  transaction_id: string | null
+  status: 'PENDING' | 'SUCCESS' | 'FAILED'
+  created_at: string
+}
+
 // Cập nhật interface theo database schema
 interface Campaign {
   id: string
@@ -84,6 +100,7 @@ interface Campaign {
     }
   }>
   comments: Comment[]
+  donations: CampaignDonation[]
 }
 
 // Thêm hàm helper để xử lý markdown an toàn
@@ -407,10 +424,16 @@ export default function CampaignDetailPage({
                 Kế hoạch chi tiết
               </TabsTrigger>
               <TabsTrigger
+                value="donations"
+                className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
+              >
+                Danh sách đóng góp
+              </TabsTrigger>
+              <TabsTrigger
                 value="distributions"
                 className="dark:text-gray-300 dark:data-[state=active]:bg-gray-600"
               >
-                Phân phối
+                Phân phối cứu trợ
               </TabsTrigger>
               <TabsTrigger
                 value="comments"
@@ -440,6 +463,64 @@ export default function CampaignDetailPage({
                       __html: renderMarkdown(campaign.detail_goal),
                     }}
                   />
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="donations">
+              <Card>
+                <CardContent className="space-y-4">
+                  <div className="space-y-4">
+                    {campaign.donations.map((donation) => (
+                      <div key={donation.id} className="flex items-start space-x-4 p-4 border rounded-lg">
+                        <div className="relative h-10 w-10 flex-shrink-0">
+                          {donation.donor.avatar ? (
+                            <Image
+                              src={donation.donor.avatar}
+                              alt={donation.donor.name}
+                              fill
+                              className="rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-full w-full rounded-full bg-secondary flex items-center justify-center">
+                              <Users className="h-5 w-5" />
+                            </div>
+                          )}
+                        </div>
+                        
+                        <div className="flex-1 space-y-1">
+                          <div className="flex items-center justify-between">
+                            <div className="font-medium">{donation.donor.name}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {formatDate(donation.created_at)}
+                            </div>
+                          </div>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Badge variant={donation.status === 'SUCCESS' ? 'default' : 'secondary'}>
+                              {formatAmount(donation.amount)} VNĐ
+                            </Badge>
+                            <Badge variant="outline">{donation.payment_method}</Badge>
+                          </div>
+                          
+                          {donation.message && (
+                            <p className="text-sm text-muted-foreground">{donation.message}</p>
+                          )}
+                          
+                          {donation.status === 'SUCCESS' && donation.transaction_id && (
+                            <div className="text-xs text-muted-foreground">
+                              Mã giao dịch: {donation.transaction_id}
+                            </div>
+                          )}
+                          {donation.invoice_code && (
+                            <div className="text-xs text-muted-foreground">
+                              Mã hóa đơn: {donation.invoice_code}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

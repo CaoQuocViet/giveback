@@ -11,7 +11,7 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { Providers } from "./providers"
-import { Toaster } from "sonner"
+import { Toaster } from "@/components/ui/toaster"
 
 export const metadata: Metadata = {
   title: {
