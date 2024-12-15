@@ -29,6 +29,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { DonateButton } from "@/components/campaigns/donate-button"
 import { CommentList } from "@/components/reports/comment-list"
 import { toast } from "react-hot-toast"
+import { CampaignStatement } from "@/components/donations/campaign-statement"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
 interface Comment {
   id: string
@@ -124,6 +126,7 @@ export default function CampaignDetailPage({
     content: "",
     rating: 0,
   })
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   useEffect(() => {
     const fetchCampaignDetail = async () => {
@@ -196,6 +199,10 @@ export default function CampaignDetailPage({
     } finally {
       setSubmitting(false)
     }
+  }
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen)
   }
 
   if (loading) return <div>Loading...</div>
@@ -376,10 +383,18 @@ export default function CampaignDetailPage({
                   />
                 )}
 
-                <Button variant="outline" className="w-full">
-                  <FileText className="mr-2 size-4" />
-                  Sao kê
-                </Button>
+                <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full" onClick={toggleDropdown}>
+                      <FileText className="mr-2 size-4" />
+                      Sao kê
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleExportExcel(campaign)}>Tải Excel</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleExportPDF(campaign)}>Tải PDF</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
                 <Button
                   variant="outline"
@@ -644,4 +659,14 @@ function getStatusLabel(status: string) {
     default:
       return status
   }
+}
+
+// Function to handle Excel export
+const handleExportExcel = (campaign: any) => {
+  CampaignStatement.exportExcel(campaign)
+}
+
+// Function to handle PDF export
+const handleExportPDF = (campaign: any) => {
+  CampaignStatement.exportPDF(campaign)
 }
