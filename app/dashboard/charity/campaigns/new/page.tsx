@@ -6,20 +6,136 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useSession } from "next-auth/react"
 import { AddressFields } from "@/components/profile/address-fields"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { toast } from "sonner"
+import { useAuth } from "@/hooks/useAuth"
+import Cookies from "js-cookie"
+
+// Interface cho form data
+interface CampaignFormData {
+  title: string
+  description: string
+  detailGoal: string
+  targetAmount: string
+  startDate: string
+  endDate: string
+  province: string
+  district: string
+  ward: string
+  address: string
+  image?: File
+}
 
 export default function NewCampaignPage() {
-  const { data: session } = useSession()
   const router = useRouter()
-  const [addressData, setAddressData] = useState({
+  const { user, isAuthenticated, loading } = useAuth()
+  const [formData, setFormData] = useState<CampaignFormData>({
+    title: "",
+    description: "",
+    detailGoal: "",
+    targetAmount: "",
+    startDate: "",
+    endDate: "",
     province: "",
     district: "",
     ward: "",
     address: ""
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
+  // Kiểm tra authentication
+  useEffect(() => {
+    if (!loading) {
+      if (!isAuthenticated) {
+        router.push("/auth/login")
+        return
+      }
+
+      if (user?.role !== "CHARITY") {
+        router.push("/dashboard")
+        return
+      }
+    }
+  }, [loading, isAuthenticated, user, router])
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        image: e.target.files![0]
+      }))
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    
+    try {
+      setIsSubmitting(true)
+
+      // Validate required fields
+      if (!formData.title || !formData.targetAmount || !formData.startDate || !formData.endDate) {
+        toast.error("Vui lòng điền đầy đủ thông tin bắt buộc")
+        return
+      }
+
+      // Get token
+      const token = Cookies.get("auth_token")
+      if (!token) {
+        toast.error("Vui lòng đăng nhập lại")
+        router.push("/auth/login")
+        return
+      }
+
+      // Create FormData object
+      const formDataToSend = new FormData()
+      formDataToSend.append("title", formData.title)
+      formDataToSend.append("description", formData.description)
+      formDataToSend.append("detailGoal", formData.detailGoal)
+      formDataToSend.append("targetAmount", formData.targetAmount)
+      formDataToSend.append("startDate", formData.startDate)
+      formDataToSend.append("endDate", formData.endDate)
+      formDataToSend.append("province", formData.province)
+      formDataToSend.append("district", formData.district)
+      formDataToSend.append("ward", formData.ward)
+      formDataToSend.append("address", formData.address)
+
+      // Append image if exists
+      if (formData.image) {
+        formDataToSend.append("image", formData.image)
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charity/campaigns`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formDataToSend
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || "Đã có lỗi xảy ra")
+      }
+
+      toast.success("Tạo chiến dịch thành công")
+      router.push("/dashboard/charity/campaigns")
+
+    } catch (error) {
+      console.error("Create campaign error:", error)
+      toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Show loading while checking auth
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  // Rest of your JSX remains the same, just update the button states
   return (
     <div className="container mx-auto py-6 space-y-6">
       <Card className="p-6">
@@ -28,13 +144,15 @@ export default function NewCampaignPage() {
             Tạo chiến dịch mới
           </h2>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Tên chiến dịch */}
             <div className="space-y-2">
               <Label htmlFor="title">Tên chiến dịch</Label>
               <Input
                 id="title"
                 placeholder="Nhập tên chiến dịch"
+                value={formData.title}
+                onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
               />
             </div>
 
@@ -45,6 +163,8 @@ export default function NewCampaignPage() {
                 <Input
                   id="startDate"
                   type="date"
+                  value={formData.startDate}
+                  onChange={e => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
                 />
               </div>
               <div className="space-y-2">
@@ -52,6 +172,8 @@ export default function NewCampaignPage() {
                 <Input
                   id="endDate"
                   type="date"
+                  value={formData.endDate}
+                  onChange={e => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
                 />
               </div>
             </div>
@@ -63,6 +185,8 @@ export default function NewCampaignPage() {
                 id="targetAmount"
                 type="number"
                 placeholder="Nhập số tiền"
+                value={formData.targetAmount}
+                onChange={e => setFormData(prev => ({ ...prev, targetAmount: e.target.value }))}
               />
             </div>
 
@@ -74,6 +198,8 @@ export default function NewCampaignPage() {
                 rows={5}
                 placeholder="Mô tả tổng quan về mục đích, đối tượng và phạm vi của chiến dịch..."
                 className="resize-none"
+                value={formData.description}
+                onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
               />
             </div>
 
@@ -85,6 +211,8 @@ export default function NewCampaignPage() {
                 rows={8}
                 placeholder="Mô tả chi tiết các giai đoạn thực hiện, phân bổ nguồn lực và kết quả dự kiến..."
                 className="resize-none"
+                value={formData.detailGoal}
+                onChange={e => setFormData(prev => ({ ...prev, detailGoal: e.target.value }))}
               />
             </div>
 
@@ -92,9 +220,15 @@ export default function NewCampaignPage() {
             <div className="space-y-2">
               <Label>Địa điểm triển khai</Label>
               <AddressFields
-                defaultValues={addressData}
+                defaultValues={formData}
                 onChange={(values) => {
-                  setAddressData(values)
+                  setFormData(prev => ({
+                    ...prev,
+                    province: values.province,
+                    district: values.district,
+                    ward: values.ward,
+                    address: values.address
+                  }))
                 }}
               />
             </div>
@@ -105,12 +239,12 @@ export default function NewCampaignPage() {
               <Input
                 id="image"
                 type="file"
-                multiple
                 accept="image/*"
                 className="cursor-pointer"
+                onChange={handleFileChange}
               />
               <p className="text-sm text-muted-foreground">
-                Có thể chọn nhiều ảnh
+                Chỉ được chọn 1 hình ảnh
               </p>
             </div>
 
@@ -120,10 +254,13 @@ export default function NewCampaignPage() {
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
+                disabled={isSubmitting}
               >
                 Hủy
               </Button>
-              <Button type="submit">Tạo mới</Button>
+              <Button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Đang tạo..." : "Tạo mới"}
+              </Button>
             </div>
           </form>
         </div>
