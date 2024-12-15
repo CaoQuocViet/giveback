@@ -19,8 +19,8 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
       <div className="relative aspect-video">
         <Image
           src={
-            campaign.campaignImage
-              ? `${process.env.NEXT_PUBLIC_API_URL}/storage/campaigns/${campaign.campaignImage}`
+            campaign.campaign_image
+              ? `${campaign.campaign_image}`
               : "/campaign-placeholder.jpg"
           }
           alt={campaign.title}

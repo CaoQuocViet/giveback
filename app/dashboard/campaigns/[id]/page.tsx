@@ -67,7 +67,7 @@ interface Campaign {
   description: string
   detailGoal: string
   status: "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
-  images: string[]
+  images: string
   timeline: {
     start_date: string
     end_date: string
@@ -242,7 +242,7 @@ export default function CampaignDetailPage({
               {/* Ảnh minh họa */}
               <div className="relative aspect-video overflow-hidden rounded-lg">
                 <Image
-                  src="/campaign-image.jpg"
+                  src={campaign.images}
                   alt={campaign.title}
                   fill
                   className="object-cover"
