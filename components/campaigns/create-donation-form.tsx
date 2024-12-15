@@ -6,6 +6,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { toast } from "sonner"
+
+// Cập nhật interface để khớp với model
+interface DonationData {
+  campaignId: string;
+  amount: number;
+  note: string | null;
+  isAnonymous: boolean;
+  status: 'SUCCESS';
+  isIntermediate: boolean;
+}
 
 interface CreateDonationFormProps {
   campaigns: Array<{id: string, title: string, status: string}>
@@ -27,22 +38,48 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
     // Validate amount
     const amount = Number(formData.amount)
     if (isNaN(amount) || amount <= 0) {
-      alert("Số tiền không hợp lệ")
+      toast.error("Số tiền không hợp lệ")
       return
     }
 
-    // TODO: Call API với system donor
-    const donationData = {
-      campaign_id: formData.campaignId,
-      donor_id: "system_donor", // System donor ID
+    // Map form data to match API expectations
+    const donationData: DonationData = {
+      campaignId: formData.campaignId,
       amount: amount,
       note: formData.note || null,
-      is_anonymous: false, // Luôn false vì dùng tên mặc định
-      status: "SUCCESS" // Vì là đóng góp trực tiếp nên set luôn SUCCESS
+      isAnonymous: false,
+      status: 'SUCCESS',
+      isIntermediate: true
     }
 
-    // TODO: Implement API call
-    console.log("Submitting donation:", donationData)
+    try {
+      console.log("Sending donation data:", donationData) // Debug log
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-donor/donations`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(donationData),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.message || 'Failed to create donation')
+      }
+
+      toast.success("Tạo khoản đóng góp thành công")
+      // Reset form
+      setFormData({
+        campaignId: "",
+        amount: "",
+        note: ""
+      })
+    } catch (error) {
+      console.error("Error creating donation:", error)
+      toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra khi tạo khoản đóng góp")
+    }
   }
 
   return (
@@ -52,7 +89,10 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
         <Select
           required
           value={formData.campaignId}
-          onValueChange={(value) => setFormData({...formData, campaignId: value})}
+          onValueChange={(value) => {
+            console.log("Selected campaign ID:", value) // Debug log
+            setFormData({...formData, campaignId: value})
+          }}
         >
           <SelectTrigger>
             <SelectValue placeholder="Chọn chiến dịch đóng góp" />

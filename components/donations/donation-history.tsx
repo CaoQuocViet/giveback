@@ -8,7 +8,6 @@ import * as XLSX from 'xlsx'
 import html2pdf from 'html2pdf.js'
 
 // Import font
-import { font as TNR } from '@/lib/fonts/times-new-roman-unicode'
 
 import { DonationFilter } from "./donation-filter"
 import { DonationList } from "./donation-list"
