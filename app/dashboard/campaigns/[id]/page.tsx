@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { DonateButton } from "@/components/campaigns/donate-button"
 import { CommentList } from "@/components/reports/comment-list"
+import { toast } from "react-hot-toast"
 
 interface Comment {
   id: string
@@ -85,7 +86,7 @@ interface Campaign {
     name: string
     representative: string
   }
-  share_url: string
+  shareUrl: string
   distributions: Array<{
     title: string
     description: string
@@ -380,7 +381,24 @@ export default function CampaignDetailPage({
                   Sao kê
                 </Button>
 
-                <Button variant="outline" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    if (campaign.shareUrl) {
+                      navigator.clipboard.writeText(campaign.shareUrl)
+                        .then(() => {
+                          toast.success("Link đã được sao chép vào clipboard!");
+                        })
+                        .catch(err => {
+                          console.error("Failed to copy: ", err);
+                          toast.error("Failed to copy link.");
+                        });
+                    } else {
+                      toast.error("No link available to copy.");
+                    }
+                  }}
+                >
                   <Share2 className="mr-2 size-4" />
                   Chia sẻ
                 </Button>
