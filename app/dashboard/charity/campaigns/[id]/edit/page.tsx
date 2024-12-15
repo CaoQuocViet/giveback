@@ -14,23 +14,28 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { CampaignEditData } from "@/types/campaign-edit"
+import apiClient from "@/lib/api-client"
+import { API_ENDPOINTS } from "@/lib/api-config"
 
-// Mock data - sẽ được thay thế bằng API call
-const mockCampaign = {
-  id: "1",
-  title: "Hỗ trợ đồng bào miền Trung",
-  status: "ONGOING",
-  startDate: "2024-03-01",
-  endDate: "2024-04-01",
-  targetAmount: 100000000,
-  description: "Chiến dịch hỗ trợ đồng bào miền Trung bị ảnh hưởng bởi thiên tai, lũ lụt. Tập trung vào các địa phương chịu thiệt hại nặng nề nhất, ưu tiên hỗ trợ các hộ gia đình có hoàn cảnh khó khăn, người già, trẻ em...",
-  detail_goal: "1. Giai đoạn 1 (01/03 - 15/03):\n- Khảo sát thiệt hại tại các địa phương\n- Lập danh sách các hộ cần hỗ trợ\n\n2. Giai đoạn 2 (16/03 - 31/03):\n- Phân bổ nguồn lực\n- Tổ chức các đợt cứu trợ\n\n3. Giai đoạn 3 (01/04):\n- Tổng kết, báo cáo kết quả",
-  images: ["image1.jpg", "image2.jpg"],
-  location: {
-    address: "123 Đường ABC",
-    ward: "Phường XYZ",
-    district: "Quận 1",
-    province: "TP.HCM"
+// Helper function to format ISO date to YYYY-MM-DD
+const formatDateForInput = (isoDate: string) => {
+  try {
+    return new Date(isoDate).toISOString().split('T')[0];
+  } catch (error) {
+    console.error('Error formatting date:', error);
+    return '';
+  }
+}
+
+// Helper function to format YYYY-MM-DD to ISO
+const formatDateForApi = (dateString: string) => {
+  try {
+    return new Date(dateString).toISOString();
+  } catch (error) {
+    console.error('Error formatting date for API:', error);
+    return '';
   }
 }
 
@@ -41,6 +46,48 @@ export default function EditCampaignPage({
 }) {
   const { data: session } = useSession()
   const router = useRouter()
+  const [campaign, setCampaign] = useState<CampaignEditData | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCampaign = async () => {
+      try {
+        const response = await apiClient.get(API_ENDPOINTS.CAMPAIGN_EDIT.GET(params.id))
+        setCampaign(response.data)
+      } catch (error) {
+        console.error('Error fetching campaign:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchCampaign()
+  }, [params.id])
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!campaign) return
+
+    const formData = new FormData(e.currentTarget)
+    const updatedData = {
+      status: formData.get('status'),
+      endDate: formatDateForApi(formData.get('endDate') as string),
+      targetAmount: Number(formData.get('targetAmount')),
+      description: formData.get('description'),
+      detailGoal: formData.get('detail_goal'),
+      images: formData.getAll('image')
+    }
+
+    try {
+      await apiClient.put(API_ENDPOINTS.CAMPAIGN_EDIT.UPDATE(params.id), updatedData)
+      router.push('/dashboard/charity/campaigns')
+    } catch (error) {
+      console.error('Error updating campaign:', error)
+    }
+  }
+
+  if (loading) return <div>Loading...</div>
+  if (!campaign) return <div>Campaign not found</div>
 
   return (
     <div className="container mx-auto py-6 space-y-6">
@@ -50,13 +97,14 @@ export default function EditCampaignPage({
             Chỉnh sửa chiến dịch
           </h2>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Tên chiến dịch - Disabled */}
             <div className="space-y-2">
               <Label htmlFor="title">Tên chiến dịch</Label>
               <Input
                 id="title"
-                defaultValue={mockCampaign.title}
+                name="title"
+                defaultValue={campaign.title}
                 disabled
                 className="bg-muted"
               />
@@ -68,11 +116,12 @@ export default function EditCampaignPage({
             {/* Trạng thái */}
             <div className="space-y-2">
               <Label htmlFor="status">Trạng thái</Label>
-              <Select defaultValue={mockCampaign.status}>
+              <Select defaultValue={campaign.status}>
                 <SelectTrigger>
                   <SelectValue placeholder="Chọn trạng thái" />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="STARTING">Mới tạo</SelectItem>
                   <SelectItem value="ONGOING">Đang kêu gọi</SelectItem>
                   <SelectItem value="CLOSED">Đã đóng</SelectItem>
                   <SelectItem value="COMPLETED">Đã kết thúc</SelectItem>
@@ -89,8 +138,9 @@ export default function EditCampaignPage({
                 <Label htmlFor="startDate">Ngày bắt đầu</Label>
                 <Input
                   id="startDate"
+                  name="startDate"
                   type="date"
-                  defaultValue={mockCampaign.startDate}
+                  defaultValue={formatDateForInput(campaign.startDate)}
                   disabled
                   className="bg-muted"
                 />
@@ -99,8 +149,9 @@ export default function EditCampaignPage({
                 <Label htmlFor="endDate">Ngày kết thúc</Label>
                 <Input
                   id="endDate"
+                  name="endDate"
                   type="date"
-                  defaultValue={mockCampaign.endDate}
+                  defaultValue={formatDateForInput(campaign.endDate)}
                 />
               </div>
             </div>
@@ -111,7 +162,7 @@ export default function EditCampaignPage({
               <Input
                 id="targetAmount"
                 type="number"
-                defaultValue={mockCampaign.targetAmount}
+                defaultValue={campaign.targetAmount}
               />
             </div>
 
@@ -121,7 +172,7 @@ export default function EditCampaignPage({
               <Textarea
                 id="description"
                 rows={5}
-                defaultValue={mockCampaign.description}
+                defaultValue={campaign.description}
                 placeholder="Mô tả tổng quan về mục đích, đối tượng và phạm vi của chiến dịch..."
                 className="resize-none"
               />
@@ -133,7 +184,7 @@ export default function EditCampaignPage({
               <Textarea
                 id="detail_goal"
                 rows={8}
-                defaultValue={mockCampaign.detail_goal}
+                defaultValue={campaign.detailGoal}
                 placeholder="Mô tả chi tiết các giai đoạn thực hiện, phân bổ nguồn lực và kết quả dự kiến..."
                 className="resize-none"
               />
@@ -159,10 +210,10 @@ export default function EditCampaignPage({
               <Label>Địa điểm triển khai</Label>
               <Card className="p-4 bg-muted">
                 <div className="space-y-2 text-sm">
-                  <p>Địa chỉ: {mockCampaign.location.address}</p>
-                  <p>Phường/Xã: {mockCampaign.location.ward}</p>
-                  <p>Quận/Huyện: {mockCampaign.location.district}</p>
-                  <p>Tỉnh/Thành phố: {mockCampaign.location.province}</p>
+                  <p>Địa chỉ: {campaign.location.address}</p>
+                  <p>Phường/Xã: {campaign.location.ward}</p>
+                  <p>Quận/Huyện: {campaign.location.district}</p>
+                  <p>Tỉnh/Thành phố: {campaign.location.province}</p>
                 </div>
               </Card>
             </div>

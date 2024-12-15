@@ -11,6 +11,10 @@ export const API_ENDPOINTS = {
   // Campaigns
   CAMPAIGNS: '/campaigns',
   CAMPAIGN_DETAIL: (id: string) => `/campaigns/${id}`,
+  CAMPAIGN_EDIT: {
+    GET: (id: string) => `/api/campaigns/edit/${id}`,
+    UPDATE: (id: string) => `/api/campaigns/edit/${id}`
+  },
   CAMPAIGN_DONATIONS: (id: string) => `/campaigns/${id}/donations`,
   CAMPAIGN_DISTRIBUTIONS: (id: string) => `/campaigns/${id}/distributions`,
   CAMPAIGN_COMMENTS: (id: string) => `/campaigns/${id}/comments`,
