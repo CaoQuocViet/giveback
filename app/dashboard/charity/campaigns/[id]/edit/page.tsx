@@ -48,6 +48,8 @@ export default function EditCampaignPage({
   const router = useRouter()
   const [campaign, setCampaign] = useState<CampaignEditData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [status, setStatus] = useState(campaign?.status || 'STARTING')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   useEffect(() => {
     const fetchCampaign = async () => {
@@ -68,21 +70,38 @@ export default function EditCampaignPage({
     e.preventDefault()
     if (!campaign) return
 
-    const formData = new FormData(e.currentTarget)
-    const updatedData = {
-      status: formData.get('status'),
-      endDate: formatDateForApi(formData.get('endDate') as string),
-      targetAmount: Number(formData.get('targetAmount')),
-      description: formData.get('description'),
-      detailGoal: formData.get('detail_goal'),
-      images: formData.getAll('image')
+    const formData = new FormData()
+    formData.append('status', status)
+    formData.append('endDate', formatDateForApi(e.currentTarget.endDate.value))
+    formData.append('targetAmount', e.currentTarget.targetAmount.value)
+    formData.append('description', e.currentTarget.description.value)
+    formData.append('detailGoal', e.currentTarget.detailGoal.value)
+
+    if (selectedFile) {
+      formData.append('images', selectedFile)
+    } else {
+      formData.append('images', campaign.images)
     }
 
     try {
-      await apiClient.put(API_ENDPOINTS.CAMPAIGN_EDIT.UPDATE(params.id), updatedData)
+      const response = await apiClient.put(
+        API_ENDPOINTS.CAMPAIGN_EDIT.UPDATE(params.id), 
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
       router.push('/dashboard/charity/campaigns')
     } catch (error) {
       console.error('Error updating campaign:', error)
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0])
     }
   }
 
@@ -116,7 +135,11 @@ export default function EditCampaignPage({
             {/* Trạng thái */}
             <div className="space-y-2">
               <Label htmlFor="status">Trạng thái</Label>
-              <Select defaultValue={campaign.status}>
+              <Select 
+                defaultValue={campaign.status} 
+                onValueChange={setStatus}
+                value={status}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Chọn trạng thái" />
                 </SelectTrigger>
@@ -161,6 +184,7 @@ export default function EditCampaignPage({
               <Label htmlFor="targetAmount">Ngân sách dự kiến (VNĐ)</Label>
               <Input
                 id="targetAmount"
+                name="targetAmount"
                 type="number"
                 defaultValue={campaign.targetAmount}
               />
@@ -171,6 +195,7 @@ export default function EditCampaignPage({
               <Label htmlFor="description">Mô tả chiến dịch</Label>
               <Textarea
                 id="description"
+                name="description"
                 rows={5}
                 defaultValue={campaign.description}
                 placeholder="Mô tả tổng quan về mục đích, đối tượng và phạm vi của chiến dịch..."
@@ -180,9 +205,10 @@ export default function EditCampaignPage({
 
             {/* Kế hoạch chi tiết */}
             <div className="space-y-2">
-              <Label htmlFor="detail_goal">Kế hoạch chi tiết</Label>
+              <Label htmlFor="detailGoal">Kế hoạch chi tiết</Label>
               <Textarea
-                id="detail_goal"
+                id="detailGoal"
+                name="detailGoal"
                 rows={8}
                 defaultValue={campaign.detailGoal}
                 placeholder="Mô tả chi tiết các giai đoạn thực hiện, phân bổ nguồn lực và kết quả dự kiến..."
@@ -192,14 +218,18 @@ export default function EditCampaignPage({
 
             {/* Upload ảnh */}
             <div className="space-y-2">
-              <Label htmlFor="image">Hình ảnh chiến dịch</Label>
+              <Label htmlFor="images">Hình ảnh chiến dịch</Label>
               <Input
-                id="image"
+                id="images"
+                name="images"
                 type="file"
-                multiple
                 accept="image/*"
                 className="cursor-pointer"
+                onChange={handleFileChange}
               />
+              <p className="text-sm text-muted-foreground">
+                {campaign.images ? 'Ảnh hiện tại: ' + campaign.images : 'Chưa có ảnh'}
+              </p>
               <p className="text-sm text-muted-foreground">
                 Chọn ảnh mới để thay thế ảnh cũ
               </p>
