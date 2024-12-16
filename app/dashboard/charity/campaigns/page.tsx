@@ -131,7 +131,7 @@ export default function CharityCampaigns() {
       STARTING: "Khởi động",
       ONGOING: "Đang diễn ra",
       CLOSED: "Đã đóng",
-      COMPLETED: "Hoàn thành"
+      COMPLETED: "Đã kết thúc"
     }
     return statusMap[status]
   }
@@ -139,9 +139,9 @@ export default function CharityCampaigns() {
   const getStatusVariant = (status: CharityCampaign["status"]) => {
     const variantMap = {
       STARTING: "default",
-      ONGOING: "secondary",
-      CLOSED: "destructive",
-      COMPLETED: "success"
+      ONGOING: "success",
+      CLOSED: "warning",
+      COMPLETED: "destructive"
     }
     return variantMap[status]
   }
@@ -156,7 +156,7 @@ export default function CharityCampaigns() {
         <div className="flex gap-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outlined" startIcon={<Heart />}>
+              <Button variant="outlined" className="bg-none hover:bg-blue-500 hover:text-white" startIcon={<Heart />}>
                 Tạo khoản cứu trợ
               </Button>
             </DialogTrigger>
@@ -170,7 +170,7 @@ export default function CharityCampaigns() {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outlined" startIcon={<DollarSign />}>
+              <Button variant="outlined" className="bg-none hover:bg-blue-500 hover:text-white" startIcon={<DollarSign />}>
                 Tạo khoản đóng góp
               </Button>
             </DialogTrigger>

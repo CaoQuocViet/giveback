@@ -32,8 +32,8 @@ interface DonateButtonProps {
 // Mock data - sẽ được thay thế bằng dữ liệu từ API
 const mockPaymentMethods = [
   { id: "1", name: "Ví điện tử MoMo" },
-  { id: "2", name: "Chuyển khoản ngân hàng" },
-  { id: "3", name: "Thẻ tín dụng/ghi nợ" },
+  { id: "2", name: "Ví điện tử Zalopay" },
+  { id: "3", name: "Ví điện tử VNPay" },
 ]
 
 export function DonateButton({

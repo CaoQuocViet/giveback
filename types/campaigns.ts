@@ -44,16 +44,16 @@ export function getStatusLabel(status: string) {
   }
 }
 
-export function getStatusVariant(status: string): "default" | "secondary" | "destructive" | "outline" {
+export function getStatusVariant(status: string): "default" | "success" | "destructive" | "warning" {
   switch (status) {
     case "STARTING":
-      return "secondary"
-    case "ONGOING":
       return "default"
+    case "ONGOING":
+      return "success"
     case "CLOSED":
-      return "destructive"
+      return "warning"
     case "COMPLETED":
-      return "outline"
+      return "destructive"
     default:
       return "default"
   }

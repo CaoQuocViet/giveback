@@ -93,7 +93,7 @@ export default function ReportsPage() {
       type: "campaign",
       data: campaignReport,
       count: stats.campaignCount,
-      color: "bg-blue-800 hover:bg-blue-900"
+      color: "bg-blue-500 text-white hover:bg-blue-600"
     },
     {
       title: "Báo cáo tổ chức",
@@ -102,7 +102,7 @@ export default function ReportsPage() {
       type: "charity",
       data: charityReport,
       count: stats.charityCount,
-      color: "bg-emerald-800 hover:bg-emerald-900"
+      color: "bg-blue-500 text-white hover:bg-blue-600"
     },
     {
       title: "Báo cáo đóng góp",
@@ -111,7 +111,7 @@ export default function ReportsPage() {
       type: "donation",
       data: donationReport,
       count: stats.donorCount,
-      color: "bg-violet-800 hover:bg-violet-900"
+      color: "bg-blue-500 text-white hover:bg-blue-600"
     },
     {
       title: "Báo cáo hỗ trợ",
@@ -120,7 +120,7 @@ export default function ReportsPage() {
       type: "distribution",
       data: distributionReport,
       count: stats.distributionCount,
-      color: "bg-rose-800 hover:bg-rose-900"
+      color: "bg-blue-500 text-white hover:bg-blue-600"
     }
   ]
 
@@ -182,7 +182,7 @@ export default function ReportsPage() {
             <CardContent className="pt-6">
               <div className="text-center mb-6">
                 <span className="text-4xl font-bold text-gray-800">{report.data.length}</span>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-800 dark:text-gray-200 mt-1">
                   {report.type === 'campaign' && 'các chiến dịch'}
                   {report.type === 'charity' && 'các tổ chức'}
                   {report.type === 'donation' && 'những người đóng góp'}
@@ -190,15 +190,14 @@ export default function ReportsPage() {
                 </p>
               </div>
               <div className="flex gap-3">
-                <Button 
-                  className={`flex-1 ${report.color} hover:opacity-90`}
+                <Button
+                  className="flex-1 bg-orange-500 text-white hover:bg-orange-600 transition-all"
                   onClick={() => handleExport(report.type, 'pdf')}
                 >
                   Xuất PDF
                 </Button>
-                <Button 
-                  variant="outline"
-                  className="flex-1 border-2 hover:bg-gray-50"
+                <Button
+                  className="flex-1 bg-emerald-800 text-white hover:bg-emerald-900 transition-all"
                   onClick={() => handleExport(report.type, 'excel')}
                 >
                   Xuất Excel

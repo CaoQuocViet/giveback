@@ -47,7 +47,7 @@ export function CharityCard({ charity }: CharityCardProps) {
           {charity.verification_status === 'VERIFIED' 
             ? "Đã xác minh"
             : charity.verification_status === 'REJECTED'
-            ? "Từ chối"
+            ? "Bị từ chối"
             : "Chờ xác minh"
           }
         </Badge>
@@ -73,7 +73,7 @@ export function CharityCard({ charity }: CharityCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <Button asChild className="w-full">
+        <Button asChild className="w-full bg-blue-500 text-white hover:bg-blue-700">
           <Link href={`/dashboard/charities/${charity.id}`}>Xem chi tiết</Link>
         </Button>
       </CardFooter>

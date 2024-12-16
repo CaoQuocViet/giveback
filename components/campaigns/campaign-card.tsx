@@ -56,7 +56,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             </div>
           </div>
 
-          <Button asChild className="w-full" variant="default">
+          <Button asChild className="w-full bg-blue-500 text-white hover:bg-blue-700">
             <Link href={`/dashboard/campaigns/${campaign.id}`}>
               Xem chi tiết
             </Link>
