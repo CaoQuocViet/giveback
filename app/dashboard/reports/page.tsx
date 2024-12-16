@@ -5,67 +5,62 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FileText, Users, DollarSign, Package } from "lucide-react"
 import axios from "axios"
+import Cookies from 'js-cookie'
 
-interface CampaignReport {
-  id: string
-  title: string
-  status: string
-  totalReceived: number
-  totalDistributed: number
-  donorCount: number
-  distributionCount: number
-}
+// Tạo axios instance với default config
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL
+})
 
-interface CharityReport {
-  id: string
-  title: string
-  campaignCount: number
-  totalFundraised: number
-  totalDistributed: number
-  averageRating: string
-}
-
-interface DonationReport {
-  id: string
-  fullName: string
-  campaignCount: number
-  totalDonated: number
-  lastDonationDate: string
-}
-
-interface DistributionReport {
-  campaignName: string
-  distributions: any[]
-}
+// Add token vào header cho mọi request
+api.interceptors.request.use((config) => {
+  const token = Cookies.get('auth_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 export default function ReportsPage() {
   const [loading, setLoading] = useState(true)
-  const [campaignReport, setCampaignReport] = useState<CampaignReport[]>([])
-  const [charityReport, setCharityReport] = useState<CharityReport[]>([])
-  const [donationReport, setDonationReport] = useState<DonationReport[]>([])
-  const [distributionReport, setDistributionReport] = useState<DistributionReport[]>([])
-
-  const [stats, setStats] = useState({
-    campaignCount: 0,
-    charityCount: 0,
-    donorCount: 0,
-    distributionCount: 0
+  const [reports, setReports] = useState({
+    campaign: { count: 0, data: [] },
+    charity: { count: 0, data: [] },
+    donation: { count: 0, data: [] },
+    distribution: { count: 0, data: [] }
   })
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
+        setLoading(true)
         const [campaignRes, charityRes, donationRes, distributionRes] = await Promise.all([
-          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/campaign`),
-          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/charity`),
-          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/donation`),
-          axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reports/distribution`)
+          api.get('/api/reports/campaign'),
+          api.get('/api/reports/charity'), 
+          api.get('/api/reports/donation'),
+          api.get('/api/reports/distribution')
         ])
 
-        setCampaignReport(campaignRes.data)
-        setCharityReport(charityRes.data)
-        setDonationReport(donationRes.data)
-        setDistributionReport(distributionRes.data)
+        // Tính toán số liệu thống kê
+        setReports({
+          campaign: {
+            count: campaignRes.data.data.length,
+            data: campaignRes.data.data
+          },
+          charity: {
+            count: charityRes.data.data.filter(c => c.campaignCount > 0).length,
+            data: charityRes.data.data
+          },
+          donation: {
+            count: donationRes.data.data.filter(d => d.id !== 'system_donor').length,
+            data: donationRes.data.data
+          },
+          distribution: {
+            count: distributionRes.data.data.reduce((total, campaign) => 
+              total + campaign.distributions.length, 0),
+            data: distributionRes.data.data
+          }
+        })
       } catch (error) {
         console.error('Error fetching reports:', error)
       } finally {
@@ -76,76 +71,76 @@ export default function ReportsPage() {
     fetchReports()
   }, [])
 
-  useEffect(() => {
-    setStats({
-      campaignCount: campaignReport.length,
-      charityCount: charityReport.length,
-      donorCount: donationReport.length,
-      distributionCount: distributionReport.length
-    })
-  }, [campaignReport, charityReport, donationReport, distributionReport])
-
   const reportTypes = [
     {
       title: "Báo cáo chiến dịch",
       description: "Thống kê về các chiến dịch và tiến độ thực hiện",
       icon: FileText,
       type: "campaign",
-      data: campaignReport,
-      count: stats.campaignCount,
-      color: "bg-blue-500 text-white hover:bg-blue-600"
+      count: reports.campaign.count,
+      color: "bg-blue-500"
     },
     {
       title: "Báo cáo tổ chức",
       description: "Thống kê hoạt động của các tổ chức từ thiện",
       icon: Users,
       type: "charity",
-      data: charityReport,
-      count: stats.charityCount,
-      color: "bg-blue-500 text-white hover:bg-blue-600"
+      count: reports.charity.count,
+      color: "bg-blue-500"
     },
     {
       title: "Báo cáo đóng góp",
       description: "Thống kê các khoản đóng góp theo thời gian",
       icon: DollarSign,
       type: "donation",
-      data: donationReport,
-      count: stats.donorCount,
-      color: "bg-blue-500 text-white hover:bg-blue-600"
+      count: reports.donation.count,
+      color: "bg-blue-500"
     },
     {
       title: "Báo cáo hỗ trợ",
       description: "Thống kê các đợt phân phối hỗ trợ",
       icon: Package,
       type: "distribution",
-      data: distributionReport,
-      count: stats.distributionCount,
-      color: "bg-blue-500 text-white hover:bg-blue-600"
+      count: reports.distribution.count,
+      color: "bg-blue-500"
     }
   ]
 
   const handleExport = async (type: string, format: string) => {
     try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/reports/${type}/export`,
-        {
-          params: { format },
-          responseType: "blob",
+      const token = Cookies.get('auth_token')
+      const response = await api.get(`/api/reports/${type}/export`, {
+        params: { format },
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
+      })
 
+      // Định nghĩa tên file theo loại báo cáo
+      const fileNames = {
+        campaign: "Bao_cao_chien_dich",
+        charity: "Bao_cao_to_chuc",
+        donation: "Bao_cao_dong_gop",
+        distribution: "Bao_cao_ho_tro"
+      }
+
+      // Tạo và tải file
       const url = window.URL.createObjectURL(new Blob([response.data]))
       const link = document.createElement("a")
       link.href = url
       link.setAttribute(
         "download",
-        `${type}_report.${format === "excel" ? "xlsx" : "pdf"}`
+        `${fileNames[type]}_${new Date().toISOString().split('T')[0]}.${format === "excel" ? "xlsx" : "pdf"}`
       )
       document.body.appendChild(link)
       link.click()
       link.parentNode?.removeChild(link)
+
+      // Giải phóng URL
+      window.URL.revokeObjectURL(url)
     } catch (error) {
-      console.error(`Error exporting ${type} report:`, error)
+      console.error(`Lỗi khi xuất báo cáo ${type}:`, error)
     }
   }
 
@@ -181,10 +176,12 @@ export default function ReportsPage() {
             </CardHeader>
             <CardContent className="pt-6">
               <div className="text-center mb-6">
-                <span className="text-4xl font-bold text-gray-800">{report.data.length}</span>
-                <p className="text-sm text-gray-800 dark:text-gray-200 mt-1">
+                <span className="text-4xl font-bold text-orange-500">
+                  {report.count}
+                </span>
+                <p className="text-sm text-gray-900 dark:text-gray-200 mt-1">
                   {report.type === 'campaign' && 'các chiến dịch'}
-                  {report.type === 'charity' && 'các tổ chức'}
+                  {report.type === 'charity' && 'các tổ chức có hoạt động'}
                   {report.type === 'donation' && 'những người đóng góp'}
                   {report.type === 'distribution' && 'các đợt hỗ trợ'}
                 </p>
