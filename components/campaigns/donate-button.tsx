@@ -1,10 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { DollarSign } from "lucide-react"
-import { useSession } from "next-auth/react"
+import { DollarSign, Download } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import Cookies from "js-cookie"
 
 import { formatAmount } from "@/lib/utils"
+import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -22,6 +25,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { PaymentMethod } from "@/types/donation"
+
+// Thay thế mock data bằng API call thực tế
+const paymentMethods: PaymentMethod[] = [
+  { id: "payment_method_1", name: "Ví điện tử ZaloPay" },
+]
 
 interface DonateButtonProps {
   campaignId: string
@@ -29,35 +38,65 @@ interface DonateButtonProps {
   minAmount?: number
 }
 
-// Mock data - sẽ được thay thế bằng dữ liệu từ API
-const mockPaymentMethods = [
-  { id: "1", name: "Ví điện tử MoMo" },
-  { id: "2", name: "Ví điện tử Zalopay" },
-  { id: "3", name: "Ví điện tử VNPay" },
-]
-
 export function DonateButton({
   campaignId,
   campaignTitle,
   minAmount = 10000,
 }: DonateButtonProps) {
-  const { data: session } = useSession()
+  const router = useRouter()
+  const { user, isAuthenticated } = useAuth()
   const [open, setOpen] = useState(false)
   const [amount, setAmount] = useState("")
   const [message, setMessage] = useState("")
   const [paymentMethod, setPaymentMethod] = useState("")
   const [isAnonymous, setIsAnonymous] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // TODO: Implement donation logic
-    console.log({
-      campaignId,
-      amount: parseInt(amount),
-      message,
-      paymentMethod,
-      isAnonymous,
-    })
+    setLoading(true)
+
+    try {
+      // Lấy token từ cookie
+      const token = Cookies.get("auth_token")
+      if (!token) {
+        throw new Error("Bạn cần đăng nhập để thực hiện đóng góp")
+      }
+
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/donations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          campaignId,
+          amount: parseInt(amount.replace(/\D/g, "")),
+          message,
+          paymentMethodId: paymentMethod,
+          isAnonymous,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!data.success) {
+        throw new Error(data.message)
+      }
+
+      // Redirect đến trang thanh toán ZaloPay
+      if (data.data.order_url) {
+        window.location.href = data.data.order_url
+      }
+
+    } catch (error: any) {
+      toast.error("Đã có lỗi xảy ra", {
+        description: error.message,
+      })
+    } finally {
+      setLoading(false)
+      setOpen(false)
+    }
   }
 
   return (
@@ -88,6 +127,9 @@ export function DonateButton({
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Nhập số tiền..."
             />
+            <p className="text-xs text-muted-foreground">
+              Tối thiểu {formatAmount(minAmount)}
+            </p>
           </div>
 
           <div className="space-y-2">
@@ -112,7 +154,7 @@ export function DonateButton({
                 <SelectValue placeholder="Chọn phương thức thanh toán" />
               </SelectTrigger>
               <SelectContent>
-                {mockPaymentMethods.map((method) => (
+                {paymentMethods.map((method) => (
                   <SelectItem key={method.id} value={method.id}>
                     {method.name}
                   </SelectItem>
@@ -133,8 +175,8 @@ export function DonateButton({
             </label>
           </div>
 
-          <Button type="submit" className="w-full">
-            Tiếp tục
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Đang xử lý..." : "Tiếp tục"}
           </Button>
         </form>
       </DialogContent>

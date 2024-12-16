@@ -147,7 +147,7 @@ export default function DocumentPage() {
               </h2>
               <div className="relative">
                 <div className="absolute inset-y-0 left-4 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-                <div className="relative space-y-6">
+                <div className="relative space-y-6 left-3">
                   {[
                     {
                       title: "Bước 1: Đăng ký & Xác thực",
@@ -179,6 +179,30 @@ export default function DocumentPage() {
                 </div>
               </div>
             </section>
+
+            {/* Liên hệ hỗ trợ */}
+            <section>
+              <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800 dark:text-gray-100">
+                <span className="mr-2">📞</span> Liên hệ Hỗ trợ
+              </h2>
+              <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua các kênh dưới đây:
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">Email:</span> <a href="mailto:support@giveback.vn" className="ml-2 hover:underline">support@giveback.vn</a>
+                  </li>
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">Số điện thoại:</span> <span className="ml-2">+84 123 456 789</span>
+                  </li>
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">Địa chỉ:</span> <span className="ml-2">123 Nhà tui, Đường ABC, TP.HCM</span>
+                  </li>
+                </ul>
+              </div>
+            </section>
+
           </div>
         </motion.div>
       </div>
