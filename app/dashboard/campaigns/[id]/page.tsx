@@ -31,7 +31,7 @@ import { CommentList } from "@/components/reports/comment-list"
 import { toast } from "react-hot-toast"
 import { CampaignStatement } from "@/components/donations/campaign-statement"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-
+import { FaHeart, FaMoneyBillWave, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
 interface Comment {
   id: string
   user: {
@@ -558,21 +558,67 @@ export default function CampaignDetailPage({
               </Card>
             </TabsContent>
 
+            ;
+
             <TabsContent value="distributions">
-              <Card>
-                <CardContent className="pt-6">
+              <Card className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+                <CardContent className="p-6">
                   <div className="space-y-6">
                     {campaign.distributions.map((dist, index) => (
-                      <div key={index}>
-                        <h3>{dist.title}</h3>
-                        <p>{dist.description}</p>
-                        <div>{formatAmount(dist.budget)}</div>
-                        <div>{dist.beneficiary_count}</div>
-                        <div>{dist.location.address}</div>
-                        <div>
-                          {dist.location.ward}, {dist.location.district},{" "}
-                          {dist.location.province}
+                      <div
+                        key={index}
+                        className="border-b pb-6 last:border-none space-y-6"
+                      >
+                        {/* Header Title */}
+                        <div className="flex items-center space-x-3 text-red-500">
+                          <FaHeart className="text-red-500 text-2xl" /> {/* Icon Cứu trợ */}
+                          <h3 className="text-xl font-bold text-back dark:text-white">
+                            Cứu trợ - {dist.title}
+                          </h3>
                         </div>
+
+                        {/* Mô tả */}
+                        <p className="text-gray-600 text-sm italic dark:text-gray-400">
+                          {dist.description}
+                        </p>
+
+                        {/* Grid thông tin */}
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          {/* Ngân sách và Số người hưởng lợi chung */}
+                          <div className="flex flex-col space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <FaMoneyBillWave className="text-green-500 text-lg" />
+                              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                                Ngân sách: {formatAmount(dist.budget)} VND
+                              </span>
+                            </div>
+
+                            <div className="flex items-center space-x-3">
+                              <FaUsers className="text-blue-500 text-lg" />
+                              <span className="font-semibold text-gray-700 dark:text-gray-300">
+                                Số người hưởng lợi: {dist.beneficiary_count} người
+                              </span>
+                            </div>
+                          </div>
+
+                          {/* Địa điểm */}
+                          <div className="flex flex-col space-y-4">
+                            <div className="flex items-start space-x-3 text-red-500">
+                              <FaMapMarkerAlt className="text-red-500 text-lg" />
+                              <div className="text-gray-700 dark:text-gray-300">
+                                <p>{dist.location.address}</p>
+                                <p>
+                                  {dist.location.ward}, {dist.location.district}, {dist.location.province}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Divider giữa các khoản cứu trợ */}
+                        {index < campaign.distributions.length - 1 && (
+                          <div className="border-t mt-6"></div> // Đường ngăn cách giữa các khoản cứu trợ
+                        )}
                       </div>
                     ))}
                   </div>
