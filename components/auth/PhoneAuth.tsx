@@ -1,127 +1,68 @@
 "use client"
 
 import { useState } from "react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
-export default function PhoneAuth({
-  onVerificationSuccess,
-}: {
-  onVerificationSuccess: () => void
-}) {
-  const [phoneNumber, setPhoneNumber] = useState("")
+interface PhoneAuthProps {
+  phone: string
+  onVerificationSuccess: (code: string) => void
+}
+
+export default function PhoneAuth({ phone, onVerificationSuccess }: PhoneAuthProps) {
   const [verificationCode, setVerificationCode] = useState("")
   const [error, setError] = useState("")
-  const [message, setMessage] = useState("")
-  const [requestId, setRequestId] = useState("")
-
-  const formatPhoneNumber = (phone: string) => {
-    if (phone.startsWith("0")) {
-      return "84" + phone.slice(1)
-    }
-    if (!phone.startsWith("84")) {
-      return "84" + phone
-    }
-    return phone
-  }
-
-  const handleSendOTP = async () => {
-    try {
-      const formattedPhone = formatPhoneNumber(phoneNumber)
-
-      const response = await fetch("/api/verify/start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ phoneNumber: formattedPhone }),
-      })
-
-      const data = await response.json()
-
-      if (data.error) {
-        throw new Error(data.error)
-      }
-
-      setRequestId(data.requestId)
-      setMessage("Đã gửi mã OTP!")
-      setError("")
-    } catch (err) {
-      setError("Lỗi gửi OTP: " + (err as Error).message)
-    }
-  }
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleVerifyOTP = async () => {
     try {
-      const response = await fetch("/api/verify/check", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          requestId,
-          code: verificationCode,
-        }),
-      })
+      setIsLoading(true)
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/verify-otp`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            code: verificationCode
+          })
+        }
+      )
 
-      const data = await response.json()
-
-      if (data.error) {
-        throw new Error(data.error)
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.message)
       }
 
-      setMessage("Xác thực thành công!")
-      setError("")
-      onVerificationSuccess()
+      onVerificationSuccess(verificationCode)
     } catch (err) {
-      setError("Mã OTP không hợp lệ")
+      setError((err as Error).message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
     <div className="space-y-4">
       <div>
-        <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-          Số điện thoại:
-        </label>
-        <div className="flex gap-2">
-          <input
-            type="tel"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder="0912345678"
-            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
-          />
-          <button
-            onClick={handleSendOTP}
-            className="rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
-          >
-            Gửi OTP
-          </button>
-        </div>
+        <Label>Mã xác thực OTP</Label>
+        <Input
+          type="text"
+          value={verificationCode}
+          onChange={(e) => setVerificationCode(e.target.value)}
+          placeholder="123456"
+          maxLength={6}
+        />
+        <Button
+          onClick={handleVerifyOTP}
+          className="w-full mt-2"
+          disabled={isLoading}
+        >
+          {isLoading ? "Đang xác thực..." : "Xác nhận"}
+        </Button>
       </div>
-
-      {message && <div className="text-green-500 dark:text-green-400">{message}</div>}
-      {error && <div className="text-red-500 dark:text-red-400">{error}</div>}
-
-      {requestId && (
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-            Nhập mã OTP:
-          </label>
-          <input
-            type="text"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-            placeholder="123456"
-            className="focus:ring-primary-600 focus:border-primary-600 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 sm:text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
-          />
-          <button
-            onClick={handleVerifyOTP}
-            className="focus:ring-primary-300 mt-2 w-full rounded-lg bg-green-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-4 dark:bg-green-600 dark:hover:bg-green-700"
-          >
-            Xác nhận OTP
-          </button>
-        </div>
-      )}
+      {error && <div className="text-red-500">{error}</div>}
     </div>
   )
 }
