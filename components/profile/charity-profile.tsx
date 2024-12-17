@@ -308,13 +308,13 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Facebook</label>
                     <Input 
-                      value={userData.charity.socialLinks.facebook || ""}
+                      value={userData?.charity?.socialLinks?.facebook || ""}
                       onChange={(e) => setUserData(prev => prev ? {
                         ...prev,
                         charity: {
                           ...prev.charity,
                           socialLinks: {
-                            ...prev.charity.socialLinks,
+                            ...(prev.charity?.socialLinks || {}),
                             facebook: e.target.value
                           }
                         }
@@ -324,13 +324,13 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Twitter</label>
                     <Input 
-                      value={userData.charity.socialLinks.twitter || ""}
+                      value={userData?.charity?.socialLinks?.twitter || ""}
                       onChange={(e) => setUserData(prev => prev ? {
                         ...prev,
                         charity: {
                           ...prev.charity,
                           socialLinks: {
-                            ...prev.charity.socialLinks,
+                            ...(prev.charity?.socialLinks || {}),
                             twitter: e.target.value
                           }
                         }
@@ -340,13 +340,13 @@ export function CharityProfile() {
                   <div>
                     <label className="text-sm font-medium dark:text-gray-300">Youtube</label>
                     <Input 
-                      value={userData.charity.socialLinks.youtube || ""}
+                      value={userData?.charity?.socialLinks?.youtube || ""}
                       onChange={(e) => setUserData(prev => prev ? {
                         ...prev,
                         charity: {
                           ...prev.charity,
                           socialLinks: {
-                            ...prev.charity.socialLinks,
+                            ...(prev.charity?.socialLinks || {}),
                             youtube: e.target.value
                           }
                         }
