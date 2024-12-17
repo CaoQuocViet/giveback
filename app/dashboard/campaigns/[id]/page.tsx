@@ -219,7 +219,7 @@ export default function CampaignDetailPage({
     <div className="h-full overflow-auto bg-gray-50/50 p-6 dark:bg-gray-900">
       {/* Header section */}
       <div
-        className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100 
+        className="mb-6 rounded-xl bg-gradient-to-r from-white to-gray-50 p-6 shadow-sm ring-1 ring-gray-100
         dark:from-gray-800 dark:to-gray-900 dark:ring-gray-700"
       >
         <div className="mb-6 flex items-start justify-between">
@@ -477,7 +477,7 @@ export default function CampaignDetailPage({
             </TabsList>
 
             <TabsContent value="description">
-              <Card className="dark:bg-gray-800 dark:border-gray-700">
+              <Card className="dark:bg-black dark:border-gray-700">
                 <CardContent className="prose dark:prose-invert max-w-none pt-6">
                   <div
                     dangerouslySetInnerHTML={{
@@ -489,7 +489,7 @@ export default function CampaignDetailPage({
             </TabsContent>
 
             <TabsContent value="plan">
-              <Card className="dark:bg-gray-800 dark:border-gray-700">
+              <Card className="dark:bg-black dark:border-gray-700">
                 <CardContent className="prose dark:prose-invert max-w-none pt-6">
                   <div
                     dangerouslySetInnerHTML={{
@@ -520,7 +520,7 @@ export default function CampaignDetailPage({
                             </div>
                           )}
                         </div>
-                        
+
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center justify-between">
                             <div className="font-medium">{donation.donor.name}</div>
@@ -528,18 +528,18 @@ export default function CampaignDetailPage({
                               {formatDate(donation.created_at)}
                             </div>
                           </div>
-                          
+
                           <div className="flex items-center space-x-2">
                             <Badge variant={donation.status === 'SUCCESS' ? 'default' : 'secondary'}>
                               {formatAmount(donation.amount)} VNĐ
                             </Badge>
                             <Badge variant="outline">{donation.payment_method}</Badge>
                           </div>
-                          
+
                           {donation.message && (
                             <p className="text-sm text-muted-foreground">{donation.message}</p>
                           )}
-                          
+
                           {donation.status === 'SUCCESS' && donation.transaction_id && (
                             <div className="text-xs text-muted-foreground">
                               Mã giao dịch: {donation.transaction_id}
@@ -561,7 +561,7 @@ export default function CampaignDetailPage({
             ;
 
             <TabsContent value="distributions">
-              <Card className="bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+              <Card className="bg-white dark:bg-black shadow-lg rounded-lg">
                 <CardContent className="p-6">
                   <div className="space-y-6">
                     {campaign.distributions.map((dist, index) => (
