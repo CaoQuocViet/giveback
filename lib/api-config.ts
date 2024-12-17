@@ -35,7 +35,7 @@ export const API_ENDPOINTS = {
   
   // Profile endpoints
   PROFILE: {
-    CHARITY: '/api/profile/charity',
+    CHARITY: '/api/user/charity',
     DONOR: '/api/profile/donor',
     ADMIN: '/api/profile/admin',
     BENEFICIARY: '/api/profile/beneficiary'
