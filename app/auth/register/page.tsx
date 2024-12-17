@@ -17,52 +17,144 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import PhoneAuth from "@/components/auth/PhoneAuth"
 import { AddressFields } from "@/components/profile/address-fields"
+import { RegisterFormData, RegisterAddressData } from "@/types/register"
 
 export default function Register() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [formData, setFormData] = useState<RegisterFormData>({
+    email: "",
+    password: "",
+    phone: "",
+    fullName: "",
+    role: "DONOR",
+    province: "",
+    district: "",
+    ward: "",
+    address: "",
+    title: "",
+    description: "",
+    licenseNumber: "",
+    licenseDate: "",
+    licenseIssuer: "",
+    licenseImageUrl: ""
+  })
   const [confirmation, setConfirmation] = useState("")
   const [error, setError] = useState("")
-  const [phoneVerified, setPhoneVerified] = useState(false)
-  const [phoneNumber, setPhoneNumber] = useState("")
+  const [isOTPSent, setIsOTPSent] = useState(false)
+  const [isOTPVerified, setIsOTPVerified] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const router = useRouter()
-  const [selectedRole, setSelectedRole] = useState("DONOR")
 
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
-    setError("")
+  const handleAddressChange = (values: RegisterAddressData) => {
+    setFormData(prev => ({
+      ...prev,
+      ...values
+    }))
+  }
 
-    if (password !== confirmation) {
-      setError("Mật khẩu không khớp")
-      return
+  const handleCharityFieldChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setSelectedFile(file)
     }
+  }
 
-    if (!phoneVerified) {
-      setError("Vui lòng xác thực số điện thoại")
-      return
-    }
+  // Kiểm tra form hợp lệ trước khi cho phép gửi OTP
+  const canSendOTP = () => {
+    // Chỉ cần kiểm tra số điện thoại
+    return Boolean(formData.phone)
+  }
 
+  // Xử lý gửi OTP
+  const handleSendOTP = async () => {
     try {
+      console.log("Sending OTP request for phone:", formData.phone);
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/send-otp`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-            phoneNumber,
-            role: selectedRole,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phone: formData.phone })
         }
       )
 
       const data = await response.json()
+      console.log("OTP response:", data);
 
       if (!response.ok) {
-        throw new Error(data.error || "Đăng ký thất bại")
+        throw new Error(data.message)
+      }
+
+      setIsOTPSent(true)
+      setError("")
+    } catch (e) {
+      console.error("OTP error:", e);
+      setError((e as Error).message)
+    }
+  }
+
+  // Xử lý khi OTP được xác thực thành công
+  const handleOTPVerificationSuccess = async (code: string) => {
+    try {
+      setIsOTPVerified(true)
+      setError("")
+    } catch (e) {
+      setError((e as Error).message)
+    }
+  }
+
+  // Xử lý submit form đăng ký
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault()
+    if (!isOTPVerified) {
+      setError("Vui lòng xác thực số điện thoại trước")
+      return
+    }
+    
+    try {
+      if (formData.role === "CHARITY" && selectedFile) {
+        const uploadFormData = new FormData()
+        uploadFormData.append("licenseImage", selectedFile)
+
+        const uploadResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/user/charity/upload`,
+          {
+            method: "POST",
+            body: uploadFormData,
+          }
+        )
+
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json()
+          throw new Error(errorData.message || "Lỗi khi tải lên gi���y phép")
+        }
+
+        const uploadData = await uploadResponse.json()
+        setFormData(prev => ({
+          ...prev,
+          licenseImageUrl: uploadData.licenseImage
+        }))
+      }
+
+      // Tiếp tục với đăng ký
+      const registerResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        }
+      )
+
+      if (!registerResponse.ok) {
+        const data = await registerResponse.json()
+        throw new Error(data.message || "Đăng ký thất bại")
       }
 
       router.push("/auth/login")
@@ -75,7 +167,7 @@ export default function Register() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
       <div
         className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-${
-          selectedRole === "CHARITY" ? "3" : "2"
+          formData.role === "CHARITY" ? "3" : "2"
         } gap-8`}
       >
         {/* Cột 1 - Form cơ bản */}
@@ -98,8 +190,8 @@ export default function Register() {
               <Input
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 required
               />
@@ -114,8 +206,8 @@ export default function Register() {
                 <Input
                   type="password"
                   id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={formData.password}
+                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   required
                 />
@@ -138,8 +230,37 @@ export default function Register() {
               </div>
             </div>
 
-            {/* Phone verification */}
-            <PhoneAuth onVerificationSuccess={() => setPhoneVerified(true)} />
+            {/* Phone field */}
+            <div className="space-y-2">
+              <Label htmlFor="phone" className="dark:text-gray-300">
+                Số điện thoại
+              </Label>
+              <div className="flex gap-2">
+                <Input
+                  type="tel"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  className="flex-1"
+                  required
+                />
+                <Button
+                  type="button"
+                  onClick={handleSendOTP}
+                  // disabled={!canSendOTP() || isOTPSent}
+                >
+                  Gửi mã OTP
+                </Button>
+              </div>
+            </div>
+
+            {/* OTP Verification */}
+            {isOTPSent && !isOTPVerified && (
+              <PhoneAuth 
+                phone={formData.phone}
+                onVerificationSuccess={handleOTPVerificationSuccess}
+              />
+            )}
 
             {/* Error message */}
             {error && (
@@ -162,13 +283,14 @@ export default function Register() {
             <Button
               type="submit"
               className="w-full bg-gradient-to-r from-primary to-primary/80 hover:opacity-90 dark:bg-primary/90 dark:hover:bg-primary/80"
+              disabled={!isOTPVerified}
             >
               Tạo tài khoản
             </Button>
           </form>
         </div>
 
-        {/* Cột 2 - Role và địa chỉ */}
+        {/* Cột 2 - Role và thông tin cơ bản */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
           {/* Role selection */}
           <div className="space-y-2">
@@ -176,8 +298,8 @@ export default function Register() {
               Vai trò của bạn
             </Label>
             <Select
-              value={selectedRole}
-              onValueChange={setSelectedRole}
+              value={formData.role}
+              onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
               className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             >
               <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
@@ -209,22 +331,38 @@ export default function Register() {
             </Select>
           </div>
 
-          {/* Thông tin địa chỉ */}
+          {/* Full Name field - NEW */}
+          <div className="space-y-2">
+            <Label className="dark:text-gray-300">
+              {formData.role === "CHARITY" 
+                ? "Tên người đại diện" 
+                : "Họ và tên"}
+            </Label>
+            <Input
+              placeholder={formData.role === "CHARITY" 
+                ? "Nhập tên người đại diện" 
+                : "Nhập họ và tên của bạn"}
+              value={formData.fullName}
+              onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+              className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+              required
+            />
+          </div>
+
+          {/* Address fields */}
           <div className="space-y-2">
             <Label className="text-lg font-medium dark:text-white">
               Địa chỉ
             </Label>
             <AddressFields
-              onChange={(values) => {
-                console.log(values)
-              }}
+              onChange={handleAddressChange}
               className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             />
           </div>
         </div>
 
         {/* Cột 3 - Thông tin bổ sung cho CHARITY */}
-        {selectedRole === "CHARITY" && (
+        {formData.role === "CHARITY" && (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
             <h3 className="text-lg font-medium dark:text-white bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
               Thông tin tổ chức
@@ -235,6 +373,8 @@ export default function Register() {
                 <Label className="dark:text-gray-300">Tên tổ chức</Label>
                 <Input
                   placeholder="Nhập tên tổ chức"
+                  value={formData.title}
+                  onChange={(e) => handleCharityFieldChange("title", e.target.value)}
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
@@ -243,6 +383,8 @@ export default function Register() {
                 <Label className="dark:text-gray-300">Mô tả</Label>
                 <Textarea
                   placeholder="Mô tả về tổ chức của bạn"
+                  value={formData.description}
+                  onChange={(e) => handleCharityFieldChange("description", e.target.value)}
                   className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
@@ -253,6 +395,8 @@ export default function Register() {
                 </Label>
                 <Input
                   placeholder="Nhập số giấy phép"
+                  value={formData.licenseNumber}
+                  onChange={(e) => handleCharityFieldChange("licenseNumber", e.target.value)}
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
@@ -264,6 +408,8 @@ export default function Register() {
                   </Label>
                   <Input
                     type="date"
+                    value={formData.licenseDate}
+                    onChange={(e) => handleCharityFieldChange("licenseDate", e.target.value)}
                     className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   />
                 </div>
@@ -272,6 +418,8 @@ export default function Register() {
                   <Label className="dark:text-gray-300">Cơ quan cấp phép</Label>
                   <Input
                     placeholder="Tên cơ quan cấp"
+                    value={formData.licenseIssuer}
+                    onChange={(e) => handleCharityFieldChange("licenseIssuer", e.target.value)}
                     className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   />
                 </div>
@@ -285,6 +433,7 @@ export default function Register() {
                   <Input
                     type="file"
                     accept="image/*"
+                    onChange={handleFileUpload}
                     className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium
                     file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-gray-700 dark:file:text-gray-300 dark:text-gray-400"
                   />
