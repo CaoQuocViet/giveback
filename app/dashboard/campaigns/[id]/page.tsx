@@ -392,8 +392,8 @@ export default function CampaignDetailPage({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => handleExportExcel(campaign)}>Tải Excel</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleExportPDF(campaign)}>Tải PDF</DropdownMenuItem>
+                    <DropdownMenuItem className="bg-green-800 text-white hover:bg-green-900" onClick={() => handleExportExcel(campaign)}>Tải Excel</DropdownMenuItem>
+                    <DropdownMenuItem className="bg-orange-600 text-white hover:bg-orange-700" onClick={() => handleExportPDF(campaign)}>Tải PDF</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 

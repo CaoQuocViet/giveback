@@ -124,7 +124,7 @@ export function DonationHistory() {
           <Button
             variant="outline"
             onClick={handleExportExcel}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-green-800 text-white hover:bg-green-900"
           >
             <FileSpreadsheet className="h-4 w-4" />
             Xuất Excel
@@ -132,7 +132,7 @@ export function DonationHistory() {
           <Button
             variant="outline"
             onClick={handleExportPDF}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 bg-orange-600 text-white hover:bg-orange-700"
           >
             <FileText className="h-4 w-4" />
             Xuất PDF

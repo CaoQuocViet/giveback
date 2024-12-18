@@ -188,13 +188,13 @@ export default function ReportsPage() {
               </div>
               <div className="flex gap-3">
                 <Button
-                  className="flex-1 bg-orange-500 text-white hover:bg-orange-600 transition-all"
+                  className="flex-1 bg-orange-700 text-white hover:bg-orange-700 transition-all"
                   onClick={() => handleExport(report.type, 'pdf')}
                 >
                   Xuất PDF
                 </Button>
                 <Button
-                  className="flex-1 bg-emerald-800 text-white hover:bg-emerald-900 transition-all"
+                  className="flex-1 bg-green-800 text-white hover:bg-green-900 transition-all"
                   onClick={() => handleExport(report.type, 'excel')}
                 >
                   Xuất Excel
