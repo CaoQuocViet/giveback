@@ -113,13 +113,13 @@ export function SiteHeader() {
           <nav className="flex items-center space-x-4">
             <Link href={siteConfig.links.facebook} target="_blank" rel="noreferrer">
               <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-                <Icons.facebook className="size-5" />
+                <Icons.facebook className="size-5 text-blue-500 hover:text-blue-600" />
                 <span className="sr-only">Facebook</span>
               </div>
             </Link>
             <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer">
               <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-                <Icons.twitter className="size-5 fill-current" />
+                <Icons.twitter className="size-5 text-blue-500 hover:text-blue-600" />
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>

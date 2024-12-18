@@ -159,7 +159,7 @@ export function CreateDistributionForm({ onSuccess }: CreateDistributionFormProp
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-h-[80vh] overflow-y-auto">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label>Chiến dịch</Label>

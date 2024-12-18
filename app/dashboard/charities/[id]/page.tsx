@@ -315,19 +315,19 @@ export default function CharityDetailPage() {
                       {charity.socialLinks?.facebook && (
                         <a href={charity.socialLinks.facebook} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Facebook className="h-5 w-5" />
+                          <Facebook className="h-5 w-5 text-blue-500 hover:text-blue-600" />
                         </a>
                       )}
                       {charity.socialLinks?.twitter && (
                         <a href={charity.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Twitter className="h-5 w-5" />
+                          <Twitter className="h-5 w-5 text-blue-500 hover:text-blue-600" />
                         </a>
                       )}
                       {charity.socialLinks?.youtube && (
                         <a href={charity.socialLinks.youtube} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Youtube className="h-5 w-5" />
+                          <Youtube className="h-5 w-5 text-red-500 hover:text-red-600" />
                         </a>
                       )}
                     </div>
