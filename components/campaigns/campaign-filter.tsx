@@ -21,9 +21,8 @@ interface CampaignFilterProps {
 
 export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) {
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-end">
-      <div className="flex-1 space-y-2">
-        <label className="text-sm font-medium">Tìm kiếm</label>
+    <div className="flex gap-4 items-center">
+      <div className="flex-1">
         <Input
           placeholder="Tên chiến dịch..."
           value={filter.search}
@@ -31,8 +30,7 @@ export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) 
         />
       </div>
 
-      <div className="w-full md:w-48 space-y-2">
-        <label className="text-sm font-medium">Trạng thái</label>
+      <div className="w-full md:w-48">
         <Select
           value={filter.status}
           onValueChange={(value) => onFilterChange({ ...filter, status: value })}
@@ -50,8 +48,7 @@ export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) 
         </Select>
       </div>
 
-      <div className="w-full md:w-48 space-y-2">
-        <label className="text-sm font-medium">Đánh giá</label>
+      <div className="w-full md:w-48">
         <Select
           value={filter.rating}
           onValueChange={(value) => onFilterChange({ ...filter, rating: value })}
@@ -70,4 +67,4 @@ export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) 
       </div>
     </div>
   )
-} 
+}

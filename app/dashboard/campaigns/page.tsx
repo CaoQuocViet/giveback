@@ -111,10 +111,11 @@ export default function CampaignsPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Danh sách chiến dịch</h1>
+        <h2 className="text-2xl font-bold">Danh sách chiến dịch</h2>
+        <CampaignFilter filter={filter} onFilterChange={setFilter} />
       </div>
 
-      <CampaignFilter filter={filter} onFilterChange={setFilter} />
+      {/* <CampaignFilter filter={filter} onFilterChange={setFilter} /> */}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {campaigns.map((campaign) => (
