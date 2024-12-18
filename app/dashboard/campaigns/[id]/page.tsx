@@ -58,6 +58,7 @@ interface CampaignDonation {
   transaction_id: string | null
   status: 'PENDING' | 'SUCCESS' | 'FAILED'
   created_at: string
+  is_anonymous: boolean
 }
 
 // Cập nhật interface theo database schema
@@ -507,7 +508,11 @@ export default function CampaignDetailPage({
                     {campaign.donations.map((donation) => (
                       <div key={donation.id} className="flex items-start space-x-4 p-4 border rounded-lg">
                         <div className="relative h-10 w-10 flex-shrink-0">
-                          {donation.donor.avatar ? (
+                          {donation.is_anonymous ? (
+                            <div className="h-full w-full rounded-full bg-secondary flex items-center justify-center">
+                              <Users className="h-5 w-5" />
+                            </div>
+                          ) : donation.donor.avatar ? (
                             <Image
                               src={donation.donor.avatar}
                               alt={donation.donor.name}
@@ -523,7 +528,9 @@ export default function CampaignDetailPage({
 
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center justify-between">
-                            <div className="font-medium">{donation.donor.name}</div>
+                            <div className="font-medium">
+                              {donation.is_anonymous ? "Ẩn danh" : donation.donor.name}
+                            </div>
                             <div className="text-sm text-muted-foreground">
                               {formatDate(donation.created_at)}
                             </div>
