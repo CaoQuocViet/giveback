@@ -7,6 +7,7 @@ import Link from "next/link"
 import { Check, Facebook, Mail, MapPin, Phone, Star, Twitter, XCircle, Youtube } from "lucide-react"
 import Cookies from "js-cookie"
 import { useToast } from "@/components/ui/use-toast"
+import { useQueryClient } from "@tanstack/react-query"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -44,6 +45,7 @@ export default function CharityDetailPage() {
   const itemsPerPage = 5
   const { toast } = useToast()
   const [showLicenseModal, setShowLicenseModal] = useState(false)
+  const queryClient = useQueryClient()
 
   // Kiểm tra role admin
   const isAdmin = user?.role === 'ADMIN'
@@ -90,7 +92,8 @@ export default function CharityDetailPage() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/verify`, {
         method: 'PATCH',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
 
@@ -122,12 +125,15 @@ export default function CharityDetailPage() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/reject`, {
         method: 'PATCH',
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
 
+      const data = await response.json()
+
       if (!response.ok) {
-        throw new Error('Failed to reject charity')
+        throw new Error(data.message || 'Failed to reject charity')
       }
 
       toast({
@@ -142,7 +148,7 @@ export default function CharityDetailPage() {
       console.error('Error rejecting charity:', error)
       toast({
         title: "Lỗi",
-        description: "Không thể từ chối xác thực tổ chức. Vui lòng thử lại sau.",
+        description: error.message || "Không thể từ chối xác thực tổ chức. Vui lòng thử lại sau.",
         variant: "destructive"
       })
     }
