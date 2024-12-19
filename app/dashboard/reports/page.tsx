@@ -146,9 +146,9 @@ export default function ReportsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex min-h-[400px] items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto"></div>
+          <div className="mx-auto size-8 animate-spin rounded-full border-b-2 border-gray-900"></div>
           <p className="mt-2">Đang tải dữ liệu...</p>
         </div>
       </div>
@@ -156,30 +156,30 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl py-8 px-4">
-      <h1 className="text-2xl font-bold mb-6">Theo dõi báo cáo</h1>
+    <div className="mx-auto max-w-7xl px-4 py-8">
+      <h1 className="mb-6 text-2xl font-bold">Theo dõi báo cáo</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {reportTypes.map((report) => (
           <Card 
             key={report.type} 
-            className="border hover:shadow-lg transition-all duration-200"
+            className="border transition-all duration-200 hover:shadow-lg"
           >
-            <CardHeader className={`flex flex-row items-center gap-4 ${report.color} text-white rounded-t-lg`}>
-              <report.icon className="h-8 w-8" />
+            <CardHeader className={`flex flex-row items-center gap-4 ${report.color} rounded-t-lg text-white`}>
+              <report.icon className="size-8" />
               <div>
-                <h3 className="font-semibold text-lg">{report.title}</h3>
+                <h3 className="text-lg font-semibold">{report.title}</h3>
                 <p className="text-sm text-white/90">
                   {report.description}
                 </p>
               </div>
             </CardHeader>
             <CardContent className="pt-6">
-              <div className="text-center mb-6">
+              <div className="mb-6 text-center">
                 <span className="text-4xl font-bold text-orange-500">
                   {report.count}
                 </span>
-                <p className="text-sm text-gray-900 dark:text-gray-200 mt-1">
+                <p className="mt-1 text-sm text-gray-900 dark:text-gray-200">
                   {report.type === 'campaign' && 'các chiến dịch'}
                   {report.type === 'charity' && 'các tổ chức có hoạt động'}
                   {report.type === 'donation' && 'những người đóng góp'}
@@ -188,13 +188,13 @@ export default function ReportsPage() {
               </div>
               <div className="flex gap-3">
                 <Button
-                  className="flex-1 bg-orange-700 text-white hover:bg-orange-700 transition-all"
+                  className="flex-1 bg-orange-700 text-white transition-all hover:bg-orange-700"
                   onClick={() => handleExport(report.type, 'pdf')}
                 >
                   Xuất PDF
                 </Button>
                 <Button
-                  className="flex-1 bg-green-800 text-white hover:bg-green-900 transition-all"
+                  className="flex-1 bg-green-800 text-white transition-all hover:bg-green-900"
                   onClick={() => handleExport(report.type, 'excel')}
                 >
                   Xuất Excel

@@ -127,7 +127,7 @@ export function SiteHeader() {
 
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <span className={`px-4 py-2 text-sm font-medium rounded-full ${getRoleBadgeColor(userData?.role)}`}>
+                <span className={`rounded-full px-4 py-2 text-sm font-medium ${getRoleBadgeColor(userData?.role)}`}>
                   {getRoleLabel(userData?.role)}
                 </span>
 
@@ -154,7 +154,7 @@ export function SiteHeader() {
                         setIsAuthenticated(false)
                         setUserData(null)
                       }}
-                      className="text-red-600 cursor-pointer"
+                      className="cursor-pointer text-red-600"
                     >
                       Đăng xuất
                     </DropdownMenuItem>

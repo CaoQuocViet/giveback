@@ -171,12 +171,12 @@ export default function CharityDetailPage() {
   }
 
   return (
-    <div className="h-full overflow-auto bg-gray-50/50 dark:bg-gray-900 p-6">
+    <div className="h-full overflow-auto bg-gray-50/50 p-6 dark:bg-gray-900">
       {/* Header với background gradient */}
-      <div className="mb-6 rounded-xl bg-white dark:bg-black p-6 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+      <div className="mb-6 rounded-xl bg-white p-6 shadow-sm ring-1 ring-gray-100 dark:bg-black dark:ring-gray-700">
         <div className="flex items-start gap-6">
           {/* Avatar với kích thước cố định và căn chỉnh */}
-          <div className="relative h-[172px] w-[172px] shrink-0 overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700 flex justify-center items-center">
+          <div className="relative flex size-[172px] shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700">
             <Image
               src={charity.user?.profileImage || '/placeholder.png'}
               alt={charity.title || 'Charity'}
@@ -185,12 +185,12 @@ export default function CharityDetailPage() {
             />
           </div>
 
-          <div className="flex-1 min-h-[150px] flex flex-col justify-between">
+          <div className="flex min-h-[150px] flex-1 flex-col justify-between">
             {/* Title section */}
             <div>
               <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h1 className="bg-gradient-to-r from-gray-900 to-gray-600 dark:from-gray-100 dark:to-gray-400 bg-clip-text text-2xl font-bold text-transparent">
+                  <h1 className="bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-2xl font-bold text-transparent dark:from-gray-100 dark:to-gray-400">
                     {charity.title}
                   </h1>
                   <Badge
@@ -233,17 +233,17 @@ export default function CharityDetailPage() {
 
             {/* Stats section - luôn ở dưới cùng */}
             <div className="grid grid-cols-3 gap-6">
-              <div className="rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
                 <div className="font-medium text-gray-900 dark:text-gray-100">{charity.statistics.totalCampaigns}</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Chiến dịch</div>
               </div>
-              <div className="rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+              <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
                 <div className="font-medium text-gray-900 dark:text-gray-100">
                   {formatAmount(charity.statistics.totalRaised)} VNĐ
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Đã quyên góp</div>
               </div>
-              <div className="flex items-center gap-1 rounded-lg bg-white dark:bg-gray-800 p-3 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+              <div className="flex items-center gap-1 rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
                 <Star className="size-4 fill-yellow-400 text-yellow-400" />
                 <div className="font-medium text-gray-900 dark:text-gray-100">{charity.rating}/5</div>
                 <div className="ml-1 text-sm text-gray-600 dark:text-gray-400">Đánh giá</div>
@@ -260,7 +260,7 @@ export default function CharityDetailPage() {
           {/* Left column */}
           <div className="space-y-6">
             {/* Contact Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
               <CardContent className="p-6">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin liên hệ</h2>
                 <div className="space-y-4">
@@ -290,7 +290,7 @@ export default function CharityDetailPage() {
             </Card>
 
             {/* Organization Info Card */}
-            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+            <Card className="h-[calc(50%-12px)] overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
               <CardContent className="p-6">
                 <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin tổ chức</h2>
                 <div className="space-y-4">
@@ -310,24 +310,24 @@ export default function CharityDetailPage() {
                     )}
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400 mb-2">Mạng xã hội</div>
+                    <div className="mb-2 text-sm font-medium text-muted-foreground dark:text-gray-400">Mạng xã hội</div>
                     <div className="flex gap-4 dark:text-gray-300">
                       {charity.socialLinks?.facebook && (
                         <a href={charity.socialLinks.facebook} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Facebook className="h-5 w-5" />
+                          <Facebook className="size-5" />
                         </a>
                       )}
                       {charity.socialLinks?.twitter && (
                         <a href={charity.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Twitter className="h-5 w-5" />
+                          <Twitter className="size-5" />
                         </a>
                       )}
                       {charity.socialLinks?.youtube && (
                         <a href={charity.socialLinks.youtube} target="_blank" rel="noopener noreferrer"
                            className="text-muted-foreground hover:text-primary dark:text-gray-300">
-                          <Youtube className="h-5 w-5" />
+                          <Youtube className="size-5" />
                         </a>
                       )}
                     </div>
@@ -338,7 +338,7 @@ export default function CharityDetailPage() {
           </div>
 
           {/* Right column - License Card */}
-          <Card className="h-full overflow-hidden bg-white dark:bg-black dark:to-gray-900 shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+          <Card className="h-full overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
             <CardContent className="p-6">
               <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Giấy phép hoạt động</h2>
               <div className="grid grid-cols-2 gap-6">
@@ -365,7 +365,7 @@ export default function CharityDetailPage() {
                     src={charity.licenseImageUrl || '/placeholder.png'}
                     alt="Giấy phép hoạt động"
                     fill
-                    className="object-cover cursor-pointer hover:opacity-90 transition-opacity"
+                    className="cursor-pointer object-cover transition-opacity hover:opacity-90"
                     onClick={() => setShowLicenseModal(true)}
                   />
                 </div>
@@ -375,10 +375,10 @@ export default function CharityDetailPage() {
         </div>
 
         {/* Row 2: Campaigns Table */}
-        <Card className="overflow-hidden bg-white dark:bg-black shadow-sm ring-1 ring-gray-100 dark:ring-gray-700">
+        <Card className="overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:ring-gray-700">
           <CardContent className="p-6">
             <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Danh sách chiến dịch</h2>
-            <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <div className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gray-100 dark:bg-gray-900">
@@ -395,7 +395,7 @@ export default function CharityDetailPage() {
                       <TableCell className="dark:text-gray-300">
                         <Link
                           href={`/dashboard/campaigns/${campaign.id}`}
-                          className="text-primary hover:underline dark:text-primary-400"
+                          className="dark:text-primary-400 text-primary hover:underline"
                         >
                           {campaign.title}
                         </Link>

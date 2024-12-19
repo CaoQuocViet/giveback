@@ -24,7 +24,7 @@ interface CharityCardProps {
 
 export function CharityCard({ charity }: CharityCardProps) {
   return (
-    <Card className="flex flex-col h-full">
+    <Card className="flex h-full flex-col">
       <CardHeader className="relative">
       <div className="relative aspect-square overflow-hidden rounded-full">
         <Image
@@ -52,8 +52,8 @@ export function CharityCard({ charity }: CharityCardProps) {
           }
         </Badge>
       </CardHeader>
-      <CardContent className="flex flex-col flex-grow">
-        <div className="flex items-center justify-between mb-2">
+      <CardContent className="flex grow flex-col">
+        <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-semibold">{charity.name}</h3>
           <div className="flex items-center text-sm text-muted-foreground">
             <Star className="mr-1 size-4 fill-yellow-400 text-yellow-400" />

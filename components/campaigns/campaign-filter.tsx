@@ -21,7 +21,7 @@ interface CampaignFilterProps {
 
 export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex items-center gap-4">
       <div className="flex-1">
         <Input
           placeholder="Tên chiến dịch..."

@@ -28,11 +28,11 @@ export default function ImageModal({ imageUrl, onClose }: ImageModalProps) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity"
       onClick={onClose}
     >
-      <div className="relative max-w-[90vw] max-h-[90vh] transform transition-transform duration-300 scale-100">
+      <div className="relative max-h-[90vh] max-w-[90vw] scale-100 transition-transform duration-300">
         <Image
           src={imageUrl}
           alt="License Preview"
-          className="max-w-full max-h-[90vh] object-contain cursor-zoom-out"
+          className="max-h-[90vh] max-w-full cursor-zoom-out object-contain"
           onClick={(e) => e.stopPropagation()} 
         />
       </div>

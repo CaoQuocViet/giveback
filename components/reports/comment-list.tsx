@@ -54,7 +54,7 @@ export function CommentList({ comments }: { comments: Comment[] }) {
           key={comment.id}
           className="flex gap-4 rounded-lg border bg-card p-4"
         >
-          <div className="flex size-10 items-center justify-center rounded-full bg-muted overflow-hidden">
+          <div className="flex size-10 items-center justify-center overflow-hidden rounded-full bg-muted">
             {comment.user.avatar ? (
               <Image
                 src={comment.user.avatar}
@@ -78,7 +78,7 @@ export function CommentList({ comments }: { comments: Comment[] }) {
                 {getRoleLabel(comment.user.role)}
               </Badge>
               <div className="flex items-center gap-0.5">
-                <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                <Star className="size-3 fill-yellow-400 text-yellow-400" />
                 <span className="text-xs text-muted-foreground">
                   {comment.rating}
                 </span>

@@ -51,10 +51,10 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
-      <div className="w-full max-w-md mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-          <div className="space-y-2 text-center mb-8">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
+      <div className="mx-auto w-full max-w-md">
+        <div className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <div className="mb-8 space-y-2 text-center">
             <h1 className="text-2xl font-bold dark:text-white">Đăng nhập</h1>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
               Đăng nhập để tiếp tục
@@ -70,7 +70,7 @@ export default function Login() {
                 value={identifier}
                 onChange={(e) => setIdentifier(e.target.value)}
                 placeholder="abc@example.com hoặc 0912345678"
-                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 required
               />
             </div>
@@ -83,21 +83,21 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 required
               />
             </div>
 
             {error && (
-              <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400">
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
                 <span className="block sm:inline">{error}</span>
               </div>
             )}
 
-            <div className="flex items-center justify-between mt-4 mb-6">
+            <div className="mb-6 mt-4 flex items-center justify-between">
               <Link
                 href="/auth/reset-password"
-                className="text-sm text-primary hover:underline dark:text-primary-400"
+                className="dark:text-primary-400 text-sm text-primary hover:underline"
               >
                 Quên mật khẩu?
               </Link>
@@ -112,11 +112,11 @@ export default function Login() {
             </Button>
           </form>
 
-          <p className="text-sm text-center text-muted-foreground dark:text-gray-400 mt-6">
+          <p className="mt-6 text-center text-sm text-muted-foreground dark:text-gray-400">
             Bạn chưa có tài khoản?{" "}
             <Link
               href="/auth/register"
-              className="text-primary dark:text-primary-400 hover:underline font-medium"
+              className="dark:text-primary-400 font-medium text-primary hover:underline"
             >
               Đăng ký ở đây
             </Link>

@@ -91,17 +91,17 @@ export default function CharitiesPage() {
   }, [currentPage])
 
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+    return <div className="flex min-h-screen items-center justify-center">
+      <div className="size-32 animate-spin rounded-full border-b-2 border-primary"></div>
     </div>
   }
 
   if (error) {
-    return <div className="text-red-500 text-center p-4">{error}</div>
+    return <div className="p-4 text-center text-red-500">{error}</div>
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 space-y-6">
+    <div className="mx-auto max-w-7xl space-y-6 px-4 py-8">
       <CharityList data={{ charities }} />
       
       <Pagination

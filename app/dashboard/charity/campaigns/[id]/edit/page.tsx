@@ -109,7 +109,7 @@ export default function EditCampaignPage({
   if (!campaign) return <div>Campaign not found</div>
 
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto space-y-6 py-6">
       <Card className="p-6">
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold tracking-tight">
@@ -238,7 +238,7 @@ export default function EditCampaignPage({
             {/* Địa điểm - Read only */}
             <div className="space-y-2">
               <Label>Địa điểm triển khai</Label>
-              <Card className="p-4 bg-muted">
+              <Card className="bg-muted p-4">
                 <div className="space-y-2 text-sm">
                   <p>Địa chỉ: {campaign.location.address}</p>
                   <p>Phường/Xã: {campaign.location.ward}</p>

@@ -31,14 +31,14 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="size-32 animate-spin rounded-full border-b-2 border-primary"></div>
       </div>
     )
   }
 
   if (error) {
-    return <div className="text-red-500 text-center p-4">{error}</div>
+    return <div className="p-4 text-center text-red-500">{error}</div>
   }
 
   const statCards = [
@@ -91,9 +91,9 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      <h1 className="text-3xl font-bold mb-8">Tổng quan hệ thống</h1>
+      <h1 className="mb-8 text-3xl font-bold">Tổng quan hệ thống</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {statCards.map((stat, index) => (
           <Card key={index} className="p-6">
             <div className="flex items-center justify-between">
@@ -101,7 +101,7 @@ export default function DashboardPage() {
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                   {stat.title}
                 </p>
-                <p className="text-2xl font-bold mt-1">{stat.value}</p>
+                <p className="mt-1 text-2xl font-bold">{stat.value}</p>
               </div>
               <stat.icon className={`size-8 ${stat.color}`} />
             </div>

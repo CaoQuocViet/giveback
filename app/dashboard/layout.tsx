@@ -102,20 +102,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
       <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
-        bg-white dark:bg-gray-900
-        shadow-lg dark:shadow-black/40
-        border-r border-gray-200 dark:border-gray-800">
+        border-r border-gray-200
+        bg-white shadow-lg
+        dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/40">
         {/* Profile Section */}
         <div
-          className="border-b border-gray-200 dark:border-gray-800 p-6 
-          hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors"
+          className="border-b border-gray-200 p-6 transition-colors 
+          hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
         >
           <div className="flex items-center space-x-4">
             <div
               className="flex items-center justify-center rounded-full 
-              bg-blue-100 dark:bg-blue-950
-              ring-2 ring-blue-200 dark:ring-blue-800 
-              hover:ring-blue-300 dark:hover:ring-blue-700 transition-all"
+              bg-blue-100 ring-2
+              ring-blue-200 transition-all hover:ring-blue-300 
+              dark:bg-blue-950 dark:ring-blue-800 dark:hover:ring-blue-700"
               style={{ width: '40px', height: '40px' }} // Đặt kích thước ảnh cố định
             >
               <Image
@@ -123,7 +123,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 alt="Profile"
                 width={40}
                 height={40}
-                className="rounded-full object-cover hover:scale-105 transition-transform"
+                className="rounded-full object-cover transition-transform hover:scale-105"
                 style={{
                   width: '100%',
                   height: '100%',
@@ -148,9 +148,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="h-[calc(100vh-280px)] overflow-y-auto p-4 
-          scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
-          dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800">
+        <nav className="scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
+          dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-[calc(100vh-280px)] 
+          overflow-y-auto p-4">
           <ul className="space-y-2.5">
             {menuItems.map((item) => {
               const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
@@ -159,28 +159,28 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`group flex items-center rounded-xl px-4 py-3.5
-                      text-sm font-medium transition-all duration-300 ease-in-out
-                      bg-white/60 dark:bg-blue-900/20
-                      hover:bg-blue-100/60 hover:text-blue-700 hover:translate-x-1
-                      dark:text-blue-100 dark:hover:bg-blue-800/30 dark:hover:text-blue-300
-                      border border-transparent hover:border-blue-200/50 dark:hover:border-blue-700/50
-                      shadow-sm hover:shadow-md backdrop-blur-sm
-                      relative overflow-hidden
-                      ${isActive ? 'bg-blue-50 dark:bg-blue-900/40 border-blue-200 dark:border-blue-700' : ''}`}
+                    className={`group relative flex items-center overflow-hidden rounded-xl
+                      border border-transparent bg-white/60 px-4 py-3.5
+                      text-sm font-medium
+                      shadow-sm backdrop-blur-sm transition-all
+                      duration-300 ease-in-out hover:translate-x-1
+                      hover:border-blue-200/50 hover:bg-blue-100/60 hover:text-blue-700 hover:shadow-md
+                      dark:bg-blue-900/20 dark:text-blue-100 dark:hover:border-blue-700/50
+                      dark:hover:bg-blue-800/30 dark:hover:text-blue-300
+                      ${isActive ? 'border-blue-200 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/40' : ''}`}
                   >
                     {/* Gradient overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
-                      dark:from-blue-600/20 dark:to-transparent
-                      opacity-0 group-hover:opacity-100 transition-opacity duration-300" 
+                      opacity-0 transition-opacity
+                      duration-300 group-hover:opacity-100 dark:from-blue-600/20 dark:to-transparent" 
                     />
 
                     {/* Icon container với style active */}
-                    <div className={`relative flex items-center justify-center size-9 
-                      rounded-lg mr-3 transition-colors duration-300
-                      border border-blue-200 dark:border-blue-700
+                    <div className={`relative mr-3 flex size-9 items-center 
+                      justify-center rounded-lg border border-blue-200
+                      transition-colors duration-300 dark:border-blue-700
                       ${isActive 
-                        ? 'bg-blue-200/80 dark:bg-blue-800/80 border-blue-300 dark:border-blue-600' 
+                        ? 'border-blue-300 bg-blue-200/80 dark:border-blue-600 dark:bg-blue-800/80' 
                         : 'bg-blue-100/80 dark:bg-blue-900/50'
                       }`}
                     >
@@ -204,8 +204,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                     {/* Indicator line chỉ hiện khi active */}
                     {isActive && (
-                      <div className="absolute right-0 h-full w-1 bg-blue-500/70 dark:bg-blue-400/70
-                        rounded-l-full"
+                      <div className="absolute right-0 h-full w-1 rounded-l-full bg-blue-500/70
+                        dark:bg-blue-400/70"
                       />
                     )}
                   </Link>
@@ -217,16 +217,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Logout Button */}
         <div
-          className="absolute bottom-0 w-64 border-t border-gray-200 dark:border-gray-800 
-          bg-white dark:bg-gray-900 p-4"
+          className="absolute bottom-0 w-64 border-t border-gray-200 bg-white 
+          p-4 dark:border-gray-800 dark:bg-gray-900"
         >
           <Button
             variant="outline"
             className="w-full justify-start font-medium
-              hover:bg-red-50 hover:text-red-600 hover:border-red-200
-              dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-900
-              dark:border-gray-800 dark:text-gray-200
-              transition-all duration-200"
+              transition-all duration-200 hover:border-red-200
+              hover:bg-red-50 hover:text-red-600 dark:border-gray-800
+              dark:text-gray-200 dark:hover:border-red-900
+              dark:hover:bg-red-950/30 dark:hover:text-red-400"
             size="sm"
             onClick={handleLogout}
           >

@@ -251,7 +251,7 @@ export default function CampaignDetailPage({
               </div>
 
               {/* Thông tin bên phải */}
-              <div className="flex flex-col justify-between space-y-4 h-full">
+              <div className="flex h-full flex-col justify-between space-y-4">
                 {/* Thời gian */}
                 <div className="rounded-lg border bg-card p-4">
                   <h3 className="mb-2 font-medium">Thời gian</h3>
@@ -315,7 +315,7 @@ export default function CampaignDetailPage({
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
-                        className={`h-4 w-4 ${
+                        className={`size-4 ${
                           star <= campaign.rating
                             ? "fill-yellow-400 text-yellow-400"
                             : "fill-gray-200 text-gray-200"
@@ -478,8 +478,8 @@ export default function CampaignDetailPage({
             </TabsList>
 
             <TabsContent value="description">
-              <Card className="dark:bg-black dark:border-gray-700">
-                <CardContent className="prose dark:prose-invert max-w-none pt-6">
+              <Card className="dark:border-gray-700 dark:bg-black">
+                <CardContent className="prose max-w-none pt-6 dark:prose-invert">
                   <div
                     dangerouslySetInnerHTML={{
                       __html: renderMarkdown(campaign.description),
@@ -490,8 +490,8 @@ export default function CampaignDetailPage({
             </TabsContent>
 
             <TabsContent value="plan">
-              <Card className="dark:bg-black dark:border-gray-700">
-                <CardContent className="prose dark:prose-invert max-w-none pt-6">
+              <Card className="dark:border-gray-700 dark:bg-black">
+                <CardContent className="prose max-w-none pt-6 dark:prose-invert">
                   <div
                     dangerouslySetInnerHTML={{
                       __html: renderMarkdown(campaign.detailGoal),
@@ -506,11 +506,11 @@ export default function CampaignDetailPage({
                 <CardContent className="space-y-4">
                   <div className="space-y-4">
                     {campaign.donations.map((donation) => (
-                      <div key={donation.id} className="flex items-start space-x-4 p-4 border rounded-lg">
-                        <div className="relative h-10 w-10 flex-shrink-0">
+                      <div key={donation.id} className="flex items-start space-x-4 rounded-lg border p-4">
+                        <div className="relative size-10 shrink-0">
                           {donation.is_anonymous ? (
-                            <div className="h-full w-full rounded-full bg-secondary flex items-center justify-center">
-                              <Users className="h-5 w-5" />
+                            <div className="flex size-full items-center justify-center rounded-full bg-secondary">
+                              <Users className="size-5" />
                             </div>
                           ) : donation.donor.avatar ? (
                             <Image
@@ -520,8 +520,8 @@ export default function CampaignDetailPage({
                               className="rounded-full object-cover"
                             />
                           ) : (
-                            <div className="h-full w-full rounded-full bg-secondary flex items-center justify-center">
-                              <Users className="h-5 w-5" />
+                            <div className="flex size-full items-center justify-center rounded-full bg-secondary">
+                              <Users className="size-5" />
                             </div>
                           )}
                         </div>
@@ -568,40 +568,40 @@ export default function CampaignDetailPage({
             ;
 
             <TabsContent value="distributions">
-              <Card className="bg-white dark:bg-black shadow-lg rounded-lg">
+              <Card className="rounded-lg bg-white shadow-lg dark:bg-black">
                 <CardContent className="p-6">
                   <div className="space-y-6">
                     {campaign.distributions.map((dist, index) => (
                       <div
                         key={index}
-                        className="border-b pb-6 last:border-none space-y-6"
+                        className="space-y-6 border-b pb-6 last:border-none"
                       >
                         {/* Header Title */}
                         <div className="flex items-center space-x-3 text-red-500">
-                          <FaHeart className="text-red-500 text-2xl" /> {/* Icon Cứu trợ */}
-                          <h3 className="text-xl font-bold text-back dark:text-white">
+                          <FaHeart className="text-2xl text-red-500" /> {/* Icon Cứu trợ */}
+                          <h3 className="text-back text-xl font-bold dark:text-white">
                             Cứu trợ - {dist.title}
                           </h3>
                         </div>
 
                         {/* Mô tả */}
-                        <p className="text-gray-600 text-sm italic dark:text-gray-400">
+                        <p className="text-sm italic text-gray-600 dark:text-gray-400">
                           {dist.description}
                         </p>
 
                         {/* Grid thông tin */}
-                        <div className="grid sm:grid-cols-2 gap-6">
+                        <div className="grid gap-6 sm:grid-cols-2">
                           {/* Ngân sách và Số người hưởng lợi chung */}
                           <div className="flex flex-col space-y-4">
                             <div className="flex items-center space-x-3">
-                              <FaMoneyBillWave className="text-green-500 text-lg" />
+                              <FaMoneyBillWave className="text-lg text-green-500" />
                               <span className="font-semibold text-gray-700 dark:text-gray-300">
                                 Ngân sách: {formatAmount(dist.budget)} VND
                               </span>
                             </div>
 
                             <div className="flex items-center space-x-3">
-                              <FaUsers className="text-blue-500 text-lg" />
+                              <FaUsers className="text-lg text-blue-500" />
                               <span className="font-semibold text-gray-700 dark:text-gray-300">
                                 Số người hưởng lợi: {dist.beneficiary_count} người
                               </span>
@@ -611,7 +611,7 @@ export default function CampaignDetailPage({
                           {/* Địa điểm */}
                           <div className="flex flex-col space-y-4">
                             <div className="flex items-start space-x-3 text-red-500">
-                              <FaMapMarkerAlt className="text-red-500 text-lg" />
+                              <FaMapMarkerAlt className="text-lg text-red-500" />
                               <div className="text-gray-700 dark:text-gray-300">
                                 <p>{dist.location.address}</p>
                                 <p>
@@ -624,7 +624,7 @@ export default function CampaignDetailPage({
 
                         {/* Divider giữa các khoản cứu trợ */}
                         {index < campaign.distributions.length - 1 && (
-                          <div className="border-t mt-6"></div> // Đường ngăn cách giữa các khoản cứu trợ
+                          <div className="mt-6 border-t"></div> // Đường ngăn cách giữa các khoản cứu trợ
                         )}
                       </div>
                     ))}
@@ -662,7 +662,7 @@ export default function CampaignDetailPage({
                                 : "text-gray-300"
                             }
                           >
-                            <Star className="h-5 w-5 fill-current" />
+                            <Star className="size-5 fill-current" />
                           </Button>
                         ))}
                       </div>

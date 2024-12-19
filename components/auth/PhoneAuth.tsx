@@ -56,7 +56,7 @@ export default function PhoneAuth({ phone, onVerificationSuccess }: PhoneAuthPro
         />
         <Button
           onClick={handleVerifyOTP}
-          className="w-full mt-2"
+          className="mt-2 w-full"
           disabled={isLoading}
         >
           {isLoading ? "Đang xác thực..." : "Xác nhận"}

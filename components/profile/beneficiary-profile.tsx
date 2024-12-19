@@ -132,18 +132,18 @@ export function BeneficiaryProfile() {
   if (!userData) return <div>Không có dữ liệu</div>
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6">
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-center space-x-6 mb-8">
+          <div className="mb-8 flex items-center space-x-6">
             <div className="relative">
-              <Avatar className="w-24 h-24">
+              <Avatar className="size-24">
                 <AvatarImage src={userData.profileImage || ""} alt={userData.fullName} />
                 <AvatarFallback>{userData.fullName.charAt(0)}</AvatarFallback>
               </Avatar>
               <label 
                 htmlFor="avatar-upload" 
-                className="absolute bottom-0 right-0 bg-primary text-primary-foreground rounded-full p-1 cursor-pointer"
+                className="absolute bottom-0 right-0 cursor-pointer rounded-full bg-primary p-1 text-primary-foreground"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -162,13 +162,13 @@ export function BeneficiaryProfile() {
             <div>
               <h2 className="text-2xl font-semibold">{userData.fullName}</h2>
               <p className="text-muted-foreground">{userData.email}</p>
-              <p className="text-sm text-muted-foreground mt-1">
+              <p className="mt-1 text-sm text-muted-foreground">
                 Số điện thoại: {userData.phone}
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div className="space-y-6">
               <h3 className="text-lg font-medium">Thông tin cơ bản</h3>
               <div className="space-y-4">
@@ -188,11 +188,11 @@ export function BeneficiaryProfile() {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Số điện thoại</label>
-                  <Input disabled value={userData.phone} className="bg-muted cursor-not-allowed" />
+                  <Input disabled value={userData.phone} className="cursor-not-allowed bg-muted" />
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Vai trò</label>
-                  <Input disabled value="Người nhận hỗ trợ" className="bg-muted cursor-not-allowed" />
+                  <Input disabled value="Người nhận hỗ trợ" className="cursor-not-allowed bg-muted" />
                 </div>
               </div>
             </div>
@@ -213,13 +213,13 @@ export function BeneficiaryProfile() {
             </div>
           </div>
 
-          <div className="mt-8 pt-6 border-t grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+          <div className="mt-8 grid grid-cols-1 gap-4 border-t pt-6 text-sm text-muted-foreground md:grid-cols-2">
             <div>Ngày tạo: {new Date(userData.createdAt).toLocaleDateString('vi-VN')}</div>
             <div>Cập nhật lần cuối: {new Date(userData.updatedAt).toLocaleDateString('vi-VN')}</div>
           </div>
 
           <Button 
-            className="w-full mt-8" 
+            className="mt-8 w-full" 
             onClick={handleSave}
             disabled={isSaving}
           >

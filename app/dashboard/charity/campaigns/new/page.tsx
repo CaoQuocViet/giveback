@@ -137,7 +137,7 @@ export default function NewCampaignPage() {
 
   // Rest of your JSX remains the same, just update the button states
   return (
-    <div className="container mx-auto py-6 space-y-6">
+    <div className="container mx-auto space-y-6 py-6">
       <Card className="p-6">
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold tracking-tight">

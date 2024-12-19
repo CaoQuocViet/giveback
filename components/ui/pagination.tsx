@@ -26,7 +26,7 @@ export function Pagination({
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="size-4" />
       </Button>
       <div className="text-sm">
         Trang {page} / {totalPages}
@@ -37,7 +37,7 @@ export function Pagination({
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="size-4" />
       </Button>
     </div>
   )

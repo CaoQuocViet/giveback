@@ -112,7 +112,7 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
         <Input 
           disabled
           value="Đóng góp trực tiếp qua tổ chức"
-          className="bg-muted cursor-not-allowed"
+          className="cursor-not-allowed bg-muted"
         />
       </div>
 

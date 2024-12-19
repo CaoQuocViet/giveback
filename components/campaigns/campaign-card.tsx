@@ -15,7 +15,7 @@ interface CampaignCardProps {
 
 export function CampaignCard({ campaign }: CampaignCardProps) {
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-200">
+    <Card className="overflow-hidden transition-shadow duration-200 hover:shadow-lg">
       <div className="relative aspect-square overflow-hidden">
         <Image
           src={campaign.campaign_image ? campaign.campaign_image : "/campaign-placeholder.jpg"}
@@ -29,7 +29,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
       <CardContent className="p-6">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold truncate flex-1 mr-2">
+            <h3 className="mr-2 flex-1 truncate font-semibold">
               {campaign.title}
             </h3>
             <Badge variant={getStatusVariant(campaign.status)}>

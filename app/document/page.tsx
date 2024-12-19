@@ -4,16 +4,16 @@ import { motion } from "framer-motion"
 
 export default function DocumentPage() {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 px-4 py-12 dark:bg-gray-900 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="overflow-hidden rounded-lg bg-white dark:bg-gray-800 shadow-xl"
+          className="overflow-hidden rounded-lg bg-white shadow-xl dark:bg-gray-800"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-700 dark:to-blue-900 px-6 py-8">
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-8 dark:from-blue-700 dark:to-blue-900">
             <h1 className="text-3xl font-bold text-white">
               Hướng dẫn & Mục tiêu Dự án GIVEBACK
             </h1>
@@ -50,7 +50,7 @@ export default function DocumentPage() {
                 <span className="mr-2">👥</span> Đối tượng Sử dụng
               </h2>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div className="rounded-lg bg-blue-50 dark:bg-blue-900/30 p-4">
+                <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/30">
                   <h3 className="mb-2 font-semibold text-blue-800 dark:text-blue-300">
                     Người Đóng góp
                   </h3>
@@ -62,7 +62,7 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-lg bg-green-50 dark:bg-green-900/30 p-4">
+                <div className="rounded-lg bg-green-50 p-4 dark:bg-green-900/30">
                   <h3 className="mb-2 font-semibold text-green-800 dark:text-green-300">
                     Tổ chức Từ thiện
                   </h3>
@@ -74,7 +74,7 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-lg bg-purple-50 dark:bg-purple-900/30 p-4">
+                <div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-900/30">
                   <h3 className="mb-2 font-semibold text-purple-800 dark:text-purple-300">
                     Quản trị viên
                   </h3>
@@ -94,7 +94,7 @@ export default function DocumentPage() {
                 <span className="mr-2">⭐</span> Tính năng Nổi bật
               </h2>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 dark:bg-gray-800">
+                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                   <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">
                     <span className="mr-2">💳</span> Đa dạng Hình thức Đóng góp
                   </h3>
@@ -105,7 +105,7 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 dark:bg-gray-800">
+                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                   <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">
                     <span className="mr-2">📊</span> Báo cáo Minh bạch
                   </h3>
@@ -116,7 +116,7 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 dark:bg-gray-800">
+                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                   <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">
                     <span className="mr-2">🗺️</span> Bản đồ Thiên tai
                   </h3>
@@ -127,7 +127,7 @@ export default function DocumentPage() {
                   </ul>
                 </div>
 
-                <div className="rounded-lg border border-gray-200 dark:border-gray-700 p-4 dark:bg-gray-800">
+                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700 dark:bg-gray-800">
                   <h3 className="mb-2 font-semibold text-gray-800 dark:text-gray-200">
                     <span className="mr-2">📱</span> Tiện ích
                   </h3>
@@ -147,7 +147,7 @@ export default function DocumentPage() {
               </h2>
               <div className="relative">
                 <div className="absolute inset-y-0 left-4 w-0.5 bg-gray-200 dark:bg-gray-700"></div>
-                <div className="relative space-y-6 left-3">
+                <div className="relative left-3 space-y-6">
                   {[
                     {
                       title: "Bước 1: Đăng ký & Xác thực",
@@ -167,7 +167,7 @@ export default function DocumentPage() {
                     },
                   ].map((step, index) => (
                     <div key={index} className="relative ml-8">
-                      <div className="absolute -left-10 mt-1.5 flex size-6 items-center justify-center rounded-full bg-blue-600 dark:bg-blue-700 text-white">
+                      <div className="absolute -left-10 mt-1.5 flex size-6 items-center justify-center rounded-full bg-blue-600 text-white dark:bg-blue-700">
                         {index + 1}
                       </div>
                       <h3 className="font-semibold text-gray-800 dark:text-gray-200">
@@ -185,8 +185,8 @@ export default function DocumentPage() {
               <h2 className="mb-4 flex items-center text-2xl font-semibold text-gray-800 dark:text-gray-100">
                 <span className="mr-2">📞</span> Liên hệ Hỗ trợ
               </h2>
-              <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-                <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+                <p className="mb-4 text-gray-600 dark:text-gray-300">
                   Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua các kênh dưới đây:
                 </p>
                 <ul className="space-y-4">

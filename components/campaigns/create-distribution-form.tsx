@@ -264,8 +264,8 @@ export function CreateDistributionForm({ onSuccess }: CreateDistributionFormProp
               const files = Array.from(e.target.files || [])
               setFormData({...formData, proof_images: files})
             }}
-            className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0
-              file:text-sm file:font-medium file:bg-primary/10 file:text-primary
+            className="file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4
+              file:py-2 file:text-sm file:font-medium file:text-primary
               hover:file:bg-primary/20"
           />
         </div>

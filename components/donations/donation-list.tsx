@@ -37,7 +37,7 @@ export function DonationList({ donations }: DonationListProps) {
                   {donation.campaignTitle}
                 </Link>
                 <div className="flex items-center text-sm text-muted-foreground">
-                  <Building2 className="mr-2 h-4 w-4" />
+                  <Building2 className="mr-2 size-4" />
                   {donation.charityTitle}
                 </div>
               </div>
@@ -52,12 +52,12 @@ export function DonationList({ donations }: DonationListProps) {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
-                  <CreditCard className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <CreditCard className="mr-2 size-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Phương thức:</span>
                   <span className="ml-2 font-medium">{donation.paymentMethod}</span>
                 </div>
                 <div className="flex items-center text-sm">
-                  <CalendarIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <CalendarIcon className="mr-2 size-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Thời gian:</span>
                   <span className="ml-2 font-medium">
                     {formatDate(donation.createdAt)}
@@ -77,7 +77,7 @@ export function DonationList({ donations }: DonationListProps) {
                   <span className="ml-2 font-medium">{donation.transactionId}</span>
                 </div>
                 <div className="flex items-center text-sm">
-                  <User className="mr-2 h-4 w-4 text-muted-foreground" />
+                  <User className="mr-2 size-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Hiển thị:</span>
                   <span className="ml-2 font-medium">
                     {donation.isAnonymous ? "Ẩn danh" : "Công khai"}

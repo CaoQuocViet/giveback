@@ -126,7 +126,7 @@ export function DonationHistory() {
             onClick={handleExportExcel}
             className="flex items-center gap-2 bg-green-800 text-white hover:bg-green-900"
           >
-            <FileSpreadsheet className="h-4 w-4" />
+            <FileSpreadsheet className="size-4" />
             Xuất Excel
           </Button>
           <Button
@@ -134,7 +134,7 @@ export function DonationHistory() {
             onClick={handleExportPDF}
             className="flex items-center gap-2 bg-orange-600 text-white hover:bg-orange-700"
           >
-            <FileText className="h-4 w-4" />
+            <FileText className="size-4" />
             Xuất PDF
           </Button>
           <DonationFilter filter={filter} onChange={setFilter} />

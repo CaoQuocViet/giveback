@@ -96,10 +96,10 @@ export default function ResetPassword() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
-      <div className="w-full max-w-md mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-          <div className="space-y-2 text-center mb-8">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
+      <div className="mx-auto w-full max-w-md">
+        <div className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+          <div className="mb-8 space-y-2 text-center">
             <h1 className="text-2xl font-bold dark:text-white">Khôi phục mật khẩu</h1>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
               {step === 1 && "Nhập email hoặc số điện thoại để nhận mã xác thực"}
@@ -109,7 +109,7 @@ export default function ResetPassword() {
           </div>
 
           {error && (
-            <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400 mb-6">
+            <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
               <span className="block sm:inline">{error}</span>
             </div>
           )}

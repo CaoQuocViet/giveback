@@ -47,12 +47,12 @@ export default function PaymentCallbackPage() {
   }, [router, searchParams])
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">Đang xử lý kết quả thanh toán...</h2>
+        <h2 className="mb-4 text-2xl font-bold">Đang xử lý kết quả thanh toán...</h2>
         <p>Bạn sẽ được chuyển về trang chiến dịch sau
         </p>
-        <p className="font-bold text-3xl">{countdown}s</p>
+        <p className="text-3xl font-bold">{countdown}s</p>
       </div>
     </div>
   )
