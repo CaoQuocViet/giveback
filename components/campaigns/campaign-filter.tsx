@@ -16,24 +16,35 @@ interface CampaignFilterProps {
     rating: string
     search: string
   }
-  onFilterChange: (filter: { status: string; rating: string; search: string }) => void
+  onFilterChange: (filter: {
+    status: string
+    rating: string
+    search: string
+  }) => void
 }
 
-export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) {
+export function CampaignFilter({
+  filter,
+  onFilterChange,
+}: CampaignFilterProps) {
   return (
     <div className="flex items-center gap-4">
       <div className="flex-1">
         <Input
           placeholder="Tên chiến dịch..."
           value={filter.search}
-          onChange={(e) => onFilterChange({ ...filter, search: e.target.value })}
+          onChange={(e) =>
+            onFilterChange({ ...filter, search: e.target.value })
+          }
         />
       </div>
 
       <div className="w-full md:w-48">
         <Select
           value={filter.status}
-          onValueChange={(value) => onFilterChange({ ...filter, status: value })}
+          onValueChange={(value) =>
+            onFilterChange({ ...filter, status: value })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Chọn trạng thái" />
@@ -51,7 +62,9 @@ export function CampaignFilter({ filter, onFilterChange }: CampaignFilterProps) 
       <div className="w-full md:w-48">
         <Select
           value={filter.rating}
-          onValueChange={(value) => onFilterChange({ ...filter, rating: value })}
+          onValueChange={(value) =>
+            onFilterChange({ ...filter, rating: value })
+          }
         >
           <SelectTrigger>
             <SelectValue placeholder="Chọn đánh giá" />

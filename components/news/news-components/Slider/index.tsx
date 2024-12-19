@@ -4,9 +4,11 @@ import { Swiper, SwiperSlide } from "swiper/react"
 // Import Swiper styles
 import "swiper/css"
 import "swiper/css/bundle"
+import Image from "next/image"
+
 import { transformImagePaths } from "../../utils/utils"
 import classes from "./slider.module.scss"
-import Image from "next/image"
+
 const Slider = ({
   images,
   className,

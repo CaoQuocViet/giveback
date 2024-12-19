@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -22,11 +23,14 @@ export default function ResetPassword() {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/request`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier })
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/request`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier }),
+        }
+      )
 
       const data = await response.json()
       if (!response.ok) throw new Error(data.message)
@@ -45,11 +49,14 @@ export default function ResetPassword() {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/verify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier, token: otp })
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/verify`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ identifier, token: otp }),
+        }
+      )
 
       const data = await response.json()
       if (!response.ok) throw new Error(data.message)
@@ -74,15 +81,18 @@ export default function ResetPassword() {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/reset`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          identifier,
-          token: otp,
-          newPassword
-        })
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password/reset`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            identifier,
+            token: otp,
+            newPassword,
+          }),
+        }
+      )
 
       const data = await response.json()
       if (!response.ok) throw new Error(data.message)
@@ -100,9 +110,12 @@ export default function ResetPassword() {
       <div className="mx-auto w-full max-w-md">
         <div className="rounded-xl border border-gray-100 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <div className="mb-8 space-y-2 text-center">
-            <h1 className="text-2xl font-bold dark:text-white">Khôi phục mật khẩu</h1>
+            <h1 className="text-2xl font-bold dark:text-white">
+              Khôi phục mật khẩu
+            </h1>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
-              {step === 1 && "Nhập email hoặc số điện thoại để nhận mã xác thực"}
+              {step === 1 &&
+                "Nhập email hoặc số điện thoại để nhận mã xác thực"}
               {step === 2 && "Nhập mã xác thực đã được gửi đến email của bạn"}
               {step === 3 && "Nhập mật khẩu mới"}
             </p>
@@ -127,11 +140,7 @@ export default function ResetPassword() {
                   required
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Đang gửi..." : "Gửi mã xác thực"}
               </Button>
             </form>
@@ -150,11 +159,7 @@ export default function ResetPassword() {
                   required
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Đang xác thực..." : "Xác thực"}
               </Button>
             </form>
@@ -184,11 +189,7 @@ export default function ResetPassword() {
                   required
                 />
               </div>
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
+              <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Đang cập nhật..." : "Đặt lại mật khẩu"}
               </Button>
             </form>
@@ -197,4 +198,4 @@ export default function ResetPassword() {
       </div>
     </main>
   )
-} 
+}

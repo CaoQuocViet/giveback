@@ -1,12 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { CalendarIcon, CreditCard, User, Building2 } from "lucide-react"
+import { Building2, CalendarIcon, CreditCard, User } from "lucide-react"
 
-import { formatDate, formatAmount } from "@/lib/utils"
+import { DonationHistory } from "@/types/donation"
+import { formatAmount, formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
-import { DonationHistory } from "@/types/donation"
 import { Separator } from "@/components/ui/separator"
 
 interface DonationListProps {
@@ -54,7 +54,9 @@ export function DonationList({ donations }: DonationListProps) {
                 <div className="flex items-center text-sm">
                   <CreditCard className="mr-2 size-4 text-muted-foreground" />
                   <span className="text-muted-foreground">Phương thức:</span>
-                  <span className="ml-2 font-medium">{donation.paymentMethod}</span>
+                  <span className="ml-2 font-medium">
+                    {donation.paymentMethod}
+                  </span>
                 </div>
                 <div className="flex items-center text-sm">
                   <CalendarIcon className="mr-2 size-4 text-muted-foreground" />
@@ -74,7 +76,9 @@ export function DonationList({ donations }: DonationListProps) {
               <div className="space-y-2">
                 <div className="flex items-center text-sm">
                   <span className="text-muted-foreground">Mã giao dịch:</span>
-                  <span className="ml-2 font-medium">{donation.transactionId}</span>
+                  <span className="ml-2 font-medium">
+                    {donation.transactionId}
+                  </span>
                 </div>
                 <div className="flex items-center text-sm">
                   <User className="mr-2 size-4 text-muted-foreground" />

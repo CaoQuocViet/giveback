@@ -1,11 +1,16 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Card } from "@/components/ui/card"
+import { useSession } from "next-auth/react"
+
+import { CampaignEditData } from "@/types/campaign-edit"
+import apiClient from "@/lib/api-client"
+import { API_ENDPOINTS } from "@/lib/api-config"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
@@ -13,29 +18,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react"
-import { CampaignEditData } from "@/types/campaign-edit"
-import apiClient from "@/lib/api-client"
-import { API_ENDPOINTS } from "@/lib/api-config"
+import { Textarea } from "@/components/ui/textarea"
 
 // Helper function to format ISO date to YYYY-MM-DD
 const formatDateForInput = (isoDate: string) => {
   try {
-    return new Date(isoDate).toISOString().split('T')[0];
+    return new Date(isoDate).toISOString().split("T")[0]
   } catch (error) {
-    console.error('Error formatting date:', error);
-    return '';
+    console.error("Error formatting date:", error)
+    return ""
   }
 }
 
 // Helper function to format YYYY-MM-DD to ISO
 const formatDateForApi = (dateString: string) => {
   try {
-    return new Date(dateString).toISOString();
+    return new Date(dateString).toISOString()
   } catch (error) {
-    console.error('Error formatting date for API:', error);
-    return '';
+    console.error("Error formatting date for API:", error)
+    return ""
   }
 }
 
@@ -48,16 +49,18 @@ export default function EditCampaignPage({
   const router = useRouter()
   const [campaign, setCampaign] = useState<CampaignEditData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [status, setStatus] = useState(campaign?.status || 'STARTING')
+  const [status, setStatus] = useState(campaign?.status || "STARTING")
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   useEffect(() => {
     const fetchCampaign = async () => {
       try {
-        const response = await apiClient.get(API_ENDPOINTS.CAMPAIGN_EDIT.GET(params.id))
+        const response = await apiClient.get(
+          API_ENDPOINTS.CAMPAIGN_EDIT.GET(params.id)
+        )
         setCampaign(response.data)
       } catch (error) {
-        console.error('Error fetching campaign:', error)
+        console.error("Error fetching campaign:", error)
       } finally {
         setLoading(false)
       }
@@ -71,31 +74,31 @@ export default function EditCampaignPage({
     if (!campaign) return
 
     const formData = new FormData()
-    formData.append('status', status)
-    formData.append('endDate', formatDateForApi(e.currentTarget.endDate.value))
-    formData.append('targetAmount', e.currentTarget.targetAmount.value)
-    formData.append('description', e.currentTarget.description.value)
-    formData.append('detailGoal', e.currentTarget.detailGoal.value)
+    formData.append("status", status)
+    formData.append("endDate", formatDateForApi(e.currentTarget.endDate.value))
+    formData.append("targetAmount", e.currentTarget.targetAmount.value)
+    formData.append("description", e.currentTarget.description.value)
+    formData.append("detailGoal", e.currentTarget.detailGoal.value)
 
     if (selectedFile) {
-      formData.append('images', selectedFile)
+      formData.append("images", selectedFile)
     } else {
-      formData.append('images', campaign.images)
+      formData.append("images", campaign.images)
     }
 
     try {
       const response = await apiClient.put(
-        API_ENDPOINTS.CAMPAIGN_EDIT.UPDATE(params.id), 
+        API_ENDPOINTS.CAMPAIGN_EDIT.UPDATE(params.id),
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       )
-      router.push('/dashboard/charity/campaigns')
+      router.push("/dashboard/charity/campaigns")
     } catch (error) {
-      console.error('Error updating campaign:', error)
+      console.error("Error updating campaign:", error)
     }
   }
 
@@ -135,8 +138,8 @@ export default function EditCampaignPage({
             {/* Trạng thái */}
             <div className="space-y-2">
               <Label htmlFor="status">Trạng thái</Label>
-              <Select 
-                defaultValue={campaign.status} 
+              <Select
+                defaultValue={campaign.status}
                 onValueChange={setStatus}
                 value={status}
               >
@@ -228,7 +231,9 @@ export default function EditCampaignPage({
                 onChange={handleFileChange}
               />
               <p className="text-sm text-muted-foreground">
-                {campaign.images ? 'Ảnh hiện tại: ' + campaign.images : 'Chưa có ảnh'}
+                {campaign.images
+                  ? "Ảnh hiện tại: " + campaign.images
+                  : "Chưa có ảnh"}
               </p>
               <p className="text-sm text-muted-foreground">
                 Chọn ảnh mới để thay thế ảnh cũ

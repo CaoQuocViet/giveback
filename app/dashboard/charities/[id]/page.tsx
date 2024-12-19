@@ -1,39 +1,58 @@
 "use client"
 
-import { useParams } from "next/navigation"
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Check, Facebook, Mail, MapPin, Phone, Star, Twitter, XCircle, Youtube } from "lucide-react"
+import { useParams } from "next/navigation"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Cookies from "js-cookie"
-import { useToast } from "@/components/ui/use-toast"
-import { useQueryClient } from "@tanstack/react-query"
+import {
+  Check,
+  Facebook,
+  Mail,
+  MapPin,
+  Phone,
+  Star,
+  Twitter,
+  XCircle,
+  Youtube,
+} from "lucide-react"
 
+import { CharityDetailResponse } from "@/types/charity-detail"
+import { formatAmount, formatDate } from "@/lib/utils"
+import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Pagination } from "@/components/ui/pagination"
-import { formatAmount, formatDate } from "@/lib/utils"
-import { useQuery } from "@tanstack/react-query"
-import { CharityDetailResponse } from "@/types/charity-detail"
-import { useAuth } from "@/hooks/useAuth"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { useToast } from "@/components/ui/use-toast"
 import ImageModal from "@/components/image-modal"
 
 const getCharityDetail = async (id: string): Promise<CharityDetailResponse> => {
   const token = Cookies.get("auth_token")
   if (!token) {
-    throw new Error('No auth token found')
+    throw new Error("No auth token found")
   }
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-  })
-  
+  )
+
   if (!response.ok) {
-    throw new Error('Failed to fetch charity detail')
+    throw new Error("Failed to fetch charity detail")
   }
   return response.json()
 }
@@ -48,12 +67,12 @@ export default function CharityDetailPage() {
   const queryClient = useQueryClient()
 
   // Kiểm tra role admin
-  const isAdmin = user?.role === 'ADMIN'
+  const isAdmin = user?.role === "ADMIN"
 
   const { data: charityResponse, isLoading } = useQuery({
-    queryKey: ['charity', id],
+    queryKey: ["charity", id],
     queryFn: () => getCharityDetail(id as string),
-    enabled: !loading && isAuthenticated
+    enabled: !loading && isAuthenticated,
   })
 
   if (loading || isLoading) return <div>Loading...</div>
@@ -62,9 +81,9 @@ export default function CharityDetailPage() {
 
   const charity = {
     ...charityResponse.data,
-    campaigns: charityResponse.data.campaigns.map(campaign => ({
+    campaigns: charityResponse.data.campaigns.map((campaign) => ({
       ...campaign,
-      progress: (campaign.currentAmount / campaign.targetAmount) * 100
+      progress: (campaign.currentAmount / campaign.targetAmount) * 100,
     })),
     // Add user object to match interface
     user: {
@@ -75,30 +94,37 @@ export default function CharityDetailPage() {
       district: charityResponse.data.district,
       province: charityResponse.data.province,
       profileImage: charityResponse.data.avatar,
-      fullName: charityResponse.data.title // hoặc có thể để trống nếu không cần
-    }
+      fullName: charityResponse.data.title, // hoặc có thể để trống nếu không cần
+    },
   }
 
   // Xác định trạng thái của các nút
-  const showVerifyButton = isAdmin && 
-    (charity.verificationStatus === 'PENDING' || charity.verificationStatus === 'REJECTED')
-  const showRejectButton = isAdmin && 
-    (charity.verificationStatus === 'PENDING' || charity.verificationStatus === 'VERIFIED')
+  const showVerifyButton =
+    isAdmin &&
+    (charity.verificationStatus === "PENDING" ||
+      charity.verificationStatus === "REJECTED")
+  const showRejectButton =
+    isAdmin &&
+    (charity.verificationStatus === "PENDING" ||
+      charity.verificationStatus === "VERIFIED")
 
   // Handlers cho các nút (tạm thời console.log)
   const handleVerify = async () => {
     try {
-      const token = Cookies.get('auth_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/verify`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      const token = Cookies.get("auth_token")
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/verify`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-      })
+      )
 
       if (!response.ok) {
-        throw new Error('Failed to verify charity')
+        throw new Error("Failed to verify charity")
       }
 
       toast({
@@ -107,33 +133,35 @@ export default function CharityDetailPage() {
       })
 
       // Refresh data
-      await queryClient.invalidateQueries(['charity', id])
-
+      await queryClient.invalidateQueries(["charity", id])
     } catch (error) {
-      console.error('Error verifying charity:', error)
+      console.error("Error verifying charity:", error)
       toast({
         title: "Lỗi",
         description: "Không thể xác thực tổ chức. Vui lòng thử lại sau.",
-        variant: "destructive"
+        variant: "destructive",
       })
     }
   }
 
   const handleReject = async () => {
     try {
-      const token = Cookies.get('auth_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/reject`, {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+      const token = Cookies.get("auth_token")
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/charities/${id}/reject`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-      })
+      )
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to reject charity')
+        throw new Error(data.message || "Failed to reject charity")
       }
 
       toast({
@@ -142,14 +170,15 @@ export default function CharityDetailPage() {
       })
 
       // Refresh data
-      await queryClient.invalidateQueries(['charity', id])
-
+      await queryClient.invalidateQueries(["charity", id])
     } catch (error) {
-      console.error('Error rejecting charity:', error)
+      console.error("Error rejecting charity:", error)
       toast({
         title: "Lỗi",
-        description: error.message || "Không thể từ chối xác thực tổ chức. Vui lòng thử lại sau.",
-        variant: "destructive"
+        description:
+          error.message ||
+          "Không thể từ chối xác thực tổ chức. Vui lòng thử lại sau.",
+        variant: "destructive",
       })
     }
   }
@@ -167,7 +196,7 @@ export default function CharityDetailPage() {
     if (user?.ward) parts.push(user.ward)
     if (user?.district) parts.push(user.district)
     if (user?.province) parts.push(user.province)
-    return parts.join(', ') || 'Chưa cập nhật'
+    return parts.join(", ") || "Chưa cập nhật"
   }
 
   return (
@@ -178,8 +207,8 @@ export default function CharityDetailPage() {
           {/* Avatar với kích thước cố định và căn chỉnh */}
           <div className="relative flex size-[172px] shrink-0 items-center justify-center overflow-hidden rounded-xl shadow-md ring-1 ring-gray-200 dark:ring-gray-700">
             <Image
-              src={charity.user?.profileImage || '/placeholder.png'}
-              alt={charity.title || 'Charity'}
+              src={charity.user?.profileImage || "/placeholder.png"}
+              alt={charity.title || "Charity"}
               fill
               className="object-cover object-center"
             />
@@ -228,25 +257,37 @@ export default function CharityDetailPage() {
               </div>
 
               {/* Description */}
-              <p className="mb-4 max-w-2xl text-gray-600 dark:text-gray-400">{charity.description}</p>
+              <p className="mb-4 max-w-2xl text-gray-600 dark:text-gray-400">
+                {charity.description}
+              </p>
             </div>
 
             {/* Stats section - luôn ở dưới cùng */}
             <div className="grid grid-cols-3 gap-6">
               <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
-                <div className="font-medium text-gray-900 dark:text-gray-100">{charity.statistics.totalCampaigns}</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Chiến dịch</div>
+                <div className="font-medium text-gray-900 dark:text-gray-100">
+                  {charity.statistics.totalCampaigns}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Chiến dịch
+                </div>
               </div>
               <div className="rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
                 <div className="font-medium text-gray-900 dark:text-gray-100">
                   {formatAmount(charity.statistics.totalRaised)} VNĐ
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Đã quyên góp</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Đã quyên góp
+                </div>
               </div>
               <div className="flex items-center gap-1 rounded-lg bg-white p-3 shadow-sm ring-1 ring-gray-100 dark:bg-gray-800 dark:ring-gray-700">
                 <Star className="size-4 fill-yellow-400 text-yellow-400" />
-                <div className="font-medium text-gray-900 dark:text-gray-100">{charity.rating}/5</div>
-                <div className="ml-1 text-sm text-gray-600 dark:text-gray-400">Đánh giá</div>
+                <div className="font-medium text-gray-900 dark:text-gray-100">
+                  {charity.rating}/5
+                </div>
+                <div className="ml-1 text-sm text-gray-600 dark:text-gray-400">
+                  Đánh giá
+                </div>
               </div>
             </div>
           </div>
@@ -262,27 +303,41 @@ export default function CharityDetailPage() {
             {/* Contact Info Card */}
             <Card className="h-[calc(50%-12px)] overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
               <CardContent className="p-6">
-                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin liên hệ</h2>
+                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Thông tin liên hệ
+                </h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-2">
                     <MapPin className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium dark:text-gray-200">Địa chỉ</div>
-                      <div className="dark:text-gray-400">{formatAddress(charity.user)}</div>
+                      <div className="font-medium dark:text-gray-200">
+                        Địa chỉ
+                      </div>
+                      <div className="dark:text-gray-400">
+                        {formatAddress(charity.user)}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Mail className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium dark:text-gray-200">Email</div>
-                      <div className="dark:text-gray-400">{charity.user?.email || 'Chưa cập nhật'}</div>
+                      <div className="font-medium dark:text-gray-200">
+                        Email
+                      </div>
+                      <div className="dark:text-gray-400">
+                        {charity.user?.email || "Chưa cập nhật"}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
                     <Phone className="mt-0.5 size-5 text-muted-foreground dark:text-gray-400" />
                     <div>
-                      <div className="font-medium dark:text-gray-200">Điện thoại</div>
-                      <div className="dark:text-gray-400">{charity.user?.phone || 'Chưa cập nhật'}</div>
+                      <div className="font-medium dark:text-gray-200">
+                        Điện thoại
+                      </div>
+                      <div className="dark:text-gray-400">
+                        {charity.user?.phone || "Chưa cập nhật"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -292,17 +347,31 @@ export default function CharityDetailPage() {
             {/* Organization Info Card */}
             <Card className="h-[calc(50%-12px)] overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
               <CardContent className="p-6">
-                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Thông tin tổ chức</h2>
+                <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  Thông tin tổ chức
+                </h2>
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày thành lập</div>
-                    <div className="dark:text-gray-300">{charity.foundingDate ? formatDate(charity.foundingDate) : 'Chưa cập nhật'}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Ngày thành lập
+                    </div>
+                    <div className="dark:text-gray-300">
+                      {charity.foundingDate
+                        ? formatDate(charity.foundingDate)
+                        : "Chưa cập nhật"}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Website</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Website
+                    </div>
                     {charity.website ? (
-                      <a href={charity.website} target="_blank" rel="noopener noreferrer" 
-                         className="text-primary hover:underline dark:text-gray-300">
+                      <a
+                        href={charity.website}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary hover:underline dark:text-gray-300"
+                      >
                         {charity.website}
                       </a>
                     ) : (
@@ -310,23 +379,37 @@ export default function CharityDetailPage() {
                     )}
                   </div>
                   <div>
-                    <div className="mb-2 text-sm font-medium text-muted-foreground dark:text-gray-400">Mạng xã hội</div>
+                    <div className="mb-2 text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Mạng xã hội
+                    </div>
                     <div className="flex gap-4 dark:text-gray-300">
                       {charity.socialLinks?.facebook && (
-                        <a href={charity.socialLinks.facebook} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Facebook className="size-5" />
                         </a>
                       )}
                       {charity.socialLinks?.twitter && (
-                        <a href={charity.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.twitter}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Twitter className="size-5" />
                         </a>
                       )}
                       {charity.socialLinks?.youtube && (
-                        <a href={charity.socialLinks.youtube} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.youtube}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Youtube className="size-5" />
                         </a>
                       )}
@@ -340,29 +423,47 @@ export default function CharityDetailPage() {
           {/* Right column - License Card */}
           <Card className="h-full overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:to-gray-900 dark:ring-gray-700">
             <CardContent className="p-6">
-              <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Giấy phép hoạt động</h2>
+              <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+                Giấy phép hoạt động
+              </h2>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Số giấy phép</div>
-                    <div className="dark:text-gray-300">{charity.licenseNumber}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Số giấy phép
+                    </div>
+                    <div className="dark:text-gray-300">
+                      {charity.licenseNumber}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Ngày cấp</div>
-                    <div className="dark:text-gray-300">{formatDate(charity.licenseDate)}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Ngày cấp
+                    </div>
+                    <div className="dark:text-gray-300">
+                      {formatDate(charity.licenseDate)}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Cơ quan cấp</div>
-                    <div className="dark:text-gray-300">{charity.licenseIssuer}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Cơ quan cấp
+                    </div>
+                    <div className="dark:text-gray-300">
+                      {charity.licenseIssuer}
+                    </div>
                   </div>
                   <div>
-                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">Mô tả</div>
-                    <div className="dark:text-gray-300">{charity.licenseDescription}</div>
+                    <div className="text-sm font-medium text-muted-foreground dark:text-gray-400">
+                      Mô tả
+                    </div>
+                    <div className="dark:text-gray-300">
+                      {charity.licenseDescription}
+                    </div>
                   </div>
                 </div>
                 <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
                   <Image
-                    src={charity.licenseImageUrl || '/placeholder.png'}
+                    src={charity.licenseImageUrl || "/placeholder.png"}
                     alt="Giấy phép hoạt động"
                     fill
                     className="cursor-pointer object-cover transition-opacity hover:opacity-90"
@@ -377,21 +478,36 @@ export default function CharityDetailPage() {
         {/* Row 2: Campaigns Table */}
         <Card className="overflow-hidden bg-white shadow-sm ring-1 ring-gray-100 dark:bg-black dark:ring-gray-700">
           <CardContent className="p-6">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">Danh sách chiến dịch</h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Danh sách chiến dịch
+            </h2>
             <div className="rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
               <Table>
                 <TableHeader>
                   <TableRow className="bg-gray-100 dark:bg-gray-900">
-                    <TableHead className="text-gray-600 dark:text-gray-400">Tên chiến dịch</TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">Trạng thái</TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">Mục tiêu</TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">Đã quyên góp</TableHead>
-                    <TableHead className="text-gray-600 dark:text-gray-400">Thời gian</TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">
+                      Tên chiến dịch
+                    </TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">
+                      Trạng thái
+                    </TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">
+                      Mục tiêu
+                    </TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">
+                      Đã quyên góp
+                    </TableHead>
+                    <TableHead className="text-gray-600 dark:text-gray-400">
+                      Thời gian
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {currentCampaigns.map((campaign) => (
-                    <TableRow key={campaign.id} className="dark:border-gray-700">
+                    <TableRow
+                      key={campaign.id}
+                      className="dark:border-gray-700"
+                    >
                       <TableCell className="dark:text-gray-300">
                         <Link
                           href={`/dashboard/campaigns/${campaign.id}`}
@@ -401,7 +517,10 @@ export default function CharityDetailPage() {
                         </Link>
                       </TableCell>
                       <TableCell className="dark:text-gray-300">
-                        <Badge variant="secondary" className="dark:bg-gray-700 dark:text-gray-300">
+                        <Badge
+                          variant="secondary"
+                          className="dark:bg-gray-700 dark:text-gray-300"
+                        >
                           {getStatusLabel(campaign.status)}
                         </Badge>
                       </TableCell>
@@ -420,7 +539,7 @@ export default function CharityDetailPage() {
                 </TableBody>
               </Table>
             </div>
-            
+
             {totalCampaigns > itemsPerPage && (
               <div className="mt-4">
                 <Pagination
@@ -439,7 +558,7 @@ export default function CharityDetailPage() {
       {/* Thêm Modal */}
       {showLicenseModal && (
         <ImageModal
-          imageUrl={charity.licenseImageUrl || '/placeholder.png'}
+          imageUrl={charity.licenseImageUrl || "/placeholder.png"}
           onClose={() => setShowLicenseModal(false)}
         />
       )}

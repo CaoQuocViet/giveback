@@ -1,10 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import Cookies from 'js-cookie'
-import { CharityList } from "@/components/charities/charity-list"
+import Cookies from "js-cookie"
+
 import { Pagination } from "@/components/ui/pagination"
+import { CharityList } from "@/components/charities/charity-list"
 
 interface CharityListResponse {
   success: boolean
@@ -16,7 +17,7 @@ interface CharityListResponse {
       rating: string | number
       campaign_count: number
       total_raised: string | number
-      verification_status: 'PENDING' | 'VERIFIED' | 'REJECTED'
+      verification_status: "PENDING" | "VERIFIED" | "REJECTED"
       user: {
         full_name: string
         profile_image: string | null
@@ -32,7 +33,9 @@ interface CharityListResponse {
 
 export default function CharitiesPage() {
   const router = useRouter()
-  const [charities, setCharities] = useState<CharityListResponse['data']['charities']>([])
+  const [charities, setCharities] = useState<
+    CharityListResponse["data"]["charities"]
+  >([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -42,39 +45,42 @@ export default function CharitiesPage() {
   const fetchCharities = async () => {
     try {
       setIsLoading(true)
-      const token = Cookies.get('auth_token')
+      const token = Cookies.get("auth_token")
       if (!token) {
-        router.push('/auth/login')
+        router.push("/auth/login")
         return
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charities?page=${currentPage}&limit=${itemsPerPage}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/charities?page=${currentPage}&limit=${itemsPerPage}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
+      )
 
       if (!response.ok) {
-        throw new Error('Lỗi khi lấy danh sách tổ chức')
+        throw new Error("Lỗi khi lấy danh sách tổ chức")
       }
 
       const data: CharityListResponse = await response.json()
-      
+
       // Transform API data to match CharityList component format
-      const transformedCharities = data.data.charities.map(charity => ({
+      const transformedCharities = data.data.charities.map((charity) => ({
         id: charity.id,
         name: charity.title,
-        logo: charity.user.profile_image 
-          ? (charity.user.profile_image.startsWith('http') 
-            ? charity.user.profile_image 
-            : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`)
-          : '/images/default-charity.jpg', // Fallback image
+        logo: charity.user.profile_image
+          ? charity.user.profile_image.startsWith("http")
+            ? charity.user.profile_image
+            : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`
+          : "/images/default-charity.jpg", // Fallback image
         description: charity.description,
         verification_status: charity.verification_status,
         rating: Number(charity.rating),
         totalCampaigns: charity.campaign_count,
         totalDonations: Number(charity.total_raised),
-        address: '' // TODO: Add address from user data if needed
+        address: "", // TODO: Add address from user data if needed
       }))
 
       setCharities(transformedCharities)
@@ -91,9 +97,11 @@ export default function CharitiesPage() {
   }, [currentPage])
 
   if (isLoading) {
-    return <div className="flex min-h-screen items-center justify-center">
-      <div className="size-32 animate-spin rounded-full border-b-2 border-primary"></div>
-    </div>
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="size-32 animate-spin rounded-full border-b-2 border-primary"></div>
+      </div>
+    )
   }
 
   if (error) {
@@ -103,7 +111,7 @@ export default function CharitiesPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-8">
       <CharityList data={{ charities }} />
-      
+
       <Pagination
         total={totalItems}
         page={currentPage}

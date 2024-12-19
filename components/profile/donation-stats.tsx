@@ -8,7 +8,10 @@ interface DonationStatsProps {
   campaignCount: number
 }
 
-export function DonationStats({ totalDonated, campaignCount }: DonationStatsProps) {
+export function DonationStats({
+  totalDonated,
+  campaignCount,
+}: DonationStatsProps) {
   return (
     <Card>
       <CardContent className="p-6">

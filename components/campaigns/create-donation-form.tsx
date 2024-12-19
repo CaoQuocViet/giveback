@@ -1,40 +1,47 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "sonner"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { toast } from "sonner"
 
 // Cập nhật interface để khớp với model
 interface DonationData {
-  campaignId: string;
-  amount: number;
-  note: string | null;
-  isAnonymous: boolean;
-  status: 'SUCCESS';
-  isIntermediate: boolean;
+  campaignId: string
+  amount: number
+  note: string | null
+  isAnonymous: boolean
+  status: "SUCCESS"
+  isIntermediate: boolean
 }
 
 interface CreateDonationFormProps {
-  campaigns: Array<{id: string, title: string, status: string}>
+  campaigns: Array<{ id: string; title: string; status: string }>
 }
 
 export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
   const [formData, setFormData] = useState({
     campaignId: "",
     amount: "",
-    note: ""
+    note: "",
   })
 
   // Chỉ hiển thị các chiến dịch đang ONGOING
-  const availableCampaigns = campaigns.filter(c => c.status === "ONGOING")
+  const availableCampaigns = campaigns.filter((c) => c.status === "ONGOING")
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    
+
     // Validate amount
     const amount = Number(formData.amount)
     if (isNaN(amount) || amount <= 0) {
@@ -48,25 +55,28 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
       amount: amount,
       note: formData.note || null,
       isAnonymous: false,
-      status: 'SUCCESS',
-      isIntermediate: true
+      status: "SUCCESS",
+      isIntermediate: true,
     }
 
     try {
       console.log("Sending donation data:", donationData) // Debug log
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/system-donor/donations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(donationData),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/system-donor/donations`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(donationData),
+        }
+      )
 
       const result = await response.json()
 
       if (!response.ok) {
-        throw new Error(result.message || 'Failed to create donation')
+        throw new Error(result.message || "Failed to create donation")
       }
 
       toast.success("Tạo khoản đóng góp thành công")
@@ -74,11 +84,15 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
       setFormData({
         campaignId: "",
         amount: "",
-        note: ""
+        note: "",
       })
     } catch (error) {
       console.error("Error creating donation:", error)
-      toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra khi tạo khoản đóng góp")
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Đã có lỗi xảy ra khi tạo khoản đóng góp"
+      )
     }
   }
 
@@ -91,14 +105,14 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
           value={formData.campaignId}
           onValueChange={(value) => {
             console.log("Selected campaign ID:", value) // Debug log
-            setFormData({...formData, campaignId: value})
+            setFormData({ ...formData, campaignId: value })
           }}
         >
           <SelectTrigger>
             <SelectValue placeholder="Chọn chiến dịch đóng góp" />
           </SelectTrigger>
           <SelectContent>
-            {availableCampaigns.map(campaign => (
+            {availableCampaigns.map((campaign) => (
               <SelectItem key={campaign.id} value={campaign.id}>
                 {campaign.title}
               </SelectItem>
@@ -109,7 +123,7 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
 
       <div className="space-y-2">
         <Label>Tên người đóng góp</Label>
-        <Input 
+        <Input
           disabled
           value="Đóng góp trực tiếp qua tổ chức"
           className="cursor-not-allowed bg-muted"
@@ -118,23 +132,23 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
 
       <div className="space-y-2">
         <Label>Số tiền đóng góp (VNĐ)</Label>
-        <Input 
+        <Input
           required
           type="number"
           min="1000"
           step="1000"
           placeholder="Nhập số tiền"
           value={formData.amount}
-          onChange={e => setFormData({...formData, amount: e.target.value})}
+          onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
         />
       </div>
 
       <div className="space-y-2">
         <Label>Ghi chú (không bắt buộc)</Label>
-        <Textarea 
+        <Textarea
           placeholder="Nhập ghi chú"
           value={formData.note}
-          onChange={e => setFormData({...formData, note: e.target.value})}
+          onChange={(e) => setFormData({ ...formData, note: e.target.value })}
         />
       </div>
 
@@ -143,4 +157,4 @@ export function CreateDonationForm({ campaigns }: CreateDonationFormProps) {
       </div>
     </form>
   )
-} 
+}

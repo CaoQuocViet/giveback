@@ -1,7 +1,7 @@
 export interface CampaignEditData {
   id: string
   title: string
-  status: 'STARTING' | 'ONGOING' | 'CLOSED' | 'COMPLETED'
+  status: "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
   startDate: string
   endDate: string
   targetAmount: number
@@ -20,4 +20,4 @@ export interface CampaignEditResponse {
   success: boolean
   data: CampaignEditData
   message?: string
-} 
+}

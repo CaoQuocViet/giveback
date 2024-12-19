@@ -173,7 +173,9 @@ export default function DocumentPage() {
                       <h3 className="font-semibold text-gray-800 dark:text-gray-200">
                         {step.title}
                       </h3>
-                      <p className="mt-1 text-gray-600 dark:text-gray-300">{step.desc}</p>
+                      <p className="mt-1 text-gray-600 dark:text-gray-300">
+                        {step.desc}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -187,22 +189,36 @@ export default function DocumentPage() {
               </h2>
               <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
                 <p className="mb-4 text-gray-600 dark:text-gray-300">
-                  Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua các kênh dưới đây:
+                  Nếu bạn cần hỗ trợ, vui lòng liên hệ với chúng tôi qua các
+                  kênh dưới đây:
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-blue-600 dark:text-blue-400">Email:</span> <a href="mailto:support@giveback.vn" className="ml-2 hover:underline">support@giveback.vn</a>
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      Email:
+                    </span>{" "}
+                    <a
+                      href="mailto:support@giveback.vn"
+                      className="ml-2 hover:underline"
+                    >
+                      support@giveback.vn
+                    </a>
                   </li>
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-blue-600 dark:text-blue-400">Số điện thoại:</span> <span className="ml-2">+84 123 456 789</span>
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      Số điện thoại:
+                    </span>{" "}
+                    <span className="ml-2">+84 123 456 789</span>
                   </li>
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <span className="font-semibold text-blue-600 dark:text-blue-400">Địa chỉ:</span> <span className="ml-2">123 Nhà tui, Đường ABC, TP.HCM</span>
+                    <span className="font-semibold text-blue-600 dark:text-blue-400">
+                      Địa chỉ:
+                    </span>{" "}
+                    <span className="ml-2">123 Nhà tui, Đường ABC, TP.HCM</span>
                   </li>
                 </ul>
               </div>
             </section>
-
           </div>
         </motion.div>
       </div>

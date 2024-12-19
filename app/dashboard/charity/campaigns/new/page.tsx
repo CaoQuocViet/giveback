@@ -1,16 +1,17 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { Card } from "@/components/ui/card"
+import Cookies from "js-cookie"
+import { toast } from "sonner"
+
+import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { AddressFields } from "@/components/profile/address-fields"
-import { useState, useEffect } from "react"
-import { toast } from "sonner"
-import { useAuth } from "@/hooks/useAuth"
-import Cookies from "js-cookie"
 
 // Interface cho form data
 interface CampaignFormData {
@@ -40,7 +41,7 @@ export default function NewCampaignPage() {
     province: "",
     district: "",
     ward: "",
-    address: ""
+    address: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -61,21 +62,26 @@ export default function NewCampaignPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        image: e.target.files![0]
+        image: e.target.files![0],
       }))
     }
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    
+
     try {
       setIsSubmitting(true)
 
       // Validate required fields
-      if (!formData.title || !formData.targetAmount || !formData.startDate || !formData.endDate) {
+      if (
+        !formData.title ||
+        !formData.targetAmount ||
+        !formData.startDate ||
+        !formData.endDate
+      ) {
         toast.error("Vui lòng điền đầy đủ thông tin bắt buộc")
         return
       }
@@ -106,13 +112,16 @@ export default function NewCampaignPage() {
         formDataToSend.append("image", formData.image)
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/charity/campaigns`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        body: formDataToSend
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/charity/campaigns`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formDataToSend,
+        }
+      )
 
       if (!response.ok) {
         const error = await response.json()
@@ -121,7 +130,6 @@ export default function NewCampaignPage() {
 
       toast.success("Tạo chiến dịch thành công")
       router.push("/dashboard/charity/campaigns")
-
     } catch (error) {
       console.error("Create campaign error:", error)
       toast.error(error instanceof Error ? error.message : "Đã có lỗi xảy ra")
@@ -152,7 +160,9 @@ export default function NewCampaignPage() {
                 id="title"
                 placeholder="Nhập tên chiến dịch"
                 value={formData.title}
-                onChange={e => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, title: e.target.value }))
+                }
               />
             </div>
 
@@ -164,7 +174,12 @@ export default function NewCampaignPage() {
                   id="startDate"
                   type="date"
                   value={formData.startDate}
-                  onChange={e => setFormData(prev => ({ ...prev, startDate: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      startDate: e.target.value,
+                    }))
+                  }
                 />
               </div>
               <div className="space-y-2">
@@ -173,7 +188,12 @@ export default function NewCampaignPage() {
                   id="endDate"
                   type="date"
                   value={formData.endDate}
-                  onChange={e => setFormData(prev => ({ ...prev, endDate: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      endDate: e.target.value,
+                    }))
+                  }
                 />
               </div>
             </div>
@@ -186,7 +206,12 @@ export default function NewCampaignPage() {
                 type="number"
                 placeholder="Nhập số tiền"
                 value={formData.targetAmount}
-                onChange={e => setFormData(prev => ({ ...prev, targetAmount: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    targetAmount: e.target.value,
+                  }))
+                }
               />
             </div>
 
@@ -199,7 +224,12 @@ export default function NewCampaignPage() {
                 placeholder="Mô tả tổng quan về mục đích, đối tượng và phạm vi của chiến dịch..."
                 className="resize-none"
                 value={formData.description}
-                onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    description: e.target.value,
+                  }))
+                }
               />
             </div>
 
@@ -212,7 +242,12 @@ export default function NewCampaignPage() {
                 placeholder="Mô tả chi tiết các giai đoạn thực hiện, phân bổ nguồn lực và kết quả dự kiến..."
                 className="resize-none"
                 value={formData.detailGoal}
-                onChange={e => setFormData(prev => ({ ...prev, detailGoal: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    detailGoal: e.target.value,
+                  }))
+                }
               />
             </div>
 
@@ -222,12 +257,12 @@ export default function NewCampaignPage() {
               <AddressFields
                 defaultValues={formData}
                 onChange={(values) => {
-                  setFormData(prev => ({
+                  setFormData((prev) => ({
                     ...prev,
                     province: values.province,
                     district: values.district,
                     ward: values.ward,
-                    address: values.address
+                    address: values.address,
                   }))
                 }}
               />

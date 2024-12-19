@@ -17,21 +17,32 @@ import {
 } from "lucide-react"
 import { marked } from "marked"
 import { useSession } from "next-auth/react"
+import { toast } from "react-hot-toast"
+import {
+  FaHeart,
+  FaMapMarkerAlt,
+  FaMoneyBillWave,
+  FaUsers,
+} from "react-icons/fa"
 
 import { formatAmount, formatDate } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { DonateButton } from "@/components/campaigns/donate-button"
-import { CommentList } from "@/components/reports/comment-list"
-import { toast } from "react-hot-toast"
 import { CampaignStatement } from "@/components/donations/campaign-statement"
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
-import { FaHeart, FaMoneyBillWave, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
+import { CommentList } from "@/components/reports/comment-list"
+
 interface Comment {
   id: string
   user: {
@@ -56,7 +67,7 @@ interface CampaignDonation {
   payment_method: string
   invoice_code: string | null
   transaction_id: string | null
-  status: 'PENDING' | 'SUCCESS' | 'FAILED'
+  status: "PENDING" | "SUCCESS" | "FAILED"
   created_at: string
   is_anonymous: boolean
 }
@@ -239,7 +250,7 @@ export default function CampaignDetailPage({
         {/* Left side - Basic info */}
         <Card className="md:col-span-2">
           <CardContent className="flex h-full flex-col p-6">
-          <div className="grid h-full gap-6 md:grid-cols-2">
+            <div className="grid h-full gap-6 md:grid-cols-2">
               {/* Ảnh minh họa */}
               <div className="relative h-full overflow-hidden rounded-lg">
                 <Image
@@ -384,16 +395,33 @@ export default function CampaignDetailPage({
                   />
                 )}
 
-                <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+                <DropdownMenu
+                  open={isDropdownOpen}
+                  onOpenChange={setIsDropdownOpen}
+                >
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full" onClick={toggleDropdown}>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={toggleDropdown}
+                    >
                       <FileText className="mr-2 size-4" />
                       Sao kê
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem className="bg-green-800 text-white hover:bg-green-900" onClick={() => handleExportExcel(campaign)}>Tải Excel</DropdownMenuItem>
-                    <DropdownMenuItem className="bg-orange-600 text-white hover:bg-orange-700" onClick={() => handleExportPDF(campaign)}>Tải PDF</DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="bg-green-800 text-white hover:bg-green-900"
+                      onClick={() => handleExportExcel(campaign)}
+                    >
+                      Tải Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      className="bg-orange-600 text-white hover:bg-orange-700"
+                      onClick={() => handleExportPDF(campaign)}
+                    >
+                      Tải PDF
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -402,16 +430,17 @@ export default function CampaignDetailPage({
                   className="w-full"
                   onClick={() => {
                     if (campaign.shareUrl) {
-                      navigator.clipboard.writeText(campaign.shareUrl)
+                      navigator.clipboard
+                        .writeText(campaign.shareUrl)
                         .then(() => {
-                          toast.success("Link đã được sao chép vào clipboard!");
+                          toast.success("Link đã được sao chép vào clipboard!")
                         })
-                        .catch(err => {
-                          console.error("Failed to copy: ", err);
-                          toast.error("Failed to copy link.");
-                        });
+                        .catch((err) => {
+                          console.error("Failed to copy: ", err)
+                          toast.error("Failed to copy link.")
+                        })
                     } else {
-                      toast.error("No link available to copy.");
+                      toast.error("No link available to copy.")
                     }
                   }}
                 >
@@ -476,7 +505,6 @@ export default function CampaignDetailPage({
                 Đánh giá
               </TabsTrigger>
             </TabsList>
-
             <TabsContent value="description">
               <Card className="dark:border-gray-700 dark:bg-black">
                 <CardContent className="prose max-w-none pt-6 dark:prose-invert">
@@ -488,7 +516,6 @@ export default function CampaignDetailPage({
                 </CardContent>
               </Card>
             </TabsContent>
-
             <TabsContent value="plan">
               <Card className="dark:border-gray-700 dark:bg-black">
                 <CardContent className="prose max-w-none pt-6 dark:prose-invert">
@@ -500,13 +527,15 @@ export default function CampaignDetailPage({
                 </CardContent>
               </Card>
             </TabsContent>
-
             <TabsContent value="donations">
               <Card>
                 <CardContent className="space-y-4">
                   <div className="space-y-4">
                     {campaign.donations.map((donation) => (
-                      <div key={donation.id} className="flex items-start space-x-4 rounded-lg border p-4">
+                      <div
+                        key={donation.id}
+                        className="flex items-start space-x-4 rounded-lg border p-4"
+                      >
                         <div className="relative size-10 shrink-0">
                           {donation.is_anonymous ? (
                             <div className="flex size-full items-center justify-center rounded-full bg-secondary">
@@ -529,7 +558,9 @@ export default function CampaignDetailPage({
                         <div className="flex-1 space-y-1">
                           <div className="flex items-center justify-between">
                             <div className="font-medium">
-                              {donation.is_anonymous ? "Ẩn danh" : donation.donor.name}
+                              {donation.is_anonymous
+                                ? "Ẩn danh"
+                                : donation.donor.name}
                             </div>
                             <div className="text-sm text-muted-foreground">
                               {formatDate(donation.created_at)}
@@ -537,21 +568,32 @@ export default function CampaignDetailPage({
                           </div>
 
                           <div className="flex items-center space-x-2">
-                            <Badge variant={donation.status === 'SUCCESS' ? 'default' : 'secondary'}>
+                            <Badge
+                              variant={
+                                donation.status === "SUCCESS"
+                                  ? "default"
+                                  : "secondary"
+                              }
+                            >
                               {formatAmount(donation.amount)} VNĐ
                             </Badge>
-                            <Badge variant="outline">{donation.payment_method}</Badge>
+                            <Badge variant="outline">
+                              {donation.payment_method}
+                            </Badge>
                           </div>
 
                           {donation.message && (
-                            <p className="text-sm text-muted-foreground">{donation.message}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {donation.message}
+                            </p>
                           )}
 
-                          {donation.status === 'SUCCESS' && donation.transaction_id && (
-                            <div className="text-xs text-muted-foreground">
-                              Mã giao dịch: {donation.transaction_id}
-                            </div>
-                          )}
+                          {donation.status === "SUCCESS" &&
+                            donation.transaction_id && (
+                              <div className="text-xs text-muted-foreground">
+                                Mã giao dịch: {donation.transaction_id}
+                              </div>
+                            )}
                           {donation.invoice_code && (
                             <div className="text-xs text-muted-foreground">
                               Mã hóa đơn: {donation.invoice_code}
@@ -564,9 +606,7 @@ export default function CampaignDetailPage({
                 </CardContent>
               </Card>
             </TabsContent>
-
             ;
-
             <TabsContent value="distributions">
               <Card className="rounded-lg bg-white shadow-lg dark:bg-black">
                 <CardContent className="p-6">
@@ -578,7 +618,8 @@ export default function CampaignDetailPage({
                       >
                         {/* Header Title */}
                         <div className="flex items-center space-x-3 text-red-500">
-                          <FaHeart className="text-2xl text-red-500" /> {/* Icon Cứu trợ */}
+                          <FaHeart className="text-2xl text-red-500" />{" "}
+                          {/* Icon Cứu trợ */}
                           <h3 className="text-back text-xl font-bold dark:text-white">
                             Cứu trợ - {dist.title}
                           </h3>
@@ -603,7 +644,8 @@ export default function CampaignDetailPage({
                             <div className="flex items-center space-x-3">
                               <FaUsers className="text-lg text-blue-500" />
                               <span className="font-semibold text-gray-700 dark:text-gray-300">
-                                Số người hưởng lợi: {dist.beneficiary_count} người
+                                Số người hưởng lợi: {dist.beneficiary_count}{" "}
+                                người
                               </span>
                             </div>
                           </div>
@@ -615,7 +657,8 @@ export default function CampaignDetailPage({
                               <div className="text-gray-700 dark:text-gray-300">
                                 <p>{dist.location.address}</p>
                                 <p>
-                                  {dist.location.ward}, {dist.location.district}, {dist.location.province}
+                                  {dist.location.ward}, {dist.location.district}
+                                  , {dist.location.province}
                                 </p>
                               </div>
                             </div>
@@ -632,7 +675,6 @@ export default function CampaignDetailPage({
                 </CardContent>
               </Card>
             </TabsContent>
-
             <TabsContent value="comments">
               <Card>
                 <CardContent className="pt-6">

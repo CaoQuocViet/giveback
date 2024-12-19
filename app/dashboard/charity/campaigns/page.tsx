@@ -1,13 +1,27 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { Button } from "@mui/material"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
 import Cookies from "js-cookie"
-import Link from "next/link"
+import { DollarSign, Edit, Heart, Plus } from "lucide-react"
 
+import {
+  CharityCampaign,
+  CharityCampaignResponse,
+} from "@/types/charity-campaigns"
 import { useAuth } from "@/hooks/useAuth"
+import { Badge } from "@/components/ui/badge"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   Table,
   TableBody,
@@ -16,19 +30,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "@mui/material"
-import { CharityCampaign, CharityCampaignResponse } from "@/types/charity-campaigns"
-import { Heart, Plus, DollarSign, Edit } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { CreateDistributionForm } from "@/components/campaigns/create-distribution-form"
 import { CreateDonationForm } from "@/components/campaigns/create-donation-form"
-import { Badge } from "@/components/ui/badge"
 
 export default function CharityCampaigns() {
   const router = useRouter()
@@ -65,7 +68,7 @@ export default function CharityCampaigns() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         }
       )
@@ -97,7 +100,7 @@ export default function CharityCampaigns() {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         }
       )
@@ -113,25 +116,25 @@ export default function CharityCampaigns() {
   }
 
   const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return "Chưa cập nhật";
+    if (!dateStr) return "Chưa cập nhật"
     try {
-      const date = new Date(dateStr);
+      const date = new Date(dateStr)
       if (isNaN(date.getTime())) {
-        return "Không hợp lệ";
+        return "Không hợp lệ"
       }
-      return format(date, "dd/MM/yyyy", { locale: vi });
+      return format(date, "dd/MM/yyyy", { locale: vi })
     } catch (err) {
-      console.error("Error formatting date:", dateStr, err);
-      return "Không hợp lệ";
+      console.error("Error formatting date:", dateStr, err)
+      return "Không hợp lệ"
     }
-  };
+  }
 
   const getStatusText = (status: CharityCampaign["status"]) => {
     const statusMap = {
       STARTING: "Khởi động",
       ONGOING: "Đang diễn ra",
       CLOSED: "Đã đóng",
-      COMPLETED: "Đã kết thúc"
+      COMPLETED: "Đã kết thúc",
     }
     return statusMap[status]
   }
@@ -141,7 +144,7 @@ export default function CharityCampaigns() {
       STARTING: "default",
       ONGOING: "success",
       CLOSED: "warning",
-      COMPLETED: "destructive"
+      COMPLETED: "destructive",
     }
     return variantMap[status]
   }
@@ -156,7 +159,11 @@ export default function CharityCampaigns() {
         <div className="flex gap-2">
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outlined" className="bg-none hover:bg-blue-500 hover:text-white" startIcon={<Heart />}>
+              <Button
+                variant="outlined"
+                className="bg-none hover:bg-blue-500 hover:text-white"
+                startIcon={<Heart />}
+              >
                 Tạo khoản cứu trợ
               </Button>
             </DialogTrigger>
@@ -170,7 +177,11 @@ export default function CharityCampaigns() {
 
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outlined" className="bg-none hover:bg-blue-500 hover:text-white" startIcon={<DollarSign />}>
+              <Button
+                variant="outlined"
+                className="bg-none hover:bg-blue-500 hover:text-white"
+                startIcon={<DollarSign />}
+              >
                 Tạo khoản đóng góp
               </Button>
             </DialogTrigger>
@@ -216,9 +227,9 @@ export default function CharityCampaigns() {
               <TableCell>
                 <div className="flex gap-2">
                   <Link href={`/dashboard/campaigns/${campaign.id}`}>
-                    <Button 
-                      variant="contained" 
-                      size="small" 
+                    <Button
+                      variant="contained"
+                      size="small"
                       color="primary"
                       className="dark:disabled:bg-gray-700 dark:disabled:text-gray-400"
                     >
@@ -227,10 +238,12 @@ export default function CharityCampaigns() {
                   </Link>
 
                   {campaign.status !== "COMPLETED" ? (
-                    <Link href={`/dashboard/charity/campaigns/${campaign.id}/edit`}>
-                      <Button 
-                        variant="outlined" 
-                        size="small" 
+                    <Link
+                      href={`/dashboard/charity/campaigns/${campaign.id}/edit`}
+                    >
+                      <Button
+                        variant="outlined"
+                        size="small"
                         startIcon={<Edit />}
                         className="dark:disabled:border-gray-700 dark:disabled:text-gray-500"
                       >
@@ -238,9 +251,9 @@ export default function CharityCampaigns() {
                       </Button>
                     </Link>
                   ) : (
-                    <Button 
-                      variant="outlined" 
-                      size="small" 
+                    <Button
+                      variant="outlined"
+                      size="small"
                       startIcon={<Edit />}
                       disabled
                       className="dark:disabled:border-gray-700 dark:disabled:text-gray-500"
@@ -251,7 +264,7 @@ export default function CharityCampaigns() {
 
                   <Button
                     variant="contained"
-                    color="error" 
+                    color="error"
                     size="small"
                     onClick={() => handleDelete(campaign.id)}
                     disabled={campaign.status !== "STARTING"}

@@ -1,8 +1,8 @@
+import Image from "next/image"
 import { Star } from "lucide-react"
 
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
-import Image from "next/image"
 
 interface Comment {
   id: string
@@ -66,7 +66,7 @@ export function CommentList({ comments }: { comments: Comment[] }) {
             ) : (
               // Placeholder khi không có avatar
               <span className="text-lg font-medium text-muted-foreground">
-                {comment.user?.name? comment.user.name.charAt(0): ""}
+                {comment.user?.name ? comment.user.name.charAt(0) : ""}
               </span>
             )}
           </div>

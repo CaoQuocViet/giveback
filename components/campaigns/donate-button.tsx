@@ -1,11 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import { DollarSign, Download } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { toast } from "sonner"
 import Cookies from "js-cookie"
+import { DollarSign, Download } from "lucide-react"
+import { toast } from "sonner"
 
+import { PaymentMethod } from "@/types/donation"
 import { formatAmount } from "@/lib/utils"
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
@@ -25,7 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { PaymentMethod } from "@/types/donation"
 
 // Thay thế mock data bằng API call thực tế
 const paymentMethods: PaymentMethod[] = [
@@ -63,20 +63,23 @@ export function DonateButton({
         throw new Error("Bạn cần đăng nhập để thực hiện đóng góp")
       }
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/donations`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          campaignId,
-          amount: parseInt(amount.replace(/\D/g, "")),
-          message,
-          paymentMethodId: paymentMethod,
-          isAnonymous,
-        }),
-      })
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/donations`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            campaignId,
+            amount: parseInt(amount.replace(/\D/g, "")),
+            message,
+            paymentMethodId: paymentMethod,
+            isAnonymous,
+          }),
+        }
+      )
 
       const data = await response.json()
 
@@ -88,7 +91,6 @@ export function DonateButton({
       if (data.data.order_url) {
         window.location.href = data.data.order_url
       }
-
     } catch (error: any) {
       toast.error("Đã có lỗi xảy ra", {
         description: error.message,

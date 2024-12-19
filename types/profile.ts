@@ -100,7 +100,7 @@ export interface CharityProfileResponse {
       licenseDate: string
       licenseIssuer: string
       licenseDescription: string
-      verificationStatus: 'VERIFIED' | 'PENDING' | 'REJECTED'
+      verificationStatus: "VERIFIED" | "PENDING" | "REJECTED"
       rating: number
       campaignCount: number
       totalRaised: number
@@ -108,4 +108,4 @@ export interface CharityProfileResponse {
       updatedAt: string
     }
   }
-} 
+}

@@ -1,8 +1,15 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useEffect, useState } from "react"
+
 import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 interface AddressData {
   [key: string]: {
@@ -37,38 +44,48 @@ interface AddressFieldsProps {
 
 export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
   const [addressData, setAddressData] = useState<AddressData>({})
-  const [provinces, setProvinces] = useState<Array<{code: string, name: string}>>([])
-  const [districts, setDistricts] = useState<Array<{code: string, name: string}>>([])
-  const [wards, setWards] = useState<Array<{code: string, name: string}>>([])
-  
-  const [selectedProvince, setSelectedProvince] = useState(defaultValues?.province || "")
-  const [selectedDistrict, setSelectedDistrict] = useState(defaultValues?.district || "")
+  const [provinces, setProvinces] = useState<
+    Array<{ code: string; name: string }>
+  >([])
+  const [districts, setDistricts] = useState<
+    Array<{ code: string; name: string }>
+  >([])
+  const [wards, setWards] = useState<Array<{ code: string; name: string }>>([])
+
+  const [selectedProvince, setSelectedProvince] = useState(
+    defaultValues?.province || ""
+  )
+  const [selectedDistrict, setSelectedDistrict] = useState(
+    defaultValues?.district || ""
+  )
   const [selectedWard, setSelectedWard] = useState(defaultValues?.ward || "")
   const [address, setAddress] = useState(defaultValues?.address || "")
 
   // Fetch provinces when component mounts
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/provinces`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) {
           setProvinces(data.data)
         }
       })
-      .catch(err => console.error('Error fetching provinces:', err))
+      .catch((err) => console.error("Error fetching provinces:", err))
   }, [])
 
   // Fetch districts when province changes
   useEffect(() => {
     if (selectedProvince) {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/districts/${selectedProvince}`)
-        .then(res => res.json())
-        .then(data => {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/administrative/districts/${selectedProvince}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
           if (data.success) {
             setDistricts(data.data)
           }
         })
-        .catch(err => console.error('Error fetching districts:', err))
+        .catch((err) => console.error("Error fetching districts:", err))
     } else {
       setDistricts([])
     }
@@ -77,14 +94,16 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
   // Fetch wards when district changes
   useEffect(() => {
     if (selectedProvince && selectedDistrict) {
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/administrative/wards/${selectedProvince}/${selectedDistrict}`)
-        .then(res => res.json())
-        .then(data => {
+      fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/administrative/wards/${selectedProvince}/${selectedDistrict}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
           if (data.success) {
             setWards(data.data)
           }
         })
-        .catch(err => console.error('Error fetching wards:', err))
+        .catch((err) => console.error("Error fetching wards:", err))
     } else {
       setWards([])
     }
@@ -104,7 +123,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
               province: value,
               district: "",
               ward: "",
-              address
+              address,
             })
           }}
         >
@@ -132,7 +151,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
               province: selectedProvince,
               district: value,
               ward: "",
-              address
+              address,
             })
           }}
           disabled={!selectedProvince}
@@ -160,7 +179,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
               province: selectedProvince,
               district: selectedDistrict,
               ward: value,
-              address
+              address,
             })
           }}
           disabled={!selectedDistrict}
@@ -188,7 +207,7 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
               province: selectedProvince,
               district: selectedDistrict,
               ward: selectedWard,
-              address: e.target.value
+              address: e.target.value,
             })
           }}
           placeholder="Nhập địa chỉ chi tiết"
@@ -196,4 +215,4 @@ export function AddressFields({ defaultValues, onChange }: AddressFieldsProps) {
       </div>
     </div>
   )
-} 
+}

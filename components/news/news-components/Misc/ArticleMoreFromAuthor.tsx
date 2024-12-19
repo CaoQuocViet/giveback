@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 
 import { IAuthor, iArticle } from "../../shared/interfaces"
@@ -10,7 +11,6 @@ import {
 import LinkTo from "../LinkTo"
 import SocialShare from "../SocialShare/SocialShare"
 import Avatar from "./Avatar"
-import Image from "next/image"
 
 const ArticleMoreFromAuthor = ({
   author,

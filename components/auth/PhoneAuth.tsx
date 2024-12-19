@@ -1,16 +1,20 @@
 "use client"
 
 import { useState } from "react"
+
+import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 
 interface PhoneAuthProps {
   phone: string
   onVerificationSuccess: (code: string) => void
 }
 
-export default function PhoneAuth({ phone, onVerificationSuccess }: PhoneAuthProps) {
+export default function PhoneAuth({
+  phone,
+  onVerificationSuccess,
+}: PhoneAuthProps) {
   const [verificationCode, setVerificationCode] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -25,8 +29,8 @@ export default function PhoneAuth({ phone, onVerificationSuccess }: PhoneAuthPro
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             phone,
-            code: verificationCode
-          })
+            code: verificationCode,
+          }),
         }
       )
 

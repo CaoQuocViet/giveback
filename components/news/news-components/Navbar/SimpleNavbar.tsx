@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { useTheme } from "next-themes"
 import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai"
@@ -10,7 +11,7 @@ import { combineClasses, transformImagePaths } from "../../utils/utils"
 import LinkTo from "../LinkTo"
 import NavCatergoryDD from "../Misc/NavCategoryDD"
 import classes from "./Navbar.module.scss"
-import Image from "next/image"
+
 const SimpleNavbar = ({
   openSearch,
   changeTheme,

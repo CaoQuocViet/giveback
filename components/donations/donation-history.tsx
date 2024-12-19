@@ -1,18 +1,19 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import html2pdf from "html2pdf.js"
 import { FileSpreadsheet, FileText } from "lucide-react"
+import * as XLSX from "xlsx"
+
+import { DonationHistoryResponse } from "@/types/donation"
+import apiClient from "@/lib/api-client"
 import { Button } from "@/components/ui/button"
-import * as XLSX from 'xlsx'
-import html2pdf from 'html2pdf.js'
 
 // Import font
 
 import { DonationFilter } from "./donation-filter"
 import { DonationList } from "./donation-list"
-import { DonationHistoryResponse } from "@/types/donation"
-import apiClient from "@/lib/api-client"
 
 export function DonationHistory() {
   const router = useRouter()
@@ -43,23 +44,23 @@ export function DonationHistory() {
 
   const handleExportExcel = () => {
     if (!data?.donations?.length) {
-      console.log('No donations data to export')
+      console.log("No donations data to export")
       return
     }
 
     // Format data cho Excel
-    const excelData = data.donations.map(donation => ({
-      'Mã đóng góp': donation.id,
-      'Chiến dịch': donation.campaignTitle,
-      'Tổ chức': donation.charityTitle,
-      'Số tiền': new Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
+    const excelData = data.donations.map((donation) => ({
+      "Mã đóng góp": donation.id,
+      "Chiến dịch": donation.campaignTitle,
+      "Tổ chức": donation.charityTitle,
+      "Số tiền": new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
       }).format(donation.amount),
-      'Phương thức': donation.paymentMethod,
-      'Trạng thái': donation.status === 'SUCCESS' ? 'Thành công' : 'Thất bại',
-      'Thời gian': new Date(donation.createdAt).toLocaleDateString('vi-VN'),
-      'Ghi chú': donation.note || ''
+      "Phương thức": donation.paymentMethod,
+      "Trạng thái": donation.status === "SUCCESS" ? "Thành công" : "Thất bại",
+      "Thời gian": new Date(donation.createdAt).toLocaleDateString("vi-VN"),
+      "Ghi chú": donation.note || "",
     }))
 
     // Tạo workbook và worksheet
@@ -73,7 +74,7 @@ export function DonationHistory() {
 
   const handleExportPDF = () => {
     if (!data?.donations?.length) {
-      console.log('No donations data to export')
+      console.log("No donations data to export")
       return
     }
 
@@ -81,31 +82,39 @@ export function DonationHistory() {
     const content = `
     <div style="font-family: Arial, sans-serif; color: #000000;">
       <h1 style="text-align: center; margin-bottom: 20px; color: #000000;">Báo Cáo Đóng Góp</h1>
-      ${data.donations.map((donation, index) => `
+      ${data.donations
+        .map(
+          (donation, index) => `
         <div style="margin-bottom: 20px;">
           <h2 style="color: #000000;">Đóng góp #${index + 1}</h2>
           <p style="color: #000000;">Mã đóng góp: ${donation.id}</p>
           <p style="color: #000000;">Chiến dịch: ${donation.campaignTitle}</p>
           <p style="color: #000000;">Tổ chức: ${donation.charityTitle}</p>
-          <p style="color: #000000;">Số tiền: ${new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
+          <p style="color: #000000;">Số tiền: ${new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
           }).format(donation.amount)}</p>
           <p style="color: #000000;">Phương thức: ${donation.paymentMethod}</p>
-          <p style="color: #000000;">Trạng thái: ${donation.status === 'SUCCESS' ? 'Thành công' : 'Thất bại'}</p>
-          <p style="color: #000000;">Thời gian: ${new Date(donation.createdAt).toLocaleDateString('vi-VN')}</p>
-          <p style="color: #000000;">Ghi chú: ${donation.note || ''}</p>
+          <p style="color: #000000;">Trạng thái: ${
+            donation.status === "SUCCESS" ? "Thành công" : "Thất bại"
+          }</p>
+          <p style="color: #000000;">Thời gian: ${new Date(
+            donation.createdAt
+          ).toLocaleDateString("vi-VN")}</p>
+          <p style="color: #000000;">Ghi chú: ${donation.note || ""}</p>
         </div>
-      `).join('')}
+      `
+        )
+        .join("")}
     </div>
     `
     // Cấu hình PDF
     const opt = {
       margin: 1,
-      filename: 'donations.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      filename: "donations.pdf",
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     }
 
     // Tạo PDF

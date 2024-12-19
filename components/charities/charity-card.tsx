@@ -14,7 +14,7 @@ interface CharityCardProps {
     name: string
     logo: string
     description: string
-    verification_status: 'PENDING' | 'VERIFIED' | 'REJECTED'
+    verification_status: "PENDING" | "VERIFIED" | "REJECTED"
     rating: number
     totalCampaigns: number
     totalDonations: number
@@ -26,30 +26,30 @@ export function CharityCard({ charity }: CharityCardProps) {
   return (
     <Card className="flex h-full flex-col">
       <CardHeader className="relative">
-      <div className="relative aspect-square overflow-hidden rounded-full">
-        <Image
-          src={charity.logo}
-          alt={charity.name}
-          fill
-          className="object-cover object-center"
-        />
-      </div>
+        <div className="relative aspect-square overflow-hidden rounded-full">
+          <Image
+            src={charity.logo}
+            alt={charity.name}
+            fill
+            className="object-cover object-center"
+          />
+        </div>
 
-        <Badge 
-          variant={charity.verification_status === 'VERIFIED' 
-            ? "success" 
-            : charity.verification_status === 'REJECTED'
-            ? "destructive"
-            : "warning"
-          } 
+        <Badge
+          variant={
+            charity.verification_status === "VERIFIED"
+              ? "success"
+              : charity.verification_status === "REJECTED"
+              ? "destructive"
+              : "warning"
+          }
           className="absolute right-2 top-2"
         >
-          {charity.verification_status === 'VERIFIED' 
+          {charity.verification_status === "VERIFIED"
             ? "Đã xác minh"
-            : charity.verification_status === 'REJECTED'
+            : charity.verification_status === "REJECTED"
             ? "Bị từ chối"
-            : "Chờ xác minh"
-          }
+            : "Chờ xác minh"}
         </Badge>
       </CardHeader>
       <CardContent className="flex grow flex-col">
@@ -73,7 +73,10 @@ export function CharityCard({ charity }: CharityCardProps) {
         </div>
       </CardContent>
       <CardFooter className="flex justify-center">
-        <Button asChild className="w-full bg-blue-500 text-white hover:bg-blue-700">
+        <Button
+          asChild
+          className="w-full bg-blue-500 text-white hover:bg-blue-700"
+        >
           <Link href={`/dashboard/charities/${charity.id}`}>Xem chi tiết</Link>
         </Button>
       </CardFooter>

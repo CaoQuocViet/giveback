@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import Cookies from "js-cookie"
 import { useSession } from "next-auth/react"
-import Cookies from 'js-cookie'
 
 import { AdminProfile } from "@/components/profile/admin-profile"
 import { BeneficiaryProfile } from "@/components/profile/beneficiary-profile"
@@ -13,22 +13,22 @@ import { DonorProfile } from "@/components/profile/donor-profile"
 export default function ProfilePage() {
   const router = useRouter()
   const [userRole, setUserRole] = useState<string>("")
-  
+
   useEffect(() => {
     // Kiểm tra token
-    const token = Cookies.get('auth_token')
+    const token = Cookies.get("auth_token")
     if (!token) {
-      router.push('/auth/login')
+      router.push("/auth/login")
       return
     }
 
     // Lấy user info từ localStorage
-    const userStr = localStorage.getItem('user')
+    const userStr = localStorage.getItem("user")
     if (userStr) {
       const user = JSON.parse(userStr)
       setUserRole(user.role)
     } else {
-      router.push('/auth/login')
+      router.push("/auth/login")
     }
   }, [router])
 

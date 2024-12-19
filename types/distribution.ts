@@ -29,4 +29,4 @@ export interface CreateDistributionResponse {
     representativeFullName: string
     [key: string]: any
   }
-} 
+}

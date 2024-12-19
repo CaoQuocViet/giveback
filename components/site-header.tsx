@@ -1,24 +1,24 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Cookies from "js-cookie"
 import { User } from "lucide-react"
-import Cookies from 'js-cookie'
 
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
-import { MainNav } from "@/components/main-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
 import { useAuth } from "@/hooks/useAuth"
+import { buttonVariants } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Image from "next/image"
+import { Icons } from "@/components/icons"
+import { MainNav } from "@/components/main-nav"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 function getRoleBadgeColor(role: string): string {
   switch (role) {
@@ -58,9 +58,9 @@ export function SiteHeader() {
 
   useEffect(() => {
     const checkAuth = () => {
-      const token = Cookies.get('auth_token')
-      const userStr = localStorage.getItem('user')
-      
+      const token = Cookies.get("auth_token")
+      const userStr = localStorage.getItem("user")
+
       if (token && userStr) {
         setIsAuthenticated(true)
         setUserData(JSON.parse(userStr))
@@ -72,10 +72,10 @@ export function SiteHeader() {
 
     checkAuth()
 
-    window.addEventListener('storage', checkAuth)
+    window.addEventListener("storage", checkAuth)
 
     return () => {
-      window.removeEventListener('storage', checkAuth)
+      window.removeEventListener("storage", checkAuth)
     }
   }, [pathname])
 
@@ -111,72 +111,84 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-          <nav className="flex items-center space-x-4">
-            <Link href={siteConfig.links.facebook} target="_blank" rel="noreferrer">
-              <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-                <Icons.facebook className="size-5" />
-                <span className="sr-only">Facebook</span>
-              </div>
-            </Link>
-            <Link href={siteConfig.links.twitter} target="_blank" rel="noreferrer">
-              <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-                <Icons.twitter className="size-5 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link>
+        <nav className="flex items-center space-x-4">
+          <Link
+            href={siteConfig.links.facebook}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
+              <Icons.facebook className="size-5" />
+              <span className="sr-only">Facebook</span>
+            </div>
+          </Link>
+          <Link
+            href={siteConfig.links.twitter}
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
+              <Icons.twitter className="size-5 fill-current" />
+              <span className="sr-only">Twitter</span>
+            </div>
+          </Link>
 
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <span className={`rounded-full px-4 py-2 text-sm font-medium ${getRoleBadgeColor(userData?.role)}`}>
-                  {getRoleLabel(userData?.role)}
-                </span>
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-4">
+              <span
+                className={`rounded-full px-4 py-2 text-sm font-medium ${getRoleBadgeColor(
+                  userData?.role
+                )}`}
+              >
+                {getRoleLabel(userData?.role)}
+              </span>
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="flex size-10 items-center justify-center rounded-full bg-primary/10 outline-none">
-                      {userData?.avatar ? (
-                        <Image
-                          src={userData.avatar}
-                          alt="Avatar"
-                          className="size-9 rounded-full object-cover"
-                          width={36}
-                          height={36}
-                        />
-                      ) : (
-                        <User className="size-6 text-primary" />
-                      )}
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem 
-                      onClick={() => {
-                        logout()
-                        setIsAuthenticated(false)
-                        setUserData(null)
-                      }}
-                      className="cursor-pointer text-red-600"
-                    >
-                      Đăng xuất
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            ) : (
-              <>
-                <Link href="/auth/login">
-                  <button className="rounded-lg px-5 py-2.5 text-center text-base font-medium text-black transition-colors duration-300 hover:text-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Đăng nhập
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="flex size-10 items-center justify-center rounded-full bg-primary/10 outline-none">
+                    {userData?.avatar ? (
+                      <Image
+                        src={userData.avatar}
+                        alt="Avatar"
+                        className="size-9 rounded-full object-cover"
+                        width={36}
+                        height={36}
+                      />
+                    ) : (
+                      <User className="size-6 text-primary" />
+                    )}
                   </button>
-                </Link>
-                <Link href="/auth/register">
-                  <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-center text-base font-medium text-white transition-colors duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                    Đăng ký
-                  </button>
-                </Link>
-              </>
-            )}
-            <ThemeToggle />
-          </nav>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem
+                    onClick={() => {
+                      logout()
+                      setIsAuthenticated(false)
+                      setUserData(null)
+                    }}
+                    className="cursor-pointer text-red-600"
+                  >
+                    Đăng xuất
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          ) : (
+            <>
+              <Link href="/auth/login">
+                <button className="rounded-lg px-5 py-2.5 text-center text-base font-medium text-black transition-colors duration-300 hover:text-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  Đăng nhập
+                </button>
+              </Link>
+              <Link href="/auth/register">
+                <button className="rounded-lg bg-blue-600 px-5 py-2.5 text-center text-base font-medium text-white transition-colors duration-300 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                  Đăng ký
+                </button>
+              </Link>
+            </>
+          )}
+          <ThemeToggle />
+        </nav>
       </div>
     </header>
   )

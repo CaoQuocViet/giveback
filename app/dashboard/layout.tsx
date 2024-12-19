@@ -1,8 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import Image from "next/image"
 import Link from "next/link"
-import { useRouter, usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 import {
   FileText,
@@ -17,7 +18,6 @@ import {
 import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -79,14 +79,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     }
 
     // Lắng nghe sự thay đổi của localStorage
-    window.addEventListener('storage', updateUserData)
-    
+    window.addEventListener("storage", updateUserData)
+
     // Khởi tạo lần đầu
     updateUserData()
 
     // Cleanup
     return () => {
-      window.removeEventListener('storage', updateUserData)
+      window.removeEventListener("storage", updateUserData)
     }
   }, [router])
 
@@ -101,10 +101,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
-      <aside className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
+      <aside
+        className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
         border-r border-gray-200
         bg-white shadow-lg
-        dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/40">
+        dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/40"
+      >
         {/* Profile Section */}
         <div
           className="border-b border-gray-200 p-6 transition-colors 
@@ -116,7 +118,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               bg-blue-100 ring-2
               ring-blue-200 transition-all hover:ring-blue-300 
               dark:bg-blue-950 dark:ring-blue-800 dark:hover:ring-blue-700"
-              style={{ width: '40px', height: '40px' }} // Đặt kích thước ảnh cố định
+              style={{ width: "40px", height: "40px" }} // Đặt kích thước ảnh cố định
             >
               <Image
                 src={userData.profileImage || "/default-avatar.png"}
@@ -125,10 +127,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 height={40}
                 className="rounded-full object-cover transition-transform hover:scale-105"
                 style={{
-                  width: '100%',
-                  height: '100%',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  objectFit: "cover",
                 }}
               />
             </div>
@@ -148,13 +150,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
 
         {/* Navigation Menu */}
-        <nav className="scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
+        <nav
+          className="scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
           dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-[calc(100vh-280px)] 
-          overflow-y-auto p-4">
+          overflow-y-auto p-4"
+        >
           <ul className="space-y-2.5">
             {menuItems.map((item) => {
-              const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`)
-              
+              const isActive =
+                pathname === item.href || pathname?.startsWith(`${item.href}/`)
+
               return (
                 <li key={item.href}>
                   <Link
@@ -167,36 +172,47 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                       hover:border-blue-200/50 hover:bg-blue-100/60 hover:text-blue-700 hover:shadow-md
                       dark:bg-blue-900/20 dark:text-blue-100 dark:hover:border-blue-700/50
                       dark:hover:bg-blue-800/30 dark:hover:text-blue-300
-                      ${isActive ? 'border-blue-200 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/40' : ''}`}
+                      ${
+                        isActive
+                          ? "border-blue-200 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/40"
+                          : ""
+                      }`}
                   >
                     {/* Gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
                       opacity-0 transition-opacity
-                      duration-300 group-hover:opacity-100 dark:from-blue-600/20 dark:to-transparent" 
+                      duration-300 group-hover:opacity-100 dark:from-blue-600/20 dark:to-transparent"
                     />
 
                     {/* Icon container với style active */}
-                    <div className={`relative mr-3 flex size-9 items-center 
+                    <div
+                      className={`relative mr-3 flex size-9 items-center 
                       justify-center rounded-lg border border-blue-200
                       transition-colors duration-300 dark:border-blue-700
-                      ${isActive 
-                        ? 'border-blue-300 bg-blue-200/80 dark:border-blue-600 dark:bg-blue-800/80' 
-                        : 'bg-blue-100/80 dark:bg-blue-900/50'
+                      ${
+                        isActive
+                          ? "border-blue-300 bg-blue-200/80 dark:border-blue-600 dark:bg-blue-800/80"
+                          : "bg-blue-100/80 dark:bg-blue-900/50"
                       }`}
                     >
-                      <item.icon className={`size-5 transition-colors duration-300
-                        ${isActive
-                          ? 'text-blue-700 dark:text-blue-200'
-                          : 'text-blue-600 dark:text-blue-300'
+                      <item.icon
+                        className={`size-5 transition-colors duration-300
+                        ${
+                          isActive
+                            ? "text-blue-700 dark:text-blue-200"
+                            : "text-blue-600 dark:text-blue-300"
                         }`}
                       />
                     </div>
 
                     {/* Label với style active */}
-                    <span className={`relative font-medium tracking-wide transition-all duration-300
-                      ${isActive
-                        ? 'text-blue-700 dark:text-blue-200'
-                        : 'text-gray-700 dark:text-blue-100'
+                    <span
+                      className={`relative font-medium tracking-wide transition-all duration-300
+                      ${
+                        isActive
+                          ? "text-blue-700 dark:text-blue-200"
+                          : "text-gray-700 dark:text-blue-100"
                       }`}
                     >
                       {item.label}
@@ -204,7 +220,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                     {/* Indicator line chỉ hiện khi active */}
                     {isActive && (
-                      <div className="absolute right-0 h-full w-1 rounded-l-full bg-blue-500/70
+                      <div
+                        className="absolute right-0 h-full w-1 rounded-l-full bg-blue-500/70
                         dark:bg-blue-400/70"
                       />
                     )}

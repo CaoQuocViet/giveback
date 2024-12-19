@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { toast } from "sonner"
+
 import { formatAmount } from "@/lib/utils"
 
 export default function PaymentCallbackPage() {
@@ -22,12 +23,14 @@ export default function PaymentCallbackPage() {
         description: "Cảm ơn bạn đã đóng góp",
         action: {
           label: "Tải hóa đơn",
-          onClick: () => window.open(`/api/donations/${transactionId}/invoice`, "_blank"),
+          onClick: () =>
+            window.open(`/api/donations/${transactionId}/invoice`, "_blank"),
         },
       })
     } else {
       toast.error("Thanh toán thất bại!", {
-        description: searchParams.get("returnmessage") || "Vui lòng thử lại sau",
+        description:
+          searchParams.get("returnmessage") || "Vui lòng thử lại sau",
       })
     }
 
@@ -49,9 +52,10 @@ export default function PaymentCallbackPage() {
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
-        <h2 className="mb-4 text-2xl font-bold">Đang xử lý kết quả thanh toán...</h2>
-        <p>Bạn sẽ được chuyển về trang chiến dịch sau
-        </p>
+        <h2 className="mb-4 text-2xl font-bold">
+          Đang xử lý kết quả thanh toán...
+        </h2>
+        <p>Bạn sẽ được chuyển về trang chiến dịch sau</p>
         <p className="text-3xl font-bold">{countdown}s</p>
       </div>
     </div>

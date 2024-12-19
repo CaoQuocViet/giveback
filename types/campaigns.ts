@@ -44,7 +44,9 @@ export function getStatusLabel(status: string) {
   }
 }
 
-export function getStatusVariant(status: string): "default" | "success" | "destructive" | "warning" {
+export function getStatusVariant(
+  status: string
+): "default" | "success" | "destructive" | "warning" {
   switch (status) {
     case "STARTING":
       return "default"
@@ -57,4 +59,4 @@ export function getStatusVariant(status: string): "default" | "success" | "destr
     default:
       return "default"
   }
-} 
+}

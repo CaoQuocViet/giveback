@@ -1,6 +1,8 @@
+import Image from "next/image"
+
 import { IAuthor } from "../../shared/interfaces"
 import { combineClasses } from "../../utils/utils"
-import Image from "next/image"
+
 const Avatar = ({
   author,
   className,

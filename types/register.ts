@@ -19,7 +19,7 @@ export interface RegisterFormData {
   password: string
   phone: string
   fullName: string
-  role: 'DONOR' | 'CHARITY' | 'BENEFICIARY'
+  role: "DONOR" | "CHARITY" | "BENEFICIARY"
   province: string
   district: string
   ward: string
@@ -50,6 +50,6 @@ export const registerValidation: RegisterValidation = {
   password: {
     minLength: 8,
     maxLength: 32,
-    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-  }
-} 
+    pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+  },
+}

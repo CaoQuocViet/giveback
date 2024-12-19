@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
 
 interface PaginationProps {
   total: number
@@ -14,7 +15,7 @@ export function Pagination({
   page,
   itemsPerPage,
   onPageChange,
-  className
+  className,
 }: PaginationProps) {
   const totalPages = Math.ceil(total / itemsPerPage)
 

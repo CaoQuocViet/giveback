@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import Cookies from 'js-cookie'
+import { useEffect, useState } from "react"
+import Cookies from "js-cookie"
 
 interface SystemStats {
   total_charities: number
@@ -17,15 +17,18 @@ export function useStatistics() {
 
   const fetchStats = async () => {
     try {
-      const token = Cookies.get('auth_token')
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/statistics/overview`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const token = Cookies.get("auth_token")
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/statistics/overview`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      })
+      )
 
       if (!response.ok) {
-        throw new Error('Lỗi khi lấy thống kê')
+        throw new Error("Lỗi khi lấy thống kê")
       }
 
       const data = await response.json()

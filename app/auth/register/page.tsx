@@ -4,6 +4,7 @@ import { FormEvent, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
+import { RegisterAddressData, RegisterFormData } from "@/types/register"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,7 +18,6 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import PhoneAuth from "@/components/auth/PhoneAuth"
 import { AddressFields } from "@/components/profile/address-fields"
-import { RegisterFormData, RegisterAddressData } from "@/types/register"
 
 export default function Register() {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -35,7 +35,7 @@ export default function Register() {
     licenseNumber: "",
     licenseDate: "",
     licenseIssuer: "",
-    licenseImageUrl: ""
+    licenseImageUrl: "",
   })
   const [confirmation, setConfirmation] = useState("")
   const [error, setError] = useState("")
@@ -45,16 +45,16 @@ export default function Register() {
   const router = useRouter()
 
   const handleAddressChange = (values: RegisterAddressData) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      ...values
+      ...values,
     }))
   }
 
   const handleCharityFieldChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }))
   }
 
@@ -74,18 +74,18 @@ export default function Register() {
   // Xử lý gửi OTP
   const handleSendOTP = async () => {
     try {
-      console.log("Sending OTP request for phone:", formData.phone);
+      console.log("Sending OTP request for phone:", formData.phone)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/send-otp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone: formData.phone })
+          body: JSON.stringify({ phone: formData.phone }),
         }
       )
 
       const data = await response.json()
-      console.log("OTP response:", data);
+      console.log("OTP response:", data)
 
       if (!response.ok) {
         throw new Error(data.message)
@@ -94,7 +94,7 @@ export default function Register() {
       setIsOTPSent(true)
       setError("")
     } catch (e) {
-      console.error("OTP error:", e);
+      console.error("OTP error:", e)
       setError((e as Error).message)
     }
   }
@@ -116,7 +116,7 @@ export default function Register() {
       setError("Vui lòng xác thực số điện thoại trước")
       return
     }
-    
+
     try {
       if (formData.role === "CHARITY" && selectedFile) {
         const uploadFormData = new FormData()
@@ -136,9 +136,9 @@ export default function Register() {
         }
 
         const uploadData = await uploadResponse.json()
-        setFormData(prev => ({
+        setFormData((prev) => ({
           ...prev,
-          licenseImageUrl: uploadData.licenseImage
+          licenseImageUrl: uploadData.licenseImage,
         }))
       }
 
@@ -148,7 +148,7 @@ export default function Register() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(formData),
         }
       )
 
@@ -191,7 +191,9 @@ export default function Register() {
                 type="email"
                 id="email"
                 value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
                 className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 required
               />
@@ -207,7 +209,12 @@ export default function Register() {
                   type="password"
                   id="password"
                   value={formData.password}
-                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
@@ -240,7 +247,9 @@ export default function Register() {
                   type="tel"
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, phone: e.target.value }))
+                  }
                   className="flex-1"
                   required
                 />
@@ -256,7 +265,7 @@ export default function Register() {
 
             {/* OTP Verification */}
             {isOTPSent && !isOTPVerified && (
-              <PhoneAuth 
+              <PhoneAuth
                 phone={formData.phone}
                 onVerificationSuccess={handleOTPVerificationSuccess}
               />
@@ -299,7 +308,9 @@ export default function Register() {
             </Label>
             <Select
               value={formData.role}
-              onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, role: value }))
+              }
               className="dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
             >
               <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
@@ -334,16 +345,18 @@ export default function Register() {
           {/* Full Name field - NEW */}
           <div className="space-y-2">
             <Label className="dark:text-gray-300">
-              {formData.role === "CHARITY" 
-                ? "Tên người đại diện" 
-                : "Họ và tên"}
+              {formData.role === "CHARITY" ? "Tên người đại diện" : "Họ và tên"}
             </Label>
             <Input
-              placeholder={formData.role === "CHARITY" 
-                ? "Nhập tên người đại diện" 
-                : "Nhập họ và tên của bạn"}
+              placeholder={
+                formData.role === "CHARITY"
+                  ? "Nhập tên người đại diện"
+                  : "Nhập họ và tên của bạn"
+              }
               value={formData.fullName}
-              onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, fullName: e.target.value }))
+              }
               className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
               required
             />
@@ -374,7 +387,9 @@ export default function Register() {
                 <Input
                   placeholder="Nhập tên tổ chức"
                   value={formData.title}
-                  onChange={(e) => handleCharityFieldChange("title", e.target.value)}
+                  onChange={(e) =>
+                    handleCharityFieldChange("title", e.target.value)
+                  }
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
@@ -384,7 +399,9 @@ export default function Register() {
                 <Textarea
                   placeholder="Mô tả về tổ chức của bạn"
                   value={formData.description}
-                  onChange={(e) => handleCharityFieldChange("description", e.target.value)}
+                  onChange={(e) =>
+                    handleCharityFieldChange("description", e.target.value)
+                  }
                   className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
@@ -396,7 +413,9 @@ export default function Register() {
                 <Input
                   placeholder="Nhập số giấy phép"
                   value={formData.licenseNumber}
-                  onChange={(e) => handleCharityFieldChange("licenseNumber", e.target.value)}
+                  onChange={(e) =>
+                    handleCharityFieldChange("licenseNumber", e.target.value)
+                  }
                   className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
@@ -409,7 +428,9 @@ export default function Register() {
                   <Input
                     type="date"
                     value={formData.licenseDate}
-                    onChange={(e) => handleCharityFieldChange("licenseDate", e.target.value)}
+                    onChange={(e) =>
+                      handleCharityFieldChange("licenseDate", e.target.value)
+                    }
                     className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   />
                 </div>
@@ -419,7 +440,9 @@ export default function Register() {
                   <Input
                     placeholder="Tên cơ quan cấp"
                     value={formData.licenseIssuer}
-                    onChange={(e) => handleCharityFieldChange("licenseIssuer", e.target.value)}
+                    onChange={(e) =>
+                      handleCharityFieldChange("licenseIssuer", e.target.value)
+                    }
                     className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   />
                 </div>

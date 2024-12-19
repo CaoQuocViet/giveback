@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Image from "next/image"
 import { useTheme } from "next-themes"
 import { AiOutlineMenu, AiOutlineSearch } from "react-icons/ai"
 import { BsFillShareFill } from "react-icons/bs"
@@ -9,7 +10,6 @@ import { combineClasses, transformImagePaths } from "../../utils/utils"
 import LinkTo from "../LinkTo"
 import NavCatergoryDD from "../Misc/NavCategoryDD"
 import classes from "./Navbar.module.scss"
-import Image from "next/image"
 
 const CenteredNavbar = ({
   openSearch,

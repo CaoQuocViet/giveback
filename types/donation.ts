@@ -5,7 +5,7 @@ export interface DonationHistory {
   paymentMethod: string
   transactionId: string | null
   amount: number
-  status: 'PENDING' | 'SUCCESS' | 'FAILED'
+  status: "PENDING" | "SUCCESS" | "FAILED"
   note: string | null
   isAnonymous: boolean
   createdAt: string
@@ -40,8 +40,8 @@ export interface CreateDonationResponse {
 export interface DonationStatus {
   success: boolean
   data: {
-    status: 'PENDING' | 'SUCCESS' | 'FAILED'
+    status: "PENDING" | "SUCCESS" | "FAILED"
     amount: string
     created_at?: string
   }
-} 
+}

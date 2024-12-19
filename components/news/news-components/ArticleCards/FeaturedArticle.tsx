@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 import { IArticleHeaderData } from "../../shared/interfaces"
 import {
   combineClasses,
@@ -9,7 +11,6 @@ import ArticleCardCategory from "../Misc/ArticleCardCategory"
 import ArticleTags from "../Misc/ArticleTags"
 import Avatar from "../Misc/Avatar"
 import classes from "./ArticleCard.module.scss"
-import Image from "next/image"
 
 interface IProp {
   article: IArticleHeaderData

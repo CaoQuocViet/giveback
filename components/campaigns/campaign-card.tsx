@@ -18,13 +18,16 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
     <Card className="overflow-hidden transition-shadow duration-200 hover:shadow-lg">
       <div className="relative aspect-square overflow-hidden">
         <Image
-          src={campaign.campaign_image ? campaign.campaign_image : "/campaign-placeholder.jpg"}
+          src={
+            campaign.campaign_image
+              ? campaign.campaign_image
+              : "/campaign-placeholder.jpg"
+          }
           alt={campaign.title}
           fill
           className="object-cover object-center"
         />
       </div>
-
 
       <CardContent className="p-6">
         <div className="space-y-4">
@@ -56,7 +59,10 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             </div>
           </div>
 
-          <Button asChild className="w-full bg-blue-500 text-white hover:bg-blue-700">
+          <Button
+            asChild
+            className="w-full bg-blue-500 text-white hover:bg-blue-700"
+          >
             <Link href={`/dashboard/campaigns/${campaign.id}`}>
               Xem chi tiết
             </Link>
