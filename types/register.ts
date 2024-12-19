@@ -14,17 +14,18 @@ export interface RegisterCharityData {
   licenseImageUrl: string
 }
 
+export type Role = "DONOR" | "CHARITY" | "BENEFICIARY"
+
 export interface RegisterFormData {
   email: string
   password: string
   phone: string
   fullName: string
-  role: "DONOR" | "CHARITY" | "BENEFICIARY"
+  role: Role
   province: string
   district: string
   ward: string
   address: string
-  // Charity fields (required when role is CHARITY)
   title: string
   description: string
   licenseNumber: string

@@ -94,7 +94,7 @@ export default function CharityDetailPage() {
       district: charityResponse.data.district,
       province: charityResponse.data.province,
       profileImage: charityResponse.data.avatar,
-      fullName: charityResponse.data.title, // hoặc có thể để trống nếu không cần
+      fullName: charityResponse.data.title,
     },
   }
 
@@ -133,7 +133,7 @@ export default function CharityDetailPage() {
       })
 
       // Refresh data
-      await queryClient.invalidateQueries(["charity", id])
+      await queryClient.invalidateQueries({ queryKey: ["charity", id] })
     } catch (error) {
       console.error("Error verifying charity:", error)
       toast({
@@ -170,8 +170,8 @@ export default function CharityDetailPage() {
       })
 
       // Refresh data
-      await queryClient.invalidateQueries(["charity", id])
-    } catch (error) {
+      await queryClient.invalidateQueries({ queryKey: ["charity", id] })
+    } catch (error: any) {
       console.error("Error rejecting charity:", error)
       toast({
         title: "Lỗi",

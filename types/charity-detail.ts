@@ -2,54 +2,40 @@ export interface CharityDetail {
   id: string
   title: string
   description: string
-  verificationStatus: "PENDING" | "VERIFIED" | "REJECTED"
+  email: string
+  phone: string
+  address: string
+  ward: string
+  district: string
+  province: string
   foundingDate: string
-  website: string
-  socialLinks: {
-    facebook?: string
-    twitter?: string
-    youtube?: string
-  }
-  rating: number
-
-  // License info
   licenseNumber: string
   licenseDate: string
   licenseIssuer: string
   licenseDescription: string
-  licenseImageUrl: string | null
-
-  // User info
-  user: {
-    fullName: string
-    email: string
-    phone: string
-    profileImage: string | null
-    province: string
-    district: string
-    ward: string
-    address: string
+  licenseImageUrl: string
+  avatar: string
+  website: string | null
+  socialLinks: {
+    facebook: string | null
+    twitter: string | null
+    youtube: string | null
   }
-
-  // Campaign list
-  campaigns: {
-    id: string
-    title: string
-    status: "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
-    targetAmount: number
-    currentAmount: number
-    startDate: string
-    endDate: string
-    progress?: number // Calculated on frontend: (currentAmount / targetAmount) * 100
-  }[]
-
-  // Statistics
+  verificationStatus: "VERIFIED" | "PENDING" | "REJECTED"
+  rating: number
   statistics: {
     totalCampaigns: number
     totalRaised: number
-    activeCampaigns: number
-    completedCampaigns: number
   }
+  campaigns: Array<{
+    id: string
+    title: string
+    currentAmount: number
+    targetAmount: number
+    status: string
+    startDate: string
+    endDate: string
+  }>
 }
 
 export interface CharityDetailResponse {

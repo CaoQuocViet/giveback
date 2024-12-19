@@ -4,7 +4,6 @@ import { FormEvent, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
-import { RegisterAddressData, RegisterFormData } from "@/types/register"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,6 +17,7 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import PhoneAuth from "@/components/auth/PhoneAuth"
 import { AddressFields } from "@/components/profile/address-fields"
+import { RegisterFormData, RegisterAddressData, Role } from "@/types/register"
 
 export default function Register() {
   const [formData, setFormData] = useState<RegisterFormData>({
@@ -35,7 +35,7 @@ export default function Register() {
     licenseNumber: "",
     licenseDate: "",
     licenseIssuer: "",
-    licenseImageUrl: "",
+    licenseImageUrl: ""
   })
   const [confirmation, setConfirmation] = useState("")
   const [error, setError] = useState("")
@@ -45,16 +45,16 @@ export default function Register() {
   const router = useRouter()
 
   const handleAddressChange = (values: RegisterAddressData) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      ...values,
+      ...values
     }))
   }
 
   const handleCharityFieldChange = (field: string, value: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [field]: value,
+      [field]: value
     }))
   }
 
@@ -74,18 +74,18 @@ export default function Register() {
   // Xử lý gửi OTP
   const handleSendOTP = async () => {
     try {
-      console.log("Sending OTP request for phone:", formData.phone)
+      console.log("Sending OTP request for phone:", formData.phone);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register/send-otp`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phone: formData.phone }),
+          body: JSON.stringify({ phone: formData.phone })
         }
       )
 
       const data = await response.json()
-      console.log("OTP response:", data)
+      console.log("OTP response:", data);
 
       if (!response.ok) {
         throw new Error(data.message)
@@ -94,7 +94,7 @@ export default function Register() {
       setIsOTPSent(true)
       setError("")
     } catch (e) {
-      console.error("OTP error:", e)
+      console.error("OTP error:", e);
       setError((e as Error).message)
     }
   }
@@ -116,7 +116,7 @@ export default function Register() {
       setError("Vui lòng xác thực số điện thoại trước")
       return
     }
-
+    
     try {
       if (formData.role === "CHARITY" && selectedFile) {
         const uploadFormData = new FormData()
@@ -136,9 +136,9 @@ export default function Register() {
         }
 
         const uploadData = await uploadResponse.json()
-        setFormData((prev) => ({
+        setFormData(prev => ({
           ...prev,
-          licenseImageUrl: uploadData.licenseImage,
+          licenseImageUrl: uploadData.licenseImage
         }))
       }
 
@@ -148,7 +148,7 @@ export default function Register() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(formData)
         }
       )
 
@@ -164,16 +164,16 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
       <div
-        className={`lg:grid-cols- mx-auto grid w-full max-w-7xl grid-cols-1${
+        className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-${
           formData.role === "CHARITY" ? "3" : "2"
         } gap-8`}
       >
         {/* Cột 1 - Form cơ bản */}
-        <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
           <div className="space-y-2">
-            <h1 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-2xl font-bold text-transparent dark:text-white">
+            <h1 className="text-2xl font-bold dark:text-white bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
               Đăng kí tài khoản để bắt đầu
             </h1>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
@@ -191,10 +191,8 @@ export default function Register() {
                 type="email"
                 id="email"
                 value={formData.email}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, email: e.target.value }))
-                }
-                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 required
               />
             </div>
@@ -209,13 +207,8 @@ export default function Register() {
                   type="password"
                   id="password"
                   value={formData.password}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      password: e.target.value,
-                    }))
-                  }
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   required
                 />
               </div>
@@ -231,7 +224,7 @@ export default function Register() {
                   id="confirm-password"
                   value={confirmation}
                   onChange={(e) => setConfirmation(e.target.value)}
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   required
                 />
               </div>
@@ -247,9 +240,7 @@ export default function Register() {
                   type="tel"
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, phone: e.target.value }))
-                  }
+                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   className="flex-1"
                   required
                 />
@@ -265,7 +256,7 @@ export default function Register() {
 
             {/* OTP Verification */}
             {isOTPSent && !isOTPVerified && (
-              <PhoneAuth
+              <PhoneAuth 
                 phone={formData.phone}
                 onVerificationSuccess={handleOTPVerificationSuccess}
               />
@@ -273,7 +264,7 @@ export default function Register() {
 
             {/* Error message */}
             {error && (
-              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
+              <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400">
                 <span className="block sm:inline">{error}</span>
               </div>
             )}
@@ -283,7 +274,7 @@ export default function Register() {
               Bạn đã có tài khoản?{" "}
               <Link
                 href="/auth/login"
-                className="dark:text-primary-400 font-medium text-primary hover:underline"
+                className="text-primary hover:underline font-medium dark:text-primary-400"
               >
                 Đăng nhập ở đây
               </Link>
@@ -300,7 +291,7 @@ export default function Register() {
         </div>
 
         {/* Cột 2 - Role và thông tin cơ bản */}
-        <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
           {/* Role selection */}
           <div className="space-y-2">
             <Label className="text-lg font-medium dark:text-white">
@@ -308,18 +299,16 @@ export default function Register() {
             </Label>
             <Select
               value={formData.role}
-              onValueChange={(value) =>
-                setFormData((prev) => ({ ...prev, role: value }))
-              }
-              className="dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+              onValueChange={(value: Role) => 
+                setFormData(prev => ({ ...prev, role: value }))}
             >
-              <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
+              <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                 <SelectValue
                   placeholder="Chọn vai trò"
                   className="dark:text-gray-300"
                 />
               </SelectTrigger>
-              <SelectContent className="dark:border-gray-700 dark:bg-gray-800">
+              <SelectContent className="dark:bg-gray-800 dark:border-gray-700">
                 <SelectItem
                   value="DONOR"
                   className="dark:text-gray-300 dark:hover:bg-gray-700"
@@ -345,19 +334,17 @@ export default function Register() {
           {/* Full Name field - NEW */}
           <div className="space-y-2">
             <Label className="dark:text-gray-300">
-              {formData.role === "CHARITY" ? "Tên người đại diện" : "Họ và tên"}
+              {formData.role === "CHARITY" 
+                ? "Tên người đại diện" 
+                : "Họ và tên"}
             </Label>
             <Input
-              placeholder={
-                formData.role === "CHARITY"
-                  ? "Nhập tên người đại diện"
-                  : "Nhập họ và tên của bạn"
-              }
+              placeholder={formData.role === "CHARITY" 
+                ? "Nhập tên người đại diện" 
+                : "Nhập họ và tên của bạn"}
               value={formData.fullName}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, fullName: e.target.value }))
-              }
-              className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+              onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
+              className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
               required
             />
           </div>
@@ -369,15 +356,14 @@ export default function Register() {
             </Label>
             <AddressFields
               onChange={handleAddressChange}
-              className="dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
             />
           </div>
         </div>
 
         {/* Cột 3 - Thông tin bổ sung cho CHARITY */}
         {formData.role === "CHARITY" && (
-          <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-            <h3 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-lg font-medium text-transparent dark:text-white">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
+            <h3 className="text-lg font-medium dark:text-white bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
               Thông tin tổ chức
             </h3>
 
@@ -387,10 +373,8 @@ export default function Register() {
                 <Input
                   placeholder="Nhập tên tổ chức"
                   value={formData.title}
-                  onChange={(e) =>
-                    handleCharityFieldChange("title", e.target.value)
-                  }
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  onChange={(e) => handleCharityFieldChange("title", e.target.value)}
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
 
@@ -399,10 +383,8 @@ export default function Register() {
                 <Textarea
                   placeholder="Mô tả về tổ chức của bạn"
                   value={formData.description}
-                  onChange={(e) =>
-                    handleCharityFieldChange("description", e.target.value)
-                  }
-                  className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  onChange={(e) => handleCharityFieldChange("description", e.target.value)}
+                  className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
 
@@ -413,10 +395,8 @@ export default function Register() {
                 <Input
                   placeholder="Nhập số giấy phép"
                   value={formData.licenseNumber}
-                  onChange={(e) =>
-                    handleCharityFieldChange("licenseNumber", e.target.value)
-                  }
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                  onChange={(e) => handleCharityFieldChange("licenseNumber", e.target.value)}
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                 />
               </div>
 
@@ -428,10 +408,8 @@ export default function Register() {
                   <Input
                     type="date"
                     value={formData.licenseDate}
-                    onChange={(e) =>
-                      handleCharityFieldChange("licenseDate", e.target.value)
-                    }
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                    onChange={(e) => handleCharityFieldChange("licenseDate", e.target.value)}
+                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   />
                 </div>
 
@@ -440,10 +418,8 @@ export default function Register() {
                   <Input
                     placeholder="Tên cơ quan cấp"
                     value={formData.licenseIssuer}
-                    onChange={(e) =>
-                      handleCharityFieldChange("licenseIssuer", e.target.value)
-                    }
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
+                    onChange={(e) => handleCharityFieldChange("licenseIssuer", e.target.value)}
+                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
                   />
                 </div>
               </div>
@@ -452,15 +428,15 @@ export default function Register() {
                 <Label className="dark:text-gray-300">
                   Giấy phép hoạt động
                 </Label>
-                <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 transition-colors hover:border-primary/50 dark:border-gray-600">
+                <div className="border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:border-primary/50 transition-colors">
                   <Input
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
-                    className="file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-sm
-                    file:font-medium file:text-primary hover:file:bg-primary/20 dark:text-gray-400 dark:file:bg-gray-700 dark:file:text-gray-300"
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium
+                    file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-gray-700 dark:file:text-gray-300 dark:text-gray-400"
                   />
-                  <p className="mt-2 text-sm text-muted-foreground dark:text-gray-400">
+                  <p className="text-sm text-muted-foreground dark:text-gray-400 mt-2">
                     Hình ảnh giấy phép hoạt động (JPG, PNG)
                   </p>
                 </div>
