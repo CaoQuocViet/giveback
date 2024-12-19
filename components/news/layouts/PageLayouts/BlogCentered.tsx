@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link"
 
 import { SORTED_ARTICLES_BY_DATE } from "../../NEWS_CONSTANTS/_ARTICLES_LIST"
@@ -7,14 +9,14 @@ import Avatar from "../../news-components/Misc/Avatar"
 import Seperator from "../../news-components/Seperator"
 import {
   combineClasses,
-  getArticleDetails,
+  useArticleDetails,
   transformImagePaths,
   transformPath,
 } from "../../utils/utils"
 import classes from "./PageLayout.module.scss"
 
 const Centered = ({ children }: any) => {
-  const ARTICLE_DETAILS = getArticleDetails()
+  const ARTICLE_DETAILS = useArticleDetails()
   const author = ARTICLE_DETAILS.preview.author
   const relatedArticles = SORTED_ARTICLES_BY_DATE.filter(
     (each) => each.preview.author === author

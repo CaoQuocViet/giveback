@@ -105,9 +105,10 @@ export const removeBodyNoScroll = (): void => {
  * Returns Article details from SORTED_ARTICLES_BY_DATE wrt the path
  * @returns iArticle
  */
-export const getArticleDetails = (): iArticle => {
-  const router = usePathname()
-  const articlePath = "/pages" + router.pathname + ".tsx"
+export function useArticleDetails(): iArticle {
+  const pathname = usePathname()
+  const articlePath = "/pages" + pathname + ".tsx"
+  
   return (
     MOCK_ARTICLES_LIST.filter((each) => each.path.includes(articlePath))[0] ||
     SORTED_ARTICLES_BY_DATE.filter((each) => each.path.includes(articlePath))[0]
@@ -151,13 +152,9 @@ export const transformImagePaths = (path = ""): string => {
  * @param PAGE_SEO : iSEO
  * @returns SEO config
  */
-export const CREATE_SEO_CONFIG = (PAGE_SEO: iSEO) => {
-  /**
-   * We can create SEO Config from
-   * ARTICLE_DETAILS or SEO object passed in article list or layout
-   */
-  const router = usePathname()
-  const ARTICLE_DETAILS = getArticleDetails()
+export function useSEOConfig(PAGE_SEO: iSEO) {
+  const pathname = usePathname()
+  const articleDetails = useArticleDetails()
 
   // set url and path
   const origin =
@@ -165,39 +162,39 @@ export const CREATE_SEO_CONFIG = (PAGE_SEO: iSEO) => {
       ? window.location.origin
       : ""
   const LOCAL_URL = IS_DEV_MODE ? origin : WEBSITE_URL ? WEBSITE_URL : origin
-  const LOCAL_PATH = ARTICLE_DETAILS
-    ? transformPath(ARTICLE_DETAILS.path)
-    : router.asPath
+  const LOCAL_PATH = articleDetails
+    ? transformPath(articleDetails.path)
+    : pathname
 
   const meta_description =
-    ARTICLE_DETAILS?.preview?.shortIntro || PAGE_SEO.description
+    articleDetails?.preview?.shortIntro || PAGE_SEO.description
 
-  const keywords = PAGE_SEO?.keywords || ARTICLE_DETAILS?.preview?.tags
+  const keywords = PAGE_SEO?.keywords || articleDetails?.preview?.tags
   const ogUrl = `${LOCAL_URL}${LOCAL_PATH}`
 
   const ogImage = PAGE_SEO.ogImage
     ? `${LOCAL_URL}${transformImagePaths(PAGE_SEO?.ogImage)}`
     : `${LOCAL_URL}${
-        ARTICLE_DETAILS?.preview.thumbnail
-          ? transformImagePaths(ARTICLE_DETAILS?.preview.thumbnail)
+        articleDetails?.preview.thumbnail
+          ? transformImagePaths(articleDetails?.preview.thumbnail)
           : null
       }`
 
   const twitterHandle = PAGE_SEO?.twitterHandle || ""
-  const author = ARTICLE_DETAILS
-    ? ARTICLE_DETAILS?.preview.author.name
+  const author = articleDetails
+    ? articleDetails?.preview.author.name
     : PAGE_SEO?.author
 
   const title =
-    router.asPath === "/"
+    pathname === "/"
       ? `${
-          ARTICLE_DETAILS
-            ? ARTICLE_DETAILS?.preview?.articleTitle
+          articleDetails
+            ? articleDetails?.preview?.articleTitle
             : PAGE_SEO?.title
         } ${author ? "| " + author : null}`
       : `${
-          ARTICLE_DETAILS
-            ? ARTICLE_DETAILS?.preview?.articleTitle
+          articleDetails
+            ? articleDetails?.preview?.articleTitle
             : PAGE_SEO?.title
         } | ${WEBSITE_NAME} ${author ? "| " + author : null}`
 
