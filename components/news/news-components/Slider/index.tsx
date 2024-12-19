@@ -6,7 +6,7 @@ import "swiper/css"
 import "swiper/css/bundle"
 import { transformImagePaths } from "../../utils/utils"
 import classes from "./slider.module.scss"
-
+import Image from "next/image"
 const Slider = ({
   images,
   className,
@@ -27,10 +27,11 @@ const Slider = ({
     >
       {images.map((each, i) => (
         <SwiperSlide className={classes.slide} key={i}>
-          <img
+          <Image
             src={transformImagePaths(each)}
-            width="100%"
-            className={"block cursor-grab"}
+            alt="Slider"
+            width={300}
+            height={300}
           />
         </SwiperSlide>
       ))}

@@ -17,6 +17,7 @@ import {
 import { useAuth } from "@/hooks/useAuth"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -117,15 +118,17 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               hover:ring-blue-300 dark:hover:ring-blue-700 transition-all"
               style={{ width: '40px', height: '40px' }} // Đặt kích thước ảnh cố định
             >
-              <img
+              <Image
                 src={userData.profileImage || "/default-avatar.png"}
                 alt="Profile"
+                width={40}
+                height={40}
                 className="rounded-full object-cover hover:scale-105 transition-transform"
                 style={{
                   width: '100%',
                   height: '100%',
                   borderRadius: '50%',
-                  objectFit: 'cover', // Đảm bảo ảnh không bị méo
+                  objectFit: 'cover',
                 }}
               />
             </div>

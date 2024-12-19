@@ -10,7 +10,7 @@ import { combineClasses, transformImagePaths } from "../../utils/utils"
 import LinkTo from "../LinkTo"
 import NavCatergoryDD from "../Misc/NavCategoryDD"
 import classes from "./Navbar.module.scss"
-
+import Image from "next/image"
 const SimpleNavbar = ({
   openSearch,
   changeTheme,
@@ -45,7 +45,7 @@ const SimpleNavbar = ({
         <Link href="/" passHref legacyBehavior>
           {logo ? (
             logo.type === LogoType.IMAGE ? (
-              <img
+              <Image
                 src={
                   theme === THEMES.DARK
                     ? transformImagePaths(logo.logoLight)
@@ -53,7 +53,8 @@ const SimpleNavbar = ({
                 }
                 alt="WebExpe"
                 className="cursor-pointer"
-                width="100px"
+                width={100}
+                height={100}
               />
             ) : (
               <a className="text-[22px] font-semibold">{logo.logo}</a>

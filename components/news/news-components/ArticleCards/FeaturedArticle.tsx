@@ -9,6 +9,7 @@ import ArticleCardCategory from "../Misc/ArticleCardCategory"
 import ArticleTags from "../Misc/ArticleTags"
 import Avatar from "../Misc/Avatar"
 import classes from "./ArticleCard.module.scss"
+import Image from "next/image"
 
 interface IProp {
   article: IArticleHeaderData
@@ -86,10 +87,12 @@ const FeaturedArticle = ({ article, path }: IProp) => {
           )}
         >
           {/* style={{ background: `url(${transformImagePaths(article.thumbnail)})` }} */}
-          <img
+          <Image
             src={transformImagePaths(article.thumbnail)}
             alt={article.articleTitle}
             className="size-full object-cover"
+            width={700}
+            height={700}
           />
         </div>
       </div>

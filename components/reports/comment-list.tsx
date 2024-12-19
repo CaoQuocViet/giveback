@@ -2,6 +2,7 @@ import { Star } from "lucide-react"
 
 import { formatDate } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 
 interface Comment {
   id: string
@@ -55,10 +56,12 @@ export function CommentList({ comments }: { comments: Comment[] }) {
         >
           <div className="flex size-10 items-center justify-center rounded-full bg-muted overflow-hidden">
             {comment.user.avatar ? (
-              <img
+              <Image
                 src={comment.user.avatar}
                 alt={comment.user.name}
                 className="size-full object-cover"
+                width={100}
+                height={100}
               />
             ) : (
               // Placeholder khi không có avatar

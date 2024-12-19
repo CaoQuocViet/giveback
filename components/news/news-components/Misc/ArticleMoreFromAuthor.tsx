@@ -10,6 +10,7 @@ import {
 import LinkTo from "../LinkTo"
 import SocialShare from "../SocialShare/SocialShare"
 import Avatar from "./Avatar"
+import Image from "next/image"
 
 const ArticleMoreFromAuthor = ({
   author,
@@ -83,10 +84,12 @@ const ArticleMoreFromAuthor = ({
                                         "
                   >
                     <div className={"shrink-0 object-cover"}>
-                      <img
+                      <Image
                         src={transformImagePaths(each.preview.thumbnail)}
                         className="mr-2 h-[70px] w-[120px] object-cover"
                         alt={each.preview.articleTitle}
+                        width={120}
+                        height={70}
                       />
                     </div>
                     <div className="pr-1 text-[16px] font-semibold hover:text-blue-500">

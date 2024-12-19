@@ -29,11 +29,12 @@ const Image = ({
       )}
     >
       <Zoom>
-        <img
+        <Image
           src={transformImagePaths(src)}
           alt={alt}
-          width="100%"
-          className={combineClasses("block")}
+          className="size-full object-cover"
+          width={700}
+          height={700}
         />
       </Zoom>
       {caption && (

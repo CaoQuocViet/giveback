@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { addBodyNoScroll, removeBodyNoScroll } from './news/utils/utils';
+import Image from 'next/image';
 
 interface ImageModalProps {
   imageUrl: string;
@@ -28,7 +29,7 @@ export default function ImageModal({ imageUrl, onClose }: ImageModalProps) {
       onClick={onClose}
     >
       <div className="relative max-w-[90vw] max-h-[90vh] transform transition-transform duration-300 scale-100">
-        <img
+        <Image
           src={imageUrl}
           alt="License Preview"
           className="max-w-full max-h-[90vh] object-contain cursor-zoom-out"

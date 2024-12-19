@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import Image from "next/image"
 
 function getRoleBadgeColor(role: string): string {
   switch (role) {
@@ -134,10 +135,12 @@ export function SiteHeader() {
                   <DropdownMenuTrigger asChild>
                     <button className="flex size-10 items-center justify-center rounded-full bg-primary/10 outline-none">
                       {userData?.avatar ? (
-                        <img
+                        <Image
                           src={userData.avatar}
                           alt="Avatar"
                           className="size-9 rounded-full object-cover"
+                          width={36}
+                          height={36}
                         />
                       ) : (
                         <User className="size-6 text-primary" />
