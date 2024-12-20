@@ -111,29 +111,6 @@ export function SiteHeader() {
             </Link>
           ))}
         </nav>
-<<<<<<< HEAD
-        <nav className="flex items-center space-x-4">
-          <Link
-            href={siteConfig.links.facebook}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-              <Icons.facebook className="size-5" />
-              <span className="sr-only">Facebook</span>
-            </div>
-          </Link>
-          <Link
-            href={siteConfig.links.twitter}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
-              <Icons.twitter className="size-5 fill-current" />
-              <span className="sr-only">Twitter</span>
-            </div>
-          </Link>
-=======
           <nav className="flex items-center space-x-4">
             <Link href={siteConfig.links.facebook} target="_blank" rel="noreferrer">
               <div className={buttonVariants({ size: "icon", variant: "ghost" })}>
@@ -147,7 +124,6 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
->>>>>>> 2d3292c16ad65a98cf4b86282813ce256c2c0b95
 
           {isAuthenticated ? (
             <div className="flex items-center space-x-4">

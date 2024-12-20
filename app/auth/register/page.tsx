@@ -164,16 +164,16 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-8 dark:from-gray-900 dark:to-gray-800">
       <div
-        className={`w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-${
+        className={`lg:grid-cols- mx-auto grid w-full max-w-7xl grid-cols-1${
           formData.role === "CHARITY" ? "3" : "2"
         } gap-8`}
       >
         {/* Cột 1 - Form cơ bản */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
+        <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold dark:text-white bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            <h1 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-2xl font-bold text-transparent dark:text-white">
               Đăng kí tài khoản để bắt đầu
             </h1>
             <p className="text-sm text-muted-foreground dark:text-gray-400">
@@ -192,7 +192,7 @@ export default function Register() {
                 id="email"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 required
               />
             </div>
@@ -208,7 +208,7 @@ export default function Register() {
                   id="password"
                   value={formData.password}
                   onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
               </div>
@@ -224,7 +224,7 @@ export default function Register() {
                   id="confirm-password"
                   value={confirmation}
                   onChange={(e) => setConfirmation(e.target.value)}
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   required
                 />
               </div>
@@ -264,7 +264,7 @@ export default function Register() {
 
             {/* Error message */}
             {error && (
-              <div className="rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 p-4 text-red-600 dark:text-red-400">
+              <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600 dark:border-red-800 dark:bg-red-900/30 dark:text-red-400">
                 <span className="block sm:inline">{error}</span>
               </div>
             )}
@@ -274,7 +274,7 @@ export default function Register() {
               Bạn đã có tài khoản?{" "}
               <Link
                 href="/auth/login"
-                className="text-primary hover:underline font-medium dark:text-primary-400"
+                className="dark:text-primary-400 font-medium text-primary hover:underline"
               >
                 Đăng nhập ở đây
               </Link>
@@ -291,7 +291,7 @@ export default function Register() {
         </div>
 
         {/* Cột 2 - Role và thông tin cơ bản */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
+        <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
           {/* Role selection */}
           <div className="space-y-2">
             <Label className="text-lg font-medium dark:text-white">
@@ -302,13 +302,13 @@ export default function Register() {
               onValueChange={(value: Role) => 
                 setFormData(prev => ({ ...prev, role: value }))}
             >
-              <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
+              <SelectTrigger className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
                 <SelectValue
                   placeholder="Chọn vai trò"
                   className="dark:text-gray-300"
                 />
               </SelectTrigger>
-              <SelectContent className="dark:bg-gray-800 dark:border-gray-700">
+              <SelectContent className="dark:border-gray-700 dark:bg-gray-800">
                 <SelectItem
                   value="DONOR"
                   className="dark:text-gray-300 dark:hover:bg-gray-700"
@@ -344,7 +344,7 @@ export default function Register() {
                 : "Nhập họ và tên của bạn"}
               value={formData.fullName}
               onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
-              className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+              className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
               required
             />
           </div>
@@ -362,8 +362,8 @@ export default function Register() {
 
         {/* Cột 3 - Thông tin bổ sung cho CHARITY */}
         {formData.role === "CHARITY" && (
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-6">
-            <h3 className="text-lg font-medium dark:text-white bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+          <div className="space-y-6 rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <h3 className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-lg font-medium text-transparent dark:text-white">
               Thông tin tổ chức
             </h3>
 
@@ -374,7 +374,7 @@ export default function Register() {
                   placeholder="Nhập tên tổ chức"
                   value={formData.title}
                   onChange={(e) => handleCharityFieldChange("title", e.target.value)}
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -384,7 +384,7 @@ export default function Register() {
                   placeholder="Mô tả về tổ chức của bạn"
                   value={formData.description}
                   onChange={(e) => handleCharityFieldChange("description", e.target.value)}
-                  className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="min-h-[100px] transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -396,7 +396,7 @@ export default function Register() {
                   placeholder="Nhập số giấy phép"
                   value={formData.licenseNumber}
                   onChange={(e) => handleCharityFieldChange("licenseNumber", e.target.value)}
-                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                  className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                 />
               </div>
 
@@ -409,7 +409,7 @@ export default function Register() {
                     type="date"
                     value={formData.licenseDate}
                     onChange={(e) => handleCharityFieldChange("licenseDate", e.target.value)}
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   />
                 </div>
 
@@ -419,7 +419,7 @@ export default function Register() {
                     placeholder="Tên cơ quan cấp"
                     value={formData.licenseIssuer}
                     onChange={(e) => handleCharityFieldChange("licenseIssuer", e.target.value)}
-                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                    className="transition-colors focus:ring-2 focus:ring-primary/20 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100"
                   />
                 </div>
               </div>
@@ -428,15 +428,15 @@ export default function Register() {
                 <Label className="dark:text-gray-300">
                   Giấy phép hoạt động
                 </Label>
-                <div className="border-2 border-dashed border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:border-primary/50 transition-colors">
+                <div className="rounded-lg border-2 border-dashed border-gray-200 p-4 transition-colors hover:border-primary/50 dark:border-gray-600">
                   <Input
                     type="file"
                     accept="image/*"
                     onChange={handleFileUpload}
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium
-                    file:bg-primary/10 file:text-primary hover:file:bg-primary/20 dark:file:bg-gray-700 dark:file:text-gray-300 dark:text-gray-400"
+                    className="file:mr-4 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-sm
+                    file:font-medium file:text-primary hover:file:bg-primary/20 dark:text-gray-400 dark:file:bg-gray-700 dark:file:text-gray-300"
                   />
-                  <p className="text-sm text-muted-foreground dark:text-gray-400 mt-2">
+                  <p className="mt-2 text-sm text-muted-foreground dark:text-gray-400">
                     Hình ảnh giấy phép hoạt động (JPG, PNG)
                   </p>
                 </div>
