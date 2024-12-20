@@ -1,10 +1,12 @@
-import { A11y, Navigation, Pagination, Scrollbar } from "swiper"
+import Image from "next/image"
 import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules"
 
 // Import Swiper styles
 import "swiper/css"
-import "swiper/css/bundle"
-import Image from "next/image"
+import "swiper/css/navigation"
+import "swiper/css/pagination"
+import "swiper/css/scrollbar"
 
 import { transformImagePaths } from "../../utils/utils"
 import classes from "./slider.module.scss"
@@ -29,13 +31,14 @@ const Slider = ({
     >
       {images.map((each, i) => (
         <SwiperSlide className={classes.slide} key={i}>
-          <Image
-            src={transformImagePaths(each)}
-            alt="Slider"
-            width={300}
-            height={300}
-            fill
-          />
+          <div className="relative aspect-video w-full">
+            <Image
+              src={transformImagePaths(each)}
+              alt="Slider"
+              fill
+              className="object-cover"
+            />
+          </div>
         </SwiperSlide>
       ))}
     </Swiper>
