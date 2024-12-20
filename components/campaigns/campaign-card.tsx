@@ -51,11 +51,11 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
             </div>
             <div className="flex justify-between">
               <span className="font-medium">Bắt đầu:</span>
-              <span>{formatDate(campaign.start_date)}</span>
+              <span>{formatDate(campaign?.start_date || "Chưa xác định")}</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium">Kết thúc:</span>
-              <span>{formatDate(campaign.end_date)}</span>
+              <span>{formatDate(campaign?.end_date || "Chưa xác định")}</span>
             </div>
           </div>
 

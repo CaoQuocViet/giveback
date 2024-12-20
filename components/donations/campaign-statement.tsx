@@ -2,8 +2,8 @@ import html2pdf from "html2pdf.js"
 import * as XLSX from "xlsx"
 
 export const CampaignStatement = {
-  exportExcel: (campaign) => {
-    const excelData = campaign.donations.map((donation) => ({
+  exportExcel: (campaign: any ) => {
+    const excelData = campaign.donations.map((donation: any) => ({
       "Mã đóng góp": donation.id,
       "Người đóng góp": donation.donor.name,
       "Số tiền": new Intl.NumberFormat("vi-VN", {
@@ -16,7 +16,7 @@ export const CampaignStatement = {
       "Ghi chú": donation.message || "",
     }))
 
-    const distributionData = campaign.distributions.map((distribution) => ({
+    const distributionData = campaign.distributions.map((distribution:any) => ({
       "Tiêu đề": distribution.title,
       "Mô tả": distribution.description,
       "Ngày cứu trợ": new Date(distribution.relief_date).toLocaleDateString(
@@ -39,7 +39,7 @@ export const CampaignStatement = {
     XLSX.writeFile(wb, `${campaign.title}_donations_and_distributions.xlsx`)
   },
 
-  exportPDF: (campaign) => {
+  exportPDF: (campaign: any) => {
     const content = `
       <div style="font-family: Arial, sans-serif; color: black;">
         <h1 style="text-align: center; color: black;">Báo Cáo Chiến Dịch: ${
@@ -57,7 +57,7 @@ export const CampaignStatement = {
         <h2 style="color: black;">Danh sách đóng góp</h2>
         ${campaign.donations
           .map(
-            (donation) => `
+            (donation: any) => `
           <div>
             <p style="color: black;"><strong>Mã đóng góp:</strong> ${
               donation.id
@@ -93,7 +93,7 @@ export const CampaignStatement = {
         <h2 style="color: black;">Danh sách cứu trợ</h2>
         ${campaign.distributions
           .map(
-            (distribution) => `
+            (distribution: any) => `
           <div>
             <p style="color: black;"><strong>Tiêu đề:</strong> ${
               distribution.title

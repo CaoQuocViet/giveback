@@ -28,10 +28,8 @@ export function DonationHistory() {
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        const response = await apiClient.get<DonationHistoryResponse>(
-          "/api/donor/donations"
-        )
-        setData(response.data)
+        const response = await apiClient.get<DonationHistoryResponse>("/api/donor/donations")
+        setData(response.data.data)
       } catch (error) {
         console.error("Error fetching donations:", error)
       } finally {

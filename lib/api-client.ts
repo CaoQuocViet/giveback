@@ -26,7 +26,10 @@ apiClient.interceptors.request.use(
 
 // Response interceptor
 apiClient.interceptors.response.use(
-  (response) => response.data,
+  (response) => {
+    // Trả về nguyên response, không unwrap data
+    return response
+  },
   (error) => {
     // Handle common errors
     if (error.response?.status === 401) {

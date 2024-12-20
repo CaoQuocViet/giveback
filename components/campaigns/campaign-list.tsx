@@ -10,29 +10,26 @@ interface CampaignListProps {
   data?: {
     campaigns: Array<{
       id: string
-      name: string
-      image: string
+      title: string
       description: string
+      campaign_image: string | null
+      target_amount: number
+      current_amount: number
+      start_date: string | null
+      end_date: string | null
+      status: "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
+      rating: number
+      created_at: string | null
       charity: {
-        id: string
         name: string
-      }
-      target: number
-      raised: number
-      startDate: string
-      endDate: string
-      status: "KHOIDONG" | "DANGKEUGOI" | "DADONG" | "DAKETTHUC"
-      comments: Array<{
-        id: string
-        content: string
-        user: {
-          name: string
-          role: string
-        }
-        createdAt: string
-      }>
+        logo: string | null
+      } | null
     }>
-    total: number
+    pagination: {
+      total: number
+      page: number
+      total_pages: number
+    }
   }
 }
 
@@ -51,7 +48,7 @@ export function CampaignList({ data }: CampaignListProps) {
       </div>
 
       <Pagination
-        total={data?.total || 0}
+        total={data?.pagination.total || 0}
         page={page}
         onPageChange={setPage}
         itemsPerPage={itemsPerPage}
