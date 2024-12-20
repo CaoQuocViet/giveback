@@ -153,6 +153,7 @@ export function SiteHeader() {
                         className="size-9 rounded-full object-cover"
                         width={36}
                         height={36}
+                        fill
                       />
                     ) : (
                       <User className="size-6 text-primary" />

@@ -256,7 +256,8 @@ export default function CampaignDetailPage({
                 <Image
                   src={campaign.images}
                   alt={campaign.title}
-                  fill
+                  width={800}
+                  height={800}
                   className="object-cover"
                 />
               </div>
@@ -545,7 +546,8 @@ export default function CampaignDetailPage({
                             <Image
                               src={donation.donor.avatar}
                               alt={donation.donor.name}
-                              fill
+                              width={200}
+                              height={200}
                               className="rounded-full object-cover"
                             />
                           ) : (

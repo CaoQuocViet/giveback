@@ -94,6 +94,7 @@ const FeaturedArticle = ({ article, path }: IProp) => {
             className="size-full object-cover"
             width={700}
             height={700}
+            fill
           />
         </div>
       </div>

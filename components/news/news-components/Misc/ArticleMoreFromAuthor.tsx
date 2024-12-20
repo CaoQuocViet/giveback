@@ -90,6 +90,7 @@ const ArticleMoreFromAuthor = ({
                         alt={each.preview.articleTitle}
                         width={120}
                         height={70}
+                        fill
                       />
                     </div>
                     <div className="pr-1 text-[16px] font-semibold hover:text-blue-500">

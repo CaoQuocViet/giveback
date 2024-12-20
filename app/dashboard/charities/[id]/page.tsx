@@ -209,7 +209,8 @@ export default function CharityDetailPage() {
             <Image
               src={charity.user?.profileImage || "/placeholder.png"}
               alt={charity.title || "Charity"}
-              fill
+              width={172}
+              height={172}
               className="object-cover object-center"
             />
           </div>

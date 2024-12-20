@@ -32,6 +32,7 @@ export default function VietbankArticle() {
           alt="Ban lãnh đạo cùng cán bộ nhân viên Vietbank chung tay đóng góp"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">
@@ -54,6 +55,7 @@ export default function VietbankArticle() {
           alt="Nghệ sĩ thị giác Phạm Tuấn Ngọc chia sẻ"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">
@@ -75,6 +77,7 @@ export default function VietbankArticle() {
           alt="Chương trình giảm lãi vay cho khách hàng bị ảnh hưởng bão lụt"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">

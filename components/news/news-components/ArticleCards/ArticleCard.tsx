@@ -44,6 +44,8 @@ const ArticleCard = ({ article, path }: IProp) => {
               src={transformImagePaths(article.thumbnail)}
               alt={article.articleTitle}
               layout="fill"
+              width={800}
+              height={800}
               quality={100}
               objectFit="cover"
               loader={imgLoader}

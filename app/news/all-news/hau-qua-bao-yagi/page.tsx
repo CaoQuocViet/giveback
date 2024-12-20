@@ -51,6 +51,7 @@ export default function StormDamageReport() {
           alt="Bản đồ dự báo mưa tại các tỉnh phía Bắc"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">
@@ -63,6 +64,7 @@ export default function StormDamageReport() {
           alt="Bản đồ cảnh báo ngập lụt"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">
@@ -75,6 +77,7 @@ export default function StormDamageReport() {
           alt="Thống kê thiệt hại theo tỉnh"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <p className="mb-6 mt-2 text-sm text-gray-600">

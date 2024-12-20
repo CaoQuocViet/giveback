@@ -23,6 +23,7 @@ const Avatar = ({
           alt={author.name}
           width={100}
           height={100}
+          fill
         />
       ) : (
         <p className="text-center font-medium text-white">{author.name[0]}</p>

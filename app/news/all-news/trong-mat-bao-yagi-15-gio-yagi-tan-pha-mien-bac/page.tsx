@@ -34,6 +34,7 @@ export default function StormArticle() {
           alt="Gió giật cấp 17 tại Quảng Ninh khiến du thuyền bị lật"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <div className="my-6">
@@ -70,6 +71,7 @@ export default function StormArticle() {
           alt="Bộ đội tìm kiếm nạn nhân trong bùn"
           width={800}
           height={450}
+          fill
           className="my-6 rounded-lg"
         />
         <blockquote className="my-6 border-l-4 border-gray-300 pl-4 italic">

@@ -34,6 +34,7 @@ const Slider = ({
             alt="Slider"
             width={300}
             height={300}
+            fill
           />
         </SwiperSlide>
       ))}

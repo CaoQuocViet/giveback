@@ -62,6 +62,7 @@ export function CommentList({ comments }: { comments: Comment[] }) {
                 className="size-full object-cover"
                 width={100}
                 height={100}
+                fill
               />
             ) : (
               // Placeholder khi không có avatar
