@@ -4,7 +4,7 @@ import ArticleTags from "../Misc/ArticleTags"
 import classes from "./ArticleHeader.module.scss"
 
 interface IProps {
-  /*...*/
+  headerData: IArticleHeaderData
 }
 
 const ArticleHeaderDefault = ({ headerData }: IProps) => {
