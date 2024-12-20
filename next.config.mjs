@@ -2,6 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone',
+  distDir: '.next',
+  generateBuildId: async () => {
+    return 'build'
+  },
   images: {
     domains: ['localhost', 'localhost:5000'],
     remotePatterns: [

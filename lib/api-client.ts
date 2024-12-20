@@ -28,7 +28,7 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => {
     // Trả về response.data thay vì toàn bộ response
-    return response.data
+    return response
   },
   (error) => {
     // Handle common errors
