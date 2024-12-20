@@ -75,37 +75,37 @@ export interface CharityProfileResponse {
     address: string
     createdAt: string
     updatedAt: string
+    phoneVerifiedAt?: string
     charity: {
       id: string
       title: string
       description: string
       website: string | null
       socialLinks: {
-        facebook: string | null
-        twitter: string | null
-        youtube: string | null
+        facebook?: string | null
+        twitter?: string | null
+        youtube?: string | null
       }
-      representativeName: string
-      organizationName: string
-      bankAccount: string
-      bankName: string
-      bankBranch: string
-      bankOwner: string
-      merchantName: string | null
-      paymentGateway: string | null
-      merchantId: string | null
-      apiKey: string | null
+      foundingDate: string
       licenseImageUrl: string | null
       licenseNumber: string
       licenseDate: string
       licenseIssuer: string
       licenseDescription: string
       verificationStatus: "VERIFIED" | "PENDING" | "REJECTED"
-      rating: number
+      rating: string | number
       campaignCount: number
-      totalRaised: number
-      createdAt: string
-      updatedAt: string
+      totalRaised: string | number
+      bankAccount: string | null
+      bankName: string | null
+      bankBranch: string | null
+      bankOwner: string | null
+      merchantName: string | null
+      paymentGateway: string | null
+      merchantId: string | null
+      apiKey: string | null
+      created_at: string
+      updated_at: string
     }
   }
 }

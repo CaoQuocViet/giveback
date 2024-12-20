@@ -52,8 +52,8 @@ export function CharityProfile() {
         const response = await apiClient.get<CharityProfileResponse>(
           API_ENDPOINTS.PROFILE.CHARITY
         )
-        if (response.success) {
-          setUserData(response.data)
+        if (response.data.success) {
+          setUserData(response.data.data)
         } else {
           setError("Không thể tải thông tin tổ chức")
         }
@@ -88,7 +88,7 @@ export function CharityProfile() {
         }
       )
 
-      if (response.success) {
+      if (response.data.success) {
         // Cập nhật localStorage
         const userStr = localStorage.getItem("user")
         if (userStr) {
@@ -121,8 +121,6 @@ export function CharityProfile() {
           address: userData.address,
         },
         charityInfo: {
-          representativeName: userData.charity.representativeName,
-          organizationName: userData.charity.organizationName,
           description: userData.charity.description,
           website: userData.charity.website,
           socialLinks: userData.charity.socialLinks,
@@ -130,7 +128,10 @@ export function CharityProfile() {
           bankName: userData.charity.bankName,
           bankBranch: userData.charity.bankBranch,
           bankOwner: userData.charity.bankOwner,
-        },
+          merchantId: userData.charity.merchantId,
+          merchantName: userData.charity.merchantName,
+          paymentGateway: userData.charity.paymentGateway
+        }
       }
 
       const response = await apiClient.put(
@@ -138,9 +139,9 @@ export function CharityProfile() {
         updateData
       )
 
-      if (response.success) {
+      if (response.data.success) {
         toast.success("Cập nhật thông tin thành công")
-        setUserData(response.data)
+        setUserData(response.data.data)
       }
     } catch (error: any) {
       toast.error(
@@ -239,7 +240,7 @@ export function CharityProfile() {
                   <StarIcon
                     key={star}
                     className={`size-4 ${
-                      star <= userData.charity.rating
+                      star <= Number(userData.charity.rating)
                         ? "fill-yellow-400 text-yellow-400"
                         : "text-gray-300"
                     }`}
@@ -267,7 +268,7 @@ export function CharityProfile() {
                       Họ và tên
                     </label>
                     <Input
-                      value={userData.charity.representativeName}
+                      value={userData.fullName}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -287,7 +288,7 @@ export function CharityProfile() {
                     <label className="text-sm font-medium dark:text-gray-300">
                       Email
                     </label>
-                    <Input value={userData.email} />
+                    <Input disabled value={userData.email} />
                   </div>
                   <div>
                     <label className="text-sm font-medium text-muted-foreground">
@@ -309,7 +310,7 @@ export function CharityProfile() {
                       Tên tổ chức
                     </label>
                     <Input
-                      value={userData.charity.organizationName}
+                      value={userData.charity.title}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -507,7 +508,7 @@ export function CharityProfile() {
                       Tên ngân hàng
                     </label>
                     <Input
-                      value={userData.charity.bankName}
+                      value={userData.charity.bankName || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -528,7 +529,7 @@ export function CharityProfile() {
                       Chi nhánh
                     </label>
                     <Input
-                      value={userData.charity.bankBranch}
+                      value={userData.charity.bankBranch || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -549,7 +550,7 @@ export function CharityProfile() {
                       Chủ tài khoản
                     </label>
                     <Input
-                      value={userData.charity.bankOwner}
+                      value={userData.charity.bankOwner || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -570,7 +571,7 @@ export function CharityProfile() {
                       Số tài khoản
                     </label>
                     <Input
-                      value={userData.charity.bankAccount}
+                      value={userData.charity.bankAccount || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -600,7 +601,7 @@ export function CharityProfile() {
                       Merchant ID
                     </label>
                     <Input
-                      value={userData.charity.merchantId || ""}
+                      value={userData.charity.merchantId || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -621,7 +622,7 @@ export function CharityProfile() {
                       Tên merchant
                     </label>
                     <Input
-                      value={userData.charity.merchantName || ""}
+                      value={userData.charity.merchantName || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -642,7 +643,7 @@ export function CharityProfile() {
                       Cổng thanh toán
                     </label>
                     <Input
-                      value={userData.charity.paymentGateway || ""}
+                      value={userData.charity.paymentGateway || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -664,7 +665,7 @@ export function CharityProfile() {
                     </label>
                     <Input
                       type="password"
-                      value={userData.charity.apiKey || ""}
+                      value={userData.charity.apiKey || "Chưa cập nhật"}
                       onChange={(e) =>
                         setUserData((prev) =>
                           prev
@@ -705,7 +706,7 @@ export function CharityProfile() {
                 </div>
                 <div className="text-2xl font-bold dark:text-gray-100">
                   {new Intl.NumberFormat("vi-VN").format(
-                    userData.charity.totalRaised
+                    Number(userData.charity.totalRaised)
                   )}
                 </div>
               </div>

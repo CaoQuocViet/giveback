@@ -27,8 +27,8 @@ apiClient.interceptors.request.use(
 // Response interceptor
 apiClient.interceptors.response.use(
   (response) => {
-    // Trả về nguyên response, không unwrap data
-    return response
+    // Trả về response.data thay vì toàn bộ response
+    return response.data
   },
   (error) => {
     // Handle common errors
