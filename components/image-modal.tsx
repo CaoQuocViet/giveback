@@ -33,6 +33,8 @@ export default function ImageModal({ imageUrl, onClose }: ImageModalProps) {
         <Image
           src={imageUrl}
           alt="License Preview"
+          width={1200}
+          height={1600}
           className="max-h-[90vh] max-w-full cursor-zoom-out object-contain"
           onClick={(e) => e.stopPropagation()}
         />
