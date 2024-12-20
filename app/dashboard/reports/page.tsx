@@ -50,9 +50,8 @@ export default function ReportsPage() {
             data: campaignRes.data.data,
           },
           charity: {
-            count: charityRes.data.data.filter(
-              (c: any) => c.campaignCount > 0
-            ).length,
+            count: charityRes.data.data.filter((c: any) => c.campaignCount > 0)
+              .length,
             data: charityRes.data.data,
           },
           donation: {
@@ -140,9 +139,9 @@ export default function ReportsPage() {
       link.href = url
       link.setAttribute(
         "download",
-        `${fileNames[type as keyof typeof fileNames]}_${new Date().toISOString().split("T")[0]}.${
-          format === "excel" ? "xlsx" : "pdf"
-        }`
+        `${fileNames[type as keyof typeof fileNames]}_${
+          new Date().toISOString().split("T")[0]
+        }.${format === "excel" ? "xlsx" : "pdf"}`
       )
       document.body.appendChild(link)
       link.click()

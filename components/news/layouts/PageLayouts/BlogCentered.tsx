@@ -9,9 +9,9 @@ import Avatar from "../../news-components/Misc/Avatar"
 import Seperator from "../../news-components/Seperator"
 import {
   combineClasses,
-  useArticleDetails,
   transformImagePaths,
   transformPath,
+  useArticleDetails,
 } from "../../utils/utils"
 import classes from "./PageLayout.module.scss"
 

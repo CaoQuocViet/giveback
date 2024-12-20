@@ -34,7 +34,7 @@ interface CharityListResponse {
 // Định nghĩa interface mới cho transformed charity
 interface TransformedCharity {
   id: string
-  name: string 
+  name: string
   logo: string
   description: string
   verification_status: "PENDING" | "VERIFIED" | "REJECTED"
@@ -78,21 +78,22 @@ export default function CharitiesPage() {
       const data: CharityListResponse = await response.json()
 
       // Transform API data to match CharityList component format
-      const transformedCharities: TransformedCharity[] = data.data.charities.map((charity) => ({
-        id: charity.id,
-        name: charity.title,
-        logo: charity.user.profile_image
-          ? charity.user.profile_image.startsWith("http")
-            ? charity.user.profile_image
-            : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`
-          : "/images/default-charity.jpg",
-        description: charity.description,
-        verification_status: charity.verification_status,
-        rating: Number(charity.rating),
-        totalCampaigns: charity.campaign_count,
-        totalDonations: Number(charity.total_raised),
-        address: "",
-      }))
+      const transformedCharities: TransformedCharity[] =
+        data.data.charities.map((charity) => ({
+          id: charity.id,
+          name: charity.title,
+          logo: charity.user.profile_image
+            ? charity.user.profile_image.startsWith("http")
+              ? charity.user.profile_image
+              : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`
+            : "/images/default-charity.jpg",
+          description: charity.description,
+          verification_status: charity.verification_status,
+          rating: Number(charity.rating),
+          totalCampaigns: charity.campaign_count,
+          totalDonations: Number(charity.total_raised),
+          address: "",
+        }))
 
       setCharities(transformedCharities)
       setTotalItems(data.data.pagination.total)

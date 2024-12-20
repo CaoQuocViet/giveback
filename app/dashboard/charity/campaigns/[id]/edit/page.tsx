@@ -52,7 +52,9 @@ export default function EditCampaignPage({
   const router = useRouter()
   const [campaign, setCampaign] = useState<CampaignEditData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [status, setStatus] = useState<CampaignStatus>(campaign?.status || "STARTING")
+  const [status, setStatus] = useState<CampaignStatus>(
+    campaign?.status || "STARTING"
+  )
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   useEffect(() => {

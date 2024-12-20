@@ -3,9 +3,9 @@ import ArticleHeader from "../../news-components/ArticleHeader"
 import ArticleMoreFromAuthor from "../../news-components/Misc/ArticleMoreFromAuthor"
 import {
   combineClasses,
-  useArticleDetails,
   transformImagePaths,
   transformPath,
+  useArticleDetails,
 } from "../../utils/utils"
 import classes from "./PageLayout.module.scss"
 

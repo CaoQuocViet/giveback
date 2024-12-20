@@ -384,20 +384,32 @@ export default function CharityDetailPage() {
                     </div>
                     <div className="flex gap-4 dark:text-gray-300">
                       {charity.socialLinks?.facebook && (
-                        <a href={charity.socialLinks.facebook} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.facebook}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Facebook className="size-5 text-blue-500 hover:text-blue-600" />
                         </a>
                       )}
                       {charity.socialLinks?.twitter && (
-                        <a href={charity.socialLinks.twitter} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.twitter}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Twitter className="size-5 text-blue-500 hover:text-blue-600" />
                         </a>
                       )}
                       {charity.socialLinks?.youtube && (
-                        <a href={charity.socialLinks.youtube} target="_blank" rel="noopener noreferrer"
-                           className="text-muted-foreground hover:text-primary dark:text-gray-300">
+                        <a
+                          href={charity.socialLinks.youtube}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary dark:text-gray-300"
+                        >
                           <Youtube className="size-5 text-red-500 hover:text-red-600" />
                         </a>
                       )}

@@ -14,7 +14,7 @@ import {
   CharityCampaignResponse,
 } from "@/types/charity-campaigns"
 import { useAuth } from "@/hooks/useAuth"
-import { Badge } from "@/components/ui/badge"
+import { Badge, BadgeProps } from "@/components/ui/badge"
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/table"
 import { CreateDistributionForm } from "@/components/campaigns/create-distribution-form"
 import { CreateDonationForm } from "@/components/campaigns/create-donation-form"
-import { BadgeProps } from "@/components/ui/badge"
 
 export default function CharityCampaigns() {
   const router = useRouter()
@@ -140,13 +139,16 @@ export default function CharityCampaigns() {
     return statusMap[status]
   }
 
-  const getStatusVariant = (status: CharityCampaign["status"]): BadgeProps["variant"] => {
-    const variantMap: Record<CharityCampaign["status"], BadgeProps["variant"]> = {
-      STARTING: "default",
-      ONGOING: "success",
-      CLOSED: "warning",
-      COMPLETED: "destructive",
-    }
+  const getStatusVariant = (
+    status: CharityCampaign["status"]
+  ): BadgeProps["variant"] => {
+    const variantMap: Record<CharityCampaign["status"], BadgeProps["variant"]> =
+      {
+        STARTING: "default",
+        ONGOING: "success",
+        CLOSED: "warning",
+        COMPLETED: "destructive",
+      }
     return variantMap[status]
   }
 
@@ -172,9 +174,7 @@ export default function CharityCampaigns() {
               <DialogHeader>
                 <DialogTitle>Tạo khoản cứu trợ mới</DialogTitle>
               </DialogHeader>
-              <CreateDistributionForm 
-                campaignList={campaigns}
-              />
+              <CreateDistributionForm campaignList={campaigns} />
             </DialogContent>
           </Dialog>
 

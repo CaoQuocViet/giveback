@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import { toast } from "sonner"
 
+import { CharityCampaign } from "@/types/charity-campaigns"
 import { AvailableCampaign } from "@/types/distribution"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,7 +18,6 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { AddressFields } from "@/components/profile/address-fields"
-import { CharityCampaign } from "@/types/charity-campaigns"
 
 interface CreateDistributionFormProps {
   campaignList: CharityCampaign[]

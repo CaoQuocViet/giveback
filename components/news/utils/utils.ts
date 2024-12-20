@@ -108,7 +108,7 @@ export const removeBodyNoScroll = (): void => {
 export function useArticleDetails(): iArticle {
   const pathname = usePathname()
   const articlePath = "/pages" + pathname + ".tsx"
-  
+
   return (
     MOCK_ARTICLES_LIST.filter((each) => each.path.includes(articlePath))[0] ||
     SORTED_ARTICLES_BY_DATE.filter((each) => each.path.includes(articlePath))[0]
