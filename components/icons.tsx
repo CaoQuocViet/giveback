@@ -1,27 +1,25 @@
 import {
-  ClipboardList,
-  Facebook,
-  FileBarChart,
-  FileText,
-  Flag,
-  History,
-  LucideProps,
-  Moon,
-  SunMedium,
-  Twitter,
-  User,
-  Users,
-  type Icon as LucideIcon,
-} from "lucide-react"
+  FiSun,
+  FiMoon,
+  FiTwitter,
+  FiFacebook,
+  FiUser,
+  FiUsers,
+  FiFileText,
+  FiClock,
+  FiFlag,
+  FiClipboard,
+  FiBarChart2,
+} from "react-icons/fi"
 
-export type Icon = LucideIcon
+export type Icon = React.ComponentType<React.SVGProps<SVGSVGElement>>
 
 export const Icons = {
-  sun: SunMedium,
-  moon: Moon,
-  twitter: Twitter,
-  facebook: Facebook,
-  logo: (props: LucideProps) => (
+  sun: FiSun,
+  moon: FiMoon,
+  twitter: FiTwitter,
+  facebook: FiFacebook,
+  logo: (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" {...props}>
       <path
         fill="currentColor"
@@ -29,12 +27,12 @@ export const Icons = {
       />
     </svg>
   ),
-  avatar: User,
-  user: User,
-  users: Users,
-  file: FileText,
-  history: History,
-  flag: Flag,
-  campaign: ClipboardList,
-  report: FileBarChart,
+  avatar: FiUser,
+  user: FiUser,
+  users: FiUsers,
+  file: FiFileText,
+  history: FiClock,
+  flag: FiFlag,
+  campaign: FiClipboard,
+  report: FiBarChart2,
 }
