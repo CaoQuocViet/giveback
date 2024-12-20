@@ -387,7 +387,7 @@ export default function CampaignDetailPage({
 
               {/* Actions */}
               <div className="space-y-2 pt-2">
-                {campaign.status === "ONGOING" && (
+                {campaign.status === "ONGOING" && user?.role === "DONOR" && (
                   <DonateButton
                     campaignId={campaign.id}
                     campaignTitle={campaign.title}
