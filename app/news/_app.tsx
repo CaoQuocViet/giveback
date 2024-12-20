@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import Script from "next/script"
-import { NextSeo } from "next-seo"
+import NextSeo from "next-seo"
 import { ThemeProvider } from "next-themes"
 
 import { CREATE_SEO_CONFIG } from "@/components/news/utils/utils"

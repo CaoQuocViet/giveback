@@ -266,3 +266,49 @@ export const webShare = () => {
     }
   }
 }
+
+interface SEOConfigProps {
+  title?: string
+  description?: string
+  url?: string
+  ogImage?: string
+}
+
+export const CREATE_SEO_CONFIG = ({
+  title = "GiveBack News - Tin tức từ thiện",
+  description = "Cập nhật tin tức mới nhất về hoạt động từ thiện và cứu trợ thiên tai",
+  url = "https://giveback.vn/news",
+  ogImage = "/news_imp_assets/og-image.jpg",
+}: SEOConfigProps = {}) => {
+  return {
+    title,
+    description,
+    canonical: url,
+    openGraph: {
+      type: "website",
+      locale: "vi_VN",
+      url,
+      title,
+      description,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      handle: "@giveback",
+      site: "@giveback",
+      cardType: "summary_large_image",
+    },
+    additionalMetaTags: [
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1",
+      },
+    ],
+  }
+}
