@@ -31,11 +31,22 @@ interface CharityListResponse {
   }
 }
 
+// Định nghĩa interface mới cho transformed charity
+interface TransformedCharity {
+  id: string
+  name: string 
+  logo: string
+  description: string
+  verification_status: "PENDING" | "VERIFIED" | "REJECTED"
+  rating: number
+  totalCampaigns: number
+  totalDonations: number
+  address: string
+}
+
 export default function CharitiesPage() {
   const router = useRouter()
-  const [charities, setCharities] = useState<
-    CharityListResponse["data"]["charities"]
-  >([])
+  const [charities, setCharities] = useState<TransformedCharity[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -67,20 +78,20 @@ export default function CharitiesPage() {
       const data: CharityListResponse = await response.json()
 
       // Transform API data to match CharityList component format
-      const transformedCharities = data.data.charities.map((charity) => ({
+      const transformedCharities: TransformedCharity[] = data.data.charities.map((charity) => ({
         id: charity.id,
         name: charity.title,
         logo: charity.user.profile_image
           ? charity.user.profile_image.startsWith("http")
             ? charity.user.profile_image
             : `${process.env.NEXT_PUBLIC_API_URL}/uploads/${charity.user.profile_image}`
-          : "/images/default-charity.jpg", // Fallback image
+          : "/images/default-charity.jpg",
         description: charity.description,
         verification_status: charity.verification_status,
         rating: Number(charity.rating),
         totalCampaigns: charity.campaign_count,
         totalDonations: Number(charity.total_raised),
-        address: "", // TODO: Add address from user data if needed
+        address: "",
       }))
 
       setCharities(transformedCharities)
@@ -110,7 +121,7 @@ export default function CharitiesPage() {
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-8">
-      <CharityList data={{ charities }} />
+      <CharityList data={{ charities: charities }} />
 
       <Pagination
         total={totalItems}

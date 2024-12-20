@@ -12,7 +12,7 @@ interface CharityListProps {
       name: string
       logo: string
       description: string
-      verified: boolean
+      verification_status: "PENDING" | "VERIFIED" | "REJECTED"
       rating: number
       totalCampaigns: number
       totalDonations: number
