@@ -21,10 +21,12 @@ import { AddressFields } from "@/components/profile/address-fields"
 
 interface CreateDistributionFormProps {
   campaignList: CharityCampaign[]
+  onSuccess?: () => void
 }
 
 export function CreateDistributionForm({
   campaignList,
+  onSuccess,
 }: CreateDistributionFormProps) {
   const [availableCampaigns, setAvailableCampaigns] = useState<
     AvailableCampaign[]

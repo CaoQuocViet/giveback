@@ -144,11 +144,11 @@ export default function CharityCampaigns() {
   ): BadgeProps["variant"] => {
     const variantMap: Record<CharityCampaign["status"], BadgeProps["variant"]> =
       {
-        STARTING: "default",
-        ONGOING: "success",
-        CLOSED: "warning",
-        COMPLETED: "destructive",
-      }
+      STARTING: "default",
+      ONGOING: "success",
+      CLOSED: "warning",
+      COMPLETED: "destructive",
+    }
     return variantMap[status]
   }
 
@@ -174,7 +174,12 @@ export default function CharityCampaigns() {
               <DialogHeader>
                 <DialogTitle>Tạo khoản cứu trợ mới</DialogTitle>
               </DialogHeader>
-              <CreateDistributionForm campaignList={campaigns} />
+              <CreateDistributionForm 
+                campaignList={campaigns}
+                onSuccess={() => {
+                  router.refresh()
+                }}
+              />
             </DialogContent>
           </Dialog>
 

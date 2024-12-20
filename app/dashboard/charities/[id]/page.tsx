@@ -464,8 +464,9 @@ export default function CharityDetailPage() {
                 <div className="relative aspect-[3/4] overflow-hidden rounded-lg">
                   <Image
                     src={charity.licenseImageUrl || "/placeholder.png"}
+                    width={300}
+                    height={800}
                     alt="Giấy phép hoạt động"
-                    fill
                     className="cursor-pointer object-cover transition-opacity hover:opacity-90"
                     onClick={() => setShowLicenseModal(true)}
                   />

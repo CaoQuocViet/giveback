@@ -31,6 +31,8 @@ export function CharityCard({ charity }: CharityCardProps) {
             src={charity.logo}
             alt={charity.name}
             fill
+            width={500}
+            height={500}
             className="object-cover object-center"
           />
         </div>
