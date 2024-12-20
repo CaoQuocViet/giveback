@@ -35,7 +35,8 @@ const Slider = ({
             <Image
               src={transformImagePaths(each)}
               alt="Slider"
-              fill
+              width={800}
+              height={450}
               className="object-cover"
             />
           </div>

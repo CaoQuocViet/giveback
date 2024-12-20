@@ -26,7 +26,6 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
           alt={campaign.title}
           width={800}
           height={800}
-          fill
           className="object-cover object-center"
         />
       </div>

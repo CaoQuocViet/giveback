@@ -20,7 +20,6 @@ const NotFound = () => {
           <Image
             src="/images/error/404-error-img.svg"
             alt="404 Error"
-            layout="responsive"
             width={600}
             height={600}
             className="mx-auto"

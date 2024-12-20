@@ -24,7 +24,5 @@ declare module "next-seo" {
     }
   }
 
-  const NextSeo: ComponentType<NextSeoProps>
-
-  export default NextSeo
+  export const NextSeo: ComponentType<NextSeoProps>
 }

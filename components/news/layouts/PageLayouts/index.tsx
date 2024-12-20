@@ -1,4 +1,4 @@
-import NextSeo from "next-seo"
+import {NextSeo} from "next-seo"
 
 import { DEFAULT_SEO } from "../../NEWS_CONSTANTS/_NEW_SETUP"
 import Navbar from "../../news-components/Navbar"

@@ -100,23 +100,23 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-950">
+    <div className="flex min-h-screen bg-gray-200 dark:bg-gray-950">
       <aside
-        className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 
+        className="fixed left-0 top-16 h-[calc(100vh-64px)] w-64
         border-r border-gray-200
         bg-white shadow-lg
         dark:border-gray-800 dark:bg-gray-900 dark:shadow-black/40"
       >
         {/* Profile Section */}
         <div
-          className="border-b border-gray-200 p-6 transition-colors 
+          className="border-b border-gray-200 p-6 transition-colors
           hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
         >
           <div className="flex items-center space-x-4">
             <div
-              className="flex items-center justify-center rounded-full 
+              className="flex items-center justify-center rounded-full
               bg-blue-100 ring-2
-              ring-blue-200 transition-all hover:ring-blue-300 
+              ring-blue-200 transition-all hover:ring-blue-300
               dark:bg-blue-950 dark:ring-blue-800 dark:hover:ring-blue-700"
               style={{ width: "40px", height: "40px" }} // Đặt kích thước ảnh cố định
             >
@@ -151,8 +151,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Navigation Menu */}
         <nav
-          className="scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200 
-          dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-[calc(100vh-280px)] 
+          className="scrollbar-thin scrollbar-track-gray-50 scrollbar-thumb-gray-200
+          dark:scrollbar-track-gray-900 dark:scrollbar-thumb-gray-800 h-[calc(100vh-280px)]
           overflow-y-auto p-4"
         >
           <ul className="space-y-2.5">
@@ -180,14 +180,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   >
                     {/* Gradient overlay */}
                     <div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent 
+                      className="absolute inset-0 bg-gradient-to-r from-blue-100/40 to-transparent
                       opacity-0 transition-opacity
                       duration-300 group-hover:opacity-100 dark:from-blue-600/20 dark:to-transparent"
                     />
 
                     {/* Icon container với style active */}
                     <div
-                      className={`relative mr-3 flex size-9 items-center 
+                      className={`relative mr-3 flex size-9 items-center
                       justify-center rounded-lg border border-blue-200
                       transition-colors duration-300 dark:border-blue-700
                       ${
@@ -234,7 +234,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Logout Button */}
         <div
-          className="absolute bottom-0 w-64 border-t border-gray-200 bg-white 
+          className="absolute bottom-0 w-64 border-t border-gray-200 bg-white
           p-4 dark:border-gray-800 dark:bg-gray-900"
         >
           <Button

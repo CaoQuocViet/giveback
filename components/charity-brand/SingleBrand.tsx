@@ -34,7 +34,6 @@ const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
           alt={name}
           width={800}
           height={800}
-          fill
         />
         <Image
           className="hidden opacity-50 transition-all duration-300 hover:opacity-100 dark:block"
@@ -42,7 +41,6 @@ const SingleBrand = ({ brand }: { brand: CharityBrand }) => {
           alt={name}
           width={800}
           height={800}
-          fill
         />
       </motion.a>
     </>

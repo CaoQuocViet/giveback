@@ -56,7 +56,6 @@ const SimpleNavbar = ({
                 className="cursor-pointer"
                 width={100}
                 height={100}
-                fill
               />
             ) : (
               <a className="text-[22px] font-semibold">{logo.logo}</a>

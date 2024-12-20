@@ -65,11 +65,9 @@ const CenteredNavbar = ({
                     ? transformImagePaths(logo.logoLight)
                     : transformImagePaths(logo.logo)
                 }
-                alt="WebExpe"
-                className="cursor-pointer"
+                alt="Avatar"
                 width={100}
                 height={100}
-                fill
               />
             ) : (
               <span className="text-[22px] font-semibold">{logo.logo}</span>
