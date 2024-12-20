@@ -17,13 +17,14 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { AddressFields } from "@/components/profile/address-fields"
+import { CharityCampaign } from "@/types/charity-campaigns"
 
 interface CreateDistributionFormProps {
-  onSuccess?: () => void
+  campaignList: CharityCampaign[]
 }
 
 export function CreateDistributionForm({
-  onSuccess,
+  campaignList,
 }: CreateDistributionFormProps) {
   const [availableCampaigns, setAvailableCampaigns] = useState<
     AvailableCampaign[]

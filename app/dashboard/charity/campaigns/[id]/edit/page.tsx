@@ -40,6 +40,9 @@ const formatDateForApi = (dateString: string) => {
   }
 }
 
+// Định nghĩa type cho status
+type CampaignStatus = "STARTING" | "ONGOING" | "CLOSED" | "COMPLETED"
+
 export default function EditCampaignPage({
   params,
 }: {
@@ -49,7 +52,7 @@ export default function EditCampaignPage({
   const router = useRouter()
   const [campaign, setCampaign] = useState<CampaignEditData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [status, setStatus] = useState(campaign?.status || "STARTING")
+  const [status, setStatus] = useState<CampaignStatus>(campaign?.status || "STARTING")
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   useEffect(() => {
@@ -82,8 +85,8 @@ export default function EditCampaignPage({
 
     if (selectedFile) {
       formData.append("images", selectedFile)
-    } else {
-      formData.append("images", campaign.images)
+    } else if (campaign.images && campaign.images.length > 0) {
+      formData.append("images", campaign.images[0])
     }
 
     try {
@@ -140,7 +143,7 @@ export default function EditCampaignPage({
               <Label htmlFor="status">Trạng thái</Label>
               <Select
                 defaultValue={campaign.status}
-                onValueChange={setStatus}
+                onValueChange={(value: CampaignStatus) => setStatus(value)}
                 value={status}
               >
                 <SelectTrigger>

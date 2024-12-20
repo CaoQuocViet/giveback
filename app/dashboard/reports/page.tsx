@@ -50,18 +50,21 @@ export default function ReportsPage() {
             data: campaignRes.data.data,
           },
           charity: {
-            count: charityRes.data.data.filter((c) => c.campaignCount > 0)
-              .length,
+            count: charityRes.data.data.filter(
+              (c: any) => c.campaignCount > 0
+            ).length,
             data: charityRes.data.data,
           },
           donation: {
-            count: donationRes.data.data.filter((d) => d.id !== "system_donor")
-              .length,
+            count: donationRes.data.data.filter(
+              (d: any) => d.id !== "system_donor"
+            ).length,
             data: donationRes.data.data,
           },
           distribution: {
             count: distributionRes.data.data.reduce(
-              (total, campaign) => total + campaign.distributions.length,
+              (total: any, campaign: any) =>
+                total + campaign.distributions.length,
               0
             ),
             data: distributionRes.data.data,
@@ -137,7 +140,7 @@ export default function ReportsPage() {
       link.href = url
       link.setAttribute(
         "download",
-        `${fileNames[type]}_${new Date().toISOString().split("T")[0]}.${
+        `${fileNames[type as keyof typeof fileNames]}_${new Date().toISOString().split("T")[0]}.${
           format === "excel" ? "xlsx" : "pdf"
         }`
       )
