@@ -250,10 +250,10 @@ export default function EditCampaignPage({
               <Label>Địa điểm triển khai</Label>
               <Card className="bg-muted p-4">
                 <div className="space-y-2 text-sm">
-                  <p>Địa chỉ: {campaign.location.address}</p>
-                  <p>Phường/Xã: {campaign.location.ward}</p>
-                  <p>Quận/Huyện: {campaign.location.district}</p>
-                  <p>Tỉnh/Thành phố: {campaign.location.province}</p>
+                  <p>Địa chỉ: {campaign?.location?.address}</p>
+                  <p>Phường/Xã: {campaign?.location?.ward}</p>
+                  <p>Quận/Huyện: {campaign?.location?.district}</p>
+                  <p>Tỉnh/Thành phố: {campaign?.location?.province}</p>
                 </div>
               </Card>
             </div>
