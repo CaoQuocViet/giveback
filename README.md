@@ -4,13 +4,13 @@
 
 GIVEBACK là một nền tảng hỗ trợ đóng góp từ thiện cho vùng thiên tai tại Việt Nam. Hệ thống được thiết kế để quản lý các chiến dịch từ thiện, xử lý đóng góp của người dùng, và cung cấp các báo cáo minh bạch về việc sử dụng nguồn quỹ. GIVEBACK nhằm đảm bảo tính công khai, minh bạch và hiệu quả trong quản lý quyên góp và phân phối tài trợ.
 
-![Demo](Resources\img\demo\Giveback2.png)
+![Demo](Resources/img/demo/Giveback2.png)
 
 Chúng tôi mong muốn nhận được sự đóng góp từ cộng đồng để có thể ứng dụng thực tế và hỗ trợ hiệu quả cho người Việt bị ảnh hưởng bởi thiên tai.
 
 ## Các Chức Năng Chính
 
-![Demo](Resources\img\demo\giveback_usecase.png)
+![Demo](Resources/img/demo/giveback_usecase.png)
 
 ### 1. Đăng Ký và Xác Thực Tài Khoản
 - **Đăng ký tài khoản:**
@@ -22,7 +22,7 @@ Chúng tôi mong muốn nhận được sự đóng góp từ cộng đồng đ�
   - Tổ chức từ thiện cần cung cấp giấy phép hoạt động.
   - Admin kiểm tra và xác thực giấy phép trước khi cập nhật trạng thái thành VERIFIED.
 
-![Demo](Resources\img\demo\Giveback3.png)
+![Demo](Resources/img/demo/Giveback3.png)
 
 ### 2. Quản Lý Chiến Dịch Từ Thiện
 - **Tạo chiến dịch mới (CHARITY):**
@@ -30,7 +30,7 @@ Chúng tôi mong muốn nhận được sự đóng góp từ cộng đồng đ�
   - Định vị địa điểm cụ thể (Tỉnh/Thành, Quận/Huyện, Phường/Xã, Số/Đường/Ấp).
   - Đăng tải hình ảnh minh họa cho chiến dịch.
 
-![Demo](Resources\img\demo\Giveback4.png)
+![Demo](Resources/img/demo/Giveback4.png)
 
 - **Chỉnh sửa thông tin chiến dịch (CHARITY):**
   - Cập nhật các thông tin có thể chỉnh sửa như trạng thái, mô tả, ngân sách.
@@ -65,7 +65,7 @@ Chúng tôi mong muốn nhận được sự đóng góp từ cộng đồng đ�
   - Người dùng có thể bình luận về chiến dịch, đánh giá bằng sao (1-5).
   - Chia sẻ thông tin chiến dịch trên mạng xã hội.
 
-![Demo](Resources\img\demo\Giveback5.png)
+![Demo](Resources/img/demo/Giveback5.png)
 
 - **Quản lý bình luận (ADMIN):**
   - Kiểm duyệt nội dung bình luận để đảm bảo không vi phạm các quy định.
@@ -99,7 +99,7 @@ Chúng tôi mong muốn nhận được sự đóng góp từ cộng đồng đ�
   - Hiển thị các bản tin cập nhật về tình hình thiên tai và các hoạt động hỗ trợ.
   - Người dùng có thể bình luận và chia sẻ thông tin trên bảng tin.
 
-![Demo](Resources\img\demo\Heatmap.png)
+![Demo](Resources/img/demo/Heatmap.png)
 
 ## Quy Trình Sử Dụng OTP và Xác Thực
 - **Gửi OTP:**
