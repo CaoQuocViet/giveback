@@ -1,5 +1,3 @@
-suprabase:ghjPAXFe3ODd63CW
-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
 node 20
 npm latest
 
